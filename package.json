@@ -1,0 +1,38 @@
+{
+  "name": "tree-sitter-webassembly",
+  "version": "0.0.0",
+  "license": "Apache-2.0",
+  "description": "WebAssembly grammars for tree-sitter",
+  "keywords": [
+    "parser",
+    "lexer"
+  ],
+  "author": "Darin Morrison <darinmorrison@users.noreply.github.com>",
+  "homepage": "https://github.com/darinmorrison/tree-sitter-webassembly#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/darinmorrison/tree-sitter-webassembly.git"
+  },
+  "bugs": {
+    "url": "https://github.com/darinmorrison/tree-sitter-webassembly/issues"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "nan": "^2.14.0"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.16.5"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.wat",
+      "file-types": [
+        "wat",
+        "wast"
+      ]
+    }
+  ]
+}
