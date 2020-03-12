@@ -1,0 +1,304 @@
+[
+  {
+    "type": "NAME",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "digit",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "func",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "NAME",
+          "named": true
+        },
+        {
+          "type": "funcFields",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "funcBody",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "instr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "funcFields",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "funcFields",
+          "named": true
+        },
+        {
+          "type": "funcFieldsBody",
+          "named": true
+        },
+        {
+          "type": "funcFieldsImport",
+          "named": true
+        },
+        {
+          "type": "inlineExport",
+          "named": true
+        },
+        {
+          "type": "inlineImport",
+          "named": true
+        },
+        {
+          "type": "typeUse",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "funcFieldsBody",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "funcResultBody",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "funcResultBody",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "funcBody",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "hexnum",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "hexdigit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "instr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "instrBlock",
+          "named": true
+        },
+        {
+          "type": "instrCall",
+          "named": true
+        },
+        {
+          "type": "instrPlain",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "module",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "NAME",
+          "named": true
+        },
+        {
+          "type": "moduleField",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "module1",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "module",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "moduleField",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "func",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "num",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "digit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "typeUse",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "NAME",
+          "named": true
+        },
+        {
+          "type": "NAT",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "$",
+    "named": false
+  },
+  {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
+    "named": false
+  },
+  {
+    "type": "0x",
+    "named": false
+  },
+  {
+    "type": "NAT",
+    "named": true
+  },
+  {
+    "type": "_",
+    "named": false
+  },
+  {
+    "type": "expr",
+    "named": true
+  },
+  {
+    "type": "func",
+    "named": false
+  },
+  {
+    "type": "funcFieldsImport",
+    "named": true
+  },
+  {
+    "type": "hexdigit",
+    "named": true
+  },
+  {
+    "type": "inlineExport",
+    "named": true
+  },
+  {
+    "type": "inlineImport",
+    "named": true
+  },
+  {
+    "type": "instrBlock",
+    "named": true
+  },
+  {
+    "type": "instrCall",
+    "named": true
+  },
+  {
+    "type": "instrPlain",
+    "named": true
+  },
+  {
+    "type": "module",
+    "named": false
+  },
+  {
+    "type": "type",
+    "named": false
+  }
+]
