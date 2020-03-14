@@ -2,26 +2,22 @@ module.exports = grammar({
   name: "webassembly",
 
   inline: $ => [
-    $.bindVar,
-    $.moduleVar,
-    $.var,
-    $.VAR,
   ],
 
   rules: {
-    module1: $ => choice(
+    file: $ => choice(
       $.module,
     ),
 
-    bindVar: $ => $.VAR,
+    _bindVar: $ => $.VAR,
 
     expr: $ => "expr",
 
     func: $ => seq(
       "(",
       "func",
-      optional($.bindVar),
-      optional($.funcFields),
+      optional($._bindVar),
+      optional($.funcField),
       ")",
     ),
 
@@ -31,20 +27,20 @@ module.exports = grammar({
       //
     ),
 
-    funcFields: $ => choice(
-      seq($.typeUse, optional($.funcFieldsBody)),
-      seq($.inlineImport, $.typeUse, $.funcFieldsImport),
-      seq($.inlineImport, $.funcFieldsImport),
-      seq($.inlineExport, $.funcFields),
+    funcField: $ => choice(
+      seq($.typeUse, optional($.funcFieldBody)),
+      seq($.inlineImport, $.typeUse, $.funcFieldImport),
+      seq($.inlineImport, $.funcFieldImport),
+      seq($.inlineExport, $.funcField),
     ),
 
-    funcFieldsBody: $ => choice(
+    funcFieldBody: $ => choice(
       $.funcResultBody,
       //
       //
     ),
 
-    funcFieldsImport: $ => "funcFieldsImport",
+    funcFieldImport: $ => "funcFieldImport",
 
     funcResultBody: $ => choice(
       $.funcBody,
@@ -73,7 +69,7 @@ module.exports = grammar({
       seq(
         "(",
         "module",
-        optional($.moduleVar),
+        optional($._moduleVar),
         repeat($.moduleField),
         ")",
       ),
@@ -83,51 +79,55 @@ module.exports = grammar({
       $.func,
     ),
 
-    moduleVar: $ => $.VAR,
+    _moduleVar: $ => $.VAR,
 
     typeUse: $ => seq(
       "(",
       "type",
-      $.var,
+      $._var,
       ")",
     ),
 
-    digit: $ => /[0-9]/,
-
-    hexdigit: $ => /[0-9a-fA-F]/,
-
-    hexnum: $ => seq(
-      $.hexdigit,
-      repeat(seq(optional("_"), $.hexdigit)),
-    ),
-
-    nat: $ => choice(
-      $.num,
-      seq("0x", $.hexnum),
-    ),
-
-    num: $ => seq(
-      $.digit,
-      repeat(seq(optional("_"), $.digit)),
-    ),
-
-    var: $ => choice(
-      $.NAT,
-      $.VAR,
-    ),
-
-    NAME: $ => {
-      const digit  = /[0-9]/;
-      const letter = /[a-zA-Z]/;
-      const symbol = /[-+*/\\^~=<>!?@#$%&|:`.']/;
-      return seq("$", repeat1(choice(letter, digit, "_", symbol)));
-    },
+    // terminal
 
     NAT: $ => {
       const numeric = /[0-9]+/;
       return token(numeric);
     },
 
-    VAR: $ => $.NAME,
+    VAR: $ => $._name,
+
+    // lexical
+
+    _digit: $ => /[0-9]/,
+
+    _hexdigit: $ => /[0-9a-fA-F]/,
+
+    _hexnum: $ => seq(
+      $._hexdigit,
+      repeat(seq(optional("_"), $._hexdigit)),
+    ),
+
+    _name: $ => {
+      const digit  = /[0-9]/;
+      const letter = /[a-zA-Z]/;
+      const symbol = /[-+*/\\^~=<>!?@#$%&|:`.']/;
+      return seq("$", repeat1(choice(letter, digit, "_", symbol)));
+    },
+
+    _nat: $ => choice(
+      $._num,
+      seq("0x", $._hexnum),
+    ),
+
+    _num: $ => seq(
+      $._digit,
+      repeat(seq(optional("_"), $._digit)),
+    ),
+
+    _var: $ => choice(
+      $.NAT,
+      $.VAR,
+    ),
   },
 })
