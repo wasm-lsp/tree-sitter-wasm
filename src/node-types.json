@@ -1,13 +1,23 @@
 [
   {
-    "type": "NAME",
+    "type": "VAR",
     "named": true,
     "fields": {}
   },
   {
-    "type": "digit",
+    "type": "file",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "module",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "func",
@@ -18,11 +28,11 @@
       "required": false,
       "types": [
         {
-          "type": "NAME",
+          "type": "VAR",
           "named": true
         },
         {
-          "type": "funcFields",
+          "type": "funcField",
           "named": true
         }
       ]
@@ -44,7 +54,7 @@
     }
   },
   {
-    "type": "funcFields",
+    "type": "funcField",
     "named": true,
     "fields": {},
     "children": {
@@ -52,15 +62,15 @@
       "required": true,
       "types": [
         {
-          "type": "funcFields",
+          "type": "funcField",
           "named": true
         },
         {
-          "type": "funcFieldsBody",
+          "type": "funcFieldBody",
           "named": true
         },
         {
-          "type": "funcFieldsImport",
+          "type": "funcFieldImport",
           "named": true
         },
         {
@@ -79,7 +89,7 @@
     }
   },
   {
-    "type": "funcFieldsBody",
+    "type": "funcFieldBody",
     "named": true,
     "fields": {},
     "children": {
@@ -103,21 +113,6 @@
       "types": [
         {
           "type": "funcBody",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "hexnum",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "hexdigit",
           "named": true
         }
       ]
@@ -159,26 +154,11 @@
       "required": false,
       "types": [
         {
-          "type": "NAME",
+          "type": "VAR",
           "named": true
         },
         {
           "type": "moduleField",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "module1",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "module",
           "named": true
         }
       ]
@@ -200,21 +180,6 @@
     }
   },
   {
-    "type": "num",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "digit",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "typeUse",
     "named": true,
     "fields": {},
@@ -223,11 +188,11 @@
       "required": true,
       "types": [
         {
-          "type": "NAME",
+          "type": "NAT",
           "named": true
         },
         {
-          "type": "NAT",
+          "type": "VAR",
           "named": true
         }
       ]
@@ -266,11 +231,7 @@
     "named": false
   },
   {
-    "type": "funcFieldsImport",
-    "named": true
-  },
-  {
-    "type": "hexdigit",
+    "type": "funcFieldImport",
     "named": true
   },
   {

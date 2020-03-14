@@ -1,7 +1,7 @@
 {
   "name": "webassembly",
   "rules": {
-    "module1": {
+    "file": {
       "type": "CHOICE",
       "members": [
         {
@@ -10,7 +10,7 @@
         }
       ]
     },
-    "bindVar": {
+    "_bindVar": {
       "type": "SYMBOL",
       "name": "VAR"
     },
@@ -34,7 +34,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "bindVar"
+              "name": "_bindVar"
             },
             {
               "type": "BLANK"
@@ -46,7 +46,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "funcFields"
+              "name": "funcField"
             },
             {
               "type": "BLANK"
@@ -71,7 +71,7 @@
         }
       ]
     },
-    "funcFields": {
+    "funcField": {
       "type": "CHOICE",
       "members": [
         {
@@ -86,7 +86,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "funcFieldsBody"
+                  "name": "funcFieldBody"
                 },
                 {
                   "type": "BLANK"
@@ -108,7 +108,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "funcFieldsImport"
+              "name": "funcFieldImport"
             }
           ]
         },
@@ -121,7 +121,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "funcFieldsImport"
+              "name": "funcFieldImport"
             }
           ]
         },
@@ -134,13 +134,13 @@
             },
             {
               "type": "SYMBOL",
-              "name": "funcFields"
+              "name": "funcField"
             }
           ]
         }
       ]
     },
-    "funcFieldsBody": {
+    "funcFieldBody": {
       "type": "CHOICE",
       "members": [
         {
@@ -149,9 +149,9 @@
         }
       ]
     },
-    "funcFieldsImport": {
+    "funcFieldImport": {
       "type": "STRING",
-      "value": "funcFieldsImport"
+      "value": "funcFieldImport"
     },
     "funcResultBody": {
       "type": "CHOICE",
@@ -222,7 +222,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "moduleVar"
+                  "name": "_moduleVar"
                 },
                 {
                   "type": "BLANK"
@@ -253,7 +253,7 @@
         }
       ]
     },
-    "moduleVar": {
+    "_moduleVar": {
       "type": "SYMBOL",
       "name": "VAR"
     },
@@ -270,7 +270,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "var"
+          "name": "_var"
         },
         {
           "type": "STRING",
@@ -278,20 +278,31 @@
         }
       ]
     },
-    "digit": {
+    "NAT": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "[0-9]+"
+      }
+    },
+    "VAR": {
+      "type": "SYMBOL",
+      "name": "_name"
+    },
+    "_digit": {
       "type": "PATTERN",
       "value": "[0-9]"
     },
-    "hexdigit": {
+    "_hexdigit": {
       "type": "PATTERN",
       "value": "[0-9a-fA-F]"
     },
-    "hexnum": {
+    "_hexnum": {
       "type": "SEQ",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "hexdigit"
+          "name": "_hexdigit"
         },
         {
           "type": "REPEAT",
@@ -312,82 +323,14 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "hexdigit"
+                "name": "_hexdigit"
               }
             ]
           }
         }
       ]
     },
-    "nat": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "num"
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "0x"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "hexnum"
-            }
-          ]
-        }
-      ]
-    },
-    "num": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "digit"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": "_"
-                  },
-                  {
-                    "type": "BLANK"
-                  }
-                ]
-              },
-              {
-                "type": "SYMBOL",
-                "name": "digit"
-              }
-            ]
-          }
-        }
-      ]
-    },
-    "var": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "NAT"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "VAR"
-        }
-      ]
-    },
-    "NAME": {
+    "_name": {
       "type": "SEQ",
       "members": [
         {
@@ -420,16 +363,73 @@
         }
       ]
     },
-    "NAT": {
-      "type": "TOKEN",
-      "content": {
-        "type": "PATTERN",
-        "value": "[0-9]+"
-      }
+    "_nat": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_num"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "0x"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_hexnum"
+            }
+          ]
+        }
+      ]
     },
-    "VAR": {
-      "type": "SYMBOL",
-      "name": "NAME"
+    "_num": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_digit"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "_"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_digit"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "_var": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "NAT"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "VAR"
+        }
+      ]
     }
   },
   "extras": [
@@ -440,12 +440,7 @@
   ],
   "conflicts": [],
   "externals": [],
-  "inline": [
-    "bindVar",
-    "moduleVar",
-    "var",
-    "VAR"
-  ],
+  "inline": [],
   "supertypes": []
 }
 
