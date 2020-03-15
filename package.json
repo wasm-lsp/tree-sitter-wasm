@@ -18,6 +18,9 @@
   },
   "main": "index.js",
   "scripts": {
+    "build": "tree-sitter generate",
+    "format": "prettier --write '**/*.{js,json,ts,tsx,yml,yaml}'",
+    "lint": "eslint '**/*.{js,ts,tsx}'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
