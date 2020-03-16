@@ -10,7 +10,7 @@ module.exports = grammar({
 
     expr: $ => "expr",
 
-    func: $ => seq("(", "func", optional($._bindVar), optional($.funcField), ")"),
+    func: $ => seq($._LPAR, "func", optional($._bindVar), optional($.funcField), $._RPAR),
 
     funcBody: $ =>
       choice(
@@ -55,20 +55,24 @@ module.exports = grammar({
 
     instrBlock: $ => "instrBlock",
 
-    module: $ => choice(seq("(", "module", optional($._moduleVar), repeat($.moduleField), ")")),
+    module: $ => choice(seq($._LPAR, "module", optional($._moduleVar), repeat($.moduleField), $._RPAR)),
 
     moduleField: $ => choice($.func),
 
     _moduleVar: $ => $.VAR,
 
-    typeUse: $ => seq("(", "type", $._var, ")"),
+    typeUse: $ => seq($._LPAR, "type", $._var, $._RPAR),
 
     // terminal
+
+    _LPAR: $ => "(",
 
     NAT: $ => {
       const numeric = /[0-9]+/;
       return token(numeric);
     },
+
+    _RPAR: $ => ")",
 
     VAR: $ => $._name,
 
