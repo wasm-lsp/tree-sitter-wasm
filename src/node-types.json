@@ -1,5 +1,20 @@
 [
   {
+    "type": "FLOAT",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "INT",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "NAT",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "VAR",
     "named": true,
     "fields": {}
@@ -146,6 +161,48 @@
     }
   },
   {
+    "type": "instrPlain",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "CONST",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "literal",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "FLOAT",
+          "named": true
+        },
+        {
+          "type": "INT",
+          "named": true
+        },
+        {
+          "type": "NAT",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "module",
     "named": true,
     "fields": {},
@@ -203,11 +260,15 @@
     "named": false
   },
   {
-    "type": "(",
+    "type": "+",
     "named": false
   },
   {
-    "type": ")",
+    "type": "-",
+    "named": false
+  },
+  {
+    "type": ".",
     "named": false
   },
   {
@@ -215,11 +276,23 @@
     "named": false
   },
   {
-    "type": "NAT",
+    "type": "CONST",
     "named": true
   },
   {
+    "type": "E",
+    "named": false
+  },
+  {
+    "type": "P",
+    "named": false
+  },
+  {
     "type": "_",
+    "named": false
+  },
+  {
+    "type": "e",
     "named": false
   },
   {
@@ -227,12 +300,12 @@
     "named": true
   },
   {
-    "type": "func",
-    "named": false
-  },
-  {
     "type": "funcFieldImport",
     "named": true
+  },
+  {
+    "type": "inf",
+    "named": false
   },
   {
     "type": "inlineExport",
@@ -251,15 +324,15 @@
     "named": true
   },
   {
-    "type": "instrPlain",
-    "named": true
-  },
-  {
-    "type": "module",
+    "type": "nan",
     "named": false
   },
   {
-    "type": "type",
+    "type": "nan:",
+    "named": false
+  },
+  {
+    "type": "p",
     "named": false
   }
 ]
