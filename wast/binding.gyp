@@ -1,7 +1,7 @@
 {
   "targets": [
     {
-      "target_name": "tree_sitter_webassembly_binding",
+      "target_name": "tree_sitter_webassembly_script_binding",
       "include_dirs": [
         "<!(node -e \"require('nan')\")",
         "src"

@@ -1,5 +1,5 @@
 {
-  "name": "webassembly",
+  "name": "webassembly_script",
   "rules": {
     "file": {
       "type": "CHOICE",

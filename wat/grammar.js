@@ -1,7 +1,5 @@
 module.exports = grammar({
-  name: "webassembly",
-
-  inline: $ => [],
+  name: "webassembly_module",
 
   rules: {
     /***********/
