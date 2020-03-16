@@ -142,7 +142,7 @@ extern "C" {
 #define extern __declspec(dllexport)
 #endif
 
-extern const TSLanguage *tree_sitter_webassembly_module_type(void) {
+extern const TSLanguage *tree_sitter_wit(void) {
   static TSLanguage language = {
     .version = LANGUAGE_VERSION,
     .symbol_count = SYMBOL_COUNT,

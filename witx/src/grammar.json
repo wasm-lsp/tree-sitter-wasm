@@ -1,5 +1,5 @@
 {
-  "name": "webassembly_api_description",
+  "name": "witx",
   "rules": {
     "INSTANCE": {
       "type": "STRING",

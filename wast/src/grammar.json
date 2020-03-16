@@ -1,5 +1,5 @@
 {
-  "name": "webassembly_script",
+  "name": "wast",
   "rules": {
     "file": {
       "type": "CHOICE",
