@@ -1,18 +1,2 @@
-{
-  "targets": [
-    {
-      "target_name": "tree_sitter_webassembly_module_type_binding",
-      "include_dirs": [
-        "<!(node -e \"require('nan')\")",
-        "src"
-      ],
-      "sources": [
-        "src/parser.c",
-        "src/binding.cc"
-      ],
-      "cflags_c": [
-        "-std=c99",
-      ]
-    }
-  ]
-}
+# This is a placeholder to prevent tree-sitter from generating this file.
+# Refer to the binding.gyp at the root of the repository instead.
