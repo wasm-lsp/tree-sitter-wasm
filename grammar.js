@@ -83,7 +83,22 @@ module.exports = grammar({
     /* lexers */
     /**********/
 
+    _ascii: $ => /[\x00-\x7f]/,
+
+    _asciiNoNl: $ => /[\x00-\x09\x0b-\x7f]/,
+
+    _character: $ =>
+      choice(
+        /[^"\\\x00-\x1f\x7f-\xff]/,
+        $._utf8enc,
+        seq("\\", $._escape),
+        seq("\\", $._hexdigit, $._hexdigit),
+        seq("\\u{", $._hexnum, "}"),
+      ),
+
     _digit: $ => /[0-9]/,
+
+    _escape: $ => /[nrt\\'"]/,
 
     _float: $ =>
       choice(
@@ -113,6 +128,8 @@ module.exports = grammar({
 
     _frac: $ => $._num,
 
+    _fxx: $ => seq("f", choice("32", "64")),
+
     _hexdigit: $ => /[0-9a-fA-F]/,
 
     _hexfrac: $ => $._hexnum,
@@ -121,18 +138,52 @@ module.exports = grammar({
 
     _int: $ => seq($._sign, $._nat),
 
-    _name: $ => {
-      const digit = /[0-9]/;
-      const letter = /[a-zA-Z]/;
-      const symbol = /[-+*/\\^~=<>!?@#$%&|:`.']/;
-      return seq("$", repeat1(choice(letter, digit, "_", symbol)));
-    },
+    _ixx: $ => seq("i", choice("32", "64")),
+
+    _letter: $ => /[a-zA-Z]/,
+
+    _memSize: $ => choice("8", "16", "32"),
+
+    _mfxx: $ => seq("f", choice("32", "64")),
+
+    _mixx: $ => seq("i", choice("8", "16", "32", "64")),
+
+    _name: $ => seq("$", repeat1(choice($._letter, $._digit, "_", $._symbol))),
 
     _nat: $ => choice($._num, seq("0x", $._hexnum)),
 
+    _nxx: $ => choice($._ixx, $._fxx),
+
     _num: $ => seq($._digit, repeat(seq(optional("_"), $._digit))),
 
+    _reserved: $ => repeat1(seq(/[^"();]/, "#", $._space)),
+
     _sign: $ => choice("+", "-"),
+
+    _signKind: $ => choice("s", "u"),
+
+    _space: $ => /[\s\t\n\r]/,
+
+    _string: $ => seq('"', repeat($._character), '"'),
+
+    _symbol: $ => /[-+*/\\^~=<>!?@#$%&|:`.']/,
+
+    _utf8cont: $ => /[\x80-\xbf]/,
+
+    _utf8enc: $ =>
+      choice(
+        seq(/[\xc2-\xdf]/, $._utf8cont),
+        seq(/[\xe0]/, /[\xa0-\xbf]/, $._utf8cont),
+        seq(/[\xed]/, /[\x80-\x9f]/, $._utf8cont),
+        seq(/[\xe1-\xec\xee-\xef]/, $._utf8cont, $._utf8cont),
+        seq(/[\xf0]/, /[\x90-\xbf]/, $._utf8cont, $._utf8cont),
+        seq(/[\xf4]/, /[\x80-\x8f]/, $._utf8cont, $._utf8cont),
+        seq(/[\xf1-\xf3]/, $._utf8cont, $._utf8cont, $._utf8cont),
+      ),
+
+    _utf8: $ => choice($._ascii, $._utf8enc),
+
+    _utf8NoNl: $ => choice($._ascii, $._utf8enc),
 
     _var: $ => choice($.NAT, $.VAR),
 
