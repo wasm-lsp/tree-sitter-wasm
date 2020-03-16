@@ -1,2 +1,3 @@
-(module $foo
-  (func $bar (type $t)))
+(module $m
+  (func $foo (type $t))
+  (func $bar (type 0)))
