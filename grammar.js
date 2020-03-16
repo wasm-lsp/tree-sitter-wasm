@@ -59,6 +59,8 @@ module.exports = grammar({
 
     instrBlock: $ => "instrBlock",
 
+    literal: $ => choice($.NAT, $.INT, $.FLOAT),
+
     module: $ => choice(seq($._LPAR, $._MODULE, optional($._moduleVar), repeat($.moduleField), $._RPAR)),
 
     moduleField: $ => choice($.func),
