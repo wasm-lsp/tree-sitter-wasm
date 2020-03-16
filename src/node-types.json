@@ -20,6 +20,40 @@
     "fields": {}
   },
   {
+    "type": "expr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "expr1",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "expr1",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "instrPlain",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "file",
     "named": true,
     "fields": {},
@@ -256,6 +290,14 @@
     }
   },
   {
+    "type": "\"",
+    "named": false
+  },
+  {
+    "type": "#",
+    "named": false
+  },
+  {
     "type": "$",
     "named": false
   },
@@ -276,6 +318,22 @@
     "named": false
   },
   {
+    "type": "16",
+    "named": false
+  },
+  {
+    "type": "32",
+    "named": false
+  },
+  {
+    "type": "64",
+    "named": false
+  },
+  {
+    "type": "8",
+    "named": false
+  },
+  {
     "type": "CONST",
     "named": true
   },
@@ -288,6 +346,14 @@
     "named": false
   },
   {
+    "type": "\\",
+    "named": false
+  },
+  {
+    "type": "\\u{",
+    "named": false
+  },
+  {
     "type": "_",
     "named": false
   },
@@ -296,12 +362,16 @@
     "named": false
   },
   {
-    "type": "expr",
-    "named": true
+    "type": "f",
+    "named": false
   },
   {
     "type": "funcFieldImport",
     "named": true
+  },
+  {
+    "type": "i",
+    "named": false
   },
   {
     "type": "inf",
@@ -333,6 +403,18 @@
   },
   {
     "type": "p",
+    "named": false
+  },
+  {
+    "type": "s",
+    "named": false
+  },
+  {
+    "type": "u",
+    "named": false
+  },
+  {
+    "type": "}",
     "named": false
   }
 ]
