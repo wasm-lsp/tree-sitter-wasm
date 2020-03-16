@@ -4,6 +4,10 @@ module.exports = grammar({
   inline: $ => [],
 
   rules: {
+    /***********/
+    /* parsers */
+    /***********/
+
     file: $ => choice($.module),
 
     _bindVar: $ => $.VAR,
@@ -63,26 +67,9 @@ module.exports = grammar({
 
     typeUse: $ => seq($._LPAR, $._TYPE, $._var, $._RPAR),
 
-    // terminal
-
-    _FUNC: $ => "func",
-
-    _LPAR: $ => "(",
-
-    _MODULE: $ => "module",
-
-    NAT: $ => {
-      const numeric = /[0-9]+/;
-      return token(numeric);
-    },
-
-    _RPAR: $ => ")",
-
-    _TYPE: $ => "type",
-
-    VAR: $ => $._name,
-
-    // lexical
+    /**********/
+    /* lexers */
+    /**********/
 
     _digit: $ => /[0-9]/,
 
@@ -102,5 +89,26 @@ module.exports = grammar({
     _num: $ => seq($._digit, repeat(seq(optional("_"), $._digit))),
 
     _var: $ => choice($.NAT, $.VAR),
+
+    /**********/
+    /* tokens */
+    /**********/
+
+    _FUNC: $ => "func",
+
+    _LPAR: $ => "(",
+
+    _MODULE: $ => "module",
+
+    NAT: $ => {
+      const numeric = /[0-9]+/;
+      return token(numeric);
+    },
+
+    _RPAR: $ => ")",
+
+    _TYPE: $ => "type",
+
+    VAR: $ => $._name,
   },
 });
