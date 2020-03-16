@@ -21,7 +21,7 @@
     "build": "tree-sitter generate",
     "format": "prettier --write '**/*.{js,json,ts,tsx,yml,yaml}'",
     "lint": "eslint '**/*.{js,ts,tsx}'",
-    "test": "tree-sitter parse examples/**.wast"
+    "test": "tree-sitter parse corpus/**.wast"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
