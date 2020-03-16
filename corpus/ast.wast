@@ -1,6 +1,6 @@
-(module $mod
-  (func $foo (type $t))
-  (func $foo (type 0))
-  (func $foo const 0)
-  (func $foo const -0)
-  (func $foo const 0.0))
+(module $m
+  (func $f (type $t))
+  (func $f (type 0))
+  (func $f const 0)
+  (func $f const -0)
+  (func $f const 0.0))
