@@ -12,7 +12,16 @@ module.exports = grammar({
 
     _bindVar: $ => $.VAR,
 
-    expr: $ => "expr",
+    expr: $ => seq($._LPAR, $.expr1, $._RPAR),
+
+    expr1: $ =>
+      choice(
+        seq($.instrPlain, repeat($.expr)),
+        //
+        //
+        //
+        //
+      ),
 
     func: $ => seq($._LPAR, $._FUNC, optional($._bindVar), optional($.funcField), $._RPAR),
 
