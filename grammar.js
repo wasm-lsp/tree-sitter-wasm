@@ -56,7 +56,7 @@ module.exports = grammar({
 
     instrCall: $ => "instrCall",
 
-    instrPlain: $ => "instrPlain",
+    instrPlain: $ => choice(seq($.CONST, $.literal)),
 
     instrBlock: $ => "instrBlock",
 
