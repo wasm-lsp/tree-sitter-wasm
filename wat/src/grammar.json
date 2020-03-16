@@ -1,5 +1,5 @@
 {
-  "name": "webassembly_module",
+  "name": "wat",
   "rules": {
     "file": {
       "type": "CHOICE",
