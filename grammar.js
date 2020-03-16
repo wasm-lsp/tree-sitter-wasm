@@ -130,6 +130,8 @@ module.exports = grammar({
     /* tokens */
     /**********/
 
+    CONST: $ => "const",
+
     FLOAT: $ => $._float,
 
     _FUNC: $ => "func",
