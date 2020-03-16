@@ -26,6 +26,7 @@ module.exports = grammar({
     funcField: $ =>
       choice(
         seq($.typeUse, optional($.funcFieldBody)),
+        $.funcFieldBody,
         seq($.inlineImport, $.typeUse, $.funcFieldImport),
         seq($.inlineImport, $.funcFieldImport),
         seq($.inlineExport, $.funcField),
