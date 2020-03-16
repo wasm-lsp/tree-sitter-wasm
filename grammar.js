@@ -77,6 +77,8 @@ module.exports = grammar({
 
     _hexnum: $ => seq($._hexdigit, repeat(seq(optional("_"), $._hexdigit))),
 
+    _int: $ => seq($._sign, $._nat),
+
     _name: $ => {
       const digit = /[0-9]/;
       const letter = /[a-zA-Z]/;
@@ -88,6 +90,8 @@ module.exports = grammar({
 
     _num: $ => seq($._digit, repeat(seq(optional("_"), $._digit))),
 
+    _sign: $ => choice("+", "-"),
+
     _var: $ => choice($.NAT, $.VAR),
 
     /**********/
@@ -95,6 +99,8 @@ module.exports = grammar({
     /**********/
 
     _FUNC: $ => "func",
+
+    INT: $ => $._int,
 
     _LPAR: $ => "(",
 
