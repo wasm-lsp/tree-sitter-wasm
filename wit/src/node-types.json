@@ -1,0 +1,11 @@
+[
+  {
+    "type": "INSTANCE",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "instance",
+    "named": false
+  }
+]

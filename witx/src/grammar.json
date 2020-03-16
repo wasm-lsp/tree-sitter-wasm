@@ -1,0 +1,24 @@
+{
+  "name": "webassembly_api_description",
+  "rules": {
+    "INSTANCE": {
+      "type": "STRING",
+      "value": "instance"
+    },
+    "TYPENAME": {
+      "type": "STRING",
+      "value": "typename"
+    }
+  },
+  "extras": [
+    {
+      "type": "PATTERN",
+      "value": "\\s"
+    }
+  ],
+  "conflicts": [],
+  "externals": [],
+  "inline": [],
+  "supertypes": []
+}
+
