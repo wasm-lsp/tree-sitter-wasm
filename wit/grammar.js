@@ -1,5 +1,5 @@
 module.exports = grammar({
-  name: "webassembly_module_type",
+  name: "wit",
   rules: {
     INSTANCE: $ => "instance",
   },

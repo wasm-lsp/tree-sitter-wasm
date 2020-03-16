@@ -1,7 +1,7 @@
 const wit = require("../wit/grammar");
 
 module.exports = grammar(wit, {
-  name: "webassembly_api_description",
+  name: "witx",
   rules: {
     TYPENAME: $ => "typename",
   },
