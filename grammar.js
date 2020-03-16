@@ -73,7 +73,37 @@ module.exports = grammar({
 
     _digit: $ => /[0-9]/,
 
+    _float: $ =>
+      choice(
+        seq(optional($._sign), $._num, ".", optional($._frac)),
+        seq(
+          optional($._sign),
+          $._num,
+          optional(seq(".", optional($._frac))),
+          choice("e", "E"),
+          optional($._sign),
+          $._num,
+        ),
+        seq(optional($._sign), "0x", $._hexnum, ".", optional($._hexfrac)),
+        seq(
+          optional($._sign),
+          "0x",
+          $._hexnum,
+          optional(seq(".", optional($._hexfrac))),
+          choice("p", "P"),
+          optional($._sign),
+          $._num,
+        ),
+        seq(optional($._sign), "inf"),
+        seq(optional($._sign), "nan"),
+        seq(optional($._sign), "nan:", "0x", $._hexnum),
+      ),
+
+    _frac: $ => $._num,
+
     _hexdigit: $ => /[0-9a-fA-F]/,
+
+    _hexfrac: $ => $._hexnum,
 
     _hexnum: $ => seq($._hexdigit, repeat(seq(optional("_"), $._hexdigit))),
 
@@ -97,6 +127,8 @@ module.exports = grammar({
     /**********/
     /* tokens */
     /**********/
+
+    FLOAT: $ => $._float,
 
     _FUNC: $ => "func",
 
