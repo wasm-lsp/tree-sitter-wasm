@@ -100,10 +100,7 @@ module.exports = grammar({
 
     _MODULE: $ => "module",
 
-    NAT: $ => {
-      const numeric = /[0-9]+/;
-      return token(numeric);
-    },
+    NAT: $ => $._nat,
 
     _RPAR: $ => ")",
 
