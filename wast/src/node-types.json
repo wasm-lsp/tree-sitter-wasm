@@ -1,5 +1,10 @@
 [
   {
+    "type": "CONST",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "FLOAT",
     "named": true,
     "fields": {}
@@ -314,6 +319,14 @@
     "named": false
   },
   {
+    "type": ".const",
+    "named": false
+  },
+  {
+    "type": ".load",
+    "named": false
+  },
+  {
     "type": "0x",
     "named": false
   },
@@ -334,8 +347,8 @@
     "named": false
   },
   {
-    "type": "CONST",
-    "named": true
+    "type": ":",
+    "named": false
   },
   {
     "type": "E",
@@ -358,7 +371,95 @@
     "named": false
   },
   {
+    "type": "abs",
+    "named": false
+  },
+  {
+    "type": "add",
+    "named": false
+  },
+  {
+    "type": "align=",
+    "named": false
+  },
+  {
+    "type": "and",
+    "named": false
+  },
+  {
+    "type": "arithmetic",
+    "named": false
+  },
+  {
+    "type": "canonical",
+    "named": false
+  },
+  {
+    "type": "ceil",
+    "named": false
+  },
+  {
+    "type": "clz",
+    "named": false
+  },
+  {
+    "type": "convert_i32_s",
+    "named": false
+  },
+  {
+    "type": "convert_i32_u",
+    "named": false
+  },
+  {
+    "type": "convert_i64_s",
+    "named": false
+  },
+  {
+    "type": "convert_i64_u",
+    "named": false
+  },
+  {
+    "type": "copysign",
+    "named": false
+  },
+  {
+    "type": "ctz",
+    "named": false
+  },
+  {
+    "type": "demote_f64",
+    "named": false
+  },
+  {
+    "type": "div",
+    "named": false
+  },
+  {
+    "type": "div_s",
+    "named": false
+  },
+  {
+    "type": "div_u",
+    "named": false
+  },
+  {
     "type": "e",
+    "named": false
+  },
+  {
+    "type": "eq",
+    "named": false
+  },
+  {
+    "type": "eqz",
+    "named": false
+  },
+  {
+    "type": "extend_i32_s",
+    "named": false
+  },
+  {
+    "type": "extend_i32_u",
     "named": false
   },
   {
@@ -366,11 +467,67 @@
     "named": false
   },
   {
+    "type": "f32",
+    "named": false
+  },
+  {
+    "type": "f64",
+    "named": false
+  },
+  {
+    "type": "floor",
+    "named": false
+  },
+  {
     "type": "funcFieldImport",
     "named": true
   },
   {
+    "type": "ge",
+    "named": false
+  },
+  {
+    "type": "ge_s",
+    "named": false
+  },
+  {
+    "type": "ge_u",
+    "named": false
+  },
+  {
+    "type": "get",
+    "named": false
+  },
+  {
+    "type": "global",
+    "named": false
+  },
+  {
+    "type": "grow",
+    "named": false
+  },
+  {
+    "type": "gt",
+    "named": false
+  },
+  {
+    "type": "gt_s",
+    "named": false
+  },
+  {
+    "type": "gt_u",
+    "named": false
+  },
+  {
     "type": "i",
+    "named": false
+  },
+  {
+    "type": "i32",
+    "named": false
+  },
+  {
+    "type": "i64",
     "named": false
   },
   {
@@ -394,6 +551,50 @@
     "named": true
   },
   {
+    "type": "le",
+    "named": false
+  },
+  {
+    "type": "le_s",
+    "named": false
+  },
+  {
+    "type": "le_u",
+    "named": false
+  },
+  {
+    "type": "local",
+    "named": false
+  },
+  {
+    "type": "lt",
+    "named": false
+  },
+  {
+    "type": "lt_s",
+    "named": false
+  },
+  {
+    "type": "lt_u",
+    "named": false
+  },
+  {
+    "type": "max",
+    "named": false
+  },
+  {
+    "type": "memory",
+    "named": false
+  },
+  {
+    "type": "min",
+    "named": false
+  },
+  {
+    "type": "mul",
+    "named": false
+  },
+  {
     "type": "nan",
     "named": false
   },
@@ -402,7 +603,67 @@
     "named": false
   },
   {
+    "type": "ne",
+    "named": false
+  },
+  {
+    "type": "nearest",
+    "named": false
+  },
+  {
+    "type": "neg",
+    "named": false
+  },
+  {
+    "type": "offset=",
+    "named": false
+  },
+  {
+    "type": "or",
+    "named": false
+  },
+  {
     "type": "p",
+    "named": false
+  },
+  {
+    "type": "popcnt",
+    "named": false
+  },
+  {
+    "type": "promote_f32",
+    "named": false
+  },
+  {
+    "type": "reinterpret_f32",
+    "named": false
+  },
+  {
+    "type": "reinterpret_f64",
+    "named": false
+  },
+  {
+    "type": "reinterpret_i32",
+    "named": false
+  },
+  {
+    "type": "reinterpret_i64",
+    "named": false
+  },
+  {
+    "type": "rem_s",
+    "named": false
+  },
+  {
+    "type": "rem_u",
+    "named": false
+  },
+  {
+    "type": "rotl",
+    "named": false
+  },
+  {
+    "type": "rotr",
     "named": false
   },
   {
@@ -410,7 +671,71 @@
     "named": false
   },
   {
+    "type": "set",
+    "named": false
+  },
+  {
+    "type": "shl",
+    "named": false
+  },
+  {
+    "type": "shr_s",
+    "named": false
+  },
+  {
+    "type": "shr_u",
+    "named": false
+  },
+  {
+    "type": "size",
+    "named": false
+  },
+  {
+    "type": "sqrt",
+    "named": false
+  },
+  {
+    "type": "store",
+    "named": false
+  },
+  {
+    "type": "sub",
+    "named": false
+  },
+  {
+    "type": "tee",
+    "named": false
+  },
+  {
+    "type": "trunc",
+    "named": false
+  },
+  {
+    "type": "trunc_f32_s",
+    "named": false
+  },
+  {
+    "type": "trunc_f32_u",
+    "named": false
+  },
+  {
+    "type": "trunc_f64_s",
+    "named": false
+  },
+  {
+    "type": "trunc_f64_u",
+    "named": false
+  },
+  {
     "type": "u",
+    "named": false
+  },
+  {
+    "type": "wrap_i64",
+    "named": false
+  },
+  {
+    "type": "xor",
     "named": false
   },
   {
