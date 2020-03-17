@@ -1,13 +1,13 @@
 {
   "name": "tree-sitter-webassembly",
   "version": "0.0.0",
-  "license": "Apache-2.0 OR MIT",
+  "author": "Darin Morrison <darinmorrison@users.noreply.github.com>",
+  "license": "Apache-2.0 WITH LLVM-exception",
   "description": "WebAssembly grammars for tree-sitter",
   "keywords": [
     "parser",
     "lexer"
   ],
-  "author": "Darin Morrison <darinmorrison@users.noreply.github.com>",
   "homepage": "https://github.com/darinmorrison/tree-sitter-webassembly#readme",
   "repository": {
     "type": "git",
