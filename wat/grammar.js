@@ -189,23 +189,194 @@ module.exports = grammar({
     /* tokens */
     /**********/
 
-    CONST: $ => "const",
+    ALIGN_EQ_NAT: $ => seq("align=", $._nat),
+
+    ASSERT_EXHAUSTION: $ => "assert_exhaustion",
+
+    ASSERT_INVALID: $ => "assert_invalid",
+
+    ASSERT_MALFORMED: $ => "assert_malformed",
+
+    ASSERT_RETURN: $ => "assert_return",
+
+    ASSERT_TRAP: $ => "assert_trap",
+
+    ASSERT_UNLINKABLE: $ => "assert_unlinkable",
+
+    BIN: $ => "binary",
+
+    BINARY: $ =>
+      choice(
+        seq(
+          $._ixx,
+          ".",
+          choice(
+            "add",
+            "sub",
+            "mul",
+            "div_s",
+            "div_u",
+            "rem_s",
+            "rem_u",
+            "and",
+            "or",
+            "xor",
+            "shl",
+            "shr_s",
+            "shr_u",
+            "rotl",
+            "rotr",
+          ),
+        ),
+        seq($._fxx, ".", choice("add", "sub", "mul", "div", "min", "max", "copysign")),
+      ),
+
+    BLOCK: $ => "block",
+
+    BR: $ => "br",
+
+    BR_IF: $ => "br_if",
+
+    BR_TABLE: $ => "br_table",
+
+    CALL: $ => "call",
+
+    CALL_INDIRECT: $ => "call_indirect",
+
+    COMPARE: $ =>
+      choice(
+        seq($._ixx, ".", choice("eq", "ne", "lt_s", "lt_u", "le_s", "le_u", "gt_s", "gt_u", "ge_s", "ge_u")),
+        seq($._fxx, ".", choice("eq", "ne", "lt", "le", "gt", "ge")),
+      ),
+
+    CONST: $ => seq($._nxx, ".const"),
+
+    CONVERT: $ =>
+      choice(
+        seq("i32", ".", "wrap_i64"),
+        seq("i64", ".", "extend_i32_s"),
+        seq("i64", ".", "extend_i32_u"),
+        seq("f32", ".", "demote_f64"),
+        seq("f64", ".", "promote_f32"),
+        seq($._ixx, ".", choice("trunc_f32_s", "trunc_f32_u", "trunc_f64_s", "trunc_f64_u")),
+        seq($._fxx, ".", choice("convert_i32_s", "convert_i32_u", "convert_i64_s", "convert_i64_u")),
+        seq("f32", ".", "reinterpret_i32"),
+        seq("f64", ".", "reinterpret_i64"),
+        seq("i32", ".", "reinterpret_f32"),
+        seq("i64", ".", "reinterpret_f64"),
+      ),
+
+    DROP: $ => "drop",
+
+    ELEM: $ => "elem",
+
+    ELSE: $ => "else",
+
+    END: $ => "end",
+
+    EXPORT: $ => "export",
+
+    DATA: $ => "data",
 
     FLOAT: $ => $._float,
 
     _FUNC: $ => "func",
 
+    FUNCREF: $ => "funcref",
+
+    GET: $ => "get",
+
+    GLOBAL: $ => "global",
+
+    GLOBAL_GET: $ => seq("global", ".", "get"),
+
+    GLOBAL_SET: $ => seq("global", ".", "set"),
+
+    IF: $ => "if",
+
+    IMPORT: $ => "import",
+
+    INPUT: $ => "input",
+
+    INVOKE: $ => "invoke",
+
     INT: $ => $._int,
+
+    LOAD: $ => seq($._nxx, ".load"),
+
+    LOCAL: $ => "local",
+
+    LOCAL_GET: $ => seq("local", ".", "get"),
+
+    LOCAL_SET: $ => seq("local", ".", "set"),
+
+    LOCAL_TEE: $ => seq("local", ".", "tee"),
+
+    LOOP: $ => "loop",
 
     _LPAR: $ => "(",
 
+    MEMORY: $ => "memory",
+
+    MEMORY_GROW: $ => seq("memory", ".", "grow"),
+
+    MEMORY_SIZE: $ => seq("memory", ".", "size"),
+
     _MODULE: $ => "module",
+
+    MUT: $ => "mut",
+
+    NAN: $ => seq("nan", ":", choice("arithmetic", "canonical")),
 
     NAT: $ => $._nat,
 
+    NOP: $ => "nop",
+
+    OFFSET: $ => "offset",
+
+    OFFSET_EQ_NAT: $ => seq("offset=", $._nat),
+
+    OUTPUT: $ => "output",
+
+    PARAM: $ => "param",
+
+    QUOTE: $ => "quote",
+
     _RPAR: $ => ")",
 
+    REGISTER: $ => "register",
+
+    RESULT: $ => "result",
+
+    RETURN: $ => "return",
+
+    SCRIPT: $ => "script",
+
+    SELECT: $ => "select",
+
+    START: $ => "start",
+
+    STORE: $ => seq($._nxx, ".", "store"),
+
+    _STRING: $ => $._string,
+
+    TABLE: $ => "table",
+
+    TEST: $ => seq($._ixx, ".", "eqz"),
+
+    THEN: $ => "then",
+
     _TYPE: $ => "type",
+
+    UNARY: $ =>
+      choice(
+        seq($._ixx, ".", choice("clz", "ctz", "popcnt")),
+        seq($._fxx, ".", choice("neg", "abs", "sqrt", "ceil", "floor", "trunc", "nearest")),
+      ),
+
+    UNREACHABLE: $ => "unreachable",
+
+    VALUE_TYPE: $ => $._nxx,
 
     VAR: $ => $._name,
   },
