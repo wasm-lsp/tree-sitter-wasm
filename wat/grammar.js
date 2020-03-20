@@ -4,7 +4,7 @@ module.exports = grammar({
   extras: $ => [],
 
   rules: {
-    start: $ => seq(repeat($._space), $.module, repeat($._space)),
+    start: $ => seq($.module, repeat($._space)),
 
     // ====================================================== //
     // =================== Lexical Format =================== //
@@ -286,5 +286,8 @@ module.exports = grammar({
      * Modules *
      ***********/
 
+    module: $ => seq($._LPAR, $._MODULE, optional($.id), repeat($.modulefield), $._RPAR),
+
+    modulefield: $ => choice($.type),
   },
 });
