@@ -4,7 +4,7 @@ module.exports = grammar({
   extras: $ => [],
 
   rules: {
-    start: $ => seq($.module, repeat($._space)),
+    START: $ => seq($.module, repeat($._space)),
 
     // ====================================================== //
     // =================== Lexical Format =================== //
@@ -250,37 +250,55 @@ module.exports = grammar({
      * Imports *
      ***********/
 
+    import: $ => "import-PLACEHOLDER",
+
     /*************
      * Functions *
      *************/
+
+    func: $ => "func-PLACEHOLDER",
 
     /**********
      * Tables *
      **********/
 
+    table: $ => "table-PLACEHOLDER",
+
     /************
      * Memories *
      ************/
+
+    mem: $ => "mem-PLACEHOLDER",
 
     /***********
      * Globals *
      ***********/
 
+    global: $ => "global-PLACEHOLDER",
+
     /***********
      * Exports *
      ***********/
+
+    export: $ => "export-PLACEHOLDER",
 
     /******************
      * Start Function *
      ******************/
 
+    start: $ => "start-PLACEHOLDER",
+
     /********************
      * Element Segments *
      ********************/
 
+    elem: $ => "elem-PLACEHOLDER",
+
     /*****************
      * Data Segments *
      *****************/
+
+    data: $ => "data-PLACEHOLDER",
 
     /***********
      * Modules *
@@ -288,6 +306,6 @@ module.exports = grammar({
 
     module: $ => seq($._LPAR, $._MODULE, optional($.id), repeat($.modulefield), $._RPAR),
 
-    modulefield: $ => choice($.type),
+    modulefield: $ => choice($.type, $.import, $.func, $.table, $.mem, $.global, $.export, $.start, $.elem, $.data),
   },
 });
