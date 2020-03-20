@@ -1,170 +1,99 @@
 module.exports = grammar({
   name: "wat",
 
+  extras: $ => [],
+
   rules: {
-    /***********/
-    /* parsers */
-    /***********/
+    start: $ => seq(repeat($._space), $.module, repeat($._space)),
 
-    file: $ => choice($.module),
+    /**************/
+    /* whitespace */
+    /**************/
 
-    _bindVar: $ => $.VAR,
+    _space: $ => choice(" ", $._format, $._comment),
 
-    expr: $ => seq($._LPAR, $.expr1, $._RPAR),
+    _format: $ => /[\t\n\r]/,
 
-    expr1: $ =>
-      choice(
-        seq($.instrPlain, repeat($.expr)),
-        //
-        //
-        //
-        //
-      ),
+    /************/
+    /* comments */
+    /************/
 
-    func: $ => seq($._LPAR, $._FUNC, optional($._bindVar), optional($.funcField), $._RPAR),
+    _comment: $ => choice($.linecomment, $.blockcomment),
 
-    funcBody: $ =>
-      choice(
-        repeat1($.instr),
-        //
-        //
-      ),
+    linecomment: $ => seq(";;", repeat($._linechar), "\n"),
 
-    funcField: $ =>
-      choice(
-        seq($.typeUse, optional($.funcFieldBody)),
-        $.funcFieldBody,
-        seq($.inlineImport, $.typeUse, $.funcFieldImport),
-        seq($.inlineImport, $.funcFieldImport),
-        seq($.inlineExport, $.funcField),
-      ),
+    _linechar: $ => $._utf8line,
 
-    funcFieldBody: $ =>
-      choice(
-        $.funcResultBody,
-        //
-        //
-      ),
+    blockcomment: $ => seq("(;", repeat($._blockchar), ";)"),
 
-    funcFieldImport: $ => "funcFieldImport",
+    // FIXME: this is more liberal than the spec
+    _blockchar: $ => choice(/[^;(]/, /;[^)]/, /\([^;]/, $.blockcomment),
 
-    funcResultBody: $ =>
-      choice(
-        $.funcBody,
-        //
-        //
-      ),
+    /************/
+    /* integers */
+    /************/
 
-    inlineExport: $ => "inlineExport",
-
-    inlineImport: $ => "inlineImport",
-
-    instr: $ => choice($.instrCall, $.instrPlain, $.instrBlock, $.expr),
-
-    instrCall: $ => "instrCall",
-
-    instrPlain: $ => choice(seq($.CONST, $.literal)),
-
-    instrBlock: $ => "instrBlock",
-
-    literal: $ => choice($.NAT, $.INT, $.FLOAT),
-
-    module: $ => choice(seq($._LPAR, $._MODULE, optional($._moduleVar), repeat($.moduleField), $._RPAR)),
-
-    moduleField: $ => choice($.func),
-
-    _moduleVar: $ => $.VAR,
-
-    typeUse: $ => seq($._LPAR, $._TYPE, $._var, $._RPAR),
-
-    /**********/
-    /* lexers */
-    /**********/
-
-    _ascii: $ => /[\x00-\x7f]/,
-
-    _asciiNoNl: $ => /[\x00-\x09\x0b-\x7f]/,
-
-    _character: $ =>
-      choice(
-        /[^"\\\x00-\x1f\x7f-\xff]/,
-        $._utf8enc,
-        seq("\\", $._escape),
-        seq("\\", $._hexdigit, $._hexdigit),
-        seq("\\u{", $._hexnum, "}"),
-      ),
+    _sign: $ => /[+-]/,
 
     _digit: $ => /[0-9]/,
 
-    _escape: $ => /[nrt\\'"]/,
+    _hexdigit: $ => /[0-9A-Fa-f]/,
+
+    _num: $ => choice($._digit, seq($._num, optional("_"), $._digit)),
+
+    _hexnum: $ => choice($._hexdigit, seq($._hexnum, optional("_"), $._hexdigit)),
+
+    _uN: $ => choice($._num, seq("0x", $._hexnum)),
+
+    _sN: $ => choice(seq(optional($._sign), $._num), seq(optional($._sign), "0x", $._hexnum)),
+
+    _iN: $ => choice($._uN, $._sN),
+
+    /******************/
+    /* floating-point */
+    /******************/
+
+    _frac: $ => choice(seq($._digit, optional($._frac)), seq($._digit, "_", $._digit, optional($._frac))),
+
+    _hexfrac: $ =>
+      choice(seq($._hexdigit, optional($._hexfrac)), seq($._hexdigit, "_", $._hexdigit, optional($._hexfrac))),
 
     _float: $ =>
       choice(
-        seq(optional($._sign), $._num, ".", optional($._frac)),
-        seq(
-          optional($._sign),
-          $._num,
-          optional(seq(".", optional($._frac))),
-          choice("e", "E"),
-          optional($._sign),
-          $._num,
-        ),
-        seq(optional($._sign), "0x", $._hexnum, ".", optional($._hexfrac)),
-        seq(
-          optional($._sign),
-          "0x",
-          $._hexnum,
-          optional(seq(".", optional($._hexfrac))),
-          choice("p", "P"),
-          optional($._sign),
-          $._num,
-        ),
-        seq(optional($._sign), "inf"),
-        seq(optional($._sign), "nan"),
-        seq(optional($._sign), "nan:", "0x", $._hexnum),
+        $._num,
+        seq($._num, ".", optional($._frac)),
+        seq($._num, /[Ee]/, optional($._sign), $._num),
+        seq($._num, ".", optional($._frac), /[Ee]/, optional($._sign), $._num),
       ),
 
-    _frac: $ => $._num,
+    _hexfloat: $ =>
+      choice(
+        seq("0x", $._hexnum),
+        seq("0x", $._hexnum, ".", optional($._hexfrac)),
+        seq("0x", $._hexnum, /[Pp]/, optional($._sign), $._num),
+        seq("0x", $._hexnum, ".", optional($._hexfrac), /[Pp]/, optional($._sign), $._num),
+      ),
 
-    _fxx: $ => seq("f", choice("32", "64")),
+    _fN: $ => seq(optional($._sign), $._fNmag),
 
-    _hexdigit: $ => /[0-9a-fA-F]/,
+    _fNmag: $ => choice($._float, $._hexfloat, "inf", "nan", seq("nan:0x", $._hexnum)),
 
-    _hexfrac: $ => $._hexnum,
+    /**********/
+    /* String */
+    /**********/
 
-    _hexnum: $ => seq($._hexdigit, repeat(seq(optional("_"), $._hexdigit))),
+    _string: $ => seq('"', repeat($._stringelem), '"'),
 
-    _int: $ => seq($._sign, $._nat),
+    // FIXME: using $._hexdigit here seems to allow invalid parses: "\00\gf"
+    _stringelem: $ => choice($._stringchar, /\\[0-9A-Fa-f][0-9A-Fa-f]/),
 
-    _ixx: $ => seq("i", choice("32", "64")),
+    _stringchar: $ => choice($._char, seq("\\", /[tnr"'\\]/), seq("\\u{", $._hexnum, "}")),
 
-    _letter: $ => /[a-zA-Z]/,
+    _char: $ => choice(/[^"\\\x00-\x1f\x7f-\xff]/, $._utf8enc),
 
-    _memSize: $ => choice("8", "16", "32"),
+    _ascii: $ => /[\x00-\x7f]/,
 
-    _mfxx: $ => seq("f", choice("32", "64")),
-
-    _mixx: $ => seq("i", choice("8", "16", "32", "64")),
-
-    _name: $ => seq("$", repeat1(choice($._letter, $._digit, "_", $._symbol))),
-
-    _nat: $ => choice($._num, seq("0x", $._hexnum)),
-
-    _nxx: $ => choice($._ixx, $._fxx),
-
-    _num: $ => seq($._digit, repeat(seq(optional("_"), $._digit))),
-
-    _reserved: $ => repeat1(seq(/[^"();]/, "#", $._space)),
-
-    _sign: $ => choice("+", "-"),
-
-    _signKind: $ => choice("s", "u"),
-
-    _space: $ => /[\s\t\n\r]/,
-
-    _string: $ => seq('"', repeat($._character), '"'),
-
-    _symbol: $ => /[-+*/\\^~=<>!?@#$%&|:`.']/,
+    _asciiline: $ => /[\x00-\x09\x0b-\x7f]/,
 
     _utf8cont: $ => /[\x80-\xbf]/,
 
@@ -181,203 +110,26 @@ module.exports = grammar({
 
     _utf8: $ => choice($._ascii, $._utf8enc),
 
-    _utf8NoNl: $ => choice($._ascii, $._utf8enc),
+    _utf8line: $ => choice($._asciiline, $._utf8enc),
 
-    _var: $ => choice($.NAT, $.VAR),
+    /*********/
+    /* names */
+    /*********/
 
-    /**********/
-    /* tokens */
-    /**********/
+    _name: $ => $._string,
 
-    ALIGN_EQ_NAT: $ => seq("align=", $._nat),
+    /***************/
+    /* identifiers */
+    /***************/
 
-    ASSERT_EXHAUSTION: $ => "assert_exhaustion",
+    _id: $ => seq("$", repeat1($._idchar)),
 
-    ASSERT_INVALID: $ => "assert_invalid",
+    _idchar: $ => /[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]/,
 
-    ASSERT_MALFORMED: $ => "assert_malformed",
+    /***********/
+    /* modules */
+    /***********/
 
-    ASSERT_RETURN: $ => "assert_return",
-
-    ASSERT_TRAP: $ => "assert_trap",
-
-    ASSERT_UNLINKABLE: $ => "assert_unlinkable",
-
-    BIN: $ => "binary",
-
-    BINARY: $ =>
-      choice(
-        seq(
-          $._ixx,
-          ".",
-          choice(
-            "add",
-            "sub",
-            "mul",
-            "div_s",
-            "div_u",
-            "rem_s",
-            "rem_u",
-            "and",
-            "or",
-            "xor",
-            "shl",
-            "shr_s",
-            "shr_u",
-            "rotl",
-            "rotr",
-          ),
-        ),
-        seq($._fxx, ".", choice("add", "sub", "mul", "div", "min", "max", "copysign")),
-      ),
-
-    BLOCK: $ => "block",
-
-    BR: $ => "br",
-
-    BR_IF: $ => "br_if",
-
-    BR_TABLE: $ => "br_table",
-
-    CALL: $ => "call",
-
-    CALL_INDIRECT: $ => "call_indirect",
-
-    COMPARE: $ =>
-      choice(
-        seq($._ixx, ".", choice("eq", "ne", "lt_s", "lt_u", "le_s", "le_u", "gt_s", "gt_u", "ge_s", "ge_u")),
-        seq($._fxx, ".", choice("eq", "ne", "lt", "le", "gt", "ge")),
-      ),
-
-    CONST: $ => seq($._nxx, ".const"),
-
-    CONVERT: $ =>
-      choice(
-        seq("i32", ".", "wrap_i64"),
-        seq("i64", ".", "extend_i32_s"),
-        seq("i64", ".", "extend_i32_u"),
-        seq("f32", ".", "demote_f64"),
-        seq("f64", ".", "promote_f32"),
-        seq($._ixx, ".", choice("trunc_f32_s", "trunc_f32_u", "trunc_f64_s", "trunc_f64_u")),
-        seq($._fxx, ".", choice("convert_i32_s", "convert_i32_u", "convert_i64_s", "convert_i64_u")),
-        seq("f32", ".", "reinterpret_i32"),
-        seq("f64", ".", "reinterpret_i64"),
-        seq("i32", ".", "reinterpret_f32"),
-        seq("i64", ".", "reinterpret_f64"),
-      ),
-
-    DROP: $ => "drop",
-
-    ELEM: $ => "elem",
-
-    ELSE: $ => "else",
-
-    END: $ => "end",
-
-    EXPORT: $ => "export",
-
-    DATA: $ => "data",
-
-    FLOAT: $ => $._float,
-
-    _FUNC: $ => "func",
-
-    FUNCREF: $ => "funcref",
-
-    GET: $ => "get",
-
-    GLOBAL: $ => "global",
-
-    GLOBAL_GET: $ => seq("global", ".", "get"),
-
-    GLOBAL_SET: $ => seq("global", ".", "set"),
-
-    IF: $ => "if",
-
-    IMPORT: $ => "import",
-
-    INPUT: $ => "input",
-
-    INVOKE: $ => "invoke",
-
-    INT: $ => $._int,
-
-    LOAD: $ => seq($._nxx, ".load"),
-
-    LOCAL: $ => "local",
-
-    LOCAL_GET: $ => seq("local", ".", "get"),
-
-    LOCAL_SET: $ => seq("local", ".", "set"),
-
-    LOCAL_TEE: $ => seq("local", ".", "tee"),
-
-    LOOP: $ => "loop",
-
-    _LPAR: $ => "(",
-
-    MEMORY: $ => "memory",
-
-    MEMORY_GROW: $ => seq("memory", ".", "grow"),
-
-    MEMORY_SIZE: $ => seq("memory", ".", "size"),
-
-    _MODULE: $ => "module",
-
-    MUT: $ => "mut",
-
-    NAN: $ => seq("nan", ":", choice("arithmetic", "canonical")),
-
-    NAT: $ => $._nat,
-
-    NOP: $ => "nop",
-
-    OFFSET: $ => "offset",
-
-    OFFSET_EQ_NAT: $ => seq("offset=", $._nat),
-
-    OUTPUT: $ => "output",
-
-    PARAM: $ => "param",
-
-    QUOTE: $ => "quote",
-
-    _RPAR: $ => ")",
-
-    REGISTER: $ => "register",
-
-    RESULT: $ => "result",
-
-    RETURN: $ => "return",
-
-    SCRIPT: $ => "script",
-
-    SELECT: $ => "select",
-
-    START: $ => "start",
-
-    STORE: $ => seq($._nxx, ".", "store"),
-
-    _STRING: $ => $._string,
-
-    TABLE: $ => "table",
-
-    TEST: $ => seq($._ixx, ".", "eqz"),
-
-    THEN: $ => "then",
-
-    _TYPE: $ => "type",
-
-    UNARY: $ =>
-      choice(
-        seq($._ixx, ".", choice("clz", "ctz", "popcnt")),
-        seq($._fxx, ".", choice("neg", "abs", "sqrt", "ceil", "floor", "trunc", "nearest")),
-      ),
-
-    UNREACHABLE: $ => "unreachable",
-
-    VALUE_TYPE: $ => $._nxx,
-
-    VAR: $ => $._name,
+    module: $ => seq("(", repeat($._space), "module", repeat($._space), optional(seq($._id, repeat($._space))), ")"),
   },
 });
