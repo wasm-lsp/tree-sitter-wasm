@@ -15,6 +15,86 @@
     }
   },
   {
+    "type": "elemtype",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "blockcomment",
+          "named": true
+        },
+        {
+          "type": "linecomment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "functype",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "blockcomment",
+          "named": true
+        },
+        {
+          "type": "linecomment",
+          "named": true
+        },
+        {
+          "type": "param",
+          "named": true
+        },
+        {
+          "type": "result",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "id",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "blockcomment",
+          "named": true
+        },
+        {
+          "type": "linecomment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "limits",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "uN",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "linecomment",
     "named": true,
     "fields": {}
@@ -32,7 +112,80 @@
           "named": true
         },
         {
+          "type": "id",
+          "named": true
+        },
+        {
           "type": "linecomment",
+          "named": true
+        },
+        {
+          "type": "modulefield",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "modulefield",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "param",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "blockcomment",
+          "named": true
+        },
+        {
+          "type": "id",
+          "named": true
+        },
+        {
+          "type": "linecomment",
+          "named": true
+        },
+        {
+          "type": "valtype",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "result",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "blockcomment",
+          "named": true
+        },
+        {
+          "type": "linecomment",
+          "named": true
+        },
+        {
+          "type": "valtype",
           "named": true
         }
       ]
@@ -56,6 +209,71 @@
         },
         {
           "type": "module",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "blockcomment",
+          "named": true
+        },
+        {
+          "type": "functype",
+          "named": true
+        },
+        {
+          "type": "id",
+          "named": true
+        },
+        {
+          "type": "linecomment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "uN",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "blockcomment",
+          "named": true
+        },
+        {
+          "type": "linecomment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "valtype",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "blockcomment",
+          "named": true
+        },
+        {
+          "type": "linecomment",
           "named": true
         }
       ]
@@ -118,6 +336,30 @@
     "named": false
   },
   {
+    "type": "f32",
+    "named": false
+  },
+  {
+    "type": "f64",
+    "named": false
+  },
+  {
+    "type": "func",
+    "named": false
+  },
+  {
+    "type": "funcref",
+    "named": false
+  },
+  {
+    "type": "i32",
+    "named": false
+  },
+  {
+    "type": "i64",
+    "named": false
+  },
+  {
     "type": "inf",
     "named": false
   },
@@ -126,11 +368,27 @@
     "named": false
   },
   {
+    "type": "mut",
+    "named": false
+  },
+  {
     "type": "nan",
     "named": false
   },
   {
     "type": "nan:0x",
+    "named": false
+  },
+  {
+    "type": "param",
+    "named": false
+  },
+  {
+    "type": "result",
+    "named": false
+  },
+  {
+    "type": "type",
     "named": false
   },
   {
