@@ -242,7 +242,49 @@ module.exports = grammar({
 
     type: $ => seq($._LPAR, $._TYPE, optional($.id), $.functype, $._RPAR),
 
+    /*************
+     * Type Uses *
+     *************/
 
-    module: $ => seq("(", repeat($._space), "module", repeat($._space), optional(seq($._id, repeat($._space))), ")"),
+    /***********
+     * Imports *
+     ***********/
+
+    /*************
+     * Functions *
+     *************/
+
+    /**********
+     * Tables *
+     **********/
+
+    /************
+     * Memories *
+     ************/
+
+    /***********
+     * Globals *
+     ***********/
+
+    /***********
+     * Exports *
+     ***********/
+
+    /******************
+     * Start Function *
+     ******************/
+
+    /********************
+     * Element Segments *
+     ********************/
+
+    /*****************
+     * Data Segments *
+     *****************/
+
+    /***********
+     * Modules *
+     ***********/
+
   },
 });
