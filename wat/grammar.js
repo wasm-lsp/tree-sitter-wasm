@@ -161,6 +161,60 @@ module.exports = grammar({
     id: $ => seq(repeat($._space), $._id),
 
     // ====================================================== //
+    // ======================== Types ======================= //
+    // ====================================================== //
+
+    valtype: $ => seq(repeat($._space), choice("i32", "i64", "f32", "f64")),
+
+    /****************
+     * Result Types *
+     ****************/
+
+    resulttype: $ => $.result,
+
+    /******************
+     * Function Types *
+     ******************/
+
+    functype: $ => seq($._LPAR, $._FUNC, repeat($.param), repeat($.result), $._RPAR),
+
+    param: $ =>
+      choice(
+        // NOTE: re-factored to avoid conflict with abbreviation
+        seq($._LPAR, $._PARAM, optional(seq($.id, $.valtype)), $._RPAR),
+        // abbreviation
+        seq($._LPAR, $._PARAM, repeat($.valtype), $._RPAR),
+      ),
+
+    result: $ => seq($._LPAR, $._RESULT, repeat($.valtype), $._RPAR),
+
+    /**********
+     * Limits *
+     **********/
+
+    limits: $ => choice($.uN, seq($.uN, $.uN)),
+
+    /****************
+     * Memory Types *
+     ****************/
+
+    memtype: $ => $.limits,
+
+    /***************
+     * Table Types *
+     ***************/
+
+    tabletype: $ => seq($.limits, $.elemtype),
+
+    elemtype: $ => $._FUNCREF,
+
+    /****************
+     * Global Types *
+     ****************/
+
+    globaltype: $ => choice($.valtype, seq($._LPAR, $._MUT, $.valtype, $._RPAR)),
+
+    // ====================================================== //
     // ======================= Modules ====================== //
     // ====================================================== //
 
@@ -181,6 +235,12 @@ module.exports = grammar({
     localidx: $ => choice($.uN, $.id),
 
     labellidx: $ => choice($.uN, $.id),
+
+    /*********
+     * Types *
+     *********/
+
+    type: $ => seq($._LPAR, $._TYPE, optional($.id), $.functype, $._RPAR),
 
 
     module: $ => seq("(", repeat($._space), "module", repeat($._space), optional(seq($._id, repeat($._space))), ")"),
