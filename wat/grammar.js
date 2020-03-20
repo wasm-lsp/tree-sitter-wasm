@@ -57,6 +57,8 @@ module.exports = grammar({
 
     _iN: $ => choice($._uN, $._sN),
 
+    uN: $ => seq(repeat($._space), $._uN),
+
     /******************
      * Floating-Point *
      ******************/
@@ -133,6 +135,8 @@ module.exports = grammar({
     _id: $ => seq("$", repeat1($._idchar)),
 
     _idchar: $ => /[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]/,
+
+    id: $ => seq(repeat($._space), $._id),
 
     // ====================================================== //
     // ======================= Modules ====================== //
