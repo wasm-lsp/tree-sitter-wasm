@@ -34,6 +34,28 @@ module.exports = grammar({
     _blockchar: $ => choice(/[^;(]/, /;[^)]/, /\([^;]/, $.blockcomment),
 
     // ====================================================== //
+    // ======================= Tokens ======================= //
+    // ====================================================== //
+
+    _FUNC: $ => seq(repeat($._space), "func"),
+
+    _FUNCREF: $ => seq(repeat($._space), "funcref"),
+
+    _LPAR: $ => seq(repeat($._space), "("),
+
+    _MODULE: $ => seq(repeat($._space), "module"),
+
+    _MUT: $ => seq(repeat($._space), "mut"),
+
+    _PARAM: $ => seq(repeat($._space), "param"),
+
+    _RESULT: $ => seq(repeat($._space), "result"),
+
+    _RPAR: $ => seq(repeat($._space), ")"),
+
+    _TYPE: $ => seq(repeat($._space), "type"),
+
+    // ====================================================== //
     // ======================= Values ======================= //
     // ====================================================== //
 
