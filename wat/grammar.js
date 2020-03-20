@@ -6,17 +6,21 @@ module.exports = grammar({
   rules: {
     start: $ => seq(repeat($._space), $.module, repeat($._space)),
 
-    /**************/
-    /* whitespace */
-    /**************/
+    // ====================================================== //
+    // =================== Lexical Format =================== //
+    // ====================================================== //
+
+    /**************
+     * Whitespace *
+     **************/
 
     _space: $ => choice(" ", $._format, $._comment),
 
     _format: $ => /[\t\n\r]/,
 
-    /************/
-    /* comments */
-    /************/
+    /************
+     * Comments *
+     ************/
 
     _comment: $ => choice($.linecomment, $.blockcomment),
 
@@ -29,9 +33,13 @@ module.exports = grammar({
     // FIXME: this is more liberal than the spec
     _blockchar: $ => choice(/[^;(]/, /;[^)]/, /\([^;]/, $.blockcomment),
 
-    /************/
-    /* integers */
-    /************/
+    // ====================================================== //
+    // ======================= Values ======================= //
+    // ====================================================== //
+
+    /************
+     * Integers *
+     ************/
 
     _sign: $ => /[+-]/,
 
@@ -49,9 +57,9 @@ module.exports = grammar({
 
     _iN: $ => choice($._uN, $._sN),
 
-    /******************/
-    /* floating-point */
-    /******************/
+    /******************
+     * Floating-Point *
+     ******************/
 
     _frac: $ => choice(seq($._digit, optional($._frac)), seq($._digit, "_", $._digit, optional($._frac))),
 
@@ -78,9 +86,9 @@ module.exports = grammar({
 
     _fNmag: $ => choice($._float, $._hexfloat, "inf", "nan", seq("nan:0x", $._hexnum)),
 
-    /**********/
-    /* String */
-    /**********/
+    /**********
+     * String *
+     **********/
 
     _string: $ => seq('"', repeat($._stringelem), '"'),
 
@@ -112,22 +120,26 @@ module.exports = grammar({
 
     _utf8line: $ => choice($._asciiline, $._utf8enc),
 
-    /*********/
-    /* names */
-    /*********/
+    /*********
+     * Names *
+     *********/
 
     _name: $ => $._string,
 
-    /***************/
-    /* identifiers */
-    /***************/
+    /***************
+     * Identifiers *
+     ***************/
 
     _id: $ => seq("$", repeat1($._idchar)),
 
     _idchar: $ => /[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]/,
 
+    // ====================================================== //
+    // ======================= Modules ====================== //
+    // ====================================================== //
+
     /***********/
-    /* modules */
+    /* Modules */
     /***********/
 
     module: $ => seq("(", repeat($._space), "module", repeat($._space), optional(seq($._id, repeat($._space))), ")"),
