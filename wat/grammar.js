@@ -41,7 +41,13 @@ module.exports = grammar({
 
     _FUNCREF: $ => seq(repeat($._space), "funcref"),
 
+    _GLOBAL: $ => seq(repeat($._space), "global"),
+
+    _IMPORT: $ => seq(repeat($._space), "import"),
+
     _LPAR: $ => seq(repeat($._space), "("),
+
+    _MEMORY: $ => seq(repeat($._space), "memory"),
 
     _MODULE: $ => seq(repeat($._space), "module"),
 
@@ -52,6 +58,8 @@ module.exports = grammar({
     _RESULT: $ => seq(repeat($._space), "result"),
 
     _RPAR: $ => seq(repeat($._space), ")"),
+
+    _TABLE: $ => seq(repeat($._space), "table"),
 
     _TYPE: $ => seq(repeat($._space), "type"),
 
@@ -150,6 +158,8 @@ module.exports = grammar({
 
     _name: $ => $._string,
 
+    name: $ => seq(repeat($._space), $._name),
+
     /***************
      * Identifiers *
      ***************/
@@ -192,7 +202,7 @@ module.exports = grammar({
      * Limits *
      **********/
 
-    limits: $ => choice($.uN, seq($.uN, $.uN)),
+    limits: $ => prec.left(seq($.uN, optional(seq($._space, $._uN)))),
 
     /****************
      * Memory Types *
@@ -246,11 +256,29 @@ module.exports = grammar({
      * Type Uses *
      *************/
 
+    // NOTE: we inline this because it matches the empty string
+    // typeuse: $ => seq(optional(seq($._LPAR, $._TYPE, $.typeidx, $._RPAR)), repeat($.param), repeat($.result)),
+
     /***********
      * Imports *
      ***********/
 
-    import: $ => "import-PLACEHOLDER",
+    import: $ => seq($._LPAR, $._IMPORT, $.name, $.name, $.importdesc, $._RPAR),
+
+    importdesc: $ =>
+      choice(
+        seq(
+          $._LPAR,
+          $._FUNC,
+          optional($.id),
+          // NOTE: see typeuse
+          seq(optional(seq($._LPAR, $._TYPE, $.typeidx, $._RPAR)), repeat($.param), repeat($.result)),
+          $._RPAR,
+        ),
+        seq($._LPAR, $._TABLE, optional($.id), $.tabletype, $._RPAR),
+        seq($._LPAR, $._MEMORY, optional($.id), $.memtype, $._RPAR),
+        seq($._LPAR, $._GLOBAL, optional($.id), $.globaltype, $._RPAR),
+      ),
 
     /*************
      * Functions *
