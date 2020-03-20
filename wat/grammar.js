@@ -164,9 +164,24 @@ module.exports = grammar({
     // ======================= Modules ====================== //
     // ====================================================== //
 
-    /***********/
-    /* Modules */
-    /***********/
+    /***********
+     * Indices *
+     ***********/
+
+    typeidx: $ => choice($.uN, $.id),
+
+    funcidx: $ => choice($.uN, $.id),
+
+    tableidx: $ => choice($.uN, $.id),
+
+    memidx: $ => choice($.uN, $.id),
+
+    globalidx: $ => choice($.uN, $.id),
+
+    localidx: $ => choice($.uN, $.id),
+
+    labellidx: $ => choice($.uN, $.id),
+
 
     module: $ => seq("(", repeat($._space), "module", repeat($._space), optional(seq($._id, repeat($._space))), ")"),
   },
