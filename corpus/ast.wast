@@ -2,5 +2,5 @@
 ( ;;
   (; ;;
   ;)
-  module)
+  module $m (type $t (func)))
 
