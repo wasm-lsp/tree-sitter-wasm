@@ -1,5 +1,28 @@
 [
   {
+    "type": "START",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "blockcomment",
+          "named": true
+        },
+        {
+          "type": "linecomment",
+          "named": true
+        },
+        {
+          "type": "module",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "blockcomment",
     "named": true,
     "fields": {},
@@ -61,6 +84,29 @@
     }
   },
   {
+    "type": "globaltype",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "blockcomment",
+          "named": true
+        },
+        {
+          "type": "linecomment",
+          "named": true
+        },
+        {
+          "type": "valtype",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "id",
     "named": true,
     "fields": {},
@@ -80,6 +126,80 @@
     }
   },
   {
+    "type": "import",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "blockcomment",
+          "named": true
+        },
+        {
+          "type": "importdesc",
+          "named": true
+        },
+        {
+          "type": "linecomment",
+          "named": true
+        },
+        {
+          "type": "name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "importdesc",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "blockcomment",
+          "named": true
+        },
+        {
+          "type": "globaltype",
+          "named": true
+        },
+        {
+          "type": "id",
+          "named": true
+        },
+        {
+          "type": "linecomment",
+          "named": true
+        },
+        {
+          "type": "memtype",
+          "named": true
+        },
+        {
+          "type": "param",
+          "named": true
+        },
+        {
+          "type": "result",
+          "named": true
+        },
+        {
+          "type": "tabletype",
+          "named": true
+        },
+        {
+          "type": "typeidx",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "limits",
     "named": true,
     "fields": {},
@@ -87,6 +207,14 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "blockcomment",
+          "named": true
+        },
+        {
+          "type": "linecomment",
+          "named": true
+        },
         {
           "type": "uN",
           "named": true
@@ -98,6 +226,21 @@
     "type": "linecomment",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "memtype",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "limits",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "module",
@@ -135,7 +278,62 @@
       "required": true,
       "types": [
         {
+          "type": "data",
+          "named": true
+        },
+        {
+          "type": "elem",
+          "named": true
+        },
+        {
+          "type": "export",
+          "named": true
+        },
+        {
+          "type": "func",
+          "named": true
+        },
+        {
+          "type": "global",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "mem",
+          "named": true
+        },
+        {
+          "type": "start",
+          "named": true
+        },
+        {
+          "type": "table",
+          "named": true
+        },
+        {
           "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "name",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "blockcomment",
+          "named": true
+        },
+        {
+          "type": "linecomment",
           "named": true
         }
       ]
@@ -192,7 +390,7 @@
     }
   },
   {
-    "type": "start",
+    "type": "tabletype",
     "named": true,
     "fields": {},
     "children": {
@@ -200,15 +398,11 @@
       "required": true,
       "types": [
         {
-          "type": "blockcomment",
+          "type": "elemtype",
           "named": true
         },
         {
-          "type": "linecomment",
-          "named": true
-        },
-        {
-          "type": "module",
+          "type": "limits",
           "named": true
         }
       ]
@@ -236,6 +430,25 @@
         },
         {
           "type": "linecomment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "typeidx",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "id",
+          "named": true
+        },
+        {
+          "type": "uN",
           "named": true
         }
       ]
@@ -336,6 +549,18 @@
     "named": false
   },
   {
+    "type": "data",
+    "named": true
+  },
+  {
+    "type": "elem",
+    "named": true
+  },
+  {
+    "type": "export",
+    "named": true
+  },
+  {
     "type": "f32",
     "named": false
   },
@@ -348,8 +573,20 @@
     "named": false
   },
   {
+    "type": "func",
+    "named": true
+  },
+  {
     "type": "funcref",
     "named": false
+  },
+  {
+    "type": "global",
+    "named": false
+  },
+  {
+    "type": "global",
+    "named": true
   },
   {
     "type": "i32",
@@ -360,7 +597,19 @@
     "named": false
   },
   {
+    "type": "import",
+    "named": false
+  },
+  {
     "type": "inf",
+    "named": false
+  },
+  {
+    "type": "mem",
+    "named": true
+  },
+  {
+    "type": "memory",
     "named": false
   },
   {
@@ -385,6 +634,18 @@
   },
   {
     "type": "result",
+    "named": false
+  },
+  {
+    "type": "start",
+    "named": true
+  },
+  {
+    "type": "table",
+    "named": true
+  },
+  {
+    "type": "table",
     "named": false
   },
   {

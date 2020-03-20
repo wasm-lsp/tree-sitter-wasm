@@ -1,7 +1,7 @@
 {
   "name": "wast",
   "rules": {
-    "start": {
+    "START": {
       "type": "SEQ",
       "members": [
         {
@@ -148,6 +148,38 @@
         }
       ]
     },
+    "_GLOBAL": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "global"
+        }
+      ]
+    },
+    "_IMPORT": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "import"
+        }
+      ]
+    },
     "_LPAR": {
       "type": "SEQ",
       "members": [
@@ -161,6 +193,22 @@
         {
           "type": "STRING",
           "value": "("
+        }
+      ]
+    },
+    "_MEMORY": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "memory"
         }
       ]
     },
@@ -241,6 +289,22 @@
         {
           "type": "STRING",
           "value": ")"
+        }
+      ]
+    },
+    "_TABLE": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "table"
         }
       ]
     },
@@ -1103,6 +1167,22 @@
       "type": "SYMBOL",
       "name": "_string"
     },
+    "name": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_name"
+        }
+      ]
+    },
     "_id": {
       "type": "SEQ",
       "members": [
@@ -1299,26 +1379,38 @@
       ]
     },
     "limits": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "uN"
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "uN"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "uN"
-            }
-          ]
-        }
-      ]
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "uN"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "_space"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_uN"
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
     },
     "memtype": {
       "type": "SYMBOL",
@@ -1495,6 +1587,248 @@
         }
       ]
     },
+    "import": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_LPAR"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_IMPORT"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "name"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "name"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "importdesc"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_RPAR"
+        }
+      ]
+    },
+    "importdesc": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_LPAR"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_FUNC"
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "id"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SEQ",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "_LPAR"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "_TYPE"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "typeidx"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "_RPAR"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "param"
+                  }
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "result"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_RPAR"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_LPAR"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_TABLE"
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "id"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
+              "type": "SYMBOL",
+              "name": "tabletype"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_RPAR"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_LPAR"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_MEMORY"
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "id"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
+              "type": "SYMBOL",
+              "name": "memtype"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_RPAR"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_LPAR"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_GLOBAL"
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "id"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
+              "type": "SYMBOL",
+              "name": "globaltype"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_RPAR"
+            }
+          ]
+        }
+      ]
+    },
+    "func": {
+      "type": "STRING",
+      "value": "func-PLACEHOLDER"
+    },
+    "table": {
+      "type": "STRING",
+      "value": "table-PLACEHOLDER"
+    },
+    "mem": {
+      "type": "STRING",
+      "value": "mem-PLACEHOLDER"
+    },
+    "global": {
+      "type": "STRING",
+      "value": "global-PLACEHOLDER"
+    },
+    "export": {
+      "type": "STRING",
+      "value": "export-PLACEHOLDER"
+    },
+    "start": {
+      "type": "STRING",
+      "value": "start-PLACEHOLDER"
+    },
+    "elem": {
+      "type": "STRING",
+      "value": "elem-PLACEHOLDER"
+    },
+    "data": {
+      "type": "STRING",
+      "value": "data-PLACEHOLDER"
+    },
     "module": {
       "type": "SEQ",
       "members": [
@@ -1537,6 +1871,42 @@
         {
           "type": "SYMBOL",
           "name": "type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "import"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "func"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "table"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "mem"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "global"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "export"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "start"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "elem"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "data"
         }
       ]
     }
