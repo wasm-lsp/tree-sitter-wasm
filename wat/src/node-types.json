@@ -245,17 +245,24 @@
   {
     "type": "module",
     "named": true,
-    "fields": {},
+    "fields": {
+      "id": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "id",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
       "types": [
         {
           "type": "blockcomment",
-          "named": true
-        },
-        {
-          "type": "id",
           "named": true
         },
         {
