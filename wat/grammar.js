@@ -191,12 +191,12 @@ module.exports = grammar({
     param: $ =>
       choice(
         // NOTE: re-factored to avoid conflict with abbreviation
-        seq($._LPAR, $._PARAM, optional(seq($.id, $.valtype)), $._RPAR),
+        seq($._LPAR, $._PARAM, optional(seq(field("id", $.id), field("type", $.valtype))), $._RPAR),
         // abbreviation
-        seq($._LPAR, $._PARAM, repeat($.valtype), $._RPAR),
+        seq($._LPAR, $._PARAM, repeat(field("type", $.valtype)), $._RPAR),
       ),
 
-    result: $ => seq($._LPAR, $._RESULT, repeat($.valtype), $._RPAR),
+    result: $ => seq($._LPAR, $._RESULT, repeat(field("type", $.valtype)), $._RPAR),
 
     /**********
      * Limits *
@@ -222,7 +222,7 @@ module.exports = grammar({
      * Global Types *
      ****************/
 
-    globaltype: $ => choice($.valtype, seq($._LPAR, $._MUT, $.valtype, $._RPAR)),
+    globaltype: $ => choice($.valtype, seq($._LPAR, field("type", $._MUT), $.valtype, $._RPAR)),
 
     // ====================================================== //
     // ======================= Modules ====================== //
@@ -250,7 +250,7 @@ module.exports = grammar({
      * Types *
      *********/
 
-    type: $ => seq($._LPAR, $._TYPE, optional($.id), $.functype, $._RPAR),
+    type: $ => seq($._LPAR, $._TYPE, field("id", optional($.id)), $.functype, $._RPAR),
 
     /*************
      * Type Uses *
@@ -263,21 +263,21 @@ module.exports = grammar({
      * Imports *
      ***********/
 
-    import: $ => seq($._LPAR, $._IMPORT, $.name, $.name, $.importdesc, $._RPAR),
+    import: $ => seq($._LPAR, $._IMPORT, field("module", $.name), field("item", $.name), $.importdesc, $._RPAR),
 
     importdesc: $ =>
       choice(
         seq(
           $._LPAR,
           $._FUNC,
-          optional($.id),
+          field("id", optional($.id)),
           // NOTE: see typeuse
           seq(optional(seq($._LPAR, $._TYPE, $.typeidx, $._RPAR)), repeat($.param), repeat($.result)),
           $._RPAR,
         ),
-        seq($._LPAR, $._TABLE, optional($.id), $.tabletype, $._RPAR),
-        seq($._LPAR, $._MEMORY, optional($.id), $.memtype, $._RPAR),
-        seq($._LPAR, $._GLOBAL, optional($.id), $.globaltype, $._RPAR),
+        seq($._LPAR, $._TABLE, field("id", optional($.id)), $.tabletype, $._RPAR),
+        seq($._LPAR, $._MEMORY, field("id", optional($.id)), $.memtype, $._RPAR),
+        seq($._LPAR, $._GLOBAL, field("id", optional($.id)), $.globaltype, $._RPAR),
       ),
 
     /*************
