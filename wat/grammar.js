@@ -332,7 +332,7 @@ module.exports = grammar({
      * Modules *
      ***********/
 
-    module: $ => seq($._LPAR, $._MODULE, optional($.id), repeat($.modulefield), $._RPAR),
+    module: $ => seq($._LPAR, $._MODULE, field("id", optional($.id)), repeat($.modulefield), $._RPAR),
 
     modulefield: $ => choice($.type, $.import, $.func, $.table, $.mem, $.global, $.export, $.start, $.elem, $.data),
   },
