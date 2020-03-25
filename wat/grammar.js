@@ -49,7 +49,7 @@ module.exports = grammar({
 
     _LOCAL: $ => seq(repeat($._space), "local"),
 
-    _LPAR: $ => seq(repeat($._space), "("),
+    _LEFT_PARENTHESIS: $ => seq(repeat($._space), "("),
 
     _MEMORY: $ => seq(repeat($._space), "memory"),
 
@@ -61,7 +61,7 @@ module.exports = grammar({
 
     _RESULT: $ => seq(repeat($._space), "result"),
 
-    _RPAR: $ => seq(repeat($._space), ")"),
+    _RIGHT_PARENTHESIS: $ => seq(repeat($._space), ")"),
 
     _TABLE: $ => seq(repeat($._space), "table"),
 
@@ -190,17 +190,17 @@ module.exports = grammar({
      * Function Types *
      ******************/
 
-    functype: $ => seq($._LPAR, $._FUNC, repeat($.param), repeat($.result), $._RPAR),
+    functype: $ => seq($._LEFT_PARENTHESIS, $._FUNC, repeat($.param), repeat($.result), $._RIGHT_PARENTHESIS),
 
     param: $ =>
       choice(
         // NOTE: re-factored to avoid conflict with abbreviation
-        seq($._LPAR, $._PARAM, optional(seq($.id, $.valtype)), $._RPAR),
+        seq($._LEFT_PARENTHESIS, $._PARAM, optional(seq($.id, $.valtype)), $._RIGHT_PARENTHESIS),
         // abbreviation
-        seq($._LPAR, $._PARAM, repeat1($.valtype), $._RPAR),
+        seq($._LEFT_PARENTHESIS, $._PARAM, repeat1($.valtype), $._RIGHT_PARENTHESIS),
       ),
 
-    result: $ => seq($._LPAR, $._RESULT, repeat($.valtype), $._RPAR),
+    result: $ => seq($._LEFT_PARENTHESIS, $._RESULT, repeat($.valtype), $._RIGHT_PARENTHESIS),
 
     /**********
      * Limits *
@@ -226,7 +226,7 @@ module.exports = grammar({
      * Global Types *
      ****************/
 
-    globaltype: $ => choice($.valtype, seq($._LPAR, $._MUT, $.valtype, $._RPAR)),
+    globaltype: $ => choice($.valtype, seq($._LEFT_PARENTHESIS, $._MUT, $.valtype, $._RIGHT_PARENTHESIS)),
 
     // ====================================================== //
     // ==================== Instructions ==================== //
@@ -260,34 +260,41 @@ module.exports = grammar({
      * Types *
      *********/
 
-    type: $ => seq($._LPAR, $._TYPE, optional($.id), $.functype, $._RPAR),
+    type: $ => seq($._LEFT_PARENTHESIS, $._TYPE, optional($.id), $.functype, $._RIGHT_PARENTHESIS),
 
     /*************
      * Type Uses *
      *************/
 
     // NOTE: we inline this because it matches the empty string
-    // typeuse: $ => seq(optional(seq($._LPAR, $._TYPE, $.typeidx, $._RPAR)), repeat($.param), repeat($.result)),
+    // typeuse: $ => seq(optional(seq($._LEFT_PARENTHESIS, $._TYPE, $.typeidx, $._RIGHT_PARENTHESIS)), repeat($.param), repeat($.result)),
 
     /***********
      * Imports *
      ***********/
 
-    import: $ => seq($._LPAR, $._IMPORT, $.name, $.name, $.importdesc, $._RPAR),
+    import: $ => seq($._LEFT_PARENTHESIS, $._IMPORT, $.name, $.name, $.importdesc, $._RIGHT_PARENTHESIS),
 
     importdesc: $ =>
       choice(
         seq(
-          $._LPAR,
+          $._LEFT_PARENTHESIS,
           $._FUNC,
           optional($.id),
           // NOTE: see typeuse
-          alias(seq(optional(seq($._LPAR, $._TYPE, $.typeidx, $._RPAR)), repeat($.param), repeat($.result)), "typeuse"),
-          $._RPAR,
+          alias(
+            seq(
+              optional(seq($._LEFT_PARENTHESIS, $._TYPE, $.typeidx, $._RIGHT_PARENTHESIS)),
+              repeat($.param),
+              repeat($.result),
+            ),
+            "typeuse",
+          ),
+          $._RIGHT_PARENTHESIS,
         ),
-        seq($._LPAR, $._TABLE, optional($.id), $.tabletype, $._RPAR),
-        seq($._LPAR, $._MEMORY, optional($.id), $.memtype, $._RPAR),
-        seq($._LPAR, $._GLOBAL, optional($.id), $.globaltype, $._RPAR),
+        seq($._LEFT_PARENTHESIS, $._TABLE, optional($.id), $.tabletype, $._RIGHT_PARENTHESIS),
+        seq($._LEFT_PARENTHESIS, $._MEMORY, optional($.id), $.memtype, $._RIGHT_PARENTHESIS),
+        seq($._LEFT_PARENTHESIS, $._GLOBAL, optional($.id), $.globaltype, $._RIGHT_PARENTHESIS),
       ),
 
     /*************
@@ -297,38 +304,52 @@ module.exports = grammar({
     func: $ =>
       choice(
         seq(
-          $._LPAR,
+          $._LEFT_PARENTHESIS,
           $._FUNC,
           optional($.id),
           // abbreviation
           optional(seq($.inlineExport, repeat(choice($.inlineImport, $.inlineExport)))),
-          alias(seq(optional(seq($._LPAR, $._TYPE, $.typeidx, $._RPAR)), repeat($.param), repeat($.result)), "typeuse"),
+          alias(
+            seq(
+              optional(seq($._LEFT_PARENTHESIS, $._TYPE, $.typeidx, $._RIGHT_PARENTHESIS)),
+              repeat($.param),
+              repeat($.result),
+            ),
+            "typeuse",
+          ),
           repeat($.local),
           repeat($.instr),
-          $._RPAR,
+          $._RIGHT_PARENTHESIS,
         ),
         // abbreviation
         seq(
-          $._LPAR,
+          $._LEFT_PARENTHESIS,
           $._FUNC,
           optional($.id),
           $.inlineImport,
-          alias(seq(optional(seq($._LPAR, $._TYPE, $.typeidx, $._RPAR)), repeat($.param), repeat($.result)), "typeuse"),
-          $._RPAR,
+          alias(
+            seq(
+              optional(seq($._LEFT_PARENTHESIS, $._TYPE, $.typeidx, $._RIGHT_PARENTHESIS)),
+              repeat($.param),
+              repeat($.result),
+            ),
+            "typeuse",
+          ),
+          $._RIGHT_PARENTHESIS,
         ),
       ),
 
     local: $ =>
       choice(
         // NOTE: re-factored to avoid conflict with abbreviation
-        seq($._LPAR, $._LOCAL, optional(seq($.id, $.valtype)), $._RPAR),
+        seq($._LEFT_PARENTHESIS, $._LOCAL, optional(seq($.id, $.valtype)), $._RIGHT_PARENTHESIS),
         // abbreviation
-        seq($._LPAR, $._LOCAL, repeat1($.valtype), $._RPAR),
+        seq($._LEFT_PARENTHESIS, $._LOCAL, repeat1($.valtype), $._RIGHT_PARENTHESIS),
       ),
 
-    inlineImport: $ => seq($._LPAR, $._IMPORT, $.name, $.name, $._RPAR),
+    inlineImport: $ => seq($._LEFT_PARENTHESIS, $._IMPORT, $.name, $.name, $._RIGHT_PARENTHESIS),
 
-    inlineExport: $ => seq($._LPAR, $._EXPORT, $.name, $._RPAR),
+    inlineExport: $ => seq($._LEFT_PARENTHESIS, $._EXPORT, $.name, $._RIGHT_PARENTHESIS),
 
     /**********
      * Tables *
@@ -376,7 +397,7 @@ module.exports = grammar({
      * Modules *
      ***********/
 
-    module: $ => seq($._LPAR, $._MODULE, optional($.id), repeat($.modulefield), $._RPAR),
+    module: $ => seq($._LEFT_PARENTHESIS, $._MODULE, optional($.id), repeat($.modulefield), $._RIGHT_PARENTHESIS),
 
     modulefield: $ => choice($.type, $.import, $.func, $.table, $.mem, $.global, $.export, $.start, $.elem, $.data),
   },
