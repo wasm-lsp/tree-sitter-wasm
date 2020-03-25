@@ -37,6 +37,8 @@ module.exports = grammar({
     // ======================= Tokens ======================= //
     // ====================================================== //
 
+    _EXPORT: $ => seq(repeat($._space), "export"),
+
     _FUNC: $ => seq(repeat($._space), "func"),
 
     _FUNCREF: $ => seq(repeat($._space), "funcref"),
@@ -44,6 +46,8 @@ module.exports = grammar({
     _GLOBAL: $ => seq(repeat($._space), "global"),
 
     _IMPORT: $ => seq(repeat($._space), "import"),
+
+    _LOCAL: $ => seq(repeat($._space), "local"),
 
     _LPAR: $ => seq(repeat($._space), "("),
 
@@ -193,7 +197,7 @@ module.exports = grammar({
         // NOTE: re-factored to avoid conflict with abbreviation
         seq($._LPAR, $._PARAM, optional(seq($.id, $.valtype)), $._RPAR),
         // abbreviation
-        seq($._LPAR, $._PARAM, repeat($.valtype), $._RPAR),
+        seq($._LPAR, $._PARAM, repeat1($.valtype), $._RPAR),
       ),
 
     result: $ => seq($._LPAR, $._RESULT, repeat($.valtype), $._RPAR),
@@ -227,6 +231,8 @@ module.exports = grammar({
     // ====================================================== //
     // ==================== Instructions ==================== //
     // ====================================================== //
+
+    instr: $ => "placeholder-instr",
 
     // ====================================================== //
     // ======================= Modules ====================== //
@@ -276,7 +282,7 @@ module.exports = grammar({
           $._FUNC,
           optional($.id),
           // NOTE: see typeuse
-          seq(optional(seq($._LPAR, $._TYPE, $.typeidx, $._RPAR)), repeat($.param), repeat($.result)),
+          alias(seq(optional(seq($._LPAR, $._TYPE, $.typeidx, $._RPAR)), repeat($.param), repeat($.result)), "typeuse"),
           $._RPAR,
         ),
         seq($._LPAR, $._TABLE, optional($.id), $.tabletype, $._RPAR),
@@ -288,7 +294,41 @@ module.exports = grammar({
      * Functions *
      *************/
 
-    func: $ => "func-PLACEHOLDER",
+    func: $ =>
+      choice(
+        seq(
+          $._LPAR,
+          $._FUNC,
+          optional($.id),
+          // abbreviation
+          optional(seq($.inlineExport, repeat(choice($.inlineImport, $.inlineExport)))),
+          alias(seq(optional(seq($._LPAR, $._TYPE, $.typeidx, $._RPAR)), repeat($.param), repeat($.result)), "typeuse"),
+          repeat($.local),
+          repeat($.instr),
+          $._RPAR,
+        ),
+        // abbreviation
+        seq(
+          $._LPAR,
+          $._FUNC,
+          optional($.id),
+          $.inlineImport,
+          alias(seq(optional(seq($._LPAR, $._TYPE, $.typeidx, $._RPAR)), repeat($.param), repeat($.result)), "typeuse"),
+          $._RPAR,
+        ),
+      ),
+
+    local: $ =>
+      choice(
+        // NOTE: re-factored to avoid conflict with abbreviation
+        seq($._LPAR, $._LOCAL, optional(seq($.id, $.valtype)), $._RPAR),
+        // abbreviation
+        seq($._LPAR, $._LOCAL, repeat1($.valtype), $._RPAR),
+      ),
+
+    inlineImport: $ => seq($._LPAR, $._IMPORT, $.name, $.name, $._RPAR),
+
+    inlineExport: $ => seq($._LPAR, $._EXPORT, $.name, $._RPAR),
 
     /**********
      * Tables *
