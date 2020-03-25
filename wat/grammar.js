@@ -254,7 +254,7 @@ module.exports = grammar({
 
     localidx: $ => choice($.uN, $.id),
 
-    labellidx: $ => choice($.uN, $.id),
+    labelidx: $ => choice($.uN, $.id),
 
     /*********
      * Types *
