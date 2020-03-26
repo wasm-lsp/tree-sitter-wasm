@@ -1,5 +1,5 @@
 {
-  "name": "tree-sitter-webassembly",
+  "name": "tree-sitter-wasm",
   "version": "0.0.0",
   "author": "Darin Morrison <darinmorrison@users.noreply.github.com>",
   "license": "Apache-2.0 WITH LLVM-exception",
@@ -8,13 +8,13 @@
     "parser",
     "lexer"
   ],
-  "homepage": "https://github.com/darinmorrison/tree-sitter-webassembly#readme",
+  "homepage": "https://github.com/wasm-lsp/tree-sitter-wasm#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/darinmorrison/tree-sitter-webassembly.git"
+    "url": "https://github.com/wasm-lsp/tree-sitter-wasm.git"
   },
   "bugs": {
-    "url": "https://github.com/darinmorrison/tree-sitter-webassembly/issues"
+    "url": "https://github.com/wasm-lsp/tree-sitter-wasm/issues"
   },
   "main": "index.js",
   "scripts": {
