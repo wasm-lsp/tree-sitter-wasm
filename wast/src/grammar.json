@@ -212,7 +212,7 @@
         }
       ]
     },
-    "_LPAR": {
+    "_LEFT_PARENTHESIS": {
       "type": "SEQ",
       "members": [
         {
@@ -308,7 +308,7 @@
         }
       ]
     },
-    "_RPAR": {
+    "_RIGHT_PARENTHESIS": {
       "type": "SEQ",
       "members": [
         {
@@ -1293,7 +1293,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_LPAR"
+          "name": "_LEFT_PARENTHESIS"
         },
         {
           "type": "SYMBOL",
@@ -1315,7 +1315,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_RPAR"
+          "name": "_RIGHT_PARENTHESIS"
         }
       ]
     },
@@ -1327,7 +1327,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_LPAR"
+              "name": "_LEFT_PARENTHESIS"
             },
             {
               "type": "SYMBOL",
@@ -1356,7 +1356,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "_RPAR"
+              "name": "_RIGHT_PARENTHESIS"
             }
           ]
         },
@@ -1365,7 +1365,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_LPAR"
+              "name": "_LEFT_PARENTHESIS"
             },
             {
               "type": "SYMBOL",
@@ -1380,7 +1380,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "_RPAR"
+              "name": "_RIGHT_PARENTHESIS"
             }
           ]
         }
@@ -1391,7 +1391,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_LPAR"
+          "name": "_LEFT_PARENTHESIS"
         },
         {
           "type": "SYMBOL",
@@ -1406,7 +1406,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_RPAR"
+          "name": "_RIGHT_PARENTHESIS"
         }
       ]
     },
@@ -1477,7 +1477,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_LPAR"
+              "name": "_LEFT_PARENTHESIS"
             },
             {
               "type": "SYMBOL",
@@ -1489,7 +1489,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "_RPAR"
+              "name": "_RIGHT_PARENTHESIS"
             }
           ]
         }
@@ -1577,7 +1577,7 @@
         }
       ]
     },
-    "labellidx": {
+    "labelidx": {
       "type": "CHOICE",
       "members": [
         {
@@ -1595,7 +1595,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_LPAR"
+          "name": "_LEFT_PARENTHESIS"
         },
         {
           "type": "SYMBOL",
@@ -1619,7 +1619,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_RPAR"
+          "name": "_RIGHT_PARENTHESIS"
         }
       ]
     },
@@ -1628,7 +1628,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_LPAR"
+          "name": "_LEFT_PARENTHESIS"
         },
         {
           "type": "SYMBOL",
@@ -1648,7 +1648,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_RPAR"
+          "name": "_RIGHT_PARENTHESIS"
         }
       ]
     },
@@ -1660,7 +1660,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_LPAR"
+              "name": "_LEFT_PARENTHESIS"
             },
             {
               "type": "SYMBOL",
@@ -1691,7 +1691,7 @@
                         "members": [
                           {
                             "type": "SYMBOL",
-                            "name": "_LPAR"
+                            "name": "_LEFT_PARENTHESIS"
                           },
                           {
                             "type": "SYMBOL",
@@ -1703,7 +1703,7 @@
                           },
                           {
                             "type": "SYMBOL",
-                            "name": "_RPAR"
+                            "name": "_RIGHT_PARENTHESIS"
                           }
                         ]
                       },
@@ -1733,7 +1733,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "_RPAR"
+              "name": "_RIGHT_PARENTHESIS"
             }
           ]
         },
@@ -1742,7 +1742,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_LPAR"
+              "name": "_LEFT_PARENTHESIS"
             },
             {
               "type": "SYMBOL",
@@ -1766,7 +1766,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "_RPAR"
+              "name": "_RIGHT_PARENTHESIS"
             }
           ]
         },
@@ -1775,7 +1775,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_LPAR"
+              "name": "_LEFT_PARENTHESIS"
             },
             {
               "type": "SYMBOL",
@@ -1799,7 +1799,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "_RPAR"
+              "name": "_RIGHT_PARENTHESIS"
             }
           ]
         },
@@ -1808,7 +1808,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_LPAR"
+              "name": "_LEFT_PARENTHESIS"
             },
             {
               "type": "SYMBOL",
@@ -1832,7 +1832,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "_RPAR"
+              "name": "_RIGHT_PARENTHESIS"
             }
           ]
         }
@@ -1846,7 +1846,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_LPAR"
+              "name": "_LEFT_PARENTHESIS"
             },
             {
               "type": "SYMBOL",
@@ -1910,7 +1910,7 @@
                         "members": [
                           {
                             "type": "SYMBOL",
-                            "name": "_LPAR"
+                            "name": "_LEFT_PARENTHESIS"
                           },
                           {
                             "type": "SYMBOL",
@@ -1922,7 +1922,7 @@
                           },
                           {
                             "type": "SYMBOL",
-                            "name": "_RPAR"
+                            "name": "_RIGHT_PARENTHESIS"
                           }
                         ]
                       },
@@ -1966,7 +1966,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "_RPAR"
+              "name": "_RIGHT_PARENTHESIS"
             }
           ]
         },
@@ -1975,7 +1975,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_LPAR"
+              "name": "_LEFT_PARENTHESIS"
             },
             {
               "type": "SYMBOL",
@@ -2010,7 +2010,7 @@
                         "members": [
                           {
                             "type": "SYMBOL",
-                            "name": "_LPAR"
+                            "name": "_LEFT_PARENTHESIS"
                           },
                           {
                             "type": "SYMBOL",
@@ -2022,7 +2022,7 @@
                           },
                           {
                             "type": "SYMBOL",
-                            "name": "_RPAR"
+                            "name": "_RIGHT_PARENTHESIS"
                           }
                         ]
                       },
@@ -2052,7 +2052,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "_RPAR"
+              "name": "_RIGHT_PARENTHESIS"
             }
           ]
         }
@@ -2066,7 +2066,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_LPAR"
+              "name": "_LEFT_PARENTHESIS"
             },
             {
               "type": "SYMBOL",
@@ -2095,7 +2095,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "_RPAR"
+              "name": "_RIGHT_PARENTHESIS"
             }
           ]
         },
@@ -2104,7 +2104,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_LPAR"
+              "name": "_LEFT_PARENTHESIS"
             },
             {
               "type": "SYMBOL",
@@ -2119,7 +2119,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "_RPAR"
+              "name": "_RIGHT_PARENTHESIS"
             }
           ]
         }
@@ -2130,7 +2130,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_LPAR"
+          "name": "_LEFT_PARENTHESIS"
         },
         {
           "type": "SYMBOL",
@@ -2146,7 +2146,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_RPAR"
+          "name": "_RIGHT_PARENTHESIS"
         }
       ]
     },
@@ -2155,7 +2155,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_LPAR"
+          "name": "_LEFT_PARENTHESIS"
         },
         {
           "type": "SYMBOL",
@@ -2167,7 +2167,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_RPAR"
+          "name": "_RIGHT_PARENTHESIS"
         }
       ]
     },
@@ -2204,7 +2204,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_LPAR"
+          "name": "_LEFT_PARENTHESIS"
         },
         {
           "type": "SYMBOL",
@@ -2231,7 +2231,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_RPAR"
+          "name": "_RIGHT_PARENTHESIS"
         }
       ]
     },
