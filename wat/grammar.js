@@ -87,9 +87,9 @@ module.exports = grammar({
 
     _hexdigit: $ => /[0-9A-Fa-f]/,
 
-    _num: $ => choice($._digit, seq($._num, optional("_"), $._digit)),
+    _num: $ => /[0-9]|[0-9]+(?:_?[0-9]+)*/,
 
-    _hexnum: $ => choice($._hexdigit, seq($._hexnum, optional("_"), $._hexdigit)),
+    _hexnum: $ => /[0-9A-Fa-f]|[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*/,
 
     _uN: $ => choice($._num, seq("0x", $._hexnum)),
 
