@@ -362,7 +362,37 @@ module.exports = grammar({
      * Tables *
      **********/
 
-    table: $ => "table-PLACEHOLDER",
+    table: $ =>
+      choice(
+        seq(
+          $._LEFT_PARENTHESIS,
+          $._TABLE,
+          optional($.id),
+          // abbreviation
+          optional(seq($.inlineExport, repeat(choice($.inlineImport, $.inlineExport)))),
+          choice(
+            $.tabletype,
+            // abbreviation
+            // NOTE: are inline element segments allowed after inline imports?
+            seq($.elemtype, $._LEFT_PARENTHESIS, $._ELEM, repeat($.funcidx), $._RIGHT_PARENTHESIS),
+          ),
+          $._RIGHT_PARENTHESIS,
+        ),
+        seq(
+          $._LEFT_PARENTHESIS,
+          $._TABLE,
+          optional($.id),
+          // abbreviation
+          $.inlineImport,
+          choice(
+            $.tabletype,
+            // abbreviation
+            // NOTE: are inline element segments allowed after inline imports?
+            seq($.elemtype, $._LEFT_PARENTHESIS, $._ELEM, repeat($.funcidx), $._RIGHT_PARENTHESIS),
+          ),
+          $._RIGHT_PARENTHESIS,
+        ),
+      ),
 
     /************
      * Memories *
