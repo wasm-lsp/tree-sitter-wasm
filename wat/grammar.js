@@ -236,7 +236,43 @@ module.exports = grammar({
     // ==================== Instructions ==================== //
     // ====================================================== //
 
-    instr: $ => "placeholder-instr",
+    instr: $ => choice($.plaininstr, $.blockinstr),
+
+    plaininstr: $ => "placeholder-plaininstr",
+
+    blockinstr: $ => "placeholder-blockinstr",
+
+    /**********
+     * Labels *
+     **********/
+
+    /************************
+     * Control Instructions *
+     ************************/
+
+    /***************************
+     * Parametric Instructions *
+     ***************************/
+
+    /*************************
+     * Variable Instructions *
+     *************************/
+
+    /***********************
+     * Memory Instructions *
+     ***********************/
+
+    /************************
+     * Numeric Instructions *
+     ************************/
+
+    /***********************
+     * Folded Instructions *
+     ***********************/
+
+    /***************
+     * Expressions *
+     ***************/
 
     // NOTE: we inline this because it matches the empty string
     // expr: $ => repeat($.instr),
