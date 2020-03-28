@@ -246,6 +246,9 @@ module.exports = grammar({
      * Labels *
      **********/
 
+    // NOTE: we inline this because it matches the empty string
+    // label: $ => optional($.id),
+
     /************************
      * Control Instructions *
      ************************/
