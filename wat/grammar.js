@@ -4,7 +4,7 @@ module.exports = grammar({
   extras: $ => [],
 
   rules: {
-    START: $ => seq($.module, repeat($._space)),
+    START: $ => seq(field("module", $.module), repeat($._space)),
 
     // ====================================================== //
     // =================== Lexical Format =================== //
@@ -168,11 +168,9 @@ module.exports = grammar({
      * Identifiers *
      ***************/
 
-    _id: $ => seq("$", repeat1($._idchar)),
+    idtrimmed: $ => /\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+/,
 
-    _idchar: $ => /[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]/,
-
-    id: $ => seq(repeat($._space), $._id),
+    id: $ => seq(repeat($._space), field("trim", $.idtrimmed)),
 
     // ====================================================== //
     // ======================== Types ======================= //
@@ -260,7 +258,7 @@ module.exports = grammar({
      * Types *
      *********/
 
-    type: $ => seq($._LEFT_PARENTHESIS, $._TYPE, optional($.id), $.functype, $._RIGHT_PARENTHESIS),
+    type: $ => seq($._LEFT_PARENTHESIS, $._TYPE, field("id", optional($.id)), $.functype, $._RIGHT_PARENTHESIS),
 
     /*************
      * Type Uses *
@@ -273,9 +271,9 @@ module.exports = grammar({
      * Imports *
      ***********/
 
-    import: $ => seq($._LEFT_PARENTHESIS, $._IMPORT, $.name, $.name, $.importdesc, $._RIGHT_PARENTHESIS),
+    import: $ => seq($._LEFT_PARENTHESIS, $._IMPORT, $.name, $.name, $._importdesc, $._RIGHT_PARENTHESIS),
 
-    importdesc: $ =>
+    _importdesc: $ =>
       choice(
         seq(
           $._LEFT_PARENTHESIS,
@@ -306,7 +304,7 @@ module.exports = grammar({
         seq(
           $._LEFT_PARENTHESIS,
           $._FUNC,
-          optional($.id),
+          field("id", optional($.id)),
           // abbreviation
           optional(seq($.inlineExport, repeat(choice($.inlineImport, $.inlineExport)))),
           alias(
@@ -325,7 +323,7 @@ module.exports = grammar({
         seq(
           $._LEFT_PARENTHESIS,
           $._FUNC,
-          optional($.id),
+          field("id", optional($.id)),
           $.inlineImport,
           alias(
             seq(
@@ -397,8 +395,15 @@ module.exports = grammar({
      * Modules *
      ***********/
 
-    module: $ => seq($._LEFT_PARENTHESIS, $._MODULE, optional($.id), repeat($.modulefield), $._RIGHT_PARENTHESIS),
+    module: $ =>
+      seq(
+        $._LEFT_PARENTHESIS,
+        $._MODULE,
+        field("id", optional($.id)),
+        repeat(field("modulefield", $._modulefield)),
+        $._RIGHT_PARENTHESIS,
+      ),
 
-    modulefield: $ => choice($.type, $.import, $.func, $.table, $.mem, $.global, $.export, $.start, $.elem, $.data),
+    _modulefield: $ => choice($.type, $.import, $.func, $.table, $.mem, $.global, $.export, $.start, $.elem, $.data),
   },
 });
