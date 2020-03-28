@@ -238,6 +238,9 @@ module.exports = grammar({
 
     instr: $ => "placeholder-instr",
 
+    // NOTE: we inline this because it matches the empty string
+    // expr: $ => repeat($.instr),
+
     // ====================================================== //
     // ======================= Modules ====================== //
     // ====================================================== //
