@@ -410,7 +410,22 @@ module.exports = grammar({
      * Data Segments *
      *****************/
 
-    data: $ => "data-PLACEHOLDER",
+    data: $ =>
+      seq(
+        $._LEFT_PARENTHESIS,
+        $._DATA,
+        optional($.memidx),
+        choice(
+          seq($._LEFT_PARENTHESIS, $._OFFSET, alias(repeat($.instr), "expr"), $._RIGHT_PARENTHESIS),
+          // abbreviation
+          $.instr,
+        ),
+        alias(repeat($._string), "datastring"),
+        $._RIGHT_PARENTHESIS,
+      ),
+
+    // NOTE: we inline this because it matches the empty string
+    // datastring: $ => repeat($._string),
 
     /***********
      * Modules *
