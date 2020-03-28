@@ -392,7 +392,19 @@ module.exports = grammar({
      * Element Segments *
      ********************/
 
-    elem: $ => "elem-PLACEHOLDER",
+    elem: $ =>
+      seq(
+        $._LEFT_PARENTHESIS,
+        $._ELEM,
+        optional($.tableidx),
+        choice(
+          seq($._LEFT_PARENTHESIS, alias(repeat($.instr), "expr"), $._RIGHT_PARENTHESIS),
+          // abbreviation
+          $.instr,
+        ),
+        repeat($.funcidx),
+        $._RIGHT_PARENTHESIS,
+      ),
 
     /*****************
      * Data Segments *
