@@ -431,7 +431,28 @@ module.exports = grammar({
      * Globals *
      ***********/
 
-    global: $ => "global-PLACEHOLDER",
+    global: $ =>
+      choice(
+        seq(
+          $._LEFT_PARENTHESIS,
+          $._GLOBAL,
+          optional($.id),
+          // abbreviation
+          optional(seq($.inlineExport, repeat(choice($.inlineImport, $.inlineExport)))),
+          $.globaltype,
+          alias(repeat($.instr), "expr"),
+          $._RIGHT_PARENTHESIS,
+        ),
+        seq(
+          $._LEFT_PARENTHESIS,
+          $._GLOBAL,
+          optional($.id),
+          // abbreviation
+          $.inlineImport,
+          $.globaltype,
+          $._RIGHT_PARENTHESIS,
+        ),
+      ),
 
     /***********
      * Exports *
