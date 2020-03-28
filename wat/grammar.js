@@ -37,6 +37,10 @@ module.exports = grammar({
     // ======================= Tokens ======================= //
     // ====================================================== //
 
+    _DATA: $ => seq(repeat($._space), "data"),
+
+    _ELEM: $ => seq(repeat($._space), "elem"),
+
     _EXPORT: $ => seq(repeat($._space), "export"),
 
     _FUNC: $ => seq(repeat($._space), "func"),
@@ -62,6 +66,8 @@ module.exports = grammar({
     _RESULT: $ => seq(repeat($._space), "result"),
 
     _RIGHT_PARENTHESIS: $ => seq(repeat($._space), ")"),
+
+    _START: $ => seq(repeat($._space), "start"),
 
     _TABLE: $ => seq(repeat($._space), "table"),
 
