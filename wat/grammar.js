@@ -410,7 +410,15 @@ module.exports = grammar({
      * Exports *
      ***********/
 
-    export: $ => "export-PLACEHOLDER",
+    export: $ => seq($._LEFT_PARENTHESIS, $.name, $.exportdesc, $._RIGHT_PARENTHESIS),
+
+    exportdesc: $ =>
+      choice(
+        seq($._LEFT_PARENTHESIS, $._FUNC, $.funcidx, $._RIGHT_PARENTHESIS),
+        seq($._LEFT_PARENTHESIS, $._TABLE, $.tableidx, $._RIGHT_PARENTHESIS),
+        seq($._LEFT_PARENTHESIS, $._MEMORY, $.memidx, $._RIGHT_PARENTHESIS),
+        seq($._LEFT_PARENTHESIS, $._GLOBAL, $.globalidx, $._RIGHT_PARENTHESIS),
+      ),
 
     /******************
      * Start Function *
