@@ -37,9 +37,25 @@ module.exports = grammar({
     // ======================= Tokens ======================= //
     // ====================================================== //
 
+    _BLOCK: $ => seq(repeat($._space), "block"),
+
+    _BR: $ => seq(repeat($._space), "br"),
+
+    _BR_IF: $ => seq(repeat($._space), "br_if"),
+
+    _BR_TABLE: $ => seq(repeat($._space), "br_table"),
+
+    _CALL: $ => seq(repeat($._space), "call"),
+
+    _CALL_INDIRECT: $ => seq(repeat($._space), "call_indirect"),
+
     _DATA: $ => seq(repeat($._space), "data"),
 
     _ELEM: $ => seq(repeat($._space), "elem"),
+
+    _ELSE: $ => seq(repeat($._space), "else"),
+
+    _END: $ => seq(repeat($._space), "end"),
 
     _EXPORT: $ => seq(repeat($._space), "export"),
 
@@ -49,9 +65,13 @@ module.exports = grammar({
 
     _GLOBAL: $ => seq(repeat($._space), "global"),
 
+    _IF: $ => seq(repeat($._space), "if"),
+
     _IMPORT: $ => seq(repeat($._space), "import"),
 
     _LOCAL: $ => seq(repeat($._space), "local"),
+
+    _LOOP: $ => seq(repeat($._space), "loop"),
 
     _LEFT_PARENTHESIS: $ => seq(repeat($._space), "("),
 
@@ -61,9 +81,15 @@ module.exports = grammar({
 
     _MUT: $ => seq(repeat($._space), "mut"),
 
+    _NOP: $ => seq(repeat($._space), "nop"),
+
+    _OFFSET: $ => seq(repeat($._space), "offset"),
+
     _PARAM: $ => seq(repeat($._space), "param"),
 
     _RESULT: $ => seq(repeat($._space), "result"),
+
+    _RETURN: $ => seq(repeat($._space), "return"),
 
     _RIGHT_PARENTHESIS: $ => seq(repeat($._space), ")"),
 
@@ -72,6 +98,8 @@ module.exports = grammar({
     _TABLE: $ => seq(repeat($._space), "table"),
 
     _TYPE: $ => seq(repeat($._space), "type"),
+
+    _UNREACHABLE: $ => seq(repeat($._space), "unreachable"),
 
     // ====================================================== //
     // ======================= Values ======================= //
@@ -238,10 +266,6 @@ module.exports = grammar({
 
     instr: $ => choice($.plaininstr, $.blockinstr),
 
-    plaininstr: $ => "placeholder-plaininstr",
-
-    blockinstr: $ => "placeholder-blockinstr",
-
     /**********
      * Labels *
      **********/
@@ -253,21 +277,66 @@ module.exports = grammar({
      * Control Instructions *
      ************************/
 
-    /***************************
-     * Parametric Instructions *
-     ***************************/
+    blockinstr: $ =>
+      choice(
+        prec.right(
+          seq($._BLOCK, alias(optional($.id), "label"), $.resulttype, repeat($.instr), $._END, optional($.id)),
+        ),
+        prec.right(seq($._LOOP, alias(optional($.id), "label"), $.resulttype, repeat($.instr), $._END, optional($.id))),
+        prec.right(
+          seq(
+            $._IF,
+            alias(optional($.id), "label"),
+            $.resulttype,
+            repeat($.instr),
+            choice(
+              seq($._ELSE, optional($.id), repeat($.instr), $._END, optional($.id)),
+              // abbreviation
+              $._END,
+            ),
+          ),
+        ),
+      ),
 
-    /*************************
-     * Variable Instructions *
-     *************************/
+    plaininstr: $ =>
+      choice(
+        $._UNREACHABLE,
+        $._NOP,
+        seq($._BR, $.labelidx),
+        seq($._BR_IF, $.labelidx),
+        prec.right(1, seq($._BR_TABLE, repeat($.labelidx), $.labelidx)),
+        $._RETURN,
+        seq($._CALL, $.funcidx),
+        prec.right(
+          seq(
+            $._CALL_INDIRECT,
+            alias(
+              seq(
+                optional(seq($._LEFT_PARENTHESIS, $._TYPE, $.typeidx, $._RIGHT_PARENTHESIS)),
+                repeat($.param),
+                repeat($.result),
+              ),
+              "typeuse",
+            ),
+          ),
+        ),
 
-    /***********************
-     * Memory Instructions *
-     ***********************/
+        /***************************
+         * Parametric Instructions *
+         ***************************/
 
-    /************************
-     * Numeric Instructions *
-     ************************/
+        /*************************
+         * Variable Instructions *
+         *************************/
+
+        /***********************
+         * Memory Instructions *
+         ***********************/
+
+        /************************
+         * Numeric Instructions *
+         ************************/
+      ),
 
     /***********************
      * Folded Instructions *
