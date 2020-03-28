@@ -424,7 +424,7 @@ module.exports = grammar({
      * Start Function *
      ******************/
 
-    start: $ => "start-PLACEHOLDER",
+    start: $ => seq($._LEFT_PARENTHESIS, $._START, $.funcidx, $._RIGHT_PARENTHESIS),
 
     /********************
      * Element Segments *
