@@ -398,7 +398,34 @@ module.exports = grammar({
      * Memories *
      ************/
 
-    mem: $ => "mem-PLACEHOLDER",
+    mem: $ =>
+      choice(
+        seq(
+          $._LEFT_PARENTHESIS,
+          $._MEMORY,
+          optional($.id),
+          // abbreviation
+          optional(seq($.inlineExport, repeat(choice($.inlineImport, $.inlineExport)))),
+          choice(
+            $.memtype,
+            // abbreviation
+            seq($._LEFT_PARENTHESIS, $._DATA, alias(repeat($._string), "datastring"), $._RIGHT_PARENTHESIS),
+          ),
+          $._RIGHT_PARENTHESIS,
+        ),
+        seq(
+          $._LEFT_PARENTHESIS,
+          optional($.id),
+          // abbreviation
+          $.inlineImport,
+          choice(
+            $.memtype,
+            // abbreviation
+            seq($._LEFT_PARENTHESIS, $._DATA, alias(repeat($._string), "datastring"), $._RIGHT_PARENTHESIS),
+          ),
+          $._RIGHT_PARENTHESIS,
+        ),
+      ),
 
     /***********
      * Globals *
