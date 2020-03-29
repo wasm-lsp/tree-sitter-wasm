@@ -235,6 +235,60 @@
     }
   },
   {
+    "type": "fN",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "blockcomment",
+          "named": true
+        },
+        {
+          "type": "linecomment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "foldedinstr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "blockcomment",
+          "named": true
+        },
+        {
+          "type": "foldedinstr",
+          "named": true
+        },
+        {
+          "type": "instr",
+          "named": true
+        },
+        {
+          "type": "linecomment",
+          "named": true
+        },
+        {
+          "type": "plaininstr",
+          "named": true
+        },
+        {
+          "type": "resulttype",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "func",
     "named": true,
     "fields": {
@@ -404,6 +458,25 @@
     }
   },
   {
+    "type": "iN",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "blockcomment",
+          "named": true
+        },
+        {
+          "type": "linecomment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "id",
     "named": true,
     "fields": {
@@ -531,6 +604,10 @@
           "named": true
         },
         {
+          "type": "foldedinstr",
+          "named": true
+        },
+        {
           "type": "plaininstr",
           "named": true
         }
@@ -642,6 +719,25 @@
     }
   },
   {
+    "type": "localidx",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "id",
+          "named": true
+        },
+        {
+          "type": "uN",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "mem",
     "named": true,
     "fields": {},
@@ -671,6 +767,25 @@
         },
         {
           "type": "memtype",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "memarg",
+    "named": false,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "blockcomment",
+          "named": true
+        },
+        {
+          "type": "linecomment",
           "named": true
         }
       ]
@@ -845,7 +960,19 @@
           "named": true
         },
         {
+          "type": "fN",
+          "named": true
+        },
+        {
           "type": "funcidx",
+          "named": true
+        },
+        {
+          "type": "globalidx",
+          "named": true
+        },
+        {
+          "type": "iN",
           "named": true
         },
         {
@@ -854,6 +981,10 @@
         },
         {
           "type": "linecomment",
+          "named": true
+        },
+        {
+          "type": "localidx",
           "named": true
         }
       ]
@@ -1161,6 +1292,10 @@
     "named": false
   },
   {
+    "type": "align=",
+    "named": false
+  },
+  {
     "type": "block",
     "named": false
   },
@@ -1189,6 +1324,10 @@
     "named": false
   },
   {
+    "type": "drop",
+    "named": false
+  },
+  {
     "type": "elem",
     "named": false
   },
@@ -1209,7 +1348,247 @@
     "named": false
   },
   {
+    "type": "f32.abs",
+    "named": false
+  },
+  {
+    "type": "f32.add",
+    "named": false
+  },
+  {
+    "type": "f32.ceil",
+    "named": false
+  },
+  {
+    "type": "f32.const",
+    "named": false
+  },
+  {
+    "type": "f32.convert_i32_s",
+    "named": false
+  },
+  {
+    "type": "f32.convert_i32_u",
+    "named": false
+  },
+  {
+    "type": "f32.convert_i64_s",
+    "named": false
+  },
+  {
+    "type": "f32.convert_i64_u",
+    "named": false
+  },
+  {
+    "type": "f32.copysign",
+    "named": false
+  },
+  {
+    "type": "f32.demote_f64",
+    "named": false
+  },
+  {
+    "type": "f32.div",
+    "named": false
+  },
+  {
+    "type": "f32.eq",
+    "named": false
+  },
+  {
+    "type": "f32.floor",
+    "named": false
+  },
+  {
+    "type": "f32.ge",
+    "named": false
+  },
+  {
+    "type": "f32.gt",
+    "named": false
+  },
+  {
+    "type": "f32.le",
+    "named": false
+  },
+  {
+    "type": "f32.load",
+    "named": false
+  },
+  {
+    "type": "f32.lt",
+    "named": false
+  },
+  {
+    "type": "f32.max",
+    "named": false
+  },
+  {
+    "type": "f32.min",
+    "named": false
+  },
+  {
+    "type": "f32.mul",
+    "named": false
+  },
+  {
+    "type": "f32.ne",
+    "named": false
+  },
+  {
+    "type": "f32.nearest",
+    "named": false
+  },
+  {
+    "type": "f32.neg",
+    "named": false
+  },
+  {
+    "type": "f32.reinterpret_i32",
+    "named": false
+  },
+  {
+    "type": "f32.reinterpret_i64",
+    "named": false
+  },
+  {
+    "type": "f32.sqrt",
+    "named": false
+  },
+  {
+    "type": "f32.store",
+    "named": false
+  },
+  {
+    "type": "f32.sub",
+    "named": false
+  },
+  {
+    "type": "f32.trunc",
+    "named": false
+  },
+  {
     "type": "f64",
+    "named": false
+  },
+  {
+    "type": "f64.abs",
+    "named": false
+  },
+  {
+    "type": "f64.add",
+    "named": false
+  },
+  {
+    "type": "f64.ceil",
+    "named": false
+  },
+  {
+    "type": "f64.const",
+    "named": false
+  },
+  {
+    "type": "f64.convert_i32_s",
+    "named": false
+  },
+  {
+    "type": "f64.convert_i32_u",
+    "named": false
+  },
+  {
+    "type": "f64.convert_i64_s",
+    "named": false
+  },
+  {
+    "type": "f64.convert_i64_u",
+    "named": false
+  },
+  {
+    "type": "f64.copysign",
+    "named": false
+  },
+  {
+    "type": "f64.div",
+    "named": false
+  },
+  {
+    "type": "f64.eq",
+    "named": false
+  },
+  {
+    "type": "f64.floor",
+    "named": false
+  },
+  {
+    "type": "f64.ge",
+    "named": false
+  },
+  {
+    "type": "f64.gt",
+    "named": false
+  },
+  {
+    "type": "f64.le",
+    "named": false
+  },
+  {
+    "type": "f64.load",
+    "named": false
+  },
+  {
+    "type": "f64.lt",
+    "named": false
+  },
+  {
+    "type": "f64.max",
+    "named": false
+  },
+  {
+    "type": "f64.min",
+    "named": false
+  },
+  {
+    "type": "f64.mul",
+    "named": false
+  },
+  {
+    "type": "f64.ne",
+    "named": false
+  },
+  {
+    "type": "f64.nearest",
+    "named": false
+  },
+  {
+    "type": "f64.neg",
+    "named": false
+  },
+  {
+    "type": "f64.promote_f32",
+    "named": false
+  },
+  {
+    "type": "f64.reinterpret_i32",
+    "named": false
+  },
+  {
+    "type": "f64.reinterpret_i64",
+    "named": false
+  },
+  {
+    "type": "f64.sqrt",
+    "named": false
+  },
+  {
+    "type": "f64.store",
+    "named": false
+  },
+  {
+    "type": "f64.sub",
+    "named": false
+  },
+  {
+    "type": "f64.trunc",
     "named": false
   },
   {
@@ -1225,11 +1604,395 @@
     "named": false
   },
   {
+    "type": "global.get",
+    "named": false
+  },
+  {
+    "type": "global.set",
+    "named": false
+  },
+  {
     "type": "i32",
     "named": false
   },
   {
+    "type": "i32.add",
+    "named": false
+  },
+  {
+    "type": "i32.and",
+    "named": false
+  },
+  {
+    "type": "i32.clz",
+    "named": false
+  },
+  {
+    "type": "i32.const",
+    "named": false
+  },
+  {
+    "type": "i32.ctz",
+    "named": false
+  },
+  {
+    "type": "i32.div_s",
+    "named": false
+  },
+  {
+    "type": "i32.div_u",
+    "named": false
+  },
+  {
+    "type": "i32.eq",
+    "named": false
+  },
+  {
+    "type": "i32.eqz",
+    "named": false
+  },
+  {
+    "type": "i32.ge_s",
+    "named": false
+  },
+  {
+    "type": "i32.ge_u",
+    "named": false
+  },
+  {
+    "type": "i32.gt_s",
+    "named": false
+  },
+  {
+    "type": "i32.gt_u",
+    "named": false
+  },
+  {
+    "type": "i32.le_s",
+    "named": false
+  },
+  {
+    "type": "i32.le_u",
+    "named": false
+  },
+  {
+    "type": "i32.load",
+    "named": false
+  },
+  {
+    "type": "i32.load16_s",
+    "named": false
+  },
+  {
+    "type": "i32.load16_u",
+    "named": false
+  },
+  {
+    "type": "i32.load8_s",
+    "named": false
+  },
+  {
+    "type": "i32.load8_u",
+    "named": false
+  },
+  {
+    "type": "i32.lt_s",
+    "named": false
+  },
+  {
+    "type": "i32.lt_u",
+    "named": false
+  },
+  {
+    "type": "i32.mul",
+    "named": false
+  },
+  {
+    "type": "i32.ne",
+    "named": false
+  },
+  {
+    "type": "i32.or",
+    "named": false
+  },
+  {
+    "type": "i32.popcnt",
+    "named": false
+  },
+  {
+    "type": "i32.reinterpret_f32",
+    "named": false
+  },
+  {
+    "type": "i32.reinterpret_f64",
+    "named": false
+  },
+  {
+    "type": "i32.rem_s",
+    "named": false
+  },
+  {
+    "type": "i32.rem_u",
+    "named": false
+  },
+  {
+    "type": "i32.rotl",
+    "named": false
+  },
+  {
+    "type": "i32.rotr",
+    "named": false
+  },
+  {
+    "type": "i32.shl",
+    "named": false
+  },
+  {
+    "type": "i32.shr_s",
+    "named": false
+  },
+  {
+    "type": "i32.shr_u",
+    "named": false
+  },
+  {
+    "type": "i32.store",
+    "named": false
+  },
+  {
+    "type": "i32.store16",
+    "named": false
+  },
+  {
+    "type": "i32.store8",
+    "named": false
+  },
+  {
+    "type": "i32.sub",
+    "named": false
+  },
+  {
+    "type": "i32.trunc_f32_s",
+    "named": false
+  },
+  {
+    "type": "i32.trunc_f32_u",
+    "named": false
+  },
+  {
+    "type": "i32.trunc_f64_s",
+    "named": false
+  },
+  {
+    "type": "i32.trunc_f64_u",
+    "named": false
+  },
+  {
+    "type": "i32.wrap_i64",
+    "named": false
+  },
+  {
+    "type": "i32.xor",
+    "named": false
+  },
+  {
     "type": "i64",
+    "named": false
+  },
+  {
+    "type": "i64.add",
+    "named": false
+  },
+  {
+    "type": "i64.and",
+    "named": false
+  },
+  {
+    "type": "i64.clz",
+    "named": false
+  },
+  {
+    "type": "i64.ctz",
+    "named": false
+  },
+  {
+    "type": "i64.div_s",
+    "named": false
+  },
+  {
+    "type": "i64.div_u",
+    "named": false
+  },
+  {
+    "type": "i64.eq",
+    "named": false
+  },
+  {
+    "type": "i64.eqz",
+    "named": false
+  },
+  {
+    "type": "i64.extend_i32_s",
+    "named": false
+  },
+  {
+    "type": "i64.extend_i32_u",
+    "named": false
+  },
+  {
+    "type": "i64.ge_s",
+    "named": false
+  },
+  {
+    "type": "i64.ge_u",
+    "named": false
+  },
+  {
+    "type": "i64.gt_s",
+    "named": false
+  },
+  {
+    "type": "i64.gt_u",
+    "named": false
+  },
+  {
+    "type": "i64.le_s",
+    "named": false
+  },
+  {
+    "type": "i64.le_u",
+    "named": false
+  },
+  {
+    "type": "i64.load",
+    "named": false
+  },
+  {
+    "type": "i64.load16_s",
+    "named": false
+  },
+  {
+    "type": "i64.load16_u",
+    "named": false
+  },
+  {
+    "type": "i64.load32_s",
+    "named": false
+  },
+  {
+    "type": "i64.load32_u",
+    "named": false
+  },
+  {
+    "type": "i64.load8_s",
+    "named": false
+  },
+  {
+    "type": "i64.load8_u",
+    "named": false
+  },
+  {
+    "type": "i64.lt_s",
+    "named": false
+  },
+  {
+    "type": "i64.lt_u",
+    "named": false
+  },
+  {
+    "type": "i64.mul",
+    "named": false
+  },
+  {
+    "type": "i64.ne",
+    "named": false
+  },
+  {
+    "type": "i64.or",
+    "named": false
+  },
+  {
+    "type": "i64.popcnt",
+    "named": false
+  },
+  {
+    "type": "i64.reinterpret_f32",
+    "named": false
+  },
+  {
+    "type": "i64.reinterpret_f64",
+    "named": false
+  },
+  {
+    "type": "i64.rem_s",
+    "named": false
+  },
+  {
+    "type": "i64.rem_u",
+    "named": false
+  },
+  {
+    "type": "i64.rotl",
+    "named": false
+  },
+  {
+    "type": "i64.rotr",
+    "named": false
+  },
+  {
+    "type": "i64.shl",
+    "named": false
+  },
+  {
+    "type": "i64.shr_s",
+    "named": false
+  },
+  {
+    "type": "i64.shr_u",
+    "named": false
+  },
+  {
+    "type": "i64.store",
+    "named": false
+  },
+  {
+    "type": "i64.store16",
+    "named": false
+  },
+  {
+    "type": "i64.store32",
+    "named": false
+  },
+  {
+    "type": "i64.store8",
+    "named": false
+  },
+  {
+    "type": "i64.sub",
+    "named": false
+  },
+  {
+    "type": "i64.trunc_f32_s",
+    "named": false
+  },
+  {
+    "type": "i64.trunc_f32_u",
+    "named": false
+  },
+  {
+    "type": "i64.trunc_f64_s",
+    "named": false
+  },
+  {
+    "type": "i64.trunc_f64_u",
+    "named": false
+  },
+  {
+    "type": "i64.xor",
+    "named": false
+  },
+  {
+    "type": "i644.const",
     "named": false
   },
   {
@@ -1253,11 +2016,35 @@
     "named": false
   },
   {
+    "type": "local.get",
+    "named": false
+  },
+  {
+    "type": "local.set",
+    "named": false
+  },
+  {
+    "type": "local.tee",
+    "named": false
+  },
+  {
     "type": "loop",
     "named": false
   },
   {
+    "type": "memarg",
+    "named": false
+  },
+  {
     "type": "memory",
+    "named": false
+  },
+  {
+    "type": "memory.grow",
+    "named": false
+  },
+  {
+    "type": "memory.size",
     "named": false
   },
   {
@@ -1285,6 +2072,10 @@
     "named": false
   },
   {
+    "type": "offset=",
+    "named": false
+  },
+  {
     "type": "param",
     "named": false
   },
@@ -1297,11 +2088,19 @@
     "named": false
   },
   {
+    "type": "select",
+    "named": false
+  },
+  {
     "type": "start",
     "named": false
   },
   {
     "type": "table",
+    "named": false
+  },
+  {
+    "type": "then",
     "named": false
   },
   {

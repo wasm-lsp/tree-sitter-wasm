@@ -120,6 +120,22 @@
         }
       ]
     },
+    "_ALIGN_EQ": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "align="
+        }
+      ]
+    },
     "_BLOCK": {
       "type": "SEQ",
       "members": [
@@ -232,6 +248,22 @@
         }
       ]
     },
+    "_DROP": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "drop"
+        }
+      ]
+    },
     "_ELEM": {
       "type": "SEQ",
       "members": [
@@ -296,6 +328,966 @@
         }
       ]
     },
+    "_F32_ABS": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f32.abs"
+        }
+      ]
+    },
+    "_F32_ADD": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f32.add"
+        }
+      ]
+    },
+    "_F32_CEIL": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f32.ceil"
+        }
+      ]
+    },
+    "_F32_CONVERT_I32_S": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f32.convert_i32_s"
+        }
+      ]
+    },
+    "_F32_CONVERT_I32_U": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f32.convert_i32_u"
+        }
+      ]
+    },
+    "_F32_CONVERT_I64_S": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f32.convert_i64_s"
+        }
+      ]
+    },
+    "_F32_CONVERT_I64_U": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f32.convert_i64_u"
+        }
+      ]
+    },
+    "_F32_CONST": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f32.const"
+        }
+      ]
+    },
+    "_F32_COPYSIGN": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f32.copysign"
+        }
+      ]
+    },
+    "_F32_DEMOTE_F64": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f32.demote_f64"
+        }
+      ]
+    },
+    "_F32_DIV": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f32.div"
+        }
+      ]
+    },
+    "_F32_EQ": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f32.eq"
+        }
+      ]
+    },
+    "_F32_FLOOR": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f32.floor"
+        }
+      ]
+    },
+    "_F32_GE": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f32.ge"
+        }
+      ]
+    },
+    "_F32_GT": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f32.gt"
+        }
+      ]
+    },
+    "_F32_LE": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f32.le"
+        }
+      ]
+    },
+    "_F32_LOAD": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f32.load"
+        }
+      ]
+    },
+    "_F32_LT": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f32.lt"
+        }
+      ]
+    },
+    "_F32_MAX": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f32.max"
+        }
+      ]
+    },
+    "_F32_MIN": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f32.min"
+        }
+      ]
+    },
+    "_F32_MUL": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f32.mul"
+        }
+      ]
+    },
+    "_F32_NE": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f32.ne"
+        }
+      ]
+    },
+    "_F32_NEAREST": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f32.nearest"
+        }
+      ]
+    },
+    "_F32_NEG": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f32.neg"
+        }
+      ]
+    },
+    "_F32_REINTERPRET_I32": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f32.reinterpret_i32"
+        }
+      ]
+    },
+    "_F32_REINTERPRET_I64": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f32.reinterpret_i64"
+        }
+      ]
+    },
+    "_F32_SQRT": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f32.sqrt"
+        }
+      ]
+    },
+    "_F32_STORE": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f32.store"
+        }
+      ]
+    },
+    "_F32_SUB": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f32.sub"
+        }
+      ]
+    },
+    "_F32_TRUNC": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f32.trunc"
+        }
+      ]
+    },
+    "_F64_ABS": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f64.abs"
+        }
+      ]
+    },
+    "_F64_ADD": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f64.add"
+        }
+      ]
+    },
+    "_F64_CEIL": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f64.ceil"
+        }
+      ]
+    },
+    "_F64_CONST": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f64.const"
+        }
+      ]
+    },
+    "_F64_CONVERT_I32_S": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f64.convert_i32_s"
+        }
+      ]
+    },
+    "_F64_CONVERT_I32_U": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f64.convert_i32_u"
+        }
+      ]
+    },
+    "_F64_CONVERT_I64_S": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f64.convert_i64_s"
+        }
+      ]
+    },
+    "_F64_CONVERT_I64_U": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f64.convert_i64_u"
+        }
+      ]
+    },
+    "_F64_COPYSIGN": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f64.copysign"
+        }
+      ]
+    },
+    "_F64_DIV": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f64.div"
+        }
+      ]
+    },
+    "_F64_EQ": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f64.eq"
+        }
+      ]
+    },
+    "_F64_FLOOR": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f64.floor"
+        }
+      ]
+    },
+    "_F64_GE": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f64.ge"
+        }
+      ]
+    },
+    "_F64_GT": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f64.gt"
+        }
+      ]
+    },
+    "_F64_LE": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f64.le"
+        }
+      ]
+    },
+    "_F64_LOAD": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f64.load"
+        }
+      ]
+    },
+    "_F64_LT": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f64.lt"
+        }
+      ]
+    },
+    "_F64_MAX": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f64.max"
+        }
+      ]
+    },
+    "_F64_MIN": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f64.min"
+        }
+      ]
+    },
+    "_F64_MUL": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f64.mul"
+        }
+      ]
+    },
+    "_F64_NE": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f64.ne"
+        }
+      ]
+    },
+    "_F64_NEAREST": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f64.nearest"
+        }
+      ]
+    },
+    "_F64_NEG": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f64.neg"
+        }
+      ]
+    },
+    "_F64_PROMOTE_F32": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f64.promote_f32"
+        }
+      ]
+    },
+    "_F64_REINTERPRET_I32": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f64.reinterpret_i32"
+        }
+      ]
+    },
+    "_F64_REINTERPRET_I64": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f64.reinterpret_i64"
+        }
+      ]
+    },
+    "_F64_SQRT": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f64.sqrt"
+        }
+      ]
+    },
+    "_F64_STORE": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f64.store"
+        }
+      ]
+    },
+    "_F64_SUB": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f64.sub"
+        }
+      ]
+    },
+    "_F64_TRUNC": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "f64.trunc"
+        }
+      ]
+    },
     "_FUNC": {
       "type": "SEQ",
       "members": [
@@ -341,6 +1333,1542 @@
         {
           "type": "STRING",
           "value": "global"
+        }
+      ]
+    },
+    "_GLOBAL_GET": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "global.get"
+        }
+      ]
+    },
+    "_GLOBAL_SET": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "global.set"
+        }
+      ]
+    },
+    "_I32_ADD": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.add"
+        }
+      ]
+    },
+    "_I32_AND": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.and"
+        }
+      ]
+    },
+    "_I32_CLZ": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.clz"
+        }
+      ]
+    },
+    "_I32_CONST": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.const"
+        }
+      ]
+    },
+    "_I32_CTZ": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.ctz"
+        }
+      ]
+    },
+    "_I32_DIV_S": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.div_s"
+        }
+      ]
+    },
+    "_I32_DIV_U": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.div_u"
+        }
+      ]
+    },
+    "_I32_EQ": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.eq"
+        }
+      ]
+    },
+    "_I32_EQZ": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.eqz"
+        }
+      ]
+    },
+    "_I32_GE_S": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.ge_s"
+        }
+      ]
+    },
+    "_I32_GE_U": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.ge_u"
+        }
+      ]
+    },
+    "_I32_GT_S": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.gt_s"
+        }
+      ]
+    },
+    "_I32_GT_U": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.gt_u"
+        }
+      ]
+    },
+    "_I32_LE_S": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.le_s"
+        }
+      ]
+    },
+    "_I32_LE_U": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.le_u"
+        }
+      ]
+    },
+    "_I32_LOAD": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.load"
+        }
+      ]
+    },
+    "_I32_LOAD8_S": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.load8_s"
+        }
+      ]
+    },
+    "_I32_LOAD8_U": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.load8_u"
+        }
+      ]
+    },
+    "_I32_LOAD16_S": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.load16_s"
+        }
+      ]
+    },
+    "_I32_LOAD16_U": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.load16_u"
+        }
+      ]
+    },
+    "_I32_LT_S": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.lt_s"
+        }
+      ]
+    },
+    "_I32_LT_U": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.lt_u"
+        }
+      ]
+    },
+    "_I32_MUL": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.mul"
+        }
+      ]
+    },
+    "_I32_NE": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.ne"
+        }
+      ]
+    },
+    "_I32_OR": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.or"
+        }
+      ]
+    },
+    "_I32_POPCNT": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.popcnt"
+        }
+      ]
+    },
+    "_I32_REINTERPRET_F32": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.reinterpret_f32"
+        }
+      ]
+    },
+    "_I32_REINTERPRET_F64": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.reinterpret_f64"
+        }
+      ]
+    },
+    "_I32_REM_S": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.rem_s"
+        }
+      ]
+    },
+    "_I32_REM_U": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.rem_u"
+        }
+      ]
+    },
+    "_I32_ROTL": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.rotl"
+        }
+      ]
+    },
+    "_I32_ROTR": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.rotr"
+        }
+      ]
+    },
+    "_I32_SHL": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.shl"
+        }
+      ]
+    },
+    "_I32_SHR_S": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.shr_s"
+        }
+      ]
+    },
+    "_I32_SHR_U": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.shr_u"
+        }
+      ]
+    },
+    "_I32_STORE": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.store"
+        }
+      ]
+    },
+    "_I32_STORE8": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.store8"
+        }
+      ]
+    },
+    "_I32_STORE16": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.store16"
+        }
+      ]
+    },
+    "_I32_SUB": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.sub"
+        }
+      ]
+    },
+    "_I32_TRUNC_F32_S": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.trunc_f32_s"
+        }
+      ]
+    },
+    "_I32_TRUNC_F32_U": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.trunc_f32_u"
+        }
+      ]
+    },
+    "_I32_TRUNC_F64_S": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.trunc_f64_s"
+        }
+      ]
+    },
+    "_I32_TRUNC_F64_U": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.trunc_f64_u"
+        }
+      ]
+    },
+    "_I32_WRAP_I64": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.wrap_i64"
+        }
+      ]
+    },
+    "_I32_XOR": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i32.xor"
+        }
+      ]
+    },
+    "_I64_ADD": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.add"
+        }
+      ]
+    },
+    "_I64_AND": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.and"
+        }
+      ]
+    },
+    "_I64_CLZ": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.clz"
+        }
+      ]
+    },
+    "_I64_CONST": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i644.const"
+        }
+      ]
+    },
+    "_I64_CTZ": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.ctz"
+        }
+      ]
+    },
+    "_I64_DIV_S": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.div_s"
+        }
+      ]
+    },
+    "_I64_DIV_U": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.div_u"
+        }
+      ]
+    },
+    "_I64_EXTEND_I32_S": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.extend_i32_s"
+        }
+      ]
+    },
+    "_I64_EXTEND_I32_U": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.extend_i32_u"
+        }
+      ]
+    },
+    "_I64_EQ": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.eq"
+        }
+      ]
+    },
+    "_I64_EQZ": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.eqz"
+        }
+      ]
+    },
+    "_I64_GE_S": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.ge_s"
+        }
+      ]
+    },
+    "_I64_GE_U": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.ge_u"
+        }
+      ]
+    },
+    "_I64_GT_S": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.gt_s"
+        }
+      ]
+    },
+    "_I64_GT_U": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.gt_u"
+        }
+      ]
+    },
+    "_I64_LE_S": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.le_s"
+        }
+      ]
+    },
+    "_I64_LE_U": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.le_u"
+        }
+      ]
+    },
+    "_I64_LOAD": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.load"
+        }
+      ]
+    },
+    "_I64_LOAD8_S": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.load8_s"
+        }
+      ]
+    },
+    "_I64_LOAD8_U": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.load8_u"
+        }
+      ]
+    },
+    "_I64_LOAD16_S": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.load16_s"
+        }
+      ]
+    },
+    "_I64_LOAD16_U": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.load16_u"
+        }
+      ]
+    },
+    "_I64_LOAD32_S": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.load32_s"
+        }
+      ]
+    },
+    "_I64_LOAD32_U": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.load32_u"
+        }
+      ]
+    },
+    "_I64_LT_S": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.lt_s"
+        }
+      ]
+    },
+    "_I64_LT_U": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.lt_u"
+        }
+      ]
+    },
+    "_I64_MUL": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.mul"
+        }
+      ]
+    },
+    "_I64_NE": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.ne"
+        }
+      ]
+    },
+    "_I64_OR": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.or"
+        }
+      ]
+    },
+    "_I64_POPCNT": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.popcnt"
+        }
+      ]
+    },
+    "_I64_REINTERPRET_F32": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.reinterpret_f32"
+        }
+      ]
+    },
+    "_I64_REINTERPRET_F64": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.reinterpret_f64"
+        }
+      ]
+    },
+    "_I64_REM_S": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.rem_s"
+        }
+      ]
+    },
+    "_I64_REM_U": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.rem_u"
+        }
+      ]
+    },
+    "_I64_ROTL": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.rotl"
+        }
+      ]
+    },
+    "_I64_ROTR": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.rotr"
+        }
+      ]
+    },
+    "_I64_SHL": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.shl"
+        }
+      ]
+    },
+    "_I64_SHR_S": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.shr_s"
+        }
+      ]
+    },
+    "_I64_SHR_U": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.shr_u"
+        }
+      ]
+    },
+    "_I64_STORE": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.store"
+        }
+      ]
+    },
+    "_I64_STORE8": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.store8"
+        }
+      ]
+    },
+    "_I64_STORE16": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.store16"
+        }
+      ]
+    },
+    "_I64_STORE32": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.store32"
+        }
+      ]
+    },
+    "_I64_SUB": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.sub"
+        }
+      ]
+    },
+    "_I64_TRUNC_F32_S": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.trunc_f32_s"
+        }
+      ]
+    },
+    "_I64_TRUNC_F32_U": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.trunc_f32_u"
+        }
+      ]
+    },
+    "_I64_TRUNC_F64_S": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.trunc_f64_s"
+        }
+      ]
+    },
+    "_I64_TRUNC_F64_U": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.trunc_f64_u"
+        }
+      ]
+    },
+    "_I64_XOR": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "i64.xor"
         }
       ]
     },
@@ -392,6 +2920,54 @@
         }
       ]
     },
+    "_LOCAL_GET": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "local.get"
+        }
+      ]
+    },
+    "_LOCAL_SET": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "local.set"
+        }
+      ]
+    },
+    "_LOCAL_TEE": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "local.tee"
+        }
+      ]
+    },
     "_LOOP": {
       "type": "SEQ",
       "members": [
@@ -437,6 +3013,38 @@
         {
           "type": "STRING",
           "value": "memory"
+        }
+      ]
+    },
+    "_MEMORY_GROW": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "memory.grow"
+        }
+      ]
+    },
+    "_MEMORY_SIZE": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "memory.size"
         }
       ]
     },
@@ -504,6 +3112,22 @@
         }
       ]
     },
+    "_OFFSET_EQ": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "offset="
+        }
+      ]
+    },
     "_PARAM": {
       "type": "SEQ",
       "members": [
@@ -568,6 +3192,22 @@
         }
       ]
     },
+    "_SELECT": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "select"
+        }
+      ]
+    },
     "_START": {
       "type": "SEQ",
       "members": [
@@ -597,6 +3237,22 @@
         {
           "type": "STRING",
           "value": "table"
+        }
+      ]
+    },
+    "_THEN": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "then"
         }
       ]
     },
@@ -653,77 +3309,12 @@
       "value": "[0-9A-Fa-f]|[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*"
     },
     "_uN": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_num"
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "0x"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_hexnum"
-            }
-          ]
-        }
-      ]
+      "type": "PATTERN",
+      "value": "(?:[0-9]|[0-9]+(?:_?[0-9]+)*)|(?:0x[0-9A-Fa-f]|[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*)"
     },
     "_sN": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "_sign"
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_num"
-            }
-          ]
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "_sign"
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
-            },
-            {
-              "type": "STRING",
-              "value": "0x"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_hexnum"
-            }
-          ]
-        }
-      ]
+      "type": "PATTERN",
+      "value": "(?:[+-]?[0-9]|[0-9]+(?:_?[0-9]+)*)|(?:[+-]?0x[0-9A-Fa-f]|[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*)"
     },
     "_iN": {
       "type": "CHOICE",
@@ -735,6 +3326,22 @@
         {
           "type": "SYMBOL",
           "name": "_sN"
+        }
+      ]
+    },
+    "iN": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_iN"
         }
       ]
     },
@@ -1119,6 +3726,22 @@
         {
           "type": "SYMBOL",
           "name": "_fNmag"
+        }
+      ]
+    },
+    "fN": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_space"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_fN"
         }
       ]
     },
@@ -1615,38 +4238,34 @@
       ]
     },
     "limits": {
-      "type": "PREC_LEFT",
-      "value": 0,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "uN"
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "_space"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "_uN"
-                  }
-                ]
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          }
-        ]
-      }
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "uN"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_space"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_uN"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
     },
     "memtype": {
       "type": "SYMBOL",
@@ -1709,6 +4328,10 @@
         {
           "type": "SYMBOL",
           "name": "blockinstr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "foldedinstr"
         }
       ]
     },
@@ -1716,48 +4339,15 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "PREC_RIGHT",
-          "value": 0,
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_BLOCK"
-              },
-              {
-                "type": "ALIAS",
-                "content": {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "SYMBOL",
-                      "name": "id"
-                    },
-                    {
-                      "type": "BLANK"
-                    }
-                  ]
-                },
-                "named": false,
-                "value": "label"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "resulttype"
-              },
-              {
-                "type": "REPEAT",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "instr"
-                }
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_END"
-              },
-              {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_BLOCK"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
                 "type": "CHOICE",
                 "members": [
                   {
@@ -1768,53 +4358,49 @@
                     "type": "BLANK"
                   }
                 ]
+              },
+              "named": false,
+              "value": "label"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "resulttype"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SYMBOL",
+                "name": "instr"
               }
-            ]
-          }
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_END"
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "id"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            }
+          ]
         },
         {
-          "type": "PREC_RIGHT",
-          "value": 0,
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_LOOP"
-              },
-              {
-                "type": "ALIAS",
-                "content": {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "SYMBOL",
-                      "name": "id"
-                    },
-                    {
-                      "type": "BLANK"
-                    }
-                  ]
-                },
-                "named": false,
-                "value": "label"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "resulttype"
-              },
-              {
-                "type": "REPEAT",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "instr"
-                }
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_END"
-              },
-              {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_LOOP"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
                 "type": "CHOICE",
                 "members": [
                   {
@@ -1825,103 +4411,128 @@
                     "type": "BLANK"
                   }
                 ]
+              },
+              "named": false,
+              "value": "label"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "resulttype"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SYMBOL",
+                "name": "instr"
               }
-            ]
-          }
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_END"
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "id"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            }
+          ]
         },
         {
-          "type": "PREC_RIGHT",
-          "value": 0,
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_IF"
-              },
-              {
-                "type": "ALIAS",
-                "content": {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "SYMBOL",
-                      "name": "id"
-                    },
-                    {
-                      "type": "BLANK"
-                    }
-                  ]
-                },
-                "named": false,
-                "value": "label"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "resulttype"
-              },
-              {
-                "type": "REPEAT",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "instr"
-                }
-              },
-              {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_IF"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
                 "type": "CHOICE",
                 "members": [
                   {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "SYMBOL",
-                        "name": "_ELSE"
-                      },
-                      {
-                        "type": "CHOICE",
-                        "members": [
-                          {
-                            "type": "SYMBOL",
-                            "name": "id"
-                          },
-                          {
-                            "type": "BLANK"
-                          }
-                        ]
-                      },
-                      {
-                        "type": "REPEAT",
-                        "content": {
+                    "type": "SYMBOL",
+                    "name": "id"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              },
+              "named": false,
+              "value": "label"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "resulttype"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SYMBOL",
+                "name": "instr"
+              }
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "_ELSE"
+                    },
+                    {
+                      "type": "CHOICE",
+                      "members": [
+                        {
                           "type": "SYMBOL",
-                          "name": "instr"
+                          "name": "id"
+                        },
+                        {
+                          "type": "BLANK"
                         }
-                      },
-                      {
+                      ]
+                    },
+                    {
+                      "type": "REPEAT",
+                      "content": {
                         "type": "SYMBOL",
-                        "name": "_END"
-                      },
-                      {
-                        "type": "CHOICE",
-                        "members": [
-                          {
-                            "type": "SYMBOL",
-                            "name": "id"
-                          },
-                          {
-                            "type": "BLANK"
-                          }
-                        ]
+                        "name": "instr"
                       }
-                    ]
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "_END"
-                  }
-                ]
-              }
-            ]
-          }
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "_END"
+                    },
+                    {
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "id"
+                        },
+                        {
+                          "type": "BLANK"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_END"
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -1963,28 +4574,24 @@
           ]
         },
         {
-          "type": "PREC_RIGHT",
-          "value": 1,
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_BR_TABLE"
-              },
-              {
-                "type": "REPEAT",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "labelidx"
-                }
-              },
-              {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_BR_TABLE"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
                 "type": "SYMBOL",
                 "name": "labelidx"
               }
-            ]
-          }
+            },
+            {
+              "type": "SYMBOL",
+              "name": "labelidx"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
@@ -2004,70 +4611,2208 @@
           ]
         },
         {
-          "type": "PREC_RIGHT",
-          "value": 0,
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_CALL_INDIRECT"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_CALL_INDIRECT"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_LEFT_PARENTHESIS"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_TYPE"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "typeidx"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_RIGHT_PARENTHESIS"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "REPEAT",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "param"
+                    }
+                  },
+                  {
+                    "type": "REPEAT",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "result"
+                    }
+                  }
+                ]
               },
-              {
-                "type": "ALIAS",
-                "content": {
+              "named": false,
+              "value": "typeuse"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_DROP"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_SELECT"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_LOCAL_GET"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "localidx"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_LOCAL_SET"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "localidx"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_LOCAL_TEE"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "localidx"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_GLOBAL_GET"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "globalidx"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_GLOBAL_SET"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "globalidx"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_F32_LOAD"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_OFFSET_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_ALIGN_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "named": false,
+              "value": "memarg"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_F64_LOAD"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_OFFSET_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_ALIGN_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "named": false,
+              "value": "memarg"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_I32_LOAD"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_OFFSET_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_ALIGN_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "named": false,
+              "value": "memarg"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_I32_LOAD8_S"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_OFFSET_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_ALIGN_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "named": false,
+              "value": "memarg"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_I32_LOAD8_U"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_OFFSET_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_ALIGN_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "named": false,
+              "value": "memarg"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_I32_LOAD16_S"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_OFFSET_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_ALIGN_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "named": false,
+              "value": "memarg"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_I32_LOAD16_U"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_OFFSET_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_ALIGN_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "named": false,
+              "value": "memarg"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_I32_STORE"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_OFFSET_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_ALIGN_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "named": false,
+              "value": "memarg"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_I32_STORE8"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_OFFSET_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_ALIGN_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "named": false,
+              "value": "memarg"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_I32_STORE16"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_OFFSET_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_ALIGN_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "named": false,
+              "value": "memarg"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_I64_LOAD"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_OFFSET_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_ALIGN_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "named": false,
+              "value": "memarg"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_I64_LOAD8_S"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_OFFSET_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_ALIGN_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "named": false,
+              "value": "memarg"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_I64_LOAD8_U"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_OFFSET_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_ALIGN_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "named": false,
+              "value": "memarg"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_I64_LOAD16_S"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_OFFSET_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_ALIGN_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "named": false,
+              "value": "memarg"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_I64_LOAD16_U"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_OFFSET_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_ALIGN_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "named": false,
+              "value": "memarg"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_I64_LOAD32_S"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_OFFSET_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_ALIGN_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "named": false,
+              "value": "memarg"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_I64_LOAD32_U"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_OFFSET_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_ALIGN_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "named": false,
+              "value": "memarg"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_I64_STORE"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_OFFSET_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_ALIGN_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "named": false,
+              "value": "memarg"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_I64_STORE8"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_OFFSET_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_ALIGN_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "named": false,
+              "value": "memarg"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_I64_STORE16"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_OFFSET_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_ALIGN_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "named": false,
+              "value": "memarg"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_I64_STORE32"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_OFFSET_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_ALIGN_EQ"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_uN"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "named": false,
+              "value": "memarg"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_MEMORY_SIZE"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_MEMORY_GROW"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_I32_CONST"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "iN"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_I64_CONST"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "iN"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_F32_CONST"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "fN"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_F64_CONST"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "fN"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F32_ABS"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F32_ADD"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F32_CEIL"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F32_CONVERT_I32_S"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F32_CONVERT_I32_U"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F32_CONVERT_I64_S"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F32_CONVERT_I64_U"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F32_COPYSIGN"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F32_DEMOTE_F64"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F32_DIV"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F32_EQ"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F32_FLOOR"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F32_GE"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F32_GT"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F32_LE"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F32_LT"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F32_MAX"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F32_MIN"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F32_MUL"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F32_NE"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F32_NEAREST"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F32_NEG"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F32_REINTERPRET_I32"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F32_REINTERPRET_I64"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F32_SQRT"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F32_SUB"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F32_TRUNC"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F64_ABS"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F64_ADD"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F64_CEIL"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F64_CONVERT_I32_S"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F64_CONVERT_I32_U"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F64_CONVERT_I64_S"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F64_CONVERT_I64_U"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F64_COPYSIGN"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F64_DIV"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F64_EQ"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F64_FLOOR"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F64_GE"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F64_GT"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F64_LE"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F64_LT"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F64_MAX"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F64_MIN"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F64_MUL"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F64_PROMOTE_F32"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F64_NE"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F64_NEAREST"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F64_NEG"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F64_REINTERPRET_I32"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F64_REINTERPRET_I64"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F64_SQRT"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F64_SUB"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_F64_TRUNC"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I32_ADD"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I32_AND"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I32_CLZ"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I32_CTZ"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I32_DIV_S"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I32_DIV_U"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I32_EQ"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I32_EQZ"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I32_GE_S"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I32_GE_U"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I32_GT_S"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I32_GT_U"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I32_LE_S"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I32_LE_U"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I32_LT_S"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I32_LT_U"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I32_MUL"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I32_NE"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I32_OR"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I32_POPCNT"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I32_REINTERPRET_F32"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I32_REINTERPRET_F64"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I32_REM_S"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I32_REM_U"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I32_ROTL"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I32_ROTR"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I32_SHL"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I32_SHR_S"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I32_SHR_U"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I32_SUB"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I32_TRUNC_F32_S"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I32_TRUNC_F32_U"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I32_TRUNC_F64_S"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I32_TRUNC_F64_U"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I32_WRAP_I64"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I32_XOR"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I64_ADD"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I64_AND"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I64_CLZ"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I64_CTZ"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I64_DIV_S"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I64_DIV_U"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I64_EQ"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I64_EQZ"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I64_EXTEND_I32_S"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I64_EXTEND_I32_U"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I64_GE_S"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I64_GE_U"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I64_GT_S"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I64_GT_U"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I64_LE_S"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I64_LE_U"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I64_LT_S"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I64_LT_U"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I64_MUL"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I64_NE"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I64_OR"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I64_POPCNT"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I64_REINTERPRET_F32"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I64_REINTERPRET_F64"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I64_REM_S"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I64_REM_U"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I64_ROTL"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I64_ROTR"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I64_SHL"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I64_SHR_S"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I64_SHR_U"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I64_SUB"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I64_TRUNC_F32_S"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I64_TRUNC_F32_U"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I64_TRUNC_F64_S"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I64_TRUNC_F64_U"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_I64_XOR"
+        }
+      ]
+    },
+    "foldedinstr": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_LEFT_PARENTHESIS"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "plaininstr"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SYMBOL",
+                "name": "foldedinstr"
+              }
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_RIGHT_PARENTHESIS"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_LEFT_PARENTHESIS"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_BLOCK"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "id"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              },
+              "named": false,
+              "value": "label"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "resulttype"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SYMBOL",
+                "name": "instr"
+              }
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_RIGHT_PARENTHESIS"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_LEFT_PARENTHESIS"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_LOOP"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "id"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              },
+              "named": false,
+              "value": "label"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "resulttype"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SYMBOL",
+                "name": "instr"
+              }
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_RIGHT_PARENTHESIS"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_LEFT_PARENTHESIS"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_IF"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "id"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              },
+              "named": false,
+              "value": "label"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "resulttype"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SYMBOL",
+                "name": "foldedinstr"
+              }
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_LEFT_PARENTHESIS"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_THEN"
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "instr"
+                  }
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_RIGHT_PARENTHESIS"
+                }
+              ]
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "CHOICE",
-                      "members": [
-                        {
-                          "type": "SEQ",
-                          "members": [
-                            {
-                              "type": "SYMBOL",
-                              "name": "_LEFT_PARENTHESIS"
-                            },
-                            {
-                              "type": "SYMBOL",
-                              "name": "_TYPE"
-                            },
-                            {
-                              "type": "SYMBOL",
-                              "name": "typeidx"
-                            },
-                            {
-                              "type": "SYMBOL",
-                              "name": "_RIGHT_PARENTHESIS"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "BLANK"
-                        }
-                      ]
+                      "type": "SYMBOL",
+                      "name": "_LEFT_PARENTHESIS"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "_ELSE"
                     },
                     {
                       "type": "REPEAT",
                       "content": {
                         "type": "SYMBOL",
-                        "name": "param"
+                        "name": "instr"
                       }
                     },
                     {
-                      "type": "REPEAT",
-                      "content": {
-                        "type": "SYMBOL",
-                        "name": "result"
-                      }
+                      "type": "SYMBOL",
+                      "name": "_RIGHT_PARENTHESIS"
                     }
                   ]
                 },
-                "named": false,
-                "value": "typeuse"
-              }
-            ]
-          }
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_RIGHT_PARENTHESIS"
+            }
+          ]
         }
       ]
     },
@@ -3592,7 +8337,21 @@
     }
   },
   "extras": [],
-  "conflicts": [],
+  "conflicts": [
+    [
+      "blockinstr"
+    ],
+    [
+      "limits"
+    ],
+    [
+      "plaininstr"
+    ],
+    [
+      "foldedinstr",
+      "instr"
+    ]
+  ],
   "externals": [],
   "inline": [],
   "supertypes": []
