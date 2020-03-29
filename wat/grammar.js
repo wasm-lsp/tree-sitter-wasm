@@ -1,6 +1,9 @@
 module.exports = grammar({
   name: "wat",
 
+  // NOTE: The default value of `extras` for tree-sitter grammars includes
+  // whitespace. However, we want to handle whitespace directly through the
+  // grammar defined below so we override this value.
   extras: $ => [],
 
   conflicts: $ => [[$.blockinstr], [$.limits], [$.plaininstr], [$.foldedinstr, $.instr]],
