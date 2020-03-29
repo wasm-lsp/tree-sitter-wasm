@@ -35,7 +35,6 @@ module.exports = grammar({
 
     blockcomment: $ => seq("(;", repeat($._blockchar), ";)"),
 
-    // FIXME: this is more liberal than the spec
     _blockchar: $ => choice(/[^;(]/, /;[^)]/, /\([^;]/, $.blockcomment),
 
     // ====================================================== //
