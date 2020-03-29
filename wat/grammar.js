@@ -19,7 +19,7 @@ module.exports = grammar({
      * Whitespace *
      **************/
 
-    _space: $ => choice(" ", $._format, $._comment),
+    _space: $ => choice(" ", $._format, $.comment),
 
     _format: $ => /[\t\n\r]/,
 
@@ -27,7 +27,7 @@ module.exports = grammar({
      * Comments *
      ************/
 
-    _comment: $ => choice($.linecomment, $.blockcomment),
+    comment: $ => choice($.linecomment, $.blockcomment),
 
     linecomment: $ => seq(";;", repeat($._linechar), "\n"),
 
