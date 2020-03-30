@@ -62,11 +62,6 @@ module.exports = grammar({
     _TABLE: $ => seq(repeat($._space), "table"),
     _TYPE: $ => seq(repeat($._space), "type"),
 
-    FUNC: $ => seq(repeat($._space), "func"),
-    GLOBAL: $ => seq(repeat($._space), "global"),
-    MEMORY: $ => seq(repeat($._space), "memory"),
-    TABLE: $ => seq(repeat($._space), "table"),
-
     ALIGN_EQ: $ => seq(repeat($._space), field("$text", "align=")),
     BLOCK: $ => seq(repeat($._space), field("$text", "block")),
     BR: $ => seq(repeat($._space), field("$text", "br")),
