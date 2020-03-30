@@ -6,7 +6,7 @@ module.exports = grammar({
   // grammar defined below so we override this value.
   extras: $ => [],
 
-  conflicts: $ => [[$.blockinstr], [$.limits], [$.plaininstr], [$.foldedinstr, $.instr]],
+  conflicts: $ => [[$.blockinstr], [$.blockinstr, $.foldedinstr], [$.limits], [$.plaininstr], [$.foldedinstr, $.instr]],
 
   rules: {
     ENTRYPOINT: $ => seq(field("module", $.module), repeat($._space)),
@@ -41,204 +41,210 @@ module.exports = grammar({
     // ======================= Tokens ======================= //
     // ====================================================== //
 
-    _ALIGN_EQ: $ => seq(repeat($._space), "align="),
-    _BLOCK: $ => seq(repeat($._space), "block"),
-    _BR: $ => seq(repeat($._space), "br"),
-    _BR_IF: $ => seq(repeat($._space), "br_if"),
-    _BR_TABLE: $ => seq(repeat($._space), "br_table"),
-    _CALL: $ => seq(repeat($._space), "call"),
-    _CALL_INDIRECT: $ => seq(repeat($._space), "call_indirect"),
     _DATA: $ => seq(repeat($._space), "data"),
-    _DROP: $ => seq(repeat($._space), "drop"),
     _ELEM: $ => seq(repeat($._space), "elem"),
-    _ELSE: $ => seq(repeat($._space), "else"),
     _END: $ => seq(repeat($._space), "end"),
     _EXPORT: $ => seq(repeat($._space), "export"),
-    _F32_ABS: $ => seq(repeat($._space), "f32.abs"),
-    _F32_ADD: $ => seq(repeat($._space), "f32.add"),
-    _F32_CEIL: $ => seq(repeat($._space), "f32.ceil"),
-    _F32_CONVERT_I32_S: $ => seq(repeat($._space), "f32.convert_i32_s"),
-    _F32_CONVERT_I32_U: $ => seq(repeat($._space), "f32.convert_i32_u"),
-    _F32_CONVERT_I64_S: $ => seq(repeat($._space), "f32.convert_i64_s"),
-    _F32_CONVERT_I64_U: $ => seq(repeat($._space), "f32.convert_i64_u"),
-    _F32_CONST: $ => seq(repeat($._space), "f32.const"),
-    _F32_COPYSIGN: $ => seq(repeat($._space), "f32.copysign"),
-    _F32_DEMOTE_F64: $ => seq(repeat($._space), "f32.demote_f64"),
-    _F32_DIV: $ => seq(repeat($._space), "f32.div"),
-    _F32_EQ: $ => seq(repeat($._space), "f32.eq"),
-    _F32_FLOOR: $ => seq(repeat($._space), "f32.floor"),
-    _F32_GE: $ => seq(repeat($._space), "f32.ge"),
-    _F32_GT: $ => seq(repeat($._space), "f32.gt"),
-    _F32_LE: $ => seq(repeat($._space), "f32.le"),
-    _F32_LOAD: $ => seq(repeat($._space), "f32.load"),
-    _F32_LT: $ => seq(repeat($._space), "f32.lt"),
-    _F32_MAX: $ => seq(repeat($._space), "f32.max"),
-    _F32_MIN: $ => seq(repeat($._space), "f32.min"),
-    _F32_MUL: $ => seq(repeat($._space), "f32.mul"),
-    _F32_NE: $ => seq(repeat($._space), "f32.ne"),
-    _F32_NEAREST: $ => seq(repeat($._space), "f32.nearest"),
-    _F32_NEG: $ => seq(repeat($._space), "f32.neg"),
-    _F32_REINTERPRET_I32: $ => seq(repeat($._space), "f32.reinterpret_i32"),
-    _F32_REINTERPRET_I64: $ => seq(repeat($._space), "f32.reinterpret_i64"),
-    _F32_SQRT: $ => seq(repeat($._space), "f32.sqrt"),
-    _F32_STORE: $ => seq(repeat($._space), "f32.store"),
-    _F32_SUB: $ => seq(repeat($._space), "f32.sub"),
-    _F32_TRUNC: $ => seq(repeat($._space), "f32.trunc"),
-    _F64_ABS: $ => seq(repeat($._space), "f64.abs"),
-    _F64_ADD: $ => seq(repeat($._space), "f64.add"),
-    _F64_CEIL: $ => seq(repeat($._space), "f64.ceil"),
-    _F64_CONST: $ => seq(repeat($._space), "f64.const"),
-    _F64_CONVERT_I32_S: $ => seq(repeat($._space), "f64.convert_i32_s"),
-    _F64_CONVERT_I32_U: $ => seq(repeat($._space), "f64.convert_i32_u"),
-    _F64_CONVERT_I64_S: $ => seq(repeat($._space), "f64.convert_i64_s"),
-    _F64_CONVERT_I64_U: $ => seq(repeat($._space), "f64.convert_i64_u"),
-    _F64_COPYSIGN: $ => seq(repeat($._space), "f64.copysign"),
-    _F64_DIV: $ => seq(repeat($._space), "f64.div"),
-    _F64_EQ: $ => seq(repeat($._space), "f64.eq"),
-    _F64_FLOOR: $ => seq(repeat($._space), "f64.floor"),
-    _F64_GE: $ => seq(repeat($._space), "f64.ge"),
-    _F64_GT: $ => seq(repeat($._space), "f64.gt"),
-    _F64_LE: $ => seq(repeat($._space), "f64.le"),
-    _F64_LOAD: $ => seq(repeat($._space), "f64.load"),
-    _F64_LT: $ => seq(repeat($._space), "f64.lt"),
-    _F64_MAX: $ => seq(repeat($._space), "f64.max"),
-    _F64_MIN: $ => seq(repeat($._space), "f64.min"),
-    _F64_MUL: $ => seq(repeat($._space), "f64.mul"),
-    _F64_NE: $ => seq(repeat($._space), "f64.ne"),
-    _F64_NEAREST: $ => seq(repeat($._space), "f64.nearest"),
-    _F64_NEG: $ => seq(repeat($._space), "f64.neg"),
-    _F64_PROMOTE_F32: $ => seq(repeat($._space), "f64.promote_f32"),
-    _F64_REINTERPRET_I32: $ => seq(repeat($._space), "f64.reinterpret_i32"),
-    _F64_REINTERPRET_I64: $ => seq(repeat($._space), "f64.reinterpret_i64"),
-    _F64_SQRT: $ => seq(repeat($._space), "f64.sqrt"),
-    _F64_STORE: $ => seq(repeat($._space), "f64.store"),
-    _F64_SUB: $ => seq(repeat($._space), "f64.sub"),
-    _F64_TRUNC: $ => seq(repeat($._space), "f64.trunc"),
     _FUNC: $ => seq(repeat($._space), "func"),
     _FUNCREF: $ => seq(repeat($._space), "funcref"),
     _GLOBAL: $ => seq(repeat($._space), "global"),
-    _GLOBAL_GET: $ => seq(repeat($._space), "global.get"),
-    _GLOBAL_SET: $ => seq(repeat($._space), "global.set"),
-    _I32_ADD: $ => seq(repeat($._space), "i32.add"),
-    _I32_AND: $ => seq(repeat($._space), "i32.and"),
-    _I32_CLZ: $ => seq(repeat($._space), "i32.clz"),
-    _I32_CONST: $ => seq(repeat($._space), "i32.const"),
-    _I32_CTZ: $ => seq(repeat($._space), "i32.ctz"),
-    _I32_DIV_S: $ => seq(repeat($._space), "i32.div_s"),
-    _I32_DIV_U: $ => seq(repeat($._space), "i32.div_u"),
-    _I32_EQ: $ => seq(repeat($._space), "i32.eq"),
-    _I32_EQZ: $ => seq(repeat($._space), "i32.eqz"),
-    _I32_GE_S: $ => seq(repeat($._space), "i32.ge_s"),
-    _I32_GE_U: $ => seq(repeat($._space), "i32.ge_u"),
-    _I32_GT_S: $ => seq(repeat($._space), "i32.gt_s"),
-    _I32_GT_U: $ => seq(repeat($._space), "i32.gt_u"),
-    _I32_LE_S: $ => seq(repeat($._space), "i32.le_s"),
-    _I32_LE_U: $ => seq(repeat($._space), "i32.le_u"),
-    _I32_LOAD: $ => seq(repeat($._space), "i32.load"),
-    _I32_LOAD8_S: $ => seq(repeat($._space), "i32.load8_s"),
-    _I32_LOAD8_U: $ => seq(repeat($._space), "i32.load8_u"),
-    _I32_LOAD16_S: $ => seq(repeat($._space), "i32.load16_s"),
-    _I32_LOAD16_U: $ => seq(repeat($._space), "i32.load16_u"),
-    _I32_LT_S: $ => seq(repeat($._space), "i32.lt_s"),
-    _I32_LT_U: $ => seq(repeat($._space), "i32.lt_u"),
-    _I32_MUL: $ => seq(repeat($._space), "i32.mul"),
-    _I32_NE: $ => seq(repeat($._space), "i32.ne"),
-    _I32_OR: $ => seq(repeat($._space), "i32.or"),
-    _I32_POPCNT: $ => seq(repeat($._space), "i32.popcnt"),
-    _I32_REINTERPRET_F32: $ => seq(repeat($._space), "i32.reinterpret_f32"),
-    _I32_REINTERPRET_F64: $ => seq(repeat($._space), "i32.reinterpret_f64"),
-    _I32_REM_S: $ => seq(repeat($._space), "i32.rem_s"),
-    _I32_REM_U: $ => seq(repeat($._space), "i32.rem_u"),
-    _I32_ROTL: $ => seq(repeat($._space), "i32.rotl"),
-    _I32_ROTR: $ => seq(repeat($._space), "i32.rotr"),
-    _I32_SHL: $ => seq(repeat($._space), "i32.shl"),
-    _I32_SHR_S: $ => seq(repeat($._space), "i32.shr_s"),
-    _I32_SHR_U: $ => seq(repeat($._space), "i32.shr_u"),
-    _I32_STORE: $ => seq(repeat($._space), "i32.store"),
-    _I32_STORE8: $ => seq(repeat($._space), "i32.store8"),
-    _I32_STORE16: $ => seq(repeat($._space), "i32.store16"),
-    _I32_SUB: $ => seq(repeat($._space), "i32.sub"),
-    _I32_TRUNC_F32_S: $ => seq(repeat($._space), "i32.trunc_f32_s"),
-    _I32_TRUNC_F32_U: $ => seq(repeat($._space), "i32.trunc_f32_u"),
-    _I32_TRUNC_F64_S: $ => seq(repeat($._space), "i32.trunc_f64_s"),
-    _I32_TRUNC_F64_U: $ => seq(repeat($._space), "i32.trunc_f64_u"),
-    _I32_WRAP_I64: $ => seq(repeat($._space), "i32.wrap_i64"),
-    _I32_XOR: $ => seq(repeat($._space), "i32.xor"),
-    _I64_ADD: $ => seq(repeat($._space), "i64.add"),
-    _I64_AND: $ => seq(repeat($._space), "i64.and"),
-    _I64_CLZ: $ => seq(repeat($._space), "i64.clz"),
-    _I64_CONST: $ => seq(repeat($._space), "i644.const"),
-    _I64_CTZ: $ => seq(repeat($._space), "i64.ctz"),
-    _I64_DIV_S: $ => seq(repeat($._space), "i64.div_s"),
-    _I64_DIV_U: $ => seq(repeat($._space), "i64.div_u"),
-    _I64_EXTEND_I32_S: $ => seq(repeat($._space), "i64.extend_i32_s"),
-    _I64_EXTEND_I32_U: $ => seq(repeat($._space), "i64.extend_i32_u"),
-    _I64_EQ: $ => seq(repeat($._space), "i64.eq"),
-    _I64_EQZ: $ => seq(repeat($._space), "i64.eqz"),
-    _I64_GE_S: $ => seq(repeat($._space), "i64.ge_s"),
-    _I64_GE_U: $ => seq(repeat($._space), "i64.ge_u"),
-    _I64_GT_S: $ => seq(repeat($._space), "i64.gt_s"),
-    _I64_GT_U: $ => seq(repeat($._space), "i64.gt_u"),
-    _I64_LE_S: $ => seq(repeat($._space), "i64.le_s"),
-    _I64_LE_U: $ => seq(repeat($._space), "i64.le_u"),
-    _I64_LOAD: $ => seq(repeat($._space), "i64.load"),
-    _I64_LOAD8_S: $ => seq(repeat($._space), "i64.load8_s"),
-    _I64_LOAD8_U: $ => seq(repeat($._space), "i64.load8_u"),
-    _I64_LOAD16_S: $ => seq(repeat($._space), "i64.load16_s"),
-    _I64_LOAD16_U: $ => seq(repeat($._space), "i64.load16_u"),
-    _I64_LOAD32_S: $ => seq(repeat($._space), "i64.load32_s"),
-    _I64_LOAD32_U: $ => seq(repeat($._space), "i64.load32_u"),
-    _I64_LT_S: $ => seq(repeat($._space), "i64.lt_s"),
-    _I64_LT_U: $ => seq(repeat($._space), "i64.lt_u"),
-    _I64_MUL: $ => seq(repeat($._space), "i64.mul"),
-    _I64_NE: $ => seq(repeat($._space), "i64.ne"),
-    _I64_OR: $ => seq(repeat($._space), "i64.or"),
-    _I64_POPCNT: $ => seq(repeat($._space), "i64.popcnt"),
-    _I64_REINTERPRET_F32: $ => seq(repeat($._space), "i64.reinterpret_f32"),
-    _I64_REINTERPRET_F64: $ => seq(repeat($._space), "i64.reinterpret_f64"),
-    _I64_REM_S: $ => seq(repeat($._space), "i64.rem_s"),
-    _I64_REM_U: $ => seq(repeat($._space), "i64.rem_u"),
-    _I64_ROTL: $ => seq(repeat($._space), "i64.rotl"),
-    _I64_ROTR: $ => seq(repeat($._space), "i64.rotr"),
-    _I64_SHL: $ => seq(repeat($._space), "i64.shl"),
-    _I64_SHR_S: $ => seq(repeat($._space), "i64.shr_s"),
-    _I64_SHR_U: $ => seq(repeat($._space), "i64.shr_u"),
-    _I64_STORE: $ => seq(repeat($._space), "i64.store"),
-    _I64_STORE8: $ => seq(repeat($._space), "i64.store8"),
-    _I64_STORE16: $ => seq(repeat($._space), "i64.store16"),
-    _I64_STORE32: $ => seq(repeat($._space), "i64.store32"),
-    _I64_SUB: $ => seq(repeat($._space), "i64.sub"),
-    _I64_TRUNC_F32_S: $ => seq(repeat($._space), "i64.trunc_f32_s"),
-    _I64_TRUNC_F32_U: $ => seq(repeat($._space), "i64.trunc_f32_u"),
-    _I64_TRUNC_F64_S: $ => seq(repeat($._space), "i64.trunc_f64_s"),
-    _I64_TRUNC_F64_U: $ => seq(repeat($._space), "i64.trunc_f64_u"),
-    _I64_XOR: $ => seq(repeat($._space), "i64.xor"),
-    _IF: $ => seq(repeat($._space), "if"),
     _IMPORT: $ => seq(repeat($._space), "import"),
-    _LOCAL: $ => seq(repeat($._space), "local"),
-    _LOCAL_GET: $ => seq(repeat($._space), "local.get"),
-    _LOCAL_SET: $ => seq(repeat($._space), "local.set"),
-    _LOCAL_TEE: $ => seq(repeat($._space), "local.tee"),
-    _LOOP: $ => seq(repeat($._space), "loop"),
     _LEFT_PARENTHESIS: $ => seq(repeat($._space), "("),
+    _LOCAL: $ => seq(repeat($._space), "local"),
     _MEMORY: $ => seq(repeat($._space), "memory"),
-    _MEMORY_GROW: $ => seq(repeat($._space), "memory.grow"),
-    _MEMORY_SIZE: $ => seq(repeat($._space), "memory.size"),
     _MODULE: $ => seq(repeat($._space), "module"),
     _MUT: $ => seq(repeat($._space), "mut"),
-    _NOP: $ => seq(repeat($._space), "nop"),
     _OFFSET: $ => seq(repeat($._space), "offset"),
-    _OFFSET_EQ: $ => seq(repeat($._space), "offset="),
     _PARAM: $ => seq(repeat($._space), "param"),
     _RESULT: $ => seq(repeat($._space), "result"),
-    _RETURN: $ => seq(repeat($._space), "return"),
     _RIGHT_PARENTHESIS: $ => seq(repeat($._space), ")"),
-    _SELECT: $ => seq(repeat($._space), "select"),
     _START: $ => seq(repeat($._space), "start"),
     _TABLE: $ => seq(repeat($._space), "table"),
-    _THEN: $ => seq(repeat($._space), "then"),
     _TYPE: $ => seq(repeat($._space), "type"),
-    _UNREACHABLE: $ => seq(repeat($._space), "unreachable"),
+
+    FUNC: $ => seq(repeat($._space), "func"),
+    GLOBAL: $ => seq(repeat($._space), "global"),
+    MEMORY: $ => seq(repeat($._space), "memory"),
+    TABLE: $ => seq(repeat($._space), "table"),
+
+    ALIGN_EQ: $ => seq(repeat($._space), field("$text", "align=")),
+    BLOCK: $ => seq(repeat($._space), field("$text", "block")),
+    BR: $ => seq(repeat($._space), field("$text", "br")),
+    BR_IF: $ => seq(repeat($._space), field("$text", "br_if")),
+    BR_TABLE: $ => seq(repeat($._space), field("$text", "br_table")),
+    CALL: $ => seq(repeat($._space), field("$text", "call")),
+    CALL_INDIRECT: $ => seq(repeat($._space), field("$text", "call_indirect")),
+    DROP: $ => seq(repeat($._space), field("$text", "drop")),
+    ELSE: $ => seq(repeat($._space), field("$text", "else")),
+    F32_ABS: $ => seq(repeat($._space), field("$text", "f32.abs")),
+    F32_ADD: $ => seq(repeat($._space), field("$text", "f32.add")),
+    F32_CEIL: $ => seq(repeat($._space), field("$text", "f32.ceil")),
+    F32_CONVERT_I32_S: $ => seq(repeat($._space), field("$text", "f32.convert_i32_s")),
+    F32_CONVERT_I32_U: $ => seq(repeat($._space), field("$text", "f32.convert_i32_u")),
+    F32_CONVERT_I64_S: $ => seq(repeat($._space), field("$text", "f32.convert_i64_s")),
+    F32_CONVERT_I64_U: $ => seq(repeat($._space), field("$text", "f32.convert_i64_u")),
+    F32_CONST: $ => seq(repeat($._space), field("$text", "f32.const")),
+    F32_COPYSIGN: $ => seq(repeat($._space), field("$text", "f32.copysign")),
+    F32_DEMOTE_F64: $ => seq(repeat($._space), field("$text", "f32.demote_f64")),
+    F32_DIV: $ => seq(repeat($._space), field("$text", "f32.div")),
+    F32_EQ: $ => seq(repeat($._space), field("$text", "f32.eq")),
+    F32_FLOOR: $ => seq(repeat($._space), field("$text", "f32.floor")),
+    F32_GE: $ => seq(repeat($._space), field("$text", "f32.ge")),
+    F32_GT: $ => seq(repeat($._space), field("$text", "f32.gt")),
+    F32_LE: $ => seq(repeat($._space), field("$text", "f32.le")),
+    F32_LOAD: $ => seq(repeat($._space), field("$text", "f32.load")),
+    F32_LT: $ => seq(repeat($._space), field("$text", "f32.lt")),
+    F32_MAX: $ => seq(repeat($._space), field("$text", "f32.max")),
+    F32_MIN: $ => seq(repeat($._space), field("$text", "f32.min")),
+    F32_MUL: $ => seq(repeat($._space), field("$text", "f32.mul")),
+    F32_NE: $ => seq(repeat($._space), field("$text", "f32.ne")),
+    F32_NEAREST: $ => seq(repeat($._space), field("$text", "f32.nearest")),
+    F32_NEG: $ => seq(repeat($._space), field("$text", "f32.neg")),
+    F32_REINTERPRET_I32: $ => seq(repeat($._space), field("$text", "f32.reinterpret_i32")),
+    F32_REINTERPRET_I64: $ => seq(repeat($._space), field("$text", "f32.reinterpret_i64")),
+    F32_SQRT: $ => seq(repeat($._space), field("$text", "f32.sqrt")),
+    F32_STORE: $ => seq(repeat($._space), field("$text", "f32.store")),
+    F32_SUB: $ => seq(repeat($._space), field("$text", "f32.sub")),
+    F32_TRUNC: $ => seq(repeat($._space), field("$text", "f32.trunc")),
+    F64_ABS: $ => seq(repeat($._space), field("$text", "f64.abs")),
+    F64_ADD: $ => seq(repeat($._space), field("$text", "f64.add")),
+    F64_CEIL: $ => seq(repeat($._space), field("$text", "f64.ceil")),
+    F64_CONST: $ => seq(repeat($._space), field("$text", "f64.const")),
+    F64_CONVERT_I32_S: $ => seq(repeat($._space), field("$text", "f64.convert_i32_s")),
+    F64_CONVERT_I32_U: $ => seq(repeat($._space), field("$text", "f64.convert_i32_u")),
+    F64_CONVERT_I64_S: $ => seq(repeat($._space), field("$text", "f64.convert_i64_s")),
+    F64_CONVERT_I64_U: $ => seq(repeat($._space), field("$text", "f64.convert_i64_u")),
+    F64_COPYSIGN: $ => seq(repeat($._space), field("$text", "f64.copysign")),
+    F64_DIV: $ => seq(repeat($._space), field("$text", "f64.div")),
+    F64_EQ: $ => seq(repeat($._space), field("$text", "f64.eq")),
+    F64_FLOOR: $ => seq(repeat($._space), field("$text", "f64.floor")),
+    F64_GE: $ => seq(repeat($._space), field("$text", "f64.ge")),
+    F64_GT: $ => seq(repeat($._space), field("$text", "f64.gt")),
+    F64_LE: $ => seq(repeat($._space), field("$text", "f64.le")),
+    F64_LOAD: $ => seq(repeat($._space), field("$text", "f64.load")),
+    F64_LT: $ => seq(repeat($._space), field("$text", "f64.lt")),
+    F64_MAX: $ => seq(repeat($._space), field("$text", "f64.max")),
+    F64_MIN: $ => seq(repeat($._space), field("$text", "f64.min")),
+    F64_MUL: $ => seq(repeat($._space), field("$text", "f64.mul")),
+    F64_NE: $ => seq(repeat($._space), field("$text", "f64.ne")),
+    F64_NEAREST: $ => seq(repeat($._space), field("$text", "f64.nearest")),
+    F64_NEG: $ => seq(repeat($._space), field("$text", "f64.neg")),
+    F64_PROMOTE_F32: $ => seq(repeat($._space), field("$text", "f64.promote_f32")),
+    F64_REINTERPRET_I32: $ => seq(repeat($._space), field("$text", "f64.reinterpret_i32")),
+    F64_REINTERPRET_I64: $ => seq(repeat($._space), field("$text", "f64.reinterpret_i64")),
+    F64_SQRT: $ => seq(repeat($._space), field("$text", "f64.sqrt")),
+    F64_STORE: $ => seq(repeat($._space), field("$text", "f64.store")),
+    F64_SUB: $ => seq(repeat($._space), field("$text", "f64.sub")),
+    F64_TRUNC: $ => seq(repeat($._space), field("$text", "f64.trunc")),
+    GLOBAL_GET: $ => seq(repeat($._space), field("$text", "global.get")),
+    GLOBAL_SET: $ => seq(repeat($._space), field("$text", "global.set")),
+    I32_ADD: $ => seq(repeat($._space), field("$text", "i32.add")),
+    I32_AND: $ => seq(repeat($._space), field("$text", "i32.and")),
+    I32_CLZ: $ => seq(repeat($._space), field("$text", "i32.clz")),
+    I32_CONST: $ => seq(repeat($._space), field("$text", "i32.const")),
+    I32_CTZ: $ => seq(repeat($._space), field("$text", "i32.ctz")),
+    I32_DIV_S: $ => seq(repeat($._space), field("$text", "i32.div_s")),
+    I32_DIV_U: $ => seq(repeat($._space), field("$text", "i32.div_u")),
+    I32_EQ: $ => seq(repeat($._space), field("$text", "i32.eq")),
+    I32_EQZ: $ => seq(repeat($._space), field("$text", "i32.eqz")),
+    I32_GE_S: $ => seq(repeat($._space), field("$text", "i32.ge_s")),
+    I32_GE_U: $ => seq(repeat($._space), field("$text", "i32.ge_u")),
+    I32_GT_S: $ => seq(repeat($._space), field("$text", "i32.gt_s")),
+    I32_GT_U: $ => seq(repeat($._space), field("$text", "i32.gt_u")),
+    I32_LE_S: $ => seq(repeat($._space), field("$text", "i32.le_s")),
+    I32_LE_U: $ => seq(repeat($._space), field("$text", "i32.le_u")),
+    I32_LOAD: $ => seq(repeat($._space), field("$text", "i32.load")),
+    I32_LOAD8_S: $ => seq(repeat($._space), field("$text", "i32.load8_s")),
+    I32_LOAD8_U: $ => seq(repeat($._space), field("$text", "i32.load8_u")),
+    I32_LOAD16_S: $ => seq(repeat($._space), field("$text", "i32.load16_s")),
+    I32_LOAD16_U: $ => seq(repeat($._space), field("$text", "i32.load16_u")),
+    I32_LT_S: $ => seq(repeat($._space), field("$text", "i32.lt_s")),
+    I32_LT_U: $ => seq(repeat($._space), field("$text", "i32.lt_u")),
+    I32_MUL: $ => seq(repeat($._space), field("$text", "i32.mul")),
+    I32_NE: $ => seq(repeat($._space), field("$text", "i32.ne")),
+    I32_OR: $ => seq(repeat($._space), field("$text", "i32.or")),
+    I32_POPCNT: $ => seq(repeat($._space), field("$text", "i32.popcnt")),
+    I32_REINTERPRET_F32: $ => seq(repeat($._space), field("$text", "i32.reinterpret_f32")),
+    I32_REINTERPRET_F64: $ => seq(repeat($._space), field("$text", "i32.reinterpret_f64")),
+    I32_REM_S: $ => seq(repeat($._space), field("$text", "i32.rem_s")),
+    I32_REM_U: $ => seq(repeat($._space), field("$text", "i32.rem_u")),
+    I32_ROTL: $ => seq(repeat($._space), field("$text", "i32.rotl")),
+    I32_ROTR: $ => seq(repeat($._space), field("$text", "i32.rotr")),
+    I32_SHL: $ => seq(repeat($._space), field("$text", "i32.shl")),
+    I32_SHR_S: $ => seq(repeat($._space), field("$text", "i32.shr_s")),
+    I32_SHR_U: $ => seq(repeat($._space), field("$text", "i32.shr_u")),
+    I32_STORE: $ => seq(repeat($._space), field("$text", "i32.store")),
+    I32_STORE8: $ => seq(repeat($._space), field("$text", "i32.store8")),
+    I32_STORE16: $ => seq(repeat($._space), field("$text", "i32.store16")),
+    I32_SUB: $ => seq(repeat($._space), field("$text", "i32.sub")),
+    I32_TRUNC_F32_S: $ => seq(repeat($._space), field("$text", "i32.trunc_f32_s")),
+    I32_TRUNC_F32_U: $ => seq(repeat($._space), field("$text", "i32.trunc_f32_u")),
+    I32_TRUNC_F64_S: $ => seq(repeat($._space), field("$text", "i32.trunc_f64_s")),
+    I32_TRUNC_F64_U: $ => seq(repeat($._space), field("$text", "i32.trunc_f64_u")),
+    I32_WRAP_I64: $ => seq(repeat($._space), field("$text", "i32.wrap_i64")),
+    I32_XOR: $ => seq(repeat($._space), field("$text", "i32.xor")),
+    I64_ADD: $ => seq(repeat($._space), field("$text", "i64.add")),
+    I64_AND: $ => seq(repeat($._space), field("$text", "i64.and")),
+    I64_CLZ: $ => seq(repeat($._space), field("$text", "i64.clz")),
+    I64_CONST: $ => seq(repeat($._space), field("$text", "i644.const")),
+    I64_CTZ: $ => seq(repeat($._space), field("$text", "i64.ctz")),
+    I64_DIV_S: $ => seq(repeat($._space), field("$text", "i64.div_s")),
+    I64_DIV_U: $ => seq(repeat($._space), field("$text", "i64.div_u")),
+    I64_EXTEND_I32_S: $ => seq(repeat($._space), field("$text", "i64.extend_i32_s")),
+    I64_EXTEND_I32_U: $ => seq(repeat($._space), field("$text", "i64.extend_i32_u")),
+    I64_EQ: $ => seq(repeat($._space), field("$text", "i64.eq")),
+    I64_EQZ: $ => seq(repeat($._space), field("$text", "i64.eqz")),
+    I64_GE_S: $ => seq(repeat($._space), field("$text", "i64.ge_s")),
+    I64_GE_U: $ => seq(repeat($._space), field("$text", "i64.ge_u")),
+    I64_GT_S: $ => seq(repeat($._space), field("$text", "i64.gt_s")),
+    I64_GT_U: $ => seq(repeat($._space), field("$text", "i64.gt_u")),
+    I64_LE_S: $ => seq(repeat($._space), field("$text", "i64.le_s")),
+    I64_LE_U: $ => seq(repeat($._space), field("$text", "i64.le_u")),
+    I64_LOAD: $ => seq(repeat($._space), field("$text", "i64.load")),
+    I64_LOAD8_S: $ => seq(repeat($._space), field("$text", "i64.load8_s")),
+    I64_LOAD8_U: $ => seq(repeat($._space), field("$text", "i64.load8_u")),
+    I64_LOAD16_S: $ => seq(repeat($._space), field("$text", "i64.load16_s")),
+    I64_LOAD16_U: $ => seq(repeat($._space), field("$text", "i64.load16_u")),
+    I64_LOAD32_S: $ => seq(repeat($._space), field("$text", "i64.load32_s")),
+    I64_LOAD32_U: $ => seq(repeat($._space), field("$text", "i64.load32_u")),
+    I64_LT_S: $ => seq(repeat($._space), field("$text", "i64.lt_s")),
+    I64_LT_U: $ => seq(repeat($._space), field("$text", "i64.lt_u")),
+    I64_MUL: $ => seq(repeat($._space), field("$text", "i64.mul")),
+    I64_NE: $ => seq(repeat($._space), field("$text", "i64.ne")),
+    I64_OR: $ => seq(repeat($._space), field("$text", "i64.or")),
+    I64_POPCNT: $ => seq(repeat($._space), field("$text", "i64.popcnt")),
+    I64_REINTERPRET_F32: $ => seq(repeat($._space), field("$text", "i64.reinterpret_f32")),
+    I64_REINTERPRET_F64: $ => seq(repeat($._space), field("$text", "i64.reinterpret_f64")),
+    I64_REM_S: $ => seq(repeat($._space), field("$text", "i64.rem_s")),
+    I64_REM_U: $ => seq(repeat($._space), field("$text", "i64.rem_u")),
+    I64_ROTL: $ => seq(repeat($._space), field("$text", "i64.rotl")),
+    I64_ROTR: $ => seq(repeat($._space), field("$text", "i64.rotr")),
+    I64_SHL: $ => seq(repeat($._space), field("$text", "i64.shl")),
+    I64_SHR_S: $ => seq(repeat($._space), field("$text", "i64.shr_s")),
+    I64_SHR_U: $ => seq(repeat($._space), field("$text", "i64.shr_u")),
+    I64_STORE: $ => seq(repeat($._space), field("$text", "i64.store")),
+    I64_STORE8: $ => seq(repeat($._space), field("$text", "i64.store8")),
+    I64_STORE16: $ => seq(repeat($._space), field("$text", "i64.store16")),
+    I64_STORE32: $ => seq(repeat($._space), field("$text", "i64.store32")),
+    I64_SUB: $ => seq(repeat($._space), field("$text", "i64.sub")),
+    I64_TRUNC_F32_S: $ => seq(repeat($._space), field("$text", "i64.trunc_f32_s")),
+    I64_TRUNC_F32_U: $ => seq(repeat($._space), field("$text", "i64.trunc_f32_u")),
+    I64_TRUNC_F64_S: $ => seq(repeat($._space), field("$text", "i64.trunc_f64_s")),
+    I64_TRUNC_F64_U: $ => seq(repeat($._space), field("$text", "i64.trunc_f64_u")),
+    I64_XOR: $ => seq(repeat($._space), field("$text", "i64.xor")),
+    IF: $ => seq(repeat($._space), field("$text", "if")),
+    LOCAL_GET: $ => seq(repeat($._space), field("$text", "local.get")),
+    LOCAL_SET: $ => seq(repeat($._space), field("$text", "local.set")),
+    LOCAL_TEE: $ => seq(repeat($._space), field("$text", "local.tee")),
+    LOOP: $ => seq(repeat($._space), field("$text", "loop")),
+    MEMORY_GROW: $ => seq(repeat($._space), field("$text", "memory.grow")),
+    MEMORY_SIZE: $ => seq(repeat($._space), field("$text", "memory.size")),
+    NOP: $ => seq(repeat($._space), field("$text", "nop")),
+    OFFSET_EQ: $ => seq(repeat($._space), field("$text", "offset=")),
+    RETURN: $ => seq(repeat($._space), field("$text", "return")),
+    SELECT: $ => seq(repeat($._space), field("$text", "select")),
+    THEN: $ => seq(repeat($._space), field("$text", "then")),
+    UNREACHABLE: $ => seq(repeat($._space), field("$text", "unreachable")),
 
     // ====================================================== //
     // ======================= Values ======================= //
@@ -258,15 +264,15 @@ module.exports = grammar({
 
     _hexnum: $ => /[0-9A-Fa-f]|[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*/,
 
-    _uN: $ => /(?:[0-9]|[0-9]+(?:_?[0-9]+)*)|(?:0x[0-9A-Fa-f]|[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*)/,
+    uN_text: $ => /(?:[0-9]|[0-9]+(?:_?[0-9]+)*)|(?:0x[0-9A-Fa-f]|[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*)/,
 
     _sN: $ => /(?:[+-]?[0-9]|[0-9]+(?:_?[0-9]+)*)|(?:[+-]?0x[0-9A-Fa-f]|[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*)/,
 
-    _iN: $ => choice($._uN, $._sN),
+    iN_text: $ => choice($.uN_text, $._sN),
 
-    iN: $ => seq(repeat($._space), $._iN),
+    iN: $ => seq(repeat($._space), field("$text", $.iN_text)),
 
-    uN: $ => seq(repeat($._space), $._uN),
+    uN: $ => seq(repeat($._space), field("$text", $.uN_text)),
 
     /******************
      * Floating-Point *
@@ -293,11 +299,11 @@ module.exports = grammar({
         seq("0x", $._hexnum, ".", optional($._hexfrac), /[Pp]/, optional($._sign), $._num),
       ),
 
-    _fN: $ => seq(optional($._sign), $._fNmag),
-
-    fN: $ => seq(repeat($._space), $._fN),
-
     _fNmag: $ => choice($._float, $._hexfloat, "inf", "nan", seq("nan:0x", $._hexnum)),
+
+    fN_text: $ => seq(optional($._sign), $._fNmag),
+
+    fN: $ => seq(repeat($._space), field("$text", $.fN_text)),
 
     /**********
      * String *
@@ -337,23 +343,25 @@ module.exports = grammar({
      * Names *
      *********/
 
-    _name: $ => $._string,
+    name_text: $ => $._string,
 
-    name: $ => seq(repeat($._space), $._name),
+    name: $ => seq(repeat($._space), field("$text", $.name_text)),
 
     /***************
      * Identifiers *
      ***************/
 
-    idtrimmed: $ => /\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+/,
+    id_text: $ => /\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+/,
 
-    id: $ => seq(repeat($._space), field("trim", $.idtrimmed)),
+    id: $ => seq(repeat($._space), field("$text", $.id_text)),
 
     // ====================================================== //
     // ======================== Types ======================= //
     // ====================================================== //
 
-    valtype: $ => seq(repeat($._space), choice("i32", "i64", "f32", "f64")),
+    valtype_text: $ => choice("i32", "i64", "f32", "f64"),
+
+    valtype: $ => seq(repeat($._space), field("$text", $.valtype_text)),
 
     /****************
      * Result Types *
@@ -365,23 +373,35 @@ module.exports = grammar({
      * Function Types *
      ******************/
 
-    functype: $ => seq($._LEFT_PARENTHESIS, $._FUNC, repeat($.param), repeat($.result), $._RIGHT_PARENTHESIS),
+    functype: $ =>
+      seq(
+        $._LEFT_PARENTHESIS,
+        $._FUNC,
+        field("param", repeat($.param)),
+        field("result", repeat($.result)),
+        $._RIGHT_PARENTHESIS,
+      ),
 
     param: $ =>
       choice(
         // NOTE: re-factored to avoid conflict with abbreviation
-        seq($._LEFT_PARENTHESIS, $._PARAM, optional(seq($.id, $.valtype)), $._RIGHT_PARENTHESIS),
+        seq(
+          $._LEFT_PARENTHESIS,
+          $._PARAM,
+          optional(seq(field("id", $.id), field("valtype", $.valtype))),
+          $._RIGHT_PARENTHESIS,
+        ),
         // abbreviation
-        seq($._LEFT_PARENTHESIS, $._PARAM, repeat1($.valtype), $._RIGHT_PARENTHESIS),
+        seq($._LEFT_PARENTHESIS, $._PARAM, field("valtype", repeat1($.valtype)), $._RIGHT_PARENTHESIS),
       ),
 
-    result: $ => seq($._LEFT_PARENTHESIS, $._RESULT, repeat($.valtype), $._RIGHT_PARENTHESIS),
+    result: $ => seq($._LEFT_PARENTHESIS, $._RESULT, field("valtype", repeat($.valtype)), $._RIGHT_PARENTHESIS),
 
     /**********
      * Limits *
      **********/
 
-    limits: $ => seq($.uN, optional(seq($._space, $._uN))),
+    limits: $ => seq(field("min", $.uN), field("max", optional(seq($._space, $.uN_text)))),
 
     /****************
      * Memory Types *
@@ -393,15 +413,19 @@ module.exports = grammar({
      * Table Types *
      ***************/
 
-    tabletype: $ => seq($.limits, $.elemtype),
+    tabletype: $ => seq(field("limits", $.limits), field("elemtype", $.elemtype)),
 
-    elemtype: $ => $._FUNCREF,
+    elemtype: $ => alias($._FUNCREF, "funcref"),
 
     /****************
      * Global Types *
      ****************/
 
-    globaltype: $ => choice($.valtype, seq($._LEFT_PARENTHESIS, $._MUT, $.valtype, $._RIGHT_PARENTHESIS)),
+    globaltype: $ =>
+      choice(
+        field("valtype", $.valtype),
+        seq($._LEFT_PARENTHESIS, $._MUT, field("valtype", $.valtype), $._RIGHT_PARENTHESIS),
+      ),
 
     // ====================================================== //
     // ==================== Instructions ==================== //
@@ -422,39 +446,63 @@ module.exports = grammar({
 
     blockinstr: $ =>
       choice(
-        seq($._BLOCK, alias(optional($.id), "label"), $.resulttype, repeat($.instr), $._END, optional($.id)),
-        seq($._LOOP, alias(optional($.id), "label"), $.resulttype, repeat($.instr), $._END, optional($.id)),
         seq(
-          $._IF,
-          alias(optional($.id), "label"),
-          $.resulttype,
-          repeat($.instr),
+          field("instr", $.BLOCK),
+          field("label", alias(optional($.id), "label")),
+          field("resulttype", $.resulttype),
+          field("instr", repeat($.instr)),
+          $._END,
+          field("id", optional($.id)),
+        ),
+        seq(
+          field("instr", $.LOOP),
+          field("label", alias(optional($.id), "label")),
+          field("resulttype", $.resulttype),
+          field("instr", repeat($.instr)),
+          $._END,
+          field("id", optional($.id)),
+        ),
+        seq(
+          field("instr", $.IF),
+          field("label", alias(optional($.id), "label")),
+          field("resulttype", $.resulttype),
+          field("instr0", repeat($.instr)),
           choice(
-            seq($._ELSE, optional($.id), repeat($.instr), $._END, optional($.id)),
+            seq(
+              $.ELSE,
+              field("id0", optional($.id)),
+              field("instr1", repeat($.instr)),
+              $._END,
+              field("id1", optional($.id)),
+            ),
             // abbreviation
             $._END,
+            field("id0", optional($.id)),
           ),
         ),
       ),
 
     plaininstr: $ =>
       choice(
-        $._UNREACHABLE,
-        $._NOP,
-        seq($._BR, $.labelidx),
-        seq($._BR_IF, $.labelidx),
-        seq($._BR_TABLE, repeat($.labelidx), $.labelidx),
-        $._RETURN,
-        seq($._CALL, $.funcidx),
+        field("instr", $.UNREACHABLE),
+        field("instr", $.NOP),
+        seq(field("instr", $.BR), field("labelidx", $.labelidx)),
+        seq(field("instr", $.BR_IF), field("labelidx", $.labelidx)),
+        seq(field("instr", $.BR_TABLE), field("labelidx0", repeat($.labelidx)), field("labelidx1", $.labelidx)),
+        field("instr", $.RETURN),
+        seq(field("instr", $.CALL), $.funcidx),
         seq(
-          $._CALL_INDIRECT,
-          alias(
-            seq(
-              optional(seq($._LEFT_PARENTHESIS, $._TYPE, $.typeidx, $._RIGHT_PARENTHESIS)),
-              repeat($.param),
-              repeat($.result),
-            ),
+          field("instr", $.CALL_INDIRECT),
+          field(
             "typeuse",
+            alias(
+              seq(
+                optional(seq($._LEFT_PARENTHESIS, $._TYPE, field("typeidx", $.typeidx), $._RIGHT_PARENTHESIS)),
+                field("param", repeat($.param)),
+                field("param", repeat($.result)),
+              ),
+              "typeuse",
+            ),
           ),
         ),
 
@@ -462,226 +510,376 @@ module.exports = grammar({
          * Parametric Instructions *
          ***************************/
 
-        $._DROP,
-        $._SELECT,
+        field("instr", $.DROP),
+        field("instr", $.SELECT),
 
         /*************************
          * Variable Instructions *
          *************************/
 
-        seq($._LOCAL_GET, $.localidx),
-        seq($._LOCAL_SET, $.localidx),
-        seq($._LOCAL_TEE, $.localidx),
-        seq($._GLOBAL_GET, $.globalidx),
-        seq($._GLOBAL_SET, $.globalidx),
+        seq(field("instr", $.LOCAL_GET), field("localidx", $.localidx)),
+        seq(field("instr", $.LOCAL_SET), field("localidx", $.localidx)),
+        seq(field("instr", $.LOCAL_TEE), field("localidx", $.localidx)),
+        seq(field("instr", $.GLOBAL_GET), field("globalidx", $.globalidx)),
+        seq(field("instr", $.GLOBAL_SET), field("globalidx", $.globalidx)),
 
         /***********************
          * Memory Instructions *
          ***********************/
 
-        seq($._F32_LOAD, alias(seq(optional(seq($._OFFSET_EQ, $._uN)), optional(seq($._ALIGN_EQ, $._uN))), "memarg")),
-        seq($._F64_LOAD, alias(seq(optional(seq($._OFFSET_EQ, $._uN)), optional(seq($._ALIGN_EQ, $._uN))), "memarg")),
-        seq($._I32_LOAD, alias(seq(optional(seq($._OFFSET_EQ, $._uN)), optional(seq($._ALIGN_EQ, $._uN))), "memarg")),
         seq(
-          $._I32_LOAD8_S,
-          alias(seq(optional(seq($._OFFSET_EQ, $._uN)), optional(seq($._ALIGN_EQ, $._uN))), "memarg"),
+          field("instr", $.F32_LOAD),
+          alias(
+            seq(
+              field("offset", optional(seq($.OFFSET_EQ, field("$text", $.uN_text)))),
+              field("align", optional(seq($.ALIGN_EQ, field("$text", $.uN_text)))),
+            ),
+            "memarg",
+          ),
         ),
         seq(
-          $._I32_LOAD8_U,
-          alias(seq(optional(seq($._OFFSET_EQ, $._uN)), optional(seq($._ALIGN_EQ, $._uN))), "memarg"),
+          field("instr", $.F64_LOAD),
+          alias(
+            seq(
+              field("offset", optional(seq($.OFFSET_EQ, field("$text", $.uN_text)))),
+              field("align", optional(seq($.ALIGN_EQ, field("$text", $.uN_text)))),
+            ),
+            "memarg",
+          ),
         ),
         seq(
-          $._I32_LOAD16_S,
-          alias(seq(optional(seq($._OFFSET_EQ, $._uN)), optional(seq($._ALIGN_EQ, $._uN))), "memarg"),
+          field("instr", $.I32_LOAD),
+          alias(
+            seq(
+              field("offset", optional(seq($.OFFSET_EQ, field("$text", $.uN_text)))),
+              field("align", optional(seq($.ALIGN_EQ, field("$text", $.uN_text)))),
+            ),
+            "memarg",
+          ),
         ),
         seq(
-          $._I32_LOAD16_U,
-          alias(seq(optional(seq($._OFFSET_EQ, $._uN)), optional(seq($._ALIGN_EQ, $._uN))), "memarg"),
-        ),
-        seq($._I32_STORE, alias(seq(optional(seq($._OFFSET_EQ, $._uN)), optional(seq($._ALIGN_EQ, $._uN))), "memarg")),
-        seq($._I32_STORE8, alias(seq(optional(seq($._OFFSET_EQ, $._uN)), optional(seq($._ALIGN_EQ, $._uN))), "memarg")),
-        seq(
-          $._I32_STORE16,
-          alias(seq(optional(seq($._OFFSET_EQ, $._uN)), optional(seq($._ALIGN_EQ, $._uN))), "memarg"),
-        ),
-        seq($._I64_LOAD, alias(seq(optional(seq($._OFFSET_EQ, $._uN)), optional(seq($._ALIGN_EQ, $._uN))), "memarg")),
-        seq(
-          $._I64_LOAD8_S,
-          alias(seq(optional(seq($._OFFSET_EQ, $._uN)), optional(seq($._ALIGN_EQ, $._uN))), "memarg"),
+          field("instr", $.I32_LOAD8_S),
+          alias(
+            seq(
+              field("offset", optional(seq($.OFFSET_EQ, field("$text", $.uN_text)))),
+              field("align", optional(seq($.ALIGN_EQ, field("$text", $.uN_text)))),
+            ),
+            "memarg",
+          ),
         ),
         seq(
-          $._I64_LOAD8_U,
-          alias(seq(optional(seq($._OFFSET_EQ, $._uN)), optional(seq($._ALIGN_EQ, $._uN))), "memarg"),
+          field("instr", $.I32_LOAD8_U),
+          alias(
+            seq(
+              field("offset", optional(seq($.OFFSET_EQ, field("$text", $.uN_text)))),
+              field("align", optional(seq($.ALIGN_EQ, field("$text", $.uN_text)))),
+            ),
+            "memarg",
+          ),
         ),
         seq(
-          $._I64_LOAD16_S,
-          alias(seq(optional(seq($._OFFSET_EQ, $._uN)), optional(seq($._ALIGN_EQ, $._uN))), "memarg"),
+          field("instr", $.I32_LOAD16_S),
+          alias(
+            seq(
+              field("offset", optional(seq($.OFFSET_EQ, field("$text", $.uN_text)))),
+              field("align", optional(seq($.ALIGN_EQ, field("$text", $.uN_text)))),
+            ),
+            "memarg",
+          ),
         ),
         seq(
-          $._I64_LOAD16_U,
-          alias(seq(optional(seq($._OFFSET_EQ, $._uN)), optional(seq($._ALIGN_EQ, $._uN))), "memarg"),
+          field("instr", $.I32_LOAD16_U),
+          alias(
+            seq(
+              field("offset", optional(seq($.OFFSET_EQ, field("$text", $.uN_text)))),
+              field("align", optional(seq($.ALIGN_EQ, field("$text", $.uN_text)))),
+            ),
+            "memarg",
+          ),
         ),
         seq(
-          $._I64_LOAD32_S,
-          alias(seq(optional(seq($._OFFSET_EQ, $._uN)), optional(seq($._ALIGN_EQ, $._uN))), "memarg"),
+          field("instr", $.I32_STORE),
+          alias(
+            seq(
+              field("offset", optional(seq($.OFFSET_EQ, field("$text", $.uN_text)))),
+              field("align", optional(seq($.ALIGN_EQ, field("$text", $.uN_text)))),
+            ),
+            "memarg",
+          ),
         ),
         seq(
-          $._I64_LOAD32_U,
-          alias(seq(optional(seq($._OFFSET_EQ, $._uN)), optional(seq($._ALIGN_EQ, $._uN))), "memarg"),
+          field("instr", $.I32_STORE8),
+          alias(
+            seq(
+              field("offset", optional(seq($.OFFSET_EQ, field("$text", $.uN_text)))),
+              field("align", optional(seq($.ALIGN_EQ, field("$text", $.uN_text)))),
+            ),
+            "memarg",
+          ),
         ),
-        seq($._I64_STORE, alias(seq(optional(seq($._OFFSET_EQ, $._uN)), optional(seq($._ALIGN_EQ, $._uN))), "memarg")),
-        seq($._I64_STORE8, alias(seq(optional(seq($._OFFSET_EQ, $._uN)), optional(seq($._ALIGN_EQ, $._uN))), "memarg")),
         seq(
-          $._I64_STORE16,
-          alias(seq(optional(seq($._OFFSET_EQ, $._uN)), optional(seq($._ALIGN_EQ, $._uN))), "memarg"),
+          field("instr", $.I32_STORE16),
+          alias(
+            seq(
+              field("offset", optional(seq($.OFFSET_EQ, field("$text", $.uN_text)))),
+              field("align", optional(seq($.ALIGN_EQ, field("$text", $.uN_text)))),
+            ),
+            "memarg",
+          ),
         ),
         seq(
-          $._I64_STORE32,
-          alias(seq(optional(seq($._OFFSET_EQ, $._uN)), optional(seq($._ALIGN_EQ, $._uN))), "memarg"),
+          field("instr", $.I64_LOAD),
+          alias(
+            seq(
+              field("offset", optional(seq($.OFFSET_EQ, field("$text", $.uN_text)))),
+              field("align", optional(seq($.ALIGN_EQ, field("$text", $.uN_text)))),
+            ),
+            "memarg",
+          ),
         ),
-        $._MEMORY_SIZE,
-        $._MEMORY_GROW,
+        seq(
+          field("instr", $.I64_LOAD8_S),
+          alias(
+            seq(
+              field("offset", optional(seq($.OFFSET_EQ, field("$text", $.uN_text)))),
+              field("align", optional(seq($.ALIGN_EQ, field("$text", $.uN_text)))),
+            ),
+            "memarg",
+          ),
+        ),
+        seq(
+          field("instr", $.I64_LOAD8_U),
+          alias(
+            seq(
+              field("offset", optional(seq($.OFFSET_EQ, field("$text", $.uN_text)))),
+              field("align", optional(seq($.ALIGN_EQ, field("$text", $.uN_text)))),
+            ),
+            "memarg",
+          ),
+        ),
+        seq(
+          field("instr", $.I64_LOAD16_S),
+          alias(
+            seq(
+              field("offset", optional(seq($.OFFSET_EQ, field("$text", $.uN_text)))),
+              field("align", optional(seq($.ALIGN_EQ, field("$text", $.uN_text)))),
+            ),
+            "memarg",
+          ),
+        ),
+        seq(
+          field("instr", $.I64_LOAD16_U),
+          alias(
+            seq(
+              field("offset", optional(seq($.OFFSET_EQ, field("$text", $.uN_text)))),
+              field("align", optional(seq($.ALIGN_EQ, field("$text", $.uN_text)))),
+            ),
+            "memarg",
+          ),
+        ),
+        seq(
+          field("instr", $.I64_LOAD32_S),
+          alias(
+            seq(
+              field("offset", optional(seq($.OFFSET_EQ, field("$text", $.uN_text)))),
+              field("align", optional(seq($.ALIGN_EQ, field("$text", $.uN_text)))),
+            ),
+            "memarg",
+          ),
+        ),
+        seq(
+          field("instr", $.I64_LOAD32_U),
+          alias(
+            seq(
+              field("offset", optional(seq($.OFFSET_EQ, field("$text", $.uN_text)))),
+              field("align", optional(seq($.ALIGN_EQ, field("$text", $.uN_text)))),
+            ),
+            "memarg",
+          ),
+        ),
+        seq(
+          field("instr", $.I64_STORE),
+          alias(
+            seq(
+              field("offset", optional(seq($.OFFSET_EQ, field("$text", $.uN_text)))),
+              field("align", optional(seq($.ALIGN_EQ, field("$text", $.uN_text)))),
+            ),
+            "memarg",
+          ),
+        ),
+        seq(
+          field("instr", $.I64_STORE8),
+          alias(
+            seq(
+              field("offset", optional(seq($.OFFSET_EQ, field("$text", $.uN_text)))),
+              field("align", optional(seq($.ALIGN_EQ, field("$text", $.uN_text)))),
+            ),
+            "memarg",
+          ),
+        ),
+        seq(
+          field("instr", $.I64_STORE16),
+          alias(
+            seq(
+              field("offset", optional(seq($.OFFSET_EQ, field("$text", $.uN_text)))),
+              field("align", optional(seq($.ALIGN_EQ, field("$text", $.uN_text)))),
+            ),
+            "memarg",
+          ),
+        ),
+        seq(
+          field("instr", $.I64_STORE32),
+          alias(
+            seq(
+              field("offset", optional(seq($.OFFSET_EQ, field("$text", $.uN_text)))),
+              field("align", optional(seq($.ALIGN_EQ, field("$text", $.uN_text)))),
+            ),
+            "memarg",
+          ),
+        ),
+        field("instr", $.MEMORY_SIZE),
+        field("instr", $.MEMORY_GROW),
 
         /************************
          * Numeric Instructions *
          ************************/
 
-        seq($._I32_CONST, $.iN),
-        seq($._I64_CONST, $.iN),
-        seq($._F32_CONST, $.fN),
-        seq($._F64_CONST, $.fN),
+        seq(field("instr", $.I32_CONST), field("value", $.iN)),
+        seq(field("instr", $.I64_CONST), field("value", $.iN)),
+        seq(field("instr", $.F32_CONST), field("value", $.fN)),
+        seq(field("instr", $.F64_CONST), field("value", $.fN)),
 
-        $._F32_ABS,
-        $._F32_ADD,
-        $._F32_CEIL,
-        $._F32_CONVERT_I32_S,
-        $._F32_CONVERT_I32_U,
-        $._F32_CONVERT_I64_S,
-        $._F32_CONVERT_I64_U,
-        $._F32_COPYSIGN,
-        $._F32_DEMOTE_F64,
-        $._F32_DIV,
-        $._F32_EQ,
-        $._F32_FLOOR,
-        $._F32_GE,
-        $._F32_GT,
-        $._F32_LE,
-        $._F32_LT,
-        $._F32_MAX,
-        $._F32_MIN,
-        $._F32_MUL,
-        $._F32_NE,
-        $._F32_NEAREST,
-        $._F32_NEG,
-        $._F32_REINTERPRET_I32,
-        $._F32_REINTERPRET_I64,
-        $._F32_SQRT,
-        $._F32_SUB,
-        $._F32_TRUNC,
-        $._F64_ABS,
-        $._F64_ADD,
-        $._F64_CEIL,
-        $._F64_CONVERT_I32_S,
-        $._F64_CONVERT_I32_U,
-        $._F64_CONVERT_I64_S,
-        $._F64_CONVERT_I64_U,
-        $._F64_COPYSIGN,
-        $._F64_DIV,
-        $._F64_EQ,
-        $._F64_FLOOR,
-        $._F64_GE,
-        $._F64_GT,
-        $._F64_LE,
-        $._F64_LT,
-        $._F64_MAX,
-        $._F64_MIN,
-        $._F64_MUL,
-        $._F64_PROMOTE_F32,
-        $._F64_NE,
-        $._F64_NEAREST,
-        $._F64_NEG,
-        $._F64_REINTERPRET_I32,
-        $._F64_REINTERPRET_I64,
-        $._F64_SQRT,
-        $._F64_SUB,
-        $._F64_TRUNC,
-        $._I32_ADD,
-        $._I32_AND,
-        $._I32_CLZ,
-        $._I32_CTZ,
-        $._I32_DIV_S,
-        $._I32_DIV_U,
-        $._I32_EQ,
-        $._I32_EQZ,
-        $._I32_GE_S,
-        $._I32_GE_U,
-        $._I32_GT_S,
-        $._I32_GT_U,
-        $._I32_LE_S,
-        $._I32_LE_U,
-        $._I32_LT_S,
-        $._I32_LT_U,
-        $._I32_MUL,
-        $._I32_NE,
-        $._I32_OR,
-        $._I32_POPCNT,
-        $._I32_REINTERPRET_F32,
-        $._I32_REINTERPRET_F64,
-        $._I32_REM_S,
-        $._I32_REM_U,
-        $._I32_ROTL,
-        $._I32_ROTR,
-        $._I32_SHL,
-        $._I32_SHR_S,
-        $._I32_SHR_U,
-        $._I32_SUB,
-        $._I32_TRUNC_F32_S,
-        $._I32_TRUNC_F32_U,
-        $._I32_TRUNC_F64_S,
-        $._I32_TRUNC_F64_U,
-        $._I32_WRAP_I64,
-        $._I32_XOR,
-        $._I64_ADD,
-        $._I64_AND,
-        $._I64_CLZ,
-        $._I64_CTZ,
-        $._I64_DIV_S,
-        $._I64_DIV_U,
-        $._I64_EQ,
-        $._I64_EQZ,
-        $._I64_EXTEND_I32_S,
-        $._I64_EXTEND_I32_U,
-        $._I64_GE_S,
-        $._I64_GE_U,
-        $._I64_GT_S,
-        $._I64_GT_U,
-        $._I64_LE_S,
-        $._I64_LE_U,
-        $._I64_LT_S,
-        $._I64_LT_U,
-        $._I64_MUL,
-        $._I64_NE,
-        $._I64_OR,
-        $._I64_POPCNT,
-        $._I64_REINTERPRET_F32,
-        $._I64_REINTERPRET_F64,
-        $._I64_REM_S,
-        $._I64_REM_U,
-        $._I64_ROTL,
-        $._I64_ROTR,
-        $._I64_SHL,
-        $._I64_SHR_S,
-        $._I64_SHR_U,
-        $._I64_SUB,
-        $._I64_TRUNC_F32_S,
-        $._I64_TRUNC_F32_U,
-        $._I64_TRUNC_F64_S,
-        $._I64_TRUNC_F64_U,
-        $._I64_XOR,
+        field("instr", $.F32_ABS),
+        field("instr", $.F32_ADD),
+        field("instr", $.F32_CEIL),
+        field("instr", $.F32_CONVERT_I32_S),
+        field("instr", $.F32_CONVERT_I32_U),
+        field("instr", $.F32_CONVERT_I64_S),
+        field("instr", $.F32_CONVERT_I64_U),
+        field("instr", $.F32_COPYSIGN),
+        field("instr", $.F32_DEMOTE_F64),
+        field("instr", $.F32_DIV),
+        field("instr", $.F32_EQ),
+        field("instr", $.F32_FLOOR),
+        field("instr", $.F32_GE),
+        field("instr", $.F32_GT),
+        field("instr", $.F32_LE),
+        field("instr", $.F32_LT),
+        field("instr", $.F32_MAX),
+        field("instr", $.F32_MIN),
+        field("instr", $.F32_MUL),
+        field("instr", $.F32_NE),
+        field("instr", $.F32_NEAREST),
+        field("instr", $.F32_NEG),
+        field("instr", $.F32_REINTERPRET_I32),
+        field("instr", $.F32_REINTERPRET_I64),
+        field("instr", $.F32_SQRT),
+        field("instr", $.F32_SUB),
+        field("instr", $.F32_TRUNC),
+        field("instr", $.F64_ABS),
+        field("instr", $.F64_ADD),
+        field("instr", $.F64_CEIL),
+        field("instr", $.F64_CONVERT_I32_S),
+        field("instr", $.F64_CONVERT_I32_U),
+        field("instr", $.F64_CONVERT_I64_S),
+        field("instr", $.F64_CONVERT_I64_U),
+        field("instr", $.F64_COPYSIGN),
+        field("instr", $.F64_DIV),
+        field("instr", $.F64_EQ),
+        field("instr", $.F64_FLOOR),
+        field("instr", $.F64_GE),
+        field("instr", $.F64_GT),
+        field("instr", $.F64_LE),
+        field("instr", $.F64_LT),
+        field("instr", $.F64_MAX),
+        field("instr", $.F64_MIN),
+        field("instr", $.F64_MUL),
+        field("instr", $.F64_PROMOTE_F32),
+        field("instr", $.F64_NE),
+        field("instr", $.F64_NEAREST),
+        field("instr", $.F64_NEG),
+        field("instr", $.F64_REINTERPRET_I32),
+        field("instr", $.F64_REINTERPRET_I64),
+        field("instr", $.F64_SQRT),
+        field("instr", $.F64_SUB),
+        field("instr", $.F64_TRUNC),
+        field("instr", $.I32_ADD),
+        field("instr", $.I32_AND),
+        field("instr", $.I32_CLZ),
+        field("instr", $.I32_CTZ),
+        field("instr", $.I32_DIV_S),
+        field("instr", $.I32_DIV_U),
+        field("instr", $.I32_EQ),
+        field("instr", $.I32_EQZ),
+        field("instr", $.I32_GE_S),
+        field("instr", $.I32_GE_U),
+        field("instr", $.I32_GT_S),
+        field("instr", $.I32_GT_U),
+        field("instr", $.I32_LE_S),
+        field("instr", $.I32_LE_U),
+        field("instr", $.I32_LT_S),
+        field("instr", $.I32_LT_U),
+        field("instr", $.I32_MUL),
+        field("instr", $.I32_NE),
+        field("instr", $.I32_OR),
+        field("instr", $.I32_POPCNT),
+        field("instr", $.I32_REINTERPRET_F32),
+        field("instr", $.I32_REINTERPRET_F64),
+        field("instr", $.I32_REM_S),
+        field("instr", $.I32_REM_U),
+        field("instr", $.I32_ROTL),
+        field("instr", $.I32_ROTR),
+        field("instr", $.I32_SHL),
+        field("instr", $.I32_SHR_S),
+        field("instr", $.I32_SHR_U),
+        field("instr", $.I32_SUB),
+        field("instr", $.I32_TRUNC_F32_S),
+        field("instr", $.I32_TRUNC_F32_U),
+        field("instr", $.I32_TRUNC_F64_S),
+        field("instr", $.I32_TRUNC_F64_U),
+        field("instr", $.I32_WRAP_I64),
+        field("instr", $.I32_XOR),
+        field("instr", $.I64_ADD),
+        field("instr", $.I64_AND),
+        field("instr", $.I64_CLZ),
+        field("instr", $.I64_CTZ),
+        field("instr", $.I64_DIV_S),
+        field("instr", $.I64_DIV_U),
+        field("instr", $.I64_EQ),
+        field("instr", $.I64_EQZ),
+        field("instr", $.I64_EXTEND_I32_S),
+        field("instr", $.I64_EXTEND_I32_U),
+        field("instr", $.I64_GE_S),
+        field("instr", $.I64_GE_U),
+        field("instr", $.I64_GT_S),
+        field("instr", $.I64_GT_U),
+        field("instr", $.I64_LE_S),
+        field("instr", $.I64_LE_U),
+        field("instr", $.I64_LT_S),
+        field("instr", $.I64_LT_U),
+        field("instr", $.I64_MUL),
+        field("instr", $.I64_NE),
+        field("instr", $.I64_OR),
+        field("instr", $.I64_POPCNT),
+        field("instr", $.I64_REINTERPRET_F32),
+        field("instr", $.I64_REINTERPRET_F64),
+        field("instr", $.I64_REM_S),
+        field("instr", $.I64_REM_U),
+        field("instr", $.I64_ROTL),
+        field("instr", $.I64_ROTR),
+        field("instr", $.I64_SHL),
+        field("instr", $.I64_SHR_S),
+        field("instr", $.I64_SHR_U),
+        field("instr", $.I64_SUB),
+        field("instr", $.I64_TRUNC_F32_S),
+        field("instr", $.I64_TRUNC_F32_U),
+        field("instr", $.I64_TRUNC_F64_S),
+        field("instr", $.I64_TRUNC_F64_U),
+        field("instr", $.I64_XOR),
       ),
 
     // NOTE: we inline this because it matches the empty string
-    // memarg: $ => seq(optional(seq("offset=", $._uN)), optional(seq("align=", $._uN))),
+    // memarg: $ => seq(optional(seq("offset=", $.uN_text)), optional(seq("align=", $.uN_text))),
 
     /***********************
      * Folded Instructions *
@@ -689,31 +887,39 @@ module.exports = grammar({
 
     foldedinstr: $ =>
       choice(
-        seq($._LEFT_PARENTHESIS, $.plaininstr, repeat($.foldedinstr), $._RIGHT_PARENTHESIS),
         seq(
           $._LEFT_PARENTHESIS,
-          $._BLOCK,
-          alias(optional($.id), "label"),
-          $.resulttype,
-          repeat($.instr),
+          field("plain", $.plaininstr),
+          field("folded", repeat($.foldedinstr)),
           $._RIGHT_PARENTHESIS,
         ),
         seq(
           $._LEFT_PARENTHESIS,
-          $._LOOP,
-          alias(optional($.id), "label"),
-          $.resulttype,
-          repeat($.instr),
+          field("block", $.BLOCK),
+          field("label", alias(optional($.id), "label")),
+          field("resulttype", $.resulttype),
+          field("instr", repeat($.instr)),
           $._RIGHT_PARENTHESIS,
         ),
         seq(
           $._LEFT_PARENTHESIS,
-          $._IF,
-          alias(optional($.id), "label"),
-          $.resulttype,
-          repeat($.foldedinstr),
-          seq($._LEFT_PARENTHESIS, $._THEN, repeat($.instr), $._RIGHT_PARENTHESIS),
-          optional(seq($._LEFT_PARENTHESIS, $._ELSE, repeat($.instr), $._RIGHT_PARENTHESIS)),
+          field("loop", $.LOOP),
+          field("label", alias(optional($.id), "label")),
+          field("resulttype", $.resulttype),
+          field("instr", repeat($.instr)),
+          $._RIGHT_PARENTHESIS,
+        ),
+        seq(
+          $._LEFT_PARENTHESIS,
+          field("if", $.IF),
+          field("label", alias(optional($.id), "label")),
+          field("resulttype", $.resulttype),
+          field("foldedinstr", repeat($.foldedinstr)),
+          field("then", seq($._LEFT_PARENTHESIS, $.THEN, field("instr", repeat($.instr)), $._RIGHT_PARENTHESIS)),
+          field(
+            "else",
+            optional(seq($._LEFT_PARENTHESIS, $.ELSE, field("instr", repeat($.instr)), $._RIGHT_PARENTHESIS)),
+          ),
           $._RIGHT_PARENTHESIS,
         ),
       ),
@@ -751,41 +957,94 @@ module.exports = grammar({
      * Types *
      *********/
 
-    type: $ => seq($._LEFT_PARENTHESIS, $._TYPE, field("id", optional($.id)), $.functype, $._RIGHT_PARENTHESIS),
+    type: $ =>
+      seq(
+        $._LEFT_PARENTHESIS,
+        $._TYPE,
+        field("id", optional($.id)),
+        field("functype", $.functype),
+        $._RIGHT_PARENTHESIS,
+      ),
 
     /*************
      * Type Uses *
      *************/
 
     // NOTE: we inline this because it matches the empty string
-    // typeuse: $ => seq(optional(seq($._LEFT_PARENTHESIS, $._TYPE, $.typeidx, $._RIGHT_PARENTHESIS)), repeat($.param), repeat($.result)),
+    // typeuse: $ =>
+    //   alias(
+    //     seq(
+    //       optional(seq($._LEFT_PARENTHESIS, $._TYPE, field("typeidx", $.typeidx), $._RIGHT_PARENTHESIS)),
+    //       field("param", repeat($.param)),
+    //       field("param", repeat($.result)),
+    //     ),
+    //     "typeuse",
+    //   ),
 
     /***********
      * Imports *
      ***********/
 
-    import: $ => seq($._LEFT_PARENTHESIS, $._IMPORT, $.name, $.name, $._importdesc, $._RIGHT_PARENTHESIS),
+    import: $ =>
+      seq(
+        $._LEFT_PARENTHESIS,
+        $._IMPORT,
+        field("module", $.name),
+        field("item", $.name),
+        field("importdesc", $.importdesc),
+        $._RIGHT_PARENTHESIS,
+      ),
 
-    _importdesc: $ =>
+    importdesc: $ =>
       choice(
-        seq(
-          $._LEFT_PARENTHESIS,
-          $._FUNC,
-          optional($.id),
-          // NOTE: see typeuse
-          alias(
-            seq(
-              optional(seq($._LEFT_PARENTHESIS, $._TYPE, $.typeidx, $._RIGHT_PARENTHESIS)),
-              repeat($.param),
-              repeat($.result),
-            ),
-            "typeuse",
+        field("func", $.importdesc_func),
+        field("table", $.importdesc_table),
+        field("memory", $.importdesc_memory),
+        field("global", $.importdesc_global),
+      ),
+
+    importdesc_func: $ =>
+      seq(
+        $._LEFT_PARENTHESIS,
+        $._FUNC,
+        field("id", optional($.id)),
+        // NOTE: see typeuse
+        alias(
+          seq(
+            optional(seq($._LEFT_PARENTHESIS, $._TYPE, field("typeidx", $.typeidx), $._RIGHT_PARENTHESIS)),
+            field("param", repeat($.param)),
+            field("param", repeat($.result)),
           ),
-          $._RIGHT_PARENTHESIS,
+          "typeuse",
         ),
-        seq($._LEFT_PARENTHESIS, $._TABLE, optional($.id), $.tabletype, $._RIGHT_PARENTHESIS),
-        seq($._LEFT_PARENTHESIS, $._MEMORY, optional($.id), $.memtype, $._RIGHT_PARENTHESIS),
-        seq($._LEFT_PARENTHESIS, $._GLOBAL, optional($.id), $.globaltype, $._RIGHT_PARENTHESIS),
+        $._RIGHT_PARENTHESIS,
+      ),
+
+    importdesc_table: $ =>
+      seq(
+        $._LEFT_PARENTHESIS,
+        $._TABLE,
+        field("id", optional($.id)),
+        field("tabletype", $.tabletype),
+        $._RIGHT_PARENTHESIS,
+      ),
+
+    importdesc_memory: $ =>
+      seq(
+        $._LEFT_PARENTHESIS,
+        $._MEMORY,
+        field("id", optional($.id)),
+        field("memtype", $.memtype),
+        $._RIGHT_PARENTHESIS,
+      ),
+
+    importdesc_global: $ =>
+      seq(
+        $._LEFT_PARENTHESIS,
+        $._GLOBAL,
+        field("id", optional($.id)),
+        field("globaltype", $.globaltype),
+        $._RIGHT_PARENTHESIS,
       ),
 
     /*************
@@ -799,17 +1058,17 @@ module.exports = grammar({
           $._FUNC,
           field("id", optional($.id)),
           // abbreviation
-          optional(seq($.inlineExport, repeat(choice($.inlineImport, $.inlineExport)))),
+          field("exports_imports", optional(seq($.inlineExport, repeat(choice($.inlineImport, $.inlineExport))))),
           alias(
             seq(
-              optional(seq($._LEFT_PARENTHESIS, $._TYPE, $.typeidx, $._RIGHT_PARENTHESIS)),
-              repeat($.param),
-              repeat($.result),
+              optional(seq($._LEFT_PARENTHESIS, $._TYPE, field("typeidx", $.typeidx), $._RIGHT_PARENTHESIS)),
+              field("param", repeat($.param)),
+              field("param", repeat($.result)),
             ),
             "typeuse",
           ),
-          repeat($.local),
-          repeat($.instr),
+          field("local", repeat($.local)),
+          field("instr", repeat($.instr)),
           $._RIGHT_PARENTHESIS,
         ),
         // abbreviation
@@ -817,12 +1076,12 @@ module.exports = grammar({
           $._LEFT_PARENTHESIS,
           $._FUNC,
           field("id", optional($.id)),
-          $.inlineImport,
+          field("import", $.inlineImport),
           alias(
             seq(
-              optional(seq($._LEFT_PARENTHESIS, $._TYPE, $.typeidx, $._RIGHT_PARENTHESIS)),
-              repeat($.param),
-              repeat($.result),
+              optional(seq($._LEFT_PARENTHESIS, $._TYPE, field("typeidx", $.typeidx), $._RIGHT_PARENTHESIS)),
+              field("param", repeat($.param)),
+              field("param", repeat($.result)),
             ),
             "typeuse",
           ),
@@ -833,14 +1092,20 @@ module.exports = grammar({
     local: $ =>
       choice(
         // NOTE: re-factored to avoid conflict with abbreviation
-        seq($._LEFT_PARENTHESIS, $._LOCAL, optional(seq($.id, $.valtype)), $._RIGHT_PARENTHESIS),
+        seq(
+          $._LEFT_PARENTHESIS,
+          $._LOCAL,
+          optional(seq(field("id", $.id), field("valtype", $.valtype))),
+          $._RIGHT_PARENTHESIS,
+        ),
         // abbreviation
-        seq($._LEFT_PARENTHESIS, $._LOCAL, repeat1($.valtype), $._RIGHT_PARENTHESIS),
+        seq($._LEFT_PARENTHESIS, $._LOCAL, field("valtype", repeat1($.valtype)), $._RIGHT_PARENTHESIS),
       ),
 
-    inlineImport: $ => seq($._LEFT_PARENTHESIS, $._IMPORT, $.name, $.name, $._RIGHT_PARENTHESIS),
+    inlineImport: $ =>
+      seq($._LEFT_PARENTHESIS, $._IMPORT, field("module", $.name), field("item", $.name), $._RIGHT_PARENTHESIS),
 
-    inlineExport: $ => seq($._LEFT_PARENTHESIS, $._EXPORT, $.name, $._RIGHT_PARENTHESIS),
+    inlineExport: $ => seq($._LEFT_PARENTHESIS, $._EXPORT, field("item", $.name), $._RIGHT_PARENTHESIS),
 
     /**********
      * Tables *
@@ -851,28 +1116,34 @@ module.exports = grammar({
         seq(
           $._LEFT_PARENTHESIS,
           $._TABLE,
-          optional($.id),
+          field("id", optional($.id)),
           // abbreviation
-          optional(seq($.inlineExport, repeat(choice($.inlineImport, $.inlineExport)))),
+          field("exports_imports", optional(seq($.inlineExport, repeat(choice($.inlineImport, $.inlineExport))))),
           choice(
-            $.tabletype,
+            field("tabletype", $.tabletype),
             // abbreviation
             // NOTE: are inline element segments allowed after inline imports?
-            seq($.elemtype, $._LEFT_PARENTHESIS, $._ELEM, repeat($.funcidx), $._RIGHT_PARENTHESIS),
+            field(
+              "elem",
+              seq($.elemtype, $._LEFT_PARENTHESIS, $._ELEM, field("funcidx", repeat($.funcidx)), $._RIGHT_PARENTHESIS),
+            ),
           ),
           $._RIGHT_PARENTHESIS,
         ),
         seq(
           $._LEFT_PARENTHESIS,
           $._TABLE,
-          optional($.id),
+          field("id", optional($.id)),
           // abbreviation
-          $.inlineImport,
+          field("import", $.inlineImport),
           choice(
-            $.tabletype,
+            field("tabletype", $.tabletype),
             // abbreviation
             // NOTE: are inline element segments allowed after inline imports?
-            seq($.elemtype, $._LEFT_PARENTHESIS, $._ELEM, repeat($.funcidx), $._RIGHT_PARENTHESIS),
+            field(
+              "elem",
+              seq($.elemtype, $._LEFT_PARENTHESIS, $._ELEM, field("funcidx", repeat($.funcidx)), $._RIGHT_PARENTHESIS),
+            ),
           ),
           $._RIGHT_PARENTHESIS,
         ),
@@ -887,25 +1158,41 @@ module.exports = grammar({
         seq(
           $._LEFT_PARENTHESIS,
           $._MEMORY,
-          optional($.id),
+          field("id", optional($.id)),
           // abbreviation
-          optional(seq($.inlineExport, repeat(choice($.inlineImport, $.inlineExport)))),
+          field("exports_import", optional(seq($.inlineExport, repeat(choice($.inlineImport, $.inlineExport))))),
           choice(
-            $.memtype,
+            field("memtype", $.memtype),
             // abbreviation
-            seq($._LEFT_PARENTHESIS, $._DATA, alias(repeat($._string), "datastring"), $._RIGHT_PARENTHESIS),
+            field(
+              "data",
+              seq(
+                $._LEFT_PARENTHESIS,
+                $._DATA,
+                field("datastring", alias(repeat($._string), "datastring")),
+                $._RIGHT_PARENTHESIS,
+              ),
+            ),
           ),
           $._RIGHT_PARENTHESIS,
         ),
         seq(
           $._LEFT_PARENTHESIS,
-          optional($.id),
+          field("id", optional($.id)),
           // abbreviation
-          $.inlineImport,
+          field("import", $.inlineImport),
           choice(
-            $.memtype,
+            field("memtype", $.memtype),
             // abbreviation
-            seq($._LEFT_PARENTHESIS, $._DATA, alias(repeat($._string), "datastring"), $._RIGHT_PARENTHESIS),
+            field(
+              "data",
+              seq(
+                $._LEFT_PARENTHESIS,
+                $._DATA,
+                field("datastring", alias(repeat($._string), "datastring")),
+                $._RIGHT_PARENTHESIS,
+              ),
+            ),
           ),
           $._RIGHT_PARENTHESIS,
         ),
@@ -920,20 +1207,20 @@ module.exports = grammar({
         seq(
           $._LEFT_PARENTHESIS,
           $._GLOBAL,
-          optional($.id),
+          field("id", optional($.id)),
           // abbreviation
-          optional(seq($.inlineExport, repeat(choice($.inlineImport, $.inlineExport)))),
-          $.globaltype,
-          alias(repeat($.instr), "expr"),
+          field("exports_imports", optional(seq($.inlineExport, repeat(choice($.inlineImport, $.inlineExport))))),
+          field("globaltype", $.globaltype),
+          field("expr", alias(repeat($.instr), "expr")),
           $._RIGHT_PARENTHESIS,
         ),
         seq(
           $._LEFT_PARENTHESIS,
           $._GLOBAL,
-          optional($.id),
+          field("id", optional($.id)),
           // abbreviation
-          $.inlineImport,
-          $.globaltype,
+          field("import", $.inlineImport),
+          field("globaltype", $.globaltype),
           $._RIGHT_PARENTHESIS,
         ),
       ),
@@ -942,21 +1229,28 @@ module.exports = grammar({
      * Exports *
      ***********/
 
-    export: $ => seq($._LEFT_PARENTHESIS, $.name, $.exportdesc, $._RIGHT_PARENTHESIS),
+    export: $ =>
+      seq(
+        $._LEFT_PARENTHESIS,
+        $._EXPORT,
+        field("item", $.name),
+        field("exportdesc", $.exportdesc),
+        $._RIGHT_PARENTHESIS,
+      ),
 
     exportdesc: $ =>
       choice(
-        seq($._LEFT_PARENTHESIS, $._FUNC, $.funcidx, $._RIGHT_PARENTHESIS),
-        seq($._LEFT_PARENTHESIS, $._TABLE, $.tableidx, $._RIGHT_PARENTHESIS),
-        seq($._LEFT_PARENTHESIS, $._MEMORY, $.memidx, $._RIGHT_PARENTHESIS),
-        seq($._LEFT_PARENTHESIS, $._GLOBAL, $.globalidx, $._RIGHT_PARENTHESIS),
+        seq($._LEFT_PARENTHESIS, $._FUNC, field("funcidx", $.funcidx), $._RIGHT_PARENTHESIS),
+        seq($._LEFT_PARENTHESIS, $._TABLE, field("tableidx", $.tableidx), $._RIGHT_PARENTHESIS),
+        seq($._LEFT_PARENTHESIS, $._MEMORY, field("memidx", $.memidx), $._RIGHT_PARENTHESIS),
+        seq($._LEFT_PARENTHESIS, $._GLOBAL, field("globalidx", $.globalidx), $._RIGHT_PARENTHESIS),
       ),
 
     /******************
      * Start Function *
      ******************/
 
-    start: $ => seq($._LEFT_PARENTHESIS, $._START, $.funcidx, $._RIGHT_PARENTHESIS),
+    start: $ => seq($._LEFT_PARENTHESIS, $._START, field("funcidx", $.funcidx), $._RIGHT_PARENTHESIS),
 
     /********************
      * Element Segments *
@@ -966,13 +1260,13 @@ module.exports = grammar({
       seq(
         $._LEFT_PARENTHESIS,
         $._ELEM,
-        optional($.tableidx),
+        field("tableidx", optional($.tableidx)),
         choice(
-          seq($._LEFT_PARENTHESIS, alias(repeat($.instr), "expr"), $._RIGHT_PARENTHESIS),
           // abbreviation
-          $.instr,
+          field("instr", $.instr),
+          seq($._LEFT_PARENTHESIS, field("expr", alias(repeat($.instr), "expr")), $._RIGHT_PARENTHESIS),
         ),
-        repeat($.funcidx),
+        field("funcidx", repeat($.funcidx)),
         $._RIGHT_PARENTHESIS,
       ),
 
@@ -984,13 +1278,13 @@ module.exports = grammar({
       seq(
         $._LEFT_PARENTHESIS,
         $._DATA,
-        optional($.memidx),
+        field("memidx", optional($.memidx)),
         choice(
-          seq($._LEFT_PARENTHESIS, $._OFFSET, alias(repeat($.instr), "expr"), $._RIGHT_PARENTHESIS),
           // abbreviation
-          $.instr,
+          field("instr", $.instr),
+          seq($._LEFT_PARENTHESIS, $._OFFSET, field("expr", alias(repeat($.instr), "expr")), $._RIGHT_PARENTHESIS),
         ),
-        alias(repeat($._string), "datastring"),
+        field("datastring", alias(repeat($._string), "datastring")),
         $._RIGHT_PARENTHESIS,
       ),
 
@@ -1006,7 +1300,7 @@ module.exports = grammar({
         $._LEFT_PARENTHESIS,
         $._MODULE,
         field("id", optional($.id)),
-        repeat(field("modulefield", $._modulefield)),
+        field("field", repeat($._modulefield)),
         $._RIGHT_PARENTHESIS,
       ),
 
