@@ -8,4 +8,3 @@
     (func $f (loop (result i32)))
     (export "f" (func $f))
   )
-
