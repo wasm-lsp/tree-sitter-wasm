@@ -4,7 +4,7 @@ module.exports = grammar(wat, {
   name: "wast",
 
   rules: {
-    ENTRYPOINT: $ => field("command", alias(repeat($.command), "script")),
+    ENTRYPOINT: $ => alias(repeat(field("command", $.command)), "script"),
 
     // ====================================================== //
     // ======================= Script ======================= //
