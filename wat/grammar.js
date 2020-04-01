@@ -310,7 +310,7 @@ module.exports = grammar({
      * String *
      **********/
 
-    _string: $ => seq('"', repeat($._stringelem), '"'),
+    string: $ => seq('"', repeat($._stringelem), '"'),
 
     // FIXME: using $._hexdigit here seems to allow invalid parses: "\00\gf"
     _stringelem: $ => choice($._stringchar, /\\[0-9A-Fa-f][0-9A-Fa-f]/),
@@ -344,7 +344,7 @@ module.exports = grammar({
      * Names *
      *********/
 
-    name: $ => $._string,
+    name: $ => $.string,
 
     /***************
      * Identifiers *
@@ -1030,7 +1030,7 @@ module.exports = grammar({
           choice(
             field("memtype", $.memtype),
             // abbreviation
-            field("data", seq("(", $.DATA, alias(repeat(field("datastring", $._string)), "datastring"), ")")),
+            field("data", seq("(", $.DATA, alias(repeat(field("datastring", $.string)), "datastring"), ")")),
           ),
           ")",
         ),
@@ -1043,7 +1043,7 @@ module.exports = grammar({
           choice(
             field("memtype", $.memtype),
             // abbreviation
-            field("data", seq("(", $.DATA, alias(repeat(field("datastring", $._string)), "datastring"), ")")),
+            field("data", seq("(", $.DATA, alias(repeat(field("datastring", $.string)), "datastring"), ")")),
           ),
           ")",
         ),
@@ -1130,12 +1130,12 @@ module.exports = grammar({
           field("instr", $._instr),
           seq("(", $.OFFSET, alias(repeat(field("expr", $._instr)), "expr"), ")"),
         ),
-        alias(repeat(field("datastring", $._string)), "datastring"),
+        alias(repeat(field("datastring", $.string)), "datastring"),
         ")",
       ),
 
     // NOTE: we inline this because it matches the empty string
-    // datastring: $ => repeat($._string),
+    // datastring: $ => repeat($.string),
 
     /***********
      * Modules *
