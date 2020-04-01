@@ -5,7 +5,7 @@
 module.exports = grammar({
   name: "wat",
 
-  extras: $ => [$.comment, /[\s\uFEFF\u2060\u200B\u00A0]/],
+  extras: $ => [$._comment, /[\s\uFEFF\u2060\u200B\u00A0]/],
 
   conflicts: $ => [
     [$._plaininstr],
@@ -36,7 +36,7 @@ module.exports = grammar({
      * Comments *
      ************/
 
-    comment: $ => token(prec(1, choice(seq(";;", /.*/), seq("(;", /[^;]*;+([^);][^;]*;+)*/, ")")))),
+    _comment: $ => token(prec(1, choice(seq(";;", /.*/), seq("(;", /[^;]*;+([^);][^;]*;+)*/, ")")))),
 
     // comment: $ => choice($.linecomment, $.blockcomment),
 
