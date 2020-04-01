@@ -2,20 +2,15 @@
   "name": "wast",
   "rules": {
     "ENTRYPOINT": {
-      "type": "ALIAS",
+      "type": "REPEAT",
       "content": {
-        "type": "REPEAT",
+        "type": "FIELD",
+        "name": "command",
         "content": {
-          "type": "FIELD",
-          "name": "command",
-          "content": {
-            "type": "SYMBOL",
-            "name": "command"
-          }
+          "type": "SYMBOL",
+          "name": "command"
         }
-      },
-      "named": false,
-      "value": "script"
+      }
     },
     "_comment": {
       "type": "TOKEN",
