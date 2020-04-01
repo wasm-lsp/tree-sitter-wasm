@@ -304,9 +304,7 @@ module.exports = grammar({
 
     _fNmag: $ => choice($._float, $._hexfloat, "inf", "nan", seq("nan:0x", $._hexnum)),
 
-    fN_text: $ => seq(optional($._sign), $._fNmag),
-
-    fN: $ => $.fN_text,
+    fN: $ => seq(optional($._sign), $._fNmag),
 
     /**********
      * String *
