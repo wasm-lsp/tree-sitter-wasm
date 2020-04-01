@@ -2,18 +2,7 @@
   {
     "type": "ENTRYPOINT",
     "named": true,
-    "fields": {
-      "command": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "script",
-            "named": false
-          }
-        ]
-      }
-    }
+    "fields": {}
   },
   {
     "type": "TYPE",
@@ -21791,10 +21780,21 @@
   {
     "type": "script",
     "named": false,
-    "fields": {},
+    "fields": {
+      "command": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "command",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "command",
