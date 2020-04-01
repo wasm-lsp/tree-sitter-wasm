@@ -2,8 +2,12 @@
   "name": "wat",
   "rules": {
     "ENTRYPOINT": {
-      "type": "SYMBOL",
-      "name": "module"
+      "type": "FIELD",
+      "name": "module",
+      "content": {
+        "type": "SYMBOL",
+        "name": "module"
+      }
     },
     "comment": {
       "type": "TOKEN",

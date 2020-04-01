@@ -2,7 +2,18 @@
   {
     "type": "ENTRYPOINT",
     "named": true,
-    "fields": {}
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "script",
+            "named": false
+          }
+        ]
+      }
+    }
   },
   {
     "type": "TYPE",
