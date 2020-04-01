@@ -18,7 +18,7 @@ module.exports = grammar({
   ],
 
   rules: {
-    ENTRYPOINT: $ => $.module,
+    ENTRYPOINT: $ => field("module", $.module),
 
     // ====================================================== //
     // =================== Lexical Format =================== //
