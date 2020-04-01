@@ -17,7 +17,7 @@
       "named": false,
       "value": "script"
     },
-    "comment": {
+    "_comment": {
       "type": "TOKEN",
       "content": {
         "type": "PREC",
@@ -8000,7 +8000,7 @@
   "extras": [
     {
       "type": "SYMBOL",
-      "name": "comment"
+      "name": "_comment"
     },
     {
       "type": "PATTERN",
