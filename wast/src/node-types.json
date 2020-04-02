@@ -217,6 +217,10 @@
             "named": true
           },
           {
+            "type": "F32_STORE",
+            "named": true
+          },
+          {
             "type": "F32_SUB",
             "named": true
           },
@@ -330,6 +334,10 @@
           },
           {
             "type": "F64_SQRT",
+            "named": true
+          },
+          {
+            "type": "F64_STORE",
             "named": true
           },
           {
@@ -1015,6 +1023,10 @@
             "named": true
           },
           {
+            "type": "F32_STORE",
+            "named": true
+          },
+          {
             "type": "F32_SUB",
             "named": true
           },
@@ -1128,6 +1140,10 @@
           },
           {
             "type": "F64_SQRT",
+            "named": true
+          },
+          {
+            "type": "F64_STORE",
             "named": true
           },
           {
@@ -1989,6 +2005,10 @@
             "named": true
           },
           {
+            "type": "F32_STORE",
+            "named": true
+          },
+          {
             "type": "F32_SUB",
             "named": true
           },
@@ -2102,6 +2122,10 @@
           },
           {
             "type": "F64_SQRT",
+            "named": true
+          },
+          {
+            "type": "F64_STORE",
             "named": true
           },
           {
@@ -2787,6 +2811,10 @@
             "named": true
           },
           {
+            "type": "F32_STORE",
+            "named": true
+          },
+          {
             "type": "F32_SUB",
             "named": true
           },
@@ -2900,6 +2928,10 @@
           },
           {
             "type": "F64_SQRT",
+            "named": true
+          },
+          {
+            "type": "F64_STORE",
             "named": true
           },
           {
@@ -3569,6 +3601,10 @@
             "named": true
           },
           {
+            "type": "F32_STORE",
+            "named": true
+          },
+          {
             "type": "F32_SUB",
             "named": true
           },
@@ -3682,6 +3718,10 @@
           },
           {
             "type": "F64_SQRT",
+            "named": true
+          },
+          {
+            "type": "F64_STORE",
             "named": true
           },
           {
@@ -4307,6 +4347,10 @@
             "named": true
           },
           {
+            "type": "F32_STORE",
+            "named": true
+          },
+          {
             "type": "F32_SUB",
             "named": true
           },
@@ -4420,6 +4464,10 @@
           },
           {
             "type": "F64_SQRT",
+            "named": true
+          },
+          {
+            "type": "F64_STORE",
             "named": true
           },
           {
@@ -5105,6 +5153,10 @@
             "named": true
           },
           {
+            "type": "F32_STORE",
+            "named": true
+          },
+          {
             "type": "F32_SUB",
             "named": true
           },
@@ -5218,6 +5270,10 @@
           },
           {
             "type": "F64_SQRT",
+            "named": true
+          },
+          {
+            "type": "F64_STORE",
             "named": true
           },
           {
@@ -5881,6 +5937,10 @@
             "named": true
           },
           {
+            "type": "F32_STORE",
+            "named": true
+          },
+          {
             "type": "F32_SUB",
             "named": true
           },
@@ -5994,6 +6054,10 @@
           },
           {
             "type": "F64_SQRT",
+            "named": true
+          },
+          {
+            "type": "F64_STORE",
             "named": true
           },
           {
@@ -6679,6 +6743,10 @@
             "named": true
           },
           {
+            "type": "F32_STORE",
+            "named": true
+          },
+          {
             "type": "F32_SUB",
             "named": true
           },
@@ -6792,6 +6860,10 @@
           },
           {
             "type": "F64_SQRT",
+            "named": true
+          },
+          {
+            "type": "F64_STORE",
             "named": true
           },
           {
@@ -7516,6 +7588,10 @@
             "named": true
           },
           {
+            "type": "F32_STORE",
+            "named": true
+          },
+          {
             "type": "F32_SUB",
             "named": true
           },
@@ -7629,6 +7705,10 @@
           },
           {
             "type": "F64_SQRT",
+            "named": true
+          },
+          {
+            "type": "F64_STORE",
             "named": true
           },
           {
@@ -8314,6 +8394,10 @@
             "named": true
           },
           {
+            "type": "F32_STORE",
+            "named": true
+          },
+          {
             "type": "F32_SUB",
             "named": true
           },
@@ -8427,6 +8511,10 @@
           },
           {
             "type": "F64_SQRT",
+            "named": true
+          },
+          {
+            "type": "F64_STORE",
             "named": true
           },
           {
@@ -9092,6 +9180,10 @@
             "named": true
           },
           {
+            "type": "F32_STORE",
+            "named": true
+          },
+          {
             "type": "F32_SUB",
             "named": true
           },
@@ -9205,6 +9297,10 @@
           },
           {
             "type": "F64_SQRT",
+            "named": true
+          },
+          {
+            "type": "F64_STORE",
             "named": true
           },
           {
@@ -9880,6 +9976,10 @@
             "named": true
           },
           {
+            "type": "F32_STORE",
+            "named": true
+          },
+          {
             "type": "F32_SUB",
             "named": true
           },
@@ -9993,6 +10093,10 @@
           },
           {
             "type": "F64_SQRT",
+            "named": true
+          },
+          {
+            "type": "F64_STORE",
             "named": true
           },
           {
@@ -10795,6 +10899,10 @@
             "named": true
           },
           {
+            "type": "F32_STORE",
+            "named": true
+          },
+          {
             "type": "F32_SUB",
             "named": true
           },
@@ -10908,6 +11016,10 @@
           },
           {
             "type": "F64_SQRT",
+            "named": true
+          },
+          {
+            "type": "F64_STORE",
             "named": true
           },
           {
@@ -11593,6 +11705,10 @@
             "named": true
           },
           {
+            "type": "F32_STORE",
+            "named": true
+          },
+          {
             "type": "F32_SUB",
             "named": true
           },
@@ -11706,6 +11822,10 @@
           },
           {
             "type": "F64_SQRT",
+            "named": true
+          },
+          {
+            "type": "F64_STORE",
             "named": true
           },
           {
@@ -12336,6 +12456,10 @@
             "named": true
           },
           {
+            "type": "F32_STORE",
+            "named": true
+          },
+          {
             "type": "F32_SUB",
             "named": true
           },
@@ -12449,6 +12573,10 @@
           },
           {
             "type": "F64_SQRT",
+            "named": true
+          },
+          {
+            "type": "F64_STORE",
             "named": true
           },
           {
@@ -13134,6 +13262,10 @@
             "named": true
           },
           {
+            "type": "F32_STORE",
+            "named": true
+          },
+          {
             "type": "F32_SUB",
             "named": true
           },
@@ -13247,6 +13379,10 @@
           },
           {
             "type": "F64_SQRT",
+            "named": true
+          },
+          {
+            "type": "F64_STORE",
             "named": true
           },
           {
@@ -13894,6 +14030,10 @@
             "named": true
           },
           {
+            "type": "F32_STORE",
+            "named": true
+          },
+          {
             "type": "F32_SUB",
             "named": true
           },
@@ -14007,6 +14147,10 @@
           },
           {
             "type": "F64_SQRT",
+            "named": true
+          },
+          {
+            "type": "F64_STORE",
             "named": true
           },
           {
@@ -14664,6 +14808,10 @@
             "named": true
           },
           {
+            "type": "F32_STORE",
+            "named": true
+          },
+          {
             "type": "F32_SUB",
             "named": true
           },
@@ -14777,6 +14925,10 @@
           },
           {
             "type": "F64_SQRT",
+            "named": true
+          },
+          {
+            "type": "F64_STORE",
             "named": true
           },
           {
@@ -15462,6 +15614,10 @@
             "named": true
           },
           {
+            "type": "F32_STORE",
+            "named": true
+          },
+          {
             "type": "F32_SUB",
             "named": true
           },
@@ -15575,6 +15731,10 @@
           },
           {
             "type": "F64_SQRT",
+            "named": true
+          },
+          {
+            "type": "F64_STORE",
             "named": true
           },
           {
@@ -16158,6 +16318,10 @@
             "named": true
           },
           {
+            "type": "F32_STORE",
+            "named": true
+          },
+          {
             "type": "F32_SUB",
             "named": true
           },
@@ -16271,6 +16435,10 @@
           },
           {
             "type": "F64_SQRT",
+            "named": true
+          },
+          {
+            "type": "F64_STORE",
             "named": true
           },
           {
@@ -16970,6 +17138,10 @@
             "named": true
           },
           {
+            "type": "F32_STORE",
+            "named": true
+          },
+          {
             "type": "F32_SUB",
             "named": true
           },
@@ -17083,6 +17255,10 @@
           },
           {
             "type": "F64_SQRT",
+            "named": true
+          },
+          {
+            "type": "F64_STORE",
             "named": true
           },
           {
@@ -17768,6 +17944,10 @@
             "named": true
           },
           {
+            "type": "F32_STORE",
+            "named": true
+          },
+          {
             "type": "F32_SUB",
             "named": true
           },
@@ -17881,6 +18061,10 @@
           },
           {
             "type": "F64_SQRT",
+            "named": true
+          },
+          {
+            "type": "F64_STORE",
             "named": true
           },
           {
@@ -18598,6 +18782,10 @@
             "named": true
           },
           {
+            "type": "F32_STORE",
+            "named": true
+          },
+          {
             "type": "F32_SUB",
             "named": true
           },
@@ -18711,6 +18899,10 @@
           },
           {
             "type": "F64_SQRT",
+            "named": true
+          },
+          {
+            "type": "F64_STORE",
             "named": true
           },
           {
@@ -19380,6 +19572,10 @@
             "named": true
           },
           {
+            "type": "F32_STORE",
+            "named": true
+          },
+          {
             "type": "F32_SUB",
             "named": true
           },
@@ -19493,6 +19689,10 @@
           },
           {
             "type": "F64_SQRT",
+            "named": true
+          },
+          {
+            "type": "F64_STORE",
             "named": true
           },
           {
@@ -20178,6 +20378,10 @@
             "named": true
           },
           {
+            "type": "F32_STORE",
+            "named": true
+          },
+          {
             "type": "F32_SUB",
             "named": true
           },
@@ -20291,6 +20495,10 @@
           },
           {
             "type": "F64_SQRT",
+            "named": true
+          },
+          {
+            "type": "F64_STORE",
             "named": true
           },
           {
@@ -22259,6 +22467,10 @@
     "named": true
   },
   {
+    "type": "F32_STORE",
+    "named": true
+  },
+  {
     "type": "F32_SUB",
     "named": true
   },
@@ -22372,6 +22584,10 @@
   },
   {
     "type": "F64_SQRT",
+    "named": true
+  },
+  {
+    "type": "F64_STORE",
     "named": true
   },
   {
