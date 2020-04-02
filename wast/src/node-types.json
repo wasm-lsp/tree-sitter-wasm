@@ -529,6 +529,10 @@
             "named": true
           },
           {
+            "type": "I32_WRAP_I64",
+            "named": true
+          },
+          {
             "type": "I32_XOR",
             "named": true
           },
@@ -1332,6 +1336,10 @@
           },
           {
             "type": "I32_TRUNC_F64_U",
+            "named": true
+          },
+          {
+            "type": "I32_WRAP_I64",
             "named": true
           },
           {
@@ -2317,6 +2325,10 @@
             "named": true
           },
           {
+            "type": "I32_WRAP_I64",
+            "named": true
+          },
+          {
             "type": "I32_XOR",
             "named": true
           },
@@ -3120,6 +3132,10 @@
           },
           {
             "type": "I32_TRUNC_F64_U",
+            "named": true
+          },
+          {
+            "type": "I32_WRAP_I64",
             "named": true
           },
           {
@@ -3913,6 +3929,10 @@
             "named": true
           },
           {
+            "type": "I32_WRAP_I64",
+            "named": true
+          },
+          {
             "type": "I32_XOR",
             "named": true
           },
@@ -4656,6 +4676,10 @@
           },
           {
             "type": "I32_TRUNC_F64_U",
+            "named": true
+          },
+          {
+            "type": "I32_WRAP_I64",
             "named": true
           },
           {
@@ -5462,6 +5486,10 @@
           },
           {
             "type": "I32_TRUNC_F64_U",
+            "named": true
+          },
+          {
+            "type": "I32_WRAP_I64",
             "named": true
           },
           {
@@ -6249,6 +6277,10 @@
             "named": true
           },
           {
+            "type": "I32_WRAP_I64",
+            "named": true
+          },
+          {
             "type": "I32_XOR",
             "named": true
           },
@@ -7052,6 +7084,10 @@
           },
           {
             "type": "I32_TRUNC_F64_U",
+            "named": true
+          },
+          {
+            "type": "I32_WRAP_I64",
             "named": true
           },
           {
@@ -7900,6 +7936,10 @@
             "named": true
           },
           {
+            "type": "I32_WRAP_I64",
+            "named": true
+          },
+          {
             "type": "I32_XOR",
             "named": true
           },
@@ -8706,6 +8746,10 @@
             "named": true
           },
           {
+            "type": "I32_WRAP_I64",
+            "named": true
+          },
+          {
             "type": "I32_XOR",
             "named": true
           },
@@ -9489,6 +9533,10 @@
           },
           {
             "type": "I32_TRUNC_F64_U",
+            "named": true
+          },
+          {
+            "type": "I32_WRAP_I64",
             "named": true
           },
           {
@@ -10285,6 +10333,10 @@
           },
           {
             "type": "I32_TRUNC_F64_U",
+            "named": true
+          },
+          {
+            "type": "I32_WRAP_I64",
             "named": true
           },
           {
@@ -11211,6 +11263,10 @@
             "named": true
           },
           {
+            "type": "I32_WRAP_I64",
+            "named": true
+          },
+          {
             "type": "I32_XOR",
             "named": true
           },
@@ -12017,6 +12073,10 @@
             "named": true
           },
           {
+            "type": "I32_WRAP_I64",
+            "named": true
+          },
+          {
             "type": "I32_XOR",
             "named": true
           },
@@ -12293,7 +12353,17 @@
   {
     "type": "fN",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "sign",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "foldedinstr_block",
@@ -12765,6 +12835,10 @@
           },
           {
             "type": "I32_TRUNC_F64_U",
+            "named": true
+          },
+          {
+            "type": "I32_WRAP_I64",
             "named": true
           },
           {
@@ -13574,6 +13648,10 @@
             "named": true
           },
           {
+            "type": "I32_WRAP_I64",
+            "named": true
+          },
+          {
             "type": "I32_XOR",
             "named": true
           },
@@ -14339,6 +14417,10 @@
           },
           {
             "type": "I32_TRUNC_F64_U",
+            "named": true
+          },
+          {
+            "type": "I32_WRAP_I64",
             "named": true
           },
           {
@@ -15120,6 +15202,10 @@
             "named": true
           },
           {
+            "type": "I32_WRAP_I64",
+            "named": true
+          },
+          {
             "type": "I32_XOR",
             "named": true
           },
@@ -15926,6 +16012,10 @@
             "named": true
           },
           {
+            "type": "I32_WRAP_I64",
+            "named": true
+          },
+          {
             "type": "I32_XOR",
             "named": true
           },
@@ -16627,6 +16717,10 @@
           },
           {
             "type": "I32_TRUNC_F64_U",
+            "named": true
+          },
+          {
+            "type": "I32_WRAP_I64",
             "named": true
           },
           {
@@ -17450,6 +17544,10 @@
             "named": true
           },
           {
+            "type": "I32_WRAP_I64",
+            "named": true
+          },
+          {
             "type": "I32_XOR",
             "named": true
           },
@@ -18253,6 +18351,10 @@
           },
           {
             "type": "I32_TRUNC_F64_U",
+            "named": true
+          },
+          {
+            "type": "I32_WRAP_I64",
             "named": true
           },
           {
@@ -19094,6 +19196,10 @@
             "named": true
           },
           {
+            "type": "I32_WRAP_I64",
+            "named": true
+          },
+          {
             "type": "I32_XOR",
             "named": true
           },
@@ -19881,6 +19987,10 @@
           },
           {
             "type": "I32_TRUNC_F64_U",
+            "named": true
+          },
+          {
+            "type": "I32_WRAP_I64",
             "named": true
           },
           {
@@ -20690,6 +20800,10 @@
             "named": true
           },
           {
+            "type": "I32_WRAP_I64",
+            "named": true
+          },
+          {
             "type": "I32_XOR",
             "named": true
           },
@@ -21139,8 +21253,12 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": false,
+      "required": true,
       "types": [
+        {
+          "type": "sN",
+          "named": true
+        },
         {
           "type": "uN",
           "named": true
@@ -21595,6 +21713,11 @@
     }
   },
   {
+    "type": "memarg",
+    "named": false,
+    "fields": {}
+  },
+  {
     "type": "memidx",
     "named": true,
     "fields": {},
@@ -22004,6 +22127,25 @@
     }
   },
   {
+    "type": "sN",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "sign",
+          "named": true
+        },
+        {
+          "type": "uN",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "script",
     "named": false,
     "fields": {},
@@ -22269,6 +22411,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "uN",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "valtype",
@@ -22776,6 +22923,10 @@
     "named": true
   },
   {
+    "type": "I32_WRAP_I64",
+    "named": true
+  },
+  {
     "type": "I32_XOR",
     "named": true
   },
@@ -23072,10 +23223,6 @@
     "named": false
   },
   {
-    "type": "_",
-    "named": false
-  },
-  {
     "type": "assert_exhaustion",
     "named": false
   },
@@ -23180,16 +23327,16 @@
     "named": false
   },
   {
+    "type": "sign",
+    "named": true
+  },
+  {
     "type": "type",
     "named": false
   },
   {
     "type": "typeuse",
     "named": false
-  },
-  {
-    "type": "uN",
-    "named": true
   },
   {
     "type": "}",
