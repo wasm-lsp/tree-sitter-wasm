@@ -648,6 +648,7 @@ module.exports = grammar({
         field("plain", $.I32_TRUNC_F32_U),
         field("plain", $.I32_TRUNC_F64_S),
         field("plain", $.I32_TRUNC_F64_U),
+        field("plain", $.I32_WRAP_I64),
         field("plain", $.I32_XOR),
 
         field("plain", $.I64_ADD),
