@@ -261,50 +261,35 @@ module.exports = grammar({
      * Integers *
      ************/
 
-    _sign: $ => /[+-]/,
+    sign: $ => /[+-]/,
 
     _digit: $ => /[0-9]/,
 
     _hexdigit: $ => /[0-9A-Fa-f]/,
 
-    _num: $ => /[0-9]|[0-9]+(?:_?[0-9]+)*/,
+    _num: $ => /[0-9]+(?:_?[0-9]+)*/,
 
-    _hexnum: $ => /[0-9A-Fa-f]|[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*/,
+    _hexnum: $ => /[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*/,
 
-    uN: $ => /(?:[0-9]|[0-9]+(?:_?[0-9]+)*)|(?:0x[0-9A-Fa-f]|[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*)/,
+    // num | hexnum
+    uN: $ => choice($._num, seq("0x", $._hexnum)),
 
-    _sN: $ => /(?:[+-]?[0-9]|[0-9]+(?:_?[0-9]+)*)|(?:[+-]?0x[0-9A-Fa-f]|[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*)/,
+    sN: $ => seq($.sign, $.uN),
 
-    iN: $ => choice($.uN, $._sN),
+    iN: $ => choice($.uN, $.sN),
 
     /******************
      * Floating-Point *
      ******************/
 
-    _frac: $ => choice(seq($._digit, optional($._frac)), seq($._digit, "_", $._digit, optional($._frac))),
-
-    _hexfrac: $ =>
-      choice(seq($._hexdigit, optional($._hexfrac)), seq($._hexdigit, "_", $._hexdigit, optional($._hexfrac))),
-
-    _float: $ =>
-      choice(
-        $._num,
-        seq($._num, ".", optional($._frac)),
-        seq($._num, /[Ee]/, optional($._sign), $._num),
-        seq($._num, ".", optional($._frac), /[Ee]/, optional($._sign), $._num),
-      ),
+    _float: $ => prec.right(1, seq($._num, optional(seq(".", optional($._num))), optional(seq(/[Ee]/, $.sign, $._num)))),
 
     _hexfloat: $ =>
-      choice(
-        seq("0x", $._hexnum),
-        seq("0x", $._hexnum, ".", optional($._hexfrac)),
-        seq("0x", $._hexnum, /[Pp]/, optional($._sign), $._num),
-        seq("0x", $._hexnum, ".", optional($._hexfrac), /[Pp]/, optional($._sign), $._num),
-      ),
+      prec.right(1, seq("0x", $._hexnum, optional(seq(".", optional($._hexnum))), optional(seq(/[Pp]/, $.sign, $._num)))),
 
     _fNmag: $ => choice($._float, $._hexfloat, "inf", "nan", seq("nan:0x", $._hexnum)),
 
-    fN: $ => seq(optional($._sign), $._fNmag),
+    fN: $ => seq(optional($.sign), $._fNmag),
 
     /**********
      * String *
