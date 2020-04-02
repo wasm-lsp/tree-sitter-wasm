@@ -511,152 +511,40 @@ module.exports = grammar({
          ***********************/
 
         seq(
-          field("plain", $.F32_LOAD),
+          field(
+            "plain",
+            choice(
+              $.F32_LOAD,
+              $.F32_STORE,
+              $.F64_LOAD,
+              $.F64_STORE,
+              $.I32_LOAD,
+              $.I32_LOAD16_S,
+              $.I32_LOAD16_U,
+              $.I32_LOAD8_S,
+              $.I32_LOAD8_U,
+              $.I32_STORE,
+              $.I32_STORE16,
+              $.I32_STORE8,
+              $.I64_LOAD,
+              $.I64_LOAD16_S,
+              $.I64_LOAD16_U,
+              $.I64_LOAD32_S,
+              $.I64_LOAD32_U,
+              $.I64_LOAD8_S,
+              $.I64_LOAD8_U,
+              $.I64_STORE,
+              $.I64_STORE16,
+              $.I64_STORE32,
+              $.I64_STORE8,
+            ),
+          ),
           alias(
             seq(optional(field("offset", seq($.OFFSET_EQ, $.uN))), optional(field("align", seq($.ALIGN_EQ, $.uN)))),
             "memarg",
           ),
         ),
-        seq(
-          field("plain", $.F64_LOAD),
-          alias(
-            seq(optional(field("offset", seq($.OFFSET_EQ, $.uN))), optional(field("align", seq($.ALIGN_EQ, $.uN)))),
-            "memarg",
-          ),
-        ),
-        seq(
-          field("plain", $.I32_LOAD),
-          alias(
-            seq(optional(field("offset", seq($.OFFSET_EQ, $.uN))), optional(field("align", seq($.ALIGN_EQ, $.uN)))),
-            "memarg",
-          ),
-        ),
-        seq(
-          field("plain", $.I32_LOAD8_S),
-          alias(
-            seq(optional(field("offset", seq($.OFFSET_EQ, $.uN))), optional(field("align", seq($.ALIGN_EQ, $.uN)))),
-            "memarg",
-          ),
-        ),
-        seq(
-          field("plain", $.I32_LOAD8_U),
-          alias(
-            seq(optional(field("offset", seq($.OFFSET_EQ, $.uN))), optional(field("align", seq($.ALIGN_EQ, $.uN)))),
-            "memarg",
-          ),
-        ),
-        seq(
-          field("plain", $.I32_LOAD16_S),
-          alias(
-            seq(optional(field("offset", seq($.OFFSET_EQ, $.uN))), optional(field("align", seq($.ALIGN_EQ, $.uN)))),
-            "memarg",
-          ),
-        ),
-        seq(
-          field("plain", $.I32_LOAD16_U),
-          alias(
-            seq(optional(field("offset", seq($.OFFSET_EQ, $.uN))), optional(field("align", seq($.ALIGN_EQ, $.uN)))),
-            "memarg",
-          ),
-        ),
-        seq(
-          field("plain", $.I32_STORE),
-          alias(
-            seq(optional(field("offset", seq($.OFFSET_EQ, $.uN))), optional(field("align", seq($.ALIGN_EQ, $.uN)))),
-            "memarg",
-          ),
-        ),
-        seq(
-          field("plain", $.I32_STORE8),
-          alias(
-            seq(optional(field("offset", seq($.OFFSET_EQ, $.uN))), optional(field("align", seq($.ALIGN_EQ, $.uN)))),
-            "memarg",
-          ),
-        ),
-        seq(
-          field("plain", $.I32_STORE16),
-          alias(
-            seq(optional(field("offset", seq($.OFFSET_EQ, $.uN))), optional(field("align", seq($.ALIGN_EQ, $.uN)))),
-            "memarg",
-          ),
-        ),
-        seq(
-          field("plain", $.I64_LOAD),
-          alias(
-            seq(optional(field("offset", seq($.OFFSET_EQ, $.uN))), optional(field("align", seq($.ALIGN_EQ, $.uN)))),
-            "memarg",
-          ),
-        ),
-        seq(
-          field("plain", $.I64_LOAD8_S),
-          alias(
-            seq(optional(field("offset", seq($.OFFSET_EQ, $.uN))), optional(field("align", seq($.ALIGN_EQ, $.uN)))),
-            "memarg",
-          ),
-        ),
-        seq(
-          field("plain", $.I64_LOAD8_U),
-          alias(
-            seq(optional(field("offset", seq($.OFFSET_EQ, $.uN))), optional(field("align", seq($.ALIGN_EQ, $.uN)))),
-            "memarg",
-          ),
-        ),
-        seq(
-          field("plain", $.I64_LOAD16_S),
-          alias(
-            seq(optional(field("offset", seq($.OFFSET_EQ, $.uN))), optional(field("align", seq($.ALIGN_EQ, $.uN)))),
-            "memarg",
-          ),
-        ),
-        seq(
-          field("plain", $.I64_LOAD16_U),
-          alias(
-            seq(optional(field("offset", seq($.OFFSET_EQ, $.uN))), optional(field("align", seq($.ALIGN_EQ, $.uN)))),
-            "memarg",
-          ),
-        ),
-        seq(
-          field("plain", $.I64_LOAD32_S),
-          alias(
-            seq(optional(field("offset", seq($.OFFSET_EQ, $.uN))), optional(field("align", seq($.ALIGN_EQ, $.uN)))),
-            "memarg",
-          ),
-        ),
-        seq(
-          field("plain", $.I64_LOAD32_U),
-          alias(
-            seq(optional(field("offset", seq($.OFFSET_EQ, $.uN))), optional(field("align", seq($.ALIGN_EQ, $.uN)))),
-            "memarg",
-          ),
-        ),
-        seq(
-          field("plain", $.I64_STORE),
-          alias(
-            seq(optional(field("offset", seq($.OFFSET_EQ, $.uN))), optional(field("align", seq($.ALIGN_EQ, $.uN)))),
-            "memarg",
-          ),
-        ),
-        seq(
-          field("plain", $.I64_STORE8),
-          alias(
-            seq(optional(field("offset", seq($.OFFSET_EQ, $.uN))), optional(field("align", seq($.ALIGN_EQ, $.uN)))),
-            "memarg",
-          ),
-        ),
-        seq(
-          field("plain", $.I64_STORE16),
-          alias(
-            seq(optional(field("offset", seq($.OFFSET_EQ, $.uN))), optional(field("align", seq($.ALIGN_EQ, $.uN)))),
-            "memarg",
-          ),
-        ),
-        seq(
-          field("plain", $.I64_STORE32),
-          alias(
-            seq(optional(field("offset", seq($.OFFSET_EQ, $.uN))), optional(field("align", seq($.ALIGN_EQ, $.uN)))),
-            "memarg",
-          ),
-        ),
+
         field("plain", $.MEMORY_SIZE),
         field("plain", $.MEMORY_GROW),
 
