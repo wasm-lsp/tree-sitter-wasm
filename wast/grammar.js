@@ -80,7 +80,13 @@ module.exports = grammar(wat, {
     // ======================= Results ====================== //
     // ====================================================== //
 
-    result_value: $ => seq("(", field("const", choice($.I32_CONST, $.I64_CONST, $.F32_CONST, $.F64_CONST)), ")"),
+    result_value: $ =>
+      seq(
+        "(",
+        field("const", choice($.I32_CONST, $.I64_CONST, $.F32_CONST, $.F64_CONST)),
+        field("numpat", $._numpat),
+        ")",
+      ),
 
     _numpat: $ => choice($.iN, $.fN, $.numpat_nan_canonical, $.numpat_nan_arithmetic),
 
