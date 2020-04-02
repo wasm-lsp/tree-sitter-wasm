@@ -1665,6 +1665,34 @@
         "required": true,
         "types": [
           {
+            "type": "data",
+            "named": true
+          },
+          {
+            "type": "elem",
+            "named": true
+          },
+          {
+            "type": "export",
+            "named": true
+          },
+          {
+            "type": "func",
+            "named": true
+          },
+          {
+            "type": "global",
+            "named": true
+          },
+          {
+            "type": "import",
+            "named": true
+          },
+          {
+            "type": "mem",
+            "named": true
+          },
+          {
             "type": "module",
             "named": true
           },
@@ -1674,6 +1702,18 @@
           },
           {
             "type": "module_quote",
+            "named": true
+          },
+          {
+            "type": "start",
+            "named": true
+          },
+          {
+            "type": "table",
+            "named": true
+          },
+          {
+            "type": "type",
             "named": true
           }
         ]
@@ -1699,6 +1739,34 @@
         "required": true,
         "types": [
           {
+            "type": "data",
+            "named": true
+          },
+          {
+            "type": "elem",
+            "named": true
+          },
+          {
+            "type": "export",
+            "named": true
+          },
+          {
+            "type": "func",
+            "named": true
+          },
+          {
+            "type": "global",
+            "named": true
+          },
+          {
+            "type": "import",
+            "named": true
+          },
+          {
+            "type": "mem",
+            "named": true
+          },
+          {
             "type": "module",
             "named": true
           },
@@ -1708,6 +1776,18 @@
           },
           {
             "type": "module_quote",
+            "named": true
+          },
+          {
+            "type": "start",
+            "named": true
+          },
+          {
+            "type": "table",
+            "named": true
+          },
+          {
+            "type": "type",
             "named": true
           }
         ]
@@ -1793,6 +1873,34 @@
         "required": true,
         "types": [
           {
+            "type": "data",
+            "named": true
+          },
+          {
+            "type": "elem",
+            "named": true
+          },
+          {
+            "type": "export",
+            "named": true
+          },
+          {
+            "type": "func",
+            "named": true
+          },
+          {
+            "type": "global",
+            "named": true
+          },
+          {
+            "type": "import",
+            "named": true
+          },
+          {
+            "type": "mem",
+            "named": true
+          },
+          {
             "type": "module",
             "named": true
           },
@@ -1802,6 +1910,18 @@
           },
           {
             "type": "module_quote",
+            "named": true
+          },
+          {
+            "type": "start",
+            "named": true
+          },
+          {
+            "type": "table",
+            "named": true
+          },
+          {
+            "type": "type",
             "named": true
           }
         ]
@@ -1827,6 +1947,34 @@
         "required": true,
         "types": [
           {
+            "type": "data",
+            "named": true
+          },
+          {
+            "type": "elem",
+            "named": true
+          },
+          {
+            "type": "export",
+            "named": true
+          },
+          {
+            "type": "func",
+            "named": true
+          },
+          {
+            "type": "global",
+            "named": true
+          },
+          {
+            "type": "import",
+            "named": true
+          },
+          {
+            "type": "mem",
+            "named": true
+          },
+          {
             "type": "module",
             "named": true
           },
@@ -1836,6 +1984,18 @@
           },
           {
             "type": "module_quote",
+            "named": true
+          },
+          {
+            "type": "start",
+            "named": true
+          },
+          {
+            "type": "table",
+            "named": true
+          },
+          {
+            "type": "type",
             "named": true
           }
         ]
@@ -7433,6 +7593,34 @@
           "named": true
         },
         {
+          "type": "data",
+          "named": true
+        },
+        {
+          "type": "elem",
+          "named": true
+        },
+        {
+          "type": "export",
+          "named": true
+        },
+        {
+          "type": "func",
+          "named": true
+        },
+        {
+          "type": "global",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "mem",
+          "named": true
+        },
+        {
           "type": "meta_input",
           "named": true
         },
@@ -7458,6 +7646,18 @@
         },
         {
           "type": "register",
+          "named": true
+        },
+        {
+          "type": "start",
+          "named": true
+        },
+        {
+          "type": "table",
+          "named": true
+        },
+        {
+          "type": "type",
           "named": true
         }
       ]
@@ -10623,11 +10823,15 @@
       }
     },
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
           "type": "ELEM",
+          "named": true
+        },
+        {
+          "type": "OFFSET",
           "named": true
         }
       ]

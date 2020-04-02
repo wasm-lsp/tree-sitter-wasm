@@ -2,12 +2,17 @@
   "name": "wat",
   "rules": {
     "ENTRYPOINT": {
-      "type": "FIELD",
-      "name": "module",
-      "content": {
-        "type": "SYMBOL",
-        "name": "module"
-      }
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "module"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "module_inline"
+        }
+      ]
     },
     "_comment": {
       "type": "TOKEN",
@@ -953,8 +958,16 @@
                     "value": "[Ee]"
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "sign"
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "sign"
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
                   },
                   {
                     "type": "SYMBOL",
@@ -1024,8 +1037,16 @@
                     "value": "[Pp]"
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "sign"
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "sign"
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
                   },
                   {
                     "type": "SYMBOL",
@@ -5492,6 +5513,10 @@
                   "value": "("
                 },
                 {
+                  "type": "SYMBOL",
+                  "name": "OFFSET"
+                },
+                {
                   "type": "ALIAS",
                   "content": {
                     "type": "REPEAT",
@@ -5670,6 +5695,17 @@
           "value": ")"
         }
       ]
+    },
+    "module_inline": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "FIELD",
+        "name": "field",
+        "content": {
+          "type": "SYMBOL",
+          "name": "_modulefield"
+        }
+      }
     },
     "_modulefield": {
       "type": "CHOICE",
