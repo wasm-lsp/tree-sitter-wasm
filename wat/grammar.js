@@ -1,7 +1,3 @@
-// FIXME:
-// 1. hide keyword rules
-// 2. field must go inside repeat
-
 module.exports = grammar({
   name: "wat",
 
@@ -28,25 +24,11 @@ module.exports = grammar({
      * Whitespace *
      **************/
 
-    // _space: $ => choice(" ", $._format, $.comment),
-
-    // _format: $ => /[\t\n\r]/,
-
     /************
      * Comments *
      ************/
 
     _comment: $ => token(prec(1, choice(seq(";;", /.*/), seq("(;", /[^;]*;+([^);][^;]*;+)*/, ")")))),
-
-    // comment: $ => choice($.linecomment, $.blockcomment),
-
-    // linecomment: $ => seq(";;", repeat($._linechar), "\n"),
-
-    // _linechar: $ => $._utf8line,
-
-    // blockcomment: $ => seq("(;", repeat($._blockchar), ";)"),
-
-    // _blockchar: $ => choice(/[^;(]/, /;[^)]/, /\([^;]/, $.blockcomment),
 
     // ====================================================== //
     // ======================= Tokens ======================= //
