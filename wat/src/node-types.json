@@ -1548,10 +1548,10 @@
       },
       "resulttype": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
-            "type": "resulttype",
+            "type": "result",
             "named": true
           }
         ]
@@ -3890,10 +3890,10 @@
       },
       "resulttype": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
-            "type": "resulttype",
+            "type": "result",
             "named": true
           }
         ]
@@ -5480,10 +5480,10 @@
       },
       "resulttype": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
-            "type": "resulttype",
+            "type": "result",
             "named": true
           }
         ]
@@ -11924,10 +11924,10 @@
       },
       "resulttype": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
-            "type": "resulttype",
+            "type": "result",
             "named": true
           }
         ]
@@ -14276,10 +14276,10 @@
       },
       "resulttype": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
-            "type": "resulttype",
+            "type": "result",
             "named": true
           }
         ]
@@ -16606,10 +16606,10 @@
       },
       "resulttype": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
-            "type": "resulttype",
+            "type": "result",
             "named": true
           }
         ]
@@ -19883,21 +19883,6 @@
       "types": [
         {
           "type": "RESULT",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "resulttype",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "result",
           "named": true
         }
       ]

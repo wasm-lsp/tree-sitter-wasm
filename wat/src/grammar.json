@@ -1562,10 +1562,6 @@
         }
       ]
     },
-    "resulttype": {
-      "type": "SYMBOL",
-      "name": "result"
-    },
     "functype": {
       "type": "SEQ",
       "members": [
@@ -1874,8 +1870,16 @@
           "type": "FIELD",
           "name": "resulttype",
           "content": {
-            "type": "SYMBOL",
-            "name": "resulttype"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "result"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         },
         {
@@ -1943,8 +1947,16 @@
           "type": "FIELD",
           "name": "resulttype",
           "content": {
-            "type": "SYMBOL",
-            "name": "resulttype"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "result"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         },
         {
@@ -2012,8 +2024,16 @@
           "type": "FIELD",
           "name": "resulttype",
           "content": {
-            "type": "SYMBOL",
-            "name": "resulttype"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "result"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         },
         {
@@ -3792,8 +3812,16 @@
           "type": "FIELD",
           "name": "resulttype",
           "content": {
-            "type": "SYMBOL",
-            "name": "resulttype"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "result"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         },
         {
@@ -3849,8 +3877,16 @@
           "type": "FIELD",
           "name": "resulttype",
           "content": {
-            "type": "SYMBOL",
-            "name": "resulttype"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "result"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         },
         {
@@ -3906,8 +3942,16 @@
           "type": "FIELD",
           "name": "resulttype",
           "content": {
-            "type": "SYMBOL",
-            "name": "resulttype"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "result"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         },
         {
