@@ -282,10 +282,14 @@ module.exports = grammar({
      * Floating-Point *
      ******************/
 
-    _float: $ => prec.right(1, seq($._num, optional(seq(".", optional($._num))), optional(seq(/[Ee]/, $.sign, $._num)))),
+    _float: $ =>
+      prec.right(1, seq($._num, optional(seq(".", optional($._num))), optional(seq(/[Ee]/, optional($.sign), $._num)))),
 
     _hexfloat: $ =>
-      prec.right(1, seq("0x", $._hexnum, optional(seq(".", optional($._hexnum))), optional(seq(/[Pp]/, $.sign, $._num)))),
+      prec.right(
+        1,
+        seq("0x", $._hexnum, optional(seq(".", optional($._hexnum))), optional(seq(/[Pp]/, optional($.sign), $._num))),
+      ),
 
     _fNmag: $ => choice($._float, $._hexfloat, "inf", "nan", seq("nan:0x", $._hexnum)),
 
