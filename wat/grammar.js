@@ -362,7 +362,8 @@ module.exports = grammar({
      * Result Types *
      ****************/
 
-    resulttype: $ => $.result,
+    // NOTE: we inline this because it matches the empty string
+    // resulttype: $ => optional($.result),
 
     /******************
      * Function Types *
@@ -429,7 +430,7 @@ module.exports = grammar({
       seq(
         $.BLOCK,
         alias(optional(field("label", $.id)), "label"),
-        field("resulttype", $.resulttype),
+        field("resulttype", optional($.result)),
         repeat(field("instr", $._instr)),
         $.END,
         optional(field("id", $.id)),
@@ -439,7 +440,7 @@ module.exports = grammar({
       seq(
         $.LOOP,
         alias(optional(field("label", $.id)), "label"),
-        field("resulttype", $.resulttype),
+        field("resulttype", optional($.result)),
         repeat(field("instr", $._instr)),
         $.END,
         optional(field("id", $.id)),
@@ -449,7 +450,7 @@ module.exports = grammar({
       seq(
         $.IF,
         alias(optional(field("label", $.id)), "label"),
-        field("resulttype", $.resulttype),
+        field("resulttype", optional($.result)),
         repeat(field("instr0", $._instr)),
         choice(
           seq(
@@ -704,7 +705,7 @@ module.exports = grammar({
         "(",
         $.BLOCK,
         alias(optional(field("label", $.id)), "label"),
-        field("resulttype", $.resulttype),
+        field("resulttype", optional($.result)),
         repeat(field("instr", $._instr)),
         ")",
       ),
@@ -714,7 +715,7 @@ module.exports = grammar({
         "(",
         $.LOOP,
         alias(optional(field("label", $.id)), "label"),
-        field("resulttype", $.resulttype),
+        field("resulttype", optional($.result)),
         repeat(field("instr", $._instr)),
         ")",
       ),
@@ -724,7 +725,7 @@ module.exports = grammar({
         "(",
         $.IF,
         alias(optional(field("label", $.id)), "label"),
-        field("resulttype", $.resulttype),
+        field("resulttype", optional($.result)),
         repeat(field("foldedinstr", $._foldedinstr)),
         field("then", seq("(", $.THEN, repeat(field("instr", $._instr)), ")")),
         optional(field("else", seq("(", $.ELSE, repeat(field("instr", $._instr)), ")"))),
