@@ -21770,6 +21770,28 @@
             "named": true
           }
         ]
+      },
+      "numpat": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "fN",
+            "named": true
+          },
+          {
+            "type": "iN",
+            "named": true
+          },
+          {
+            "type": "numpat_nan_arithmetic",
+            "named": true
+          },
+          {
+            "type": "numpat_nan_canonical",
+            "named": true
+          }
+        ]
       }
     }
   },

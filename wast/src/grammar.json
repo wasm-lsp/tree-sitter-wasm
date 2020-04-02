@@ -7801,6 +7801,14 @@
           }
         },
         {
+          "type": "FIELD",
+          "name": "numpat",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_numpat"
+          }
+        },
+        {
           "type": "STRING",
           "value": ")"
         }
