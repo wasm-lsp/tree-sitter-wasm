@@ -25,7 +25,7 @@ module.exports = grammar(wat, {
     // ================== Module Extensions ================= //
     // ====================================================== //
 
-    _module_ext: $ => choice($.module, $.module_binary, $.module_quote),
+    _module_ext: $ => choice($.module, $._modulefield, $.module_binary, $.module_quote),
 
     module_binary: $ => seq("(", $.MODULE, optional(field("id", $.id)), "binary", repeat(field("data", $.string)), ")"),
 
