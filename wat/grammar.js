@@ -971,7 +971,7 @@ module.exports = grammar({
         choice(
           // abbreviation
           field("instr", $._instr),
-          seq("(", alias(repeat(field("expr", $._instr)), "expr"), ")"),
+          seq("(", $.OFFSET, alias(repeat(field("expr", $._instr)), "expr"), ")"),
         ),
         repeat(field("funcidx", $.funcidx)),
         ")",
