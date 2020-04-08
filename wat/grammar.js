@@ -14,7 +14,7 @@ module.exports = grammar({
   ],
 
   rules: {
-    ENTRYPOINT: $ => field("module", $.module),
+    ENTRYPOINT: $ => choice($.module, $.module_inline),
 
     // ====================================================== //
     // =================== Lexical Format =================== //
@@ -1003,6 +1003,8 @@ module.exports = grammar({
      ***********/
 
     module: $ => seq("(", $.MODULE, optional(field("id", $.id)), repeat(field("field", $._modulefield)), ")"),
+
+    module_inline: $ => repeat1(field("field", $._modulefield)),
 
     _modulefield: $ => choice($.type, $.import, $.func, $.table, $.mem, $.global, $.export, $.start, $.elem, $.data),
   },
