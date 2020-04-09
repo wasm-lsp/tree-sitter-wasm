@@ -1,1011 +1,742 @@
+const PREC = {
+  COMMENT: 1,
+  STRING: 2,
+};
+
+const pattern_hexnum = /[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*/;
+const pattern_identifier = /\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+/;
+const pattern_num = /[0-9]+(?:_?[0-9]+)*/;
+const pattern_sign = /[+-]/;
+const pattern_value_type = /[fi](?:32|64)/;
+
 module.exports = grammar({
   name: "wat",
 
-  extras: $ => [$._comment, /[\s\uFEFF\u2060\u200B\u00A0]/],
+  extras: $ => [$.comment, /[\s\uFEFF\u2060\u200B\u00A0]/],
 
   conflicts: $ => [
-    [$._plaininstr],
-    [$.blockinstr_block],
-    [$.blockinstr_loop],
-    [$.blockinstr_if],
-    [$.blockinstr_if, $.foldedinstr_if],
-    [$._instr, $.foldedinstr_if],
-    [$._instr, $.foldedinstr_plain],
+    [$.instr_type_int, $.instr_type_int_32],
+    [$.instr_type_int, $.instr_type_int_64],
+    [$.instr_type_float, $.instr_type_float_32],
+    [$.instr_type_float, $.instr_type_float_64],
+    [$._instr_type, $.instr_plain_compare, $.instr_plain_unary, $.instr_plain_binary, $.instr_plain_convert],
+    [
+      $._instr_type,
+      $.instr_plain_compare,
+      $.instr_plain_unary,
+      $.instr_plain_binary,
+      $.instr_plain_convert,
+      $.instr_plain_load,
+      $.instr_plain_store,
+    ],
   ],
 
   rules: {
-    ENTRYPOINT: $ => choice($.module, $.module_inline),
+    PARSE: $ => choice($.module, alias(repeat($._module_field), $.inline_module)),
 
-    // ====================================================== //
-    // =================== Lexical Format =================== //
-    // ====================================================== //
+    comment: $ => token(prec(PREC.COMMENT, choice(seq(";;", /.*/), seq("(;", /[^;]*;+([^);][^;]*;+)*/, ")")))),
 
-    /**************
-     * Whitespace *
-     **************/
+    sign: $ => token(/[+-]/),
 
-    /************
-     * Comments *
-     ************/
+    hexnum: $ => token(pattern_hexnum),
 
-    _comment: $ => token(prec(1, choice(seq(";;", /.*/), seq("(;", /[^;]*;+([^);][^;]*;+)*/, ")")))),
+    num: $ => token(pattern_num),
 
-    // ====================================================== //
-    // ======================= Tokens ======================= //
-    // ====================================================== //
-
-    ALIGN_EQ: $ => "align=",
-    BLOCK: $ => "block",
-    BR_IF: $ => "br_if",
-    BR_TABLE: $ => "br_table",
-    BR: $ => "br",
-    CALL_INDIRECT: $ => "call_indirect",
-    CALL: $ => "call",
-    DATA: $ => "data",
-    DROP: $ => "drop",
-    ELEM: $ => "elem",
-    ELSE: $ => "else",
-    END: $ => "end",
-    EXPORT: $ => "export",
-    FUNC: $ => "func",
-    FUNCREF: $ => "funcref",
-    GLOBAL_GET: $ => "global.get",
-    GLOBAL_SET: $ => "global.set",
-    GLOBAL: $ => "global",
-    IF: $ => "if",
-    IMPORT: $ => "import",
-    LOCAL_GET: $ => "local.get",
-    LOCAL_SET: $ => "local.set",
-    LOCAL_TEE: $ => "local.tee",
-    LOCAL: $ => "local",
-    LOOP: $ => "loop",
-    MEMORY_GROW: $ => "memory.grow",
-    MEMORY_SIZE: $ => "memory.size",
-    MEMORY: $ => "memory",
-    MODULE: $ => "module",
-    MUT: $ => "mut",
-    NOP: $ => "nop",
-    OFFSET_EQ: $ => "offset=",
-    OFFSET: $ => "offset",
-    PARAM: $ => "param",
-    RESULT: $ => "result",
-    RETURN: $ => "return",
-    SELECT: $ => "select",
-    START: $ => "start",
-    TABLE: $ => "table",
-    THEN: $ => "then",
-    TYPE: $ => "type",
-    UNREACHABLE: $ => "unreachable",
-
-    F32_ABS: $ => "f32.abs",
-    F32_ADD: $ => "f32.add",
-    F32_CEIL: $ => "f32.ceil",
-    F32_CONVERT_I32_S: $ => "f32.convert_i32_s",
-    F32_CONVERT_I32_U: $ => "f32.convert_i32_u",
-    F32_CONVERT_I64_S: $ => "f32.convert_i64_s",
-    F32_CONVERT_I64_U: $ => "f32.convert_i64_u",
-    F32_CONST: $ => "f32.const",
-    F32_COPYSIGN: $ => "f32.copysign",
-    F32_DEMOTE_F64: $ => "f32.demote_f64",
-    F32_DIV: $ => "f32.div",
-    F32_EQ: $ => "f32.eq",
-    F32_FLOOR: $ => "f32.floor",
-    F32_GE: $ => "f32.ge",
-    F32_GT: $ => "f32.gt",
-    F32_LE: $ => "f32.le",
-    F32_LOAD: $ => "f32.load",
-    F32_LT: $ => "f32.lt",
-    F32_MAX: $ => "f32.max",
-    F32_MIN: $ => "f32.min",
-    F32_MUL: $ => "f32.mul",
-    F32_NE: $ => "f32.ne",
-    F32_NEAREST: $ => "f32.nearest",
-    F32_NEG: $ => "f32.neg",
-    F32_REINTERPRET_I32: $ => "f32.reinterpret_i32",
-    F32_REINTERPRET_I64: $ => "f32.reinterpret_i64",
-    F32_SQRT: $ => "f32.sqrt",
-    F32_STORE: $ => "f32.store",
-    F32_SUB: $ => "f32.sub",
-    F32_TRUNC: $ => "f32.trunc",
-
-    F64_ABS: $ => "f64.abs",
-    F64_ADD: $ => "f64.add",
-    F64_CEIL: $ => "f64.ceil",
-    F64_CONST: $ => "f64.const",
-    F64_CONVERT_I32_S: $ => "f64.convert_i32_s",
-    F64_CONVERT_I32_U: $ => "f64.convert_i32_u",
-    F64_CONVERT_I64_S: $ => "f64.convert_i64_s",
-    F64_CONVERT_I64_U: $ => "f64.convert_i64_u",
-    F64_COPYSIGN: $ => "f64.copysign",
-    F64_DIV: $ => "f64.div",
-    F64_EQ: $ => "f64.eq",
-    F64_FLOOR: $ => "f64.floor",
-    F64_GE: $ => "f64.ge",
-    F64_GT: $ => "f64.gt",
-    F64_LE: $ => "f64.le",
-    F64_LOAD: $ => "f64.load",
-    F64_LT: $ => "f64.lt",
-    F64_MAX: $ => "f64.max",
-    F64_MIN: $ => "f64.min",
-    F64_MUL: $ => "f64.mul",
-    F64_NE: $ => "f64.ne",
-    F64_NEAREST: $ => "f64.nearest",
-    F64_NEG: $ => "f64.neg",
-    F64_PROMOTE_F32: $ => "f64.promote_f32",
-    F64_REINTERPRET_I32: $ => "f64.reinterpret_i32",
-    F64_REINTERPRET_I64: $ => "f64.reinterpret_i64",
-    F64_SQRT: $ => "f64.sqrt",
-    F64_STORE: $ => "f64.store",
-    F64_SUB: $ => "f64.sub",
-    F64_TRUNC: $ => "f64.trunc",
-
-    I32_ADD: $ => "i32.add",
-    I32_AND: $ => "i32.and",
-    I32_CLZ: $ => "i32.clz",
-    I32_CONST: $ => "i32.const",
-    I32_CTZ: $ => "i32.ctz",
-    I32_DIV_S: $ => "i32.div_s",
-    I32_DIV_U: $ => "i32.div_u",
-    I32_EQ: $ => "i32.eq",
-    I32_EQZ: $ => "i32.eqz",
-    I32_GE_S: $ => "i32.ge_s",
-    I32_GE_U: $ => "i32.ge_u",
-    I32_GT_S: $ => "i32.gt_s",
-    I32_GT_U: $ => "i32.gt_u",
-    I32_LE_S: $ => "i32.le_s",
-    I32_LE_U: $ => "i32.le_u",
-    I32_LOAD: $ => "i32.load",
-    I32_LOAD8_S: $ => "i32.load8_s",
-    I32_LOAD8_U: $ => "i32.load8_u",
-    I32_LOAD16_S: $ => "i32.load16_s",
-    I32_LOAD16_U: $ => "i32.load16_u",
-    I32_LT_S: $ => "i32.lt_s",
-    I32_LT_U: $ => "i32.lt_u",
-    I32_MUL: $ => "i32.mul",
-    I32_NE: $ => "i32.ne",
-    I32_OR: $ => "i32.or",
-    I32_POPCNT: $ => "i32.popcnt",
-    I32_REINTERPRET_F32: $ => "i32.reinterpret_f32",
-    I32_REINTERPRET_F64: $ => "i32.reinterpret_f64",
-    I32_REM_S: $ => "i32.rem_s",
-    I32_REM_U: $ => "i32.rem_u",
-    I32_ROTL: $ => "i32.rotl",
-    I32_ROTR: $ => "i32.rotr",
-    I32_SHL: $ => "i32.shl",
-    I32_SHR_S: $ => "i32.shr_s",
-    I32_SHR_U: $ => "i32.shr_u",
-    I32_STORE: $ => "i32.store",
-    I32_STORE8: $ => "i32.store8",
-    I32_STORE16: $ => "i32.store16",
-    I32_SUB: $ => "i32.sub",
-    I32_TRUNC_F32_S: $ => "i32.trunc_f32_s",
-    I32_TRUNC_F32_U: $ => "i32.trunc_f32_u",
-    I32_TRUNC_F64_S: $ => "i32.trunc_f64_s",
-    I32_TRUNC_F64_U: $ => "i32.trunc_f64_u",
-    I32_WRAP_I64: $ => "i32.wrap_i64",
-    I32_XOR: $ => "i32.xor",
-
-    I64_ADD: $ => "i64.add",
-    I64_AND: $ => "i64.and",
-    I64_CLZ: $ => "i64.clz",
-    I64_CONST: $ => "i64.const",
-    I64_CTZ: $ => "i64.ctz",
-    I64_DIV_S: $ => "i64.div_s",
-    I64_DIV_U: $ => "i64.div_u",
-    I64_EXTEND_I32_S: $ => "i64.extend_i32_s",
-    I64_EXTEND_I32_U: $ => "i64.extend_i32_u",
-    I64_EQ: $ => "i64.eq",
-    I64_EQZ: $ => "i64.eqz",
-    I64_GE_S: $ => "i64.ge_s",
-    I64_GE_U: $ => "i64.ge_u",
-    I64_GT_S: $ => "i64.gt_s",
-    I64_GT_U: $ => "i64.gt_u",
-    I64_LE_S: $ => "i64.le_s",
-    I64_LE_U: $ => "i64.le_u",
-    I64_LOAD: $ => "i64.load",
-    I64_LOAD8_S: $ => "i64.load8_s",
-    I64_LOAD8_U: $ => "i64.load8_u",
-    I64_LOAD16_S: $ => "i64.load16_s",
-    I64_LOAD16_U: $ => "i64.load16_u",
-    I64_LOAD32_S: $ => "i64.load32_s",
-    I64_LOAD32_U: $ => "i64.load32_u",
-    I64_LT_S: $ => "i64.lt_s",
-    I64_LT_U: $ => "i64.lt_u",
-    I64_MUL: $ => "i64.mul",
-    I64_NE: $ => "i64.ne",
-    I64_OR: $ => "i64.or",
-    I64_POPCNT: $ => "i64.popcnt",
-    I64_REINTERPRET_F32: $ => "i64.reinterpret_f32",
-    I64_REINTERPRET_F64: $ => "i64.reinterpret_f64",
-    I64_REM_S: $ => "i64.rem_s",
-    I64_REM_U: $ => "i64.rem_u",
-    I64_ROTL: $ => "i64.rotl",
-    I64_ROTR: $ => "i64.rotr",
-    I64_SHL: $ => "i64.shl",
-    I64_SHR_S: $ => "i64.shr_s",
-    I64_SHR_U: $ => "i64.shr_u",
-    I64_STORE: $ => "i64.store",
-    I64_STORE8: $ => "i64.store8",
-    I64_STORE16: $ => "i64.store16",
-    I64_STORE32: $ => "i64.store32",
-    I64_SUB: $ => "i64.sub",
-    I64_TRUNC_F32_S: $ => "i64.trunc_f32_s",
-    I64_TRUNC_F32_U: $ => "i64.trunc_f32_u",
-    I64_TRUNC_F64_S: $ => "i64.trunc_f64_s",
-    I64_TRUNC_F64_U: $ => "i64.trunc_f64_u",
-    I64_XOR: $ => "i64.xor",
-
-    // ====================================================== //
-    // ======================= Values ======================= //
-    // ====================================================== //
-
-    /************
-     * Integers *
-     ************/
-
-    sign: $ => /[+-]/,
-
-    _digit: $ => /[0-9]/,
-
-    _hexdigit: $ => /[0-9A-Fa-f]/,
-
-    _num: $ => /[0-9]+(?:_?[0-9]+)*/,
-
-    _hexnum: $ => /[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*/,
-
-    // num | hexnum
-    uN: $ => choice($._num, seq("0x", $._hexnum)),
-
-    sN: $ => seq($.sign, $.uN),
-
-    iN: $ => choice($.uN, $.sN),
-
-    /******************
-     * Floating-Point *
-     ******************/
-
-    _float: $ =>
-      prec.right(1, seq($._num, optional(seq(".", optional($._num))), optional(seq(/[Ee]/, optional($.sign), $._num)))),
-
-    _hexfloat: $ =>
-      prec.right(
-        1,
-        seq("0x", $._hexnum, optional(seq(".", optional($._hexnum))), optional(seq(/[Pp]/, optional($.sign), $._num))),
+    float: $ =>
+      token(
+        seq(
+          pattern_num,
+          optional(seq(".", optional(pattern_num))),
+          optional(seq(/[Ee]/, optional(pattern_sign), pattern_num)),
+        ),
       ),
 
-    _fNmag: $ => choice($._float, $._hexfloat, "inf", "nan", seq("nan:0x", $._hexnum)),
-
-    fN: $ => seq(optional($.sign), $._fNmag),
-
-    /**********
-     * String *
-     **********/
-
-    string: $ => seq('"', repeat($._stringelem), '"'),
-
-    // FIXME: using $._hexdigit here seems to allow invalid parses: "\00\gf"
-    _stringelem: $ => choice($._stringchar, /\\[0-9A-Fa-f][0-9A-Fa-f]/),
-
-    _stringchar: $ => choice($._char, seq("\\", /[tnr"'\\]/), seq("\\u{", $._hexnum, "}")),
-
-    _char: $ => choice(/[^"\\\x00-\x1f\x7f-\xff]/, $._utf8enc),
-
-    _ascii: $ => /[\x00-\x7f]/,
-
-    _asciiline: $ => /[\x00-\x09\x0b-\x7f]/,
-
-    _utf8cont: $ => /[\x80-\xbf]/,
-
-    _utf8enc: $ =>
-      choice(
-        seq(/[\xc2-\xdf]/, $._utf8cont),
-        seq(/[\xe0]/, /[\xa0-\xbf]/, $._utf8cont),
-        seq(/[\xed]/, /[\x80-\x9f]/, $._utf8cont),
-        seq(/[\xe1-\xec\xee-\xef]/, $._utf8cont, $._utf8cont),
-        seq(/[\xf0]/, /[\x90-\xbf]/, $._utf8cont, $._utf8cont),
-        seq(/[\xf4]/, /[\x80-\x8f]/, $._utf8cont, $._utf8cont),
-        seq(/[\xf1-\xf3]/, $._utf8cont, $._utf8cont, $._utf8cont),
+    hexfloat: $ =>
+      token(
+        seq(
+          "0x",
+          pattern_hexnum,
+          optional(seq(".", optional(pattern_hexnum))),
+          optional(seq(/[Pp]/, optional(pattern_sign), pattern_num)),
+        ),
       ),
 
-    _utf8: $ => choice($._ascii, $._utf8enc),
+    fNmag: $ => choice($.float, $.hexfloat, "inf", "nan", seq("nan:0x", $.hexnum)),
 
-    _utf8line: $ => choice($._asciiline, $._utf8enc),
+    uN: $ => choice($.num, seq("0x", $.hexnum)),
 
-    /*********
-     * Names *
-     *********/
+    sN: $ => seq(field("sign", $.sign), $.uN),
+
+    fN: $ => seq(optional(field("sign", $.sign)), $.fNmag),
+
+    string: $ =>
+      seq('"', repeat(choice(token.immediate(prec(PREC.STRING, /[^"\\\n]+|\\\r?\n/)), $.escape_sequence)), '"'),
+
+    escape_sequence: $ => token.immediate(seq("\\", choice(/[^xu0-7]/, /[0-7]{2}/, /u{[0-9a-fA-F]+}/))),
 
     name: $ => $.string,
 
-    /***************
-     * Identifiers *
-     ***************/
+    identifier: $ => token(pattern_identifier),
 
-    id: $ => /\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+/,
+    index: $ => choice($.uN, $.identifier),
 
-    // ====================================================== //
-    // ======================== Types ======================= //
-    // ====================================================== //
+    type_use: $ => seq("(", "type", field("index", $.index), ")"),
 
-    valtype: $ => choice("i32", "i64", "f32", "f64"),
+    literal: $ => choice($.sN, $.uN, $.fN),
 
-    /****************
-     * Result Types *
-     ****************/
+    value_type: $ => token(pattern_value_type),
 
-    // NOTE: we inline this because it matches the empty string
-    // resulttype: $ => optional($.result),
+    _func_type: $ => choice($._func_type_params, $.func_type_results),
 
-    /******************
-     * Function Types *
-     ******************/
+    _func_type_params: $ => choice($.func_type_params_one, $.func_type_params_many),
 
-    functype: $ => seq("(", $.FUNC, repeat(field("param", $.param)), repeat(field("result", $.result)), ")"),
+    func_type_params_many: $ => seq("(", "param", repeat(field("value_type", $.value_type)), ")"),
 
-    param: $ =>
-      choice(
-        // NOTE: re-factored to avoid conflict with abbreviation
-        seq("(", $.PARAM, optional(seq(field("id", $.id), field("valtype", $.valtype))), ")"),
-        // abbreviation
-        seq("(", $.PARAM, repeat1(field("valtype", $.valtype)), ")"),
-      ),
+    func_type_params_one: $ =>
+      seq("(", "param", field("identifier", $.identifier), field("value_type", $.value_type), ")"),
 
-    result: $ => seq("(", $.RESULT, repeat(field("valtype", $.valtype)), ")"),
-
-    /**********
-     * Limits *
-     **********/
+    func_type_results: $ => seq("(", "result", repeat(field("value_type", $.value_type)), ")"),
 
     limits: $ => seq(field("min", $.uN), optional(field("max", $.uN))),
 
-    /****************
-     * Memory Types *
-     ****************/
+    memory_type: $ => field("limits", $.limits),
 
-    memtype: $ => $.limits,
+    table_type: $ => seq(field("limits", $.limits), field("elem_type", $.elem_type)),
 
-    /***************
-     * Table Types *
-     ***************/
+    elem_type: $ => token("funcref"),
 
-    tabletype: $ => seq(field("limits", $.limits), field("elemtype", $.elemtype)),
+    global_type: $ => choice($.global_type_imm, $.global_type_mut),
 
-    elemtype: $ => $.FUNCREF,
+    global_type_imm: $ => field("value_type", $.value_type),
 
-    /****************
-     * Global Types *
-     ****************/
+    global_type_mut: $ => seq("(", "mut", field("value_type", $.value_type), ")"),
 
-    globaltype: $ => choice(field("valtype", $.valtype), seq("(", $.MUT, field("valtype", $.valtype), ")")),
+    // NOTE: this must be wrapped in "optional"
+    _instr_list: $ => choice($.instr_list_call, $._instr_list_instr),
 
-    // ====================================================== //
-    // ==================== Instructions ==================== //
-    // ====================================================== //
-
-    _instr: $ => choice($._plaininstr, $._blockinstr, $._foldedinstr),
-
-    /**********
-     * Labels *
-     **********/
-
-    // NOTE: we inline this because it matches the empty string
-    // label: $ => optional($.id),
-
-    /************************
-     * Control Instructions *
-     ************************/
-
-    _blockinstr: $ => choice($.blockinstr_block, $.blockinstr_loop, $.blockinstr_if),
-
-    blockinstr_block: $ =>
+    instr_list_call: $ =>
       seq(
-        $.BLOCK,
-        alias(optional(field("label", $.id)), "label"),
-        field("resulttype", optional($.result)),
-        repeat(field("instr", $._instr)),
-        $.END,
-        optional(field("id", $.id)),
+        "call_indirect",
+        optional(field("type_use", $.type_use)),
+        repeat(field("params", $.func_type_params_many)),
+        repeat(field("results", $.func_type_results)),
       ),
 
-    blockinstr_loop: $ =>
-      seq(
-        $.LOOP,
-        alias(optional(field("label", $.id)), "label"),
-        field("resulttype", optional($.result)),
-        repeat(field("instr", $._instr)),
-        $.END,
-        optional(field("id", $.id)),
+    _instr_list_instr: $ => repeat1(field("instr", $._instr)),
+
+    _instr: $ => choice($._instr_plain, $.instr_call, $.instr_block, $._expr),
+
+    offset_value: $ =>
+      seq("offset=", field("value", token.immediate(/[0-9]+(?:_?[0-9]+)*|0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*/))),
+
+    align_value: $ =>
+      seq("align=", field("value", token.immediate(/[0-9]+(?:_?[0-9]+)*|0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*/))),
+
+    _instr_plain: $ =>
+      choice(
+        $.instr_plain_unreachable,
+        $.instr_plain_nop,
+        $.instr_plain_drop,
+        $.instr_plain_select,
+        $.instr_plain_br,
+        $.instr_plain_br_if,
+        $.instr_plain_br_table,
+        $.instr_plain_return,
+        $.instr_plain_local_get,
+        $.instr_plain_local_set,
+        $.instr_plain_local_tee,
+        $.instr_plain_global_get,
+        $.instr_plain_global_set,
+        $.instr_plain_memory_size,
+        $.instr_plain_memory_grow,
+        $.instr_plain_const,
+        $.instr_plain_test,
+        $.instr_plain_compare,
+        $.instr_plain_unary,
+        $.instr_plain_binary,
+        $.instr_plain_convert,
+        $.instr_plain_load,
+        $.instr_plain_store,
+        $.instr_plain_call,
       ),
 
-    blockinstr_if: $ =>
+    instr_plain_unreachable: $ => field("op", alias(token("unreachable"), $.op)),
+
+    instr_plain_nop: $ => field("op", alias(token("nop"), $.op)),
+
+    instr_plain_drop: $ => field("op", alias(token("drop"), $.op)),
+
+    instr_plain_select: $ => field("op", alias(token("select"), $.op)),
+
+    instr_plain_br: $ => field("op", alias(seq("br", field("index", $.index)), $.op)),
+
+    instr_plain_br_if: $ => field("op", alias(seq("br_if", field("index", $.index)), $.op)),
+
+    instr_plain_br_table: $ =>
+      field("op", alias(seq("br_table", field("index_head", $.index), repeat(field("index_tail", $.index))), $.op)),
+
+    instr_plain_return: $ => field("op", alias(token("return"), $.op)),
+
+    instr_plain_call: $ => field("op", alias(seq("call", field("index", $.index)), $.op)),
+
+    instr_plain_local_get: $ => field("op", alias(seq("local.get", field("index", $.index)), $.op)),
+
+    instr_plain_local_set: $ => field("op", alias(seq("local.set", field("index", $.index)), $.op)),
+
+    instr_plain_local_tee: $ => field("op", alias(seq("local.tee", field("index", $.index)), $.op)),
+
+    instr_plain_global_get: $ => field("op", alias(seq("global.get", field("index", $.index)), $.op)),
+
+    instr_plain_global_set: $ => field("op", alias(seq("global.set", field("index", $.index)), $.op)),
+
+    instr_plain_memory_size: $ => field("op", alias(token("memory.size"), $.op)),
+
+    instr_plain_memory_grow: $ => field("op", alias(token("memory.grow"), $.op)),
+
+    _instr_type: $ => choice($.instr_type_int, $.instr_type_float),
+
+    instr_type_int: $ =>
       seq(
-        $.IF,
-        alias(optional(field("label", $.id)), "label"),
-        field("resulttype", optional($.result)),
-        repeat(field("instr0", $._instr)),
+        field("kind", alias("i", $.kind)),
+        field("bits", alias(choice(token.immediate("32"), token.immediate("64")), $.bits)),
+      ),
+
+    instr_type_int_32: $ => seq(field("kind", alias("i", $.kind)), field("bits", alias(token.immediate("32"), $.bits))),
+
+    instr_type_int_64: $ => seq(field("kind", alias("i", $.kind)), field("bits", alias(token.immediate("64"), $.bits))),
+
+    instr_type_float: $ =>
+      seq(
+        field("kind", alias("f", $.kind)),
+        field("bits", alias(choice(token.immediate("32"), token.immediate("64")), $.bits)),
+      ),
+
+    instr_type_float_32: $ =>
+      seq(field("kind", alias("f", $.kind)), field("bits", alias(token.immediate("32"), $.bits))),
+
+    instr_type_float_64: $ =>
+      seq(field("kind", alias("f", $.kind)), field("bits", alias(token.immediate("64"), $.bits))),
+
+    instr_plain_const: $ =>
+      seq(
+        field("type", $._instr_type),
+        token.immediate("."),
+        field("op", alias(token.immediate(/const/), $.op)),
+        field("literal", $.literal),
+      ),
+
+    instr_plain_test: $ =>
+      seq(field("type", $._instr_type), token.immediate("."), field("op", alias(token.immediate(/eqz/), $.op))),
+
+    instr_plain_compare: $ =>
+      choice(
+        seq(field("type", $._instr_type), token.immediate("."), field("op", alias(token.immediate(/eq|ne/), $.op))),
+        seq(
+          field("type", $.instr_type_int),
+          token.immediate("."),
+          field("op", alias(token.immediate(/lt|le|gt|ge/), $.op)),
+          token.immediate("_"),
+          field("sign", alias(token.immediate(/[su]/), $.sign)),
+        ),
+        seq(
+          field("type", $.instr_type_float),
+          token.immediate("."),
+          field("op", alias(token.immediate(/lt|le|gt|ge/), $.op)),
+        ),
+      ),
+
+    instr_plain_unary: $ =>
+      choice(
+        seq(
+          field("type", $.instr_type_int),
+          token.immediate("."),
+          field("op", alias(token.immediate(/clz|ctz|popcnt/), $.op)),
+        ),
+        seq(
+          field("type", $.instr_type_int),
+          token.immediate("."),
+          field("op", alias(token.immediate("extend"), $.op)),
+          field("bits", alias(token.immediate(/8|16/), $.bits)),
+          token.immediate("_"),
+          field("sign", alias(token.immediate("s"), $.sign)),
+        ),
+        seq(
+          field("type", $.instr_type_int_64),
+          token.immediate("."),
+          field("op", alias(token.immediate("extend"), $.op)),
+          field("bits", alias(token.immediate("32"), $.bits)),
+          token.immediate("_"),
+          field("sign", alias(token.immediate("s"), $.sign)),
+        ),
+        seq(
+          field("type", $.instr_type_float),
+          token.immediate("."),
+          field("op", alias(token.immediate(/neg|abs|sqrt|ceil|floor|trunc|nearest/), $.op)),
+        ),
+      ),
+
+    instr_plain_binary: $ =>
+      choice(
+        seq(
+          field("type", $._instr_type),
+          token.immediate("."),
+          field("op", alias(token.immediate(/add|sub|mul/), $.op)),
+        ),
+        seq(
+          field("type", $.instr_type_int),
+          token.immediate("."),
+          field("op", alias(token.immediate(/and|or|xor|shl|rotl|rotr/), $.op)),
+        ),
+        seq(
+          field("type", $.instr_type_int),
+          token.immediate("."),
+          field("op", alias(token.immediate(/div|rem|shr/), $.op)),
+          token.immediate("_"),
+          field("sign", alias(token.immediate(/[su]/), $.sign)),
+        ),
+        seq(
+          field("type", $.instr_type_float),
+          token.immediate("."),
+          field("op", alias(token.immediate(/add|sub|mul|div|min|max|copysign/), $.op)),
+        ),
+      ),
+
+    instr_plain_convert: $ =>
+      choice(
+        seq(
+          field("type", $.instr_type_int_32),
+          token.immediate("."),
+          field("op", alias(token.immediate("wrap"), $.op)),
+          token.immediate("_i"),
+          field("bits", alias(token.immediate("64"), $.bits)),
+        ),
+        seq(
+          field("type", $.instr_type_int_64),
+          token.immediate("."),
+          field("op", alias(token.immediate("extend"), $.op)),
+          token.immediate("_i"),
+          field("bits", alias(token.immediate("32"), $.bits)),
+          token.immediate("_"),
+          field("sign", alias(token.immediate(/[su]/), $.sign)),
+        ),
+        seq(
+          field("type", $.instr_type_float_32),
+          token.immediate("."),
+          field("op", alias(token.immediate("demote"), $.op)),
+          token.immediate("_f"),
+          field("bits", alias(token.immediate("64"), $.bits)),
+        ),
+        seq(
+          field("type", $.instr_type_float_64),
+          token.immediate("."),
+          field("op", alias(token.immediate("promote"), $.op)),
+          token.immediate("_f"),
+          field("bits", alias(token.immediate("32"), $.bits)),
+        ),
+        seq(
+          field("type", $.instr_type_int),
+          token.immediate("."),
+          field("op", alias(token.immediate("trunc"), $.op)),
+          optional(seq(token.immediate("_"), field("sat", alias(token.immediate("sat"), $.sat)))),
+          token.immediate("_f"),
+          field("bits", alias(token.immediate(/32|64/), $.bits)),
+          token.immediate("_"),
+          field("sign", alias(token.immediate(/[su]/), $.sign)),
+        ),
+        seq(
+          field("type", $.instr_type_float),
+          token.immediate("."),
+          field("op", alias(token.immediate("convert"), $.op)),
+          token.immediate("_i"),
+          field("bits", alias(token.immediate(/32|64/), $.bits)),
+          token.immediate("_"),
+          field("sign", alias(token.immediate(/[su]/), $.sign)),
+        ),
+        seq(
+          field("type", $.instr_type_int_32),
+          token.immediate("."),
+          field("op", alias(token.immediate("reinterpret"), $.op)),
+          token.immediate("_f"),
+          field("bits", alias(token.immediate("32"), $.bits)),
+        ),
+        seq(
+          field("type", $.instr_type_int_64),
+          token.immediate("."),
+          field("op", alias(token.immediate("reinterpret"), $.op)),
+          token.immediate("_f"),
+          field("bits", alias(token.immediate("64"), $.bits)),
+        ),
+        seq(
+          field("type", $.instr_type_float_32),
+          token.immediate("."),
+          field("op", alias(token.immediate("reinterpret"), $.op)),
+          token.immediate("_i"),
+          field("bits", alias(token.immediate("32"), $.bits)),
+        ),
+        seq(
+          field("type", $.instr_type_float_64),
+          token.immediate("."),
+          field("op", alias(token.immediate("reinterpret"), $.op)),
+          token.immediate("_i"),
+          field("bits", alias(token.immediate("64"), $.bits)),
+        ),
+      ),
+
+    instr_plain_load: $ =>
+      seq(
         choice(
+          seq(field("type", $._instr_type), token.immediate("."), field("op", alias(token.immediate("load"), $.op))),
           seq(
-            $.ELSE,
-            optional(field("id0", $.id)),
-            repeat(field("instr1", $._instr)),
-            $.END,
-            optional(field("id1", $.id)),
+            field("type", $.instr_type_int),
+            token.immediate("."),
+            field("op", alias(token.immediate("load"), $.op)),
+            field("bits", alias(token.immediate(/(?:8|16)/), $.bits)),
+            token.immediate("_"),
+            field("sign", alias(token.immediate(/[su]/), $.sign)),
           ),
-          // abbreviation
-          $.END,
-          optional(field("id0", $.id)),
-        ),
-      ),
-
-    _plaininstr: $ =>
-      choice(
-        field("plain", $.UNREACHABLE),
-        field("plain", $.NOP),
-        seq(field("plain", $.BR), field("labelidx", $.labelidx)),
-        seq(field("plain", $.BR_IF), field("labelidx", $.labelidx)),
-        seq(field("plain", $.BR_TABLE), repeat(field("labelidx0", $.labelidx)), field("labelidx1", $.labelidx)),
-        field("plain", $.RETURN),
-        seq(field("plain", $.CALL), $.funcidx),
-        seq(
-          field("plain", $.CALL_INDIRECT),
-          field(
-            "typeuse",
-            alias(
-              seq(
-                optional(seq("(", "type", field("typeidx", $.typeidx), ")")),
-                repeat(field("param", $.param)),
-                repeat(field("param", $.result)),
-              ),
-              "typeuse",
-            ),
-          ),
-        ),
-
-        /***************************
-         * Parametric Instructions *
-         ***************************/
-
-        field("plain", $.DROP),
-        field("plain", $.SELECT),
-
-        /*************************
-         * Variable Instructions *
-         *************************/
-
-        seq(field("plain", $.LOCAL_GET), field("localidx", $.localidx)),
-        seq(field("plain", $.LOCAL_SET), field("localidx", $.localidx)),
-        seq(field("plain", $.LOCAL_TEE), field("localidx", $.localidx)),
-        seq(field("plain", $.GLOBAL_GET), field("globalidx", $.globalidx)),
-        seq(field("plain", $.GLOBAL_SET), field("globalidx", $.globalidx)),
-
-        /***********************
-         * Memory Instructions *
-         ***********************/
-
-        seq(
-          field(
-            "plain",
-            choice(
-              $.F32_LOAD,
-              $.F32_STORE,
-              $.F64_LOAD,
-              $.F64_STORE,
-              $.I32_LOAD,
-              $.I32_LOAD16_S,
-              $.I32_LOAD16_U,
-              $.I32_LOAD8_S,
-              $.I32_LOAD8_U,
-              $.I32_STORE,
-              $.I32_STORE16,
-              $.I32_STORE8,
-              $.I64_LOAD,
-              $.I64_LOAD16_S,
-              $.I64_LOAD16_U,
-              $.I64_LOAD32_S,
-              $.I64_LOAD32_U,
-              $.I64_LOAD8_S,
-              $.I64_LOAD8_U,
-              $.I64_STORE,
-              $.I64_STORE16,
-              $.I64_STORE32,
-              $.I64_STORE8,
-            ),
-          ),
-          alias(
-            seq(optional(field("offset", seq($.OFFSET_EQ, $.uN))), optional(field("align", seq($.ALIGN_EQ, $.uN)))),
-            "memarg",
-          ),
-        ),
-
-        field("plain", $.MEMORY_SIZE),
-        field("plain", $.MEMORY_GROW),
-
-        /************************
-         * Numeric Instructions *
-         ************************/
-
-        seq(field("plain", $.I32_CONST), field("value", $.iN)),
-        seq(field("plain", $.I64_CONST), field("value", $.iN)),
-        seq(field("plain", $.F32_CONST), field("value", $.fN)),
-        seq(field("plain", $.F64_CONST), field("value", $.fN)),
-
-        field("plain", $.F32_ABS),
-        field("plain", $.F32_ADD),
-        field("plain", $.F32_CEIL),
-        field("plain", $.F32_CONVERT_I32_S),
-        field("plain", $.F32_CONVERT_I32_U),
-        field("plain", $.F32_CONVERT_I64_S),
-        field("plain", $.F32_CONVERT_I64_U),
-        field("plain", $.F32_COPYSIGN),
-        field("plain", $.F32_DEMOTE_F64),
-        field("plain", $.F32_DIV),
-        field("plain", $.F32_EQ),
-        field("plain", $.F32_FLOOR),
-        field("plain", $.F32_GE),
-        field("plain", $.F32_GT),
-        field("plain", $.F32_LE),
-        field("plain", $.F32_LT),
-        field("plain", $.F32_MAX),
-        field("plain", $.F32_MIN),
-        field("plain", $.F32_MUL),
-        field("plain", $.F32_NE),
-        field("plain", $.F32_NEAREST),
-        field("plain", $.F32_NEG),
-        field("plain", $.F32_REINTERPRET_I32),
-        field("plain", $.F32_REINTERPRET_I64),
-        field("plain", $.F32_SQRT),
-        field("plain", $.F32_SUB),
-        field("plain", $.F32_TRUNC),
-
-        field("plain", $.F64_ABS),
-        field("plain", $.F64_ADD),
-        field("plain", $.F64_CEIL),
-        field("plain", $.F64_CONVERT_I32_S),
-        field("plain", $.F64_CONVERT_I32_U),
-        field("plain", $.F64_CONVERT_I64_S),
-        field("plain", $.F64_CONVERT_I64_U),
-        field("plain", $.F64_COPYSIGN),
-        field("plain", $.F64_DIV),
-        field("plain", $.F64_EQ),
-        field("plain", $.F64_FLOOR),
-        field("plain", $.F64_GE),
-        field("plain", $.F64_GT),
-        field("plain", $.F64_LE),
-        field("plain", $.F64_LT),
-        field("plain", $.F64_MAX),
-        field("plain", $.F64_MIN),
-        field("plain", $.F64_MUL),
-        field("plain", $.F64_NE),
-        field("plain", $.F64_NEAREST),
-        field("plain", $.F64_NEG),
-        field("plain", $.F64_PROMOTE_F32),
-        field("plain", $.F64_REINTERPRET_I32),
-        field("plain", $.F64_REINTERPRET_I64),
-        field("plain", $.F64_SQRT),
-        field("plain", $.F64_SUB),
-        field("plain", $.F64_TRUNC),
-
-        field("plain", $.I32_ADD),
-        field("plain", $.I32_AND),
-        field("plain", $.I32_CLZ),
-        field("plain", $.I32_CTZ),
-        field("plain", $.I32_DIV_S),
-        field("plain", $.I32_DIV_U),
-        field("plain", $.I32_EQ),
-        field("plain", $.I32_EQZ),
-        field("plain", $.I32_GE_S),
-        field("plain", $.I32_GE_U),
-        field("plain", $.I32_GT_S),
-        field("plain", $.I32_GT_U),
-        field("plain", $.I32_LE_S),
-        field("plain", $.I32_LE_U),
-        field("plain", $.I32_LT_S),
-        field("plain", $.I32_LT_U),
-        field("plain", $.I32_MUL),
-        field("plain", $.I32_NE),
-        field("plain", $.I32_OR),
-        field("plain", $.I32_POPCNT),
-        field("plain", $.I32_REINTERPRET_F32),
-        field("plain", $.I32_REINTERPRET_F64),
-        field("plain", $.I32_REM_S),
-        field("plain", $.I32_REM_U),
-        field("plain", $.I32_ROTL),
-        field("plain", $.I32_ROTR),
-        field("plain", $.I32_SHL),
-        field("plain", $.I32_SHR_S),
-        field("plain", $.I32_SHR_U),
-        field("plain", $.I32_SUB),
-        field("plain", $.I32_TRUNC_F32_S),
-        field("plain", $.I32_TRUNC_F32_U),
-        field("plain", $.I32_TRUNC_F64_S),
-        field("plain", $.I32_TRUNC_F64_U),
-        field("plain", $.I32_WRAP_I64),
-        field("plain", $.I32_XOR),
-
-        field("plain", $.I64_ADD),
-        field("plain", $.I64_AND),
-        field("plain", $.I64_CLZ),
-        field("plain", $.I64_CTZ),
-        field("plain", $.I64_DIV_S),
-        field("plain", $.I64_DIV_U),
-        field("plain", $.I64_EQ),
-        field("plain", $.I64_EQZ),
-        field("plain", $.I64_EXTEND_I32_S),
-        field("plain", $.I64_EXTEND_I32_U),
-        field("plain", $.I64_GE_S),
-        field("plain", $.I64_GE_U),
-        field("plain", $.I64_GT_S),
-        field("plain", $.I64_GT_U),
-        field("plain", $.I64_LE_S),
-        field("plain", $.I64_LE_U),
-        field("plain", $.I64_LT_S),
-        field("plain", $.I64_LT_U),
-        field("plain", $.I64_MUL),
-        field("plain", $.I64_NE),
-        field("plain", $.I64_OR),
-        field("plain", $.I64_POPCNT),
-        field("plain", $.I64_REINTERPRET_F32),
-        field("plain", $.I64_REINTERPRET_F64),
-        field("plain", $.I64_REM_S),
-        field("plain", $.I64_REM_U),
-        field("plain", $.I64_ROTL),
-        field("plain", $.I64_ROTR),
-        field("plain", $.I64_SHL),
-        field("plain", $.I64_SHR_S),
-        field("plain", $.I64_SHR_U),
-        field("plain", $.I64_SUB),
-        field("plain", $.I64_TRUNC_F32_S),
-        field("plain", $.I64_TRUNC_F32_U),
-        field("plain", $.I64_TRUNC_F64_S),
-        field("plain", $.I64_TRUNC_F64_U),
-        field("plain", $.I64_XOR),
-      ),
-
-    // NOTE: we inline this because it matches the empty string
-    // memarg: $ => seq(optional(seq($.OFFSET_EQ, $.uN)), optional(seq($.ALIGN_EQ, $.uN))),
-
-    /***********************
-     * Folded Instructions *
-     ***********************/
-
-    _foldedinstr: $ => choice($.foldedinstr_plain, $.foldedinstr_block, $.foldedinstr_loop, $.foldedinstr_if),
-
-    foldedinstr_plain: $ => seq("(", $._plaininstr, repeat(field("folded", $._foldedinstr)), ")"),
-
-    foldedinstr_block: $ =>
-      seq(
-        "(",
-        $.BLOCK,
-        alias(optional(field("label", $.id)), "label"),
-        field("resulttype", optional($.result)),
-        repeat(field("instr", $._instr)),
-        ")",
-      ),
-
-    foldedinstr_loop: $ =>
-      seq(
-        "(",
-        $.LOOP,
-        alias(optional(field("label", $.id)), "label"),
-        field("resulttype", optional($.result)),
-        repeat(field("instr", $._instr)),
-        ")",
-      ),
-
-    foldedinstr_if: $ =>
-      seq(
-        "(",
-        $.IF,
-        alias(optional(field("label", $.id)), "label"),
-        field("resulttype", optional($.result)),
-        repeat(field("foldedinstr", $._foldedinstr)),
-        field("then", seq("(", $.THEN, repeat(field("instr", $._instr)), ")")),
-        optional(field("else", seq("(", $.ELSE, repeat(field("instr", $._instr)), ")"))),
-        ")",
-      ),
-
-    /***************
-     * Expressions *
-     ***************/
-
-    // NOTE: we inline this because it matches the empty string
-    // expr: $ => repeat($._instr),
-
-    // ====================================================== //
-    // ======================= Modules ====================== //
-    // ====================================================== //
-
-    /***********
-     * Indices *
-     ***********/
-
-    typeidx: $ => choice($.uN, $.id),
-
-    funcidx: $ => choice($.uN, $.id),
-
-    tableidx: $ => choice($.uN, $.id),
-
-    memidx: $ => choice($.uN, $.id),
-
-    globalidx: $ => choice($.uN, $.id),
-
-    localidx: $ => choice($.uN, $.id),
-
-    labelidx: $ => choice($.uN, $.id),
-
-    /*********
-     * Types *
-     *********/
-
-    type: $ => seq("(", $.TYPE, optional(field("id", $.id)), field("functype", $.functype), ")"),
-
-    /*************
-     * Type Uses *
-     *************/
-
-    // NOTE: we inline this because it matches the empty string
-    // typeuse: $ =>
-    //   alias(
-    //     seq(
-    //       optional(seq("(", $.TYPE, field("typeidx", $.typeidx), ")")),
-    //       field("param", repeat($.param)),
-    //       field("param", repeat($.result)),
-    //     ),
-    //     "typeuse",
-    //   ),
-
-    /***********
-     * Imports *
-     ***********/
-
-    import: $ =>
-      seq("(", $.IMPORT, field("module", $.name), field("item", $.name), field("importdesc", $._importdesc), ")"),
-
-    _importdesc: $ => choice($.importdesc_func, $.importdesc_table, $.importdesc_memory, $.importdesc_global),
-
-    importdesc_func: $ =>
-      seq(
-        "(",
-        $.FUNC,
-        optional(field("id", $.id)),
-        // NOTE: see typeuse
-        alias(
           seq(
-            optional(seq("(", $.TYPE, field("typeidx", $.typeidx), ")")),
-            repeat(field("param", $.param)),
-            repeat(field("result", $.result)),
+            field("type", $.instr_type_int_64),
+            token.immediate("."),
+            field("op", alias(token.immediate("load"), $.op)),
+            field("bits", alias(token.immediate("32"), $.bits)),
+            token.immediate("_"),
+            field("sign", alias(token.immediate(/[su]/), $.sign)),
           ),
-          "typeuse",
         ),
-        ")",
+        optional(field("offset_value", $.offset_value)),
+        optional(field("align_value", $.align_value)),
       ),
 
-    importdesc_table: $ => seq("(", $.TABLE, optional(field("id", $.id)), field("tabletype", $.tabletype), ")"),
+    instr_plain_store: $ =>
+      seq(
+        choice(
+          seq(field("type", $._instr_type), token.immediate("."), field("op", alias(token.immediate("store"), $.op))),
+          seq(
+            field("type", $.instr_type_int),
+            token.immediate("."),
+            field("op", alias(token.immediate("store"), $.op)),
+            field("bits", alias(token(/(?:8|16)/), $.bits)),
+          ),
+          seq(
+            field("type", $.instr_type_int_64),
+            token.immediate("."),
+            field("op", alias(token.immediate("store"), $.op)),
+            field("bits", alias(token.immediate("32"), $.bits)),
+          ),
+        ),
+        optional(field("offset_value", $.offset_value)),
+        optional(field("align_value", $.align_value)),
+      ),
 
-    importdesc_memory: $ => seq("(", $.MEMORY, optional(field("id", $.id)), field("memtype", $.memtype), ")"),
+    instr_call: $ =>
+      seq(
+        field("op", alias("call_indirect", $.op)),
+        optional(field("type_use", $.type_use)),
+        repeat(field("params", $.func_type_params_many)),
+        repeat(field("results", $.func_type_results)),
+        field("instr", $._instr),
+      ),
 
-    importdesc_global: $ => seq("(", $.GLOBAL, optional(field("id", $.id)), field("globaltype", $.globaltype), ")"),
+    instr_block: $ => choice($.block_block, $.block_loop, $.block_if_then, $.block_if_then_else),
 
-    /*************
-     * Functions *
-     *************/
-
-    func: $ =>
-      choice(
-        seq(
-          "(",
-          $.FUNC,
-          optional(field("id", $.id)),
-          // abbreviation
-          optional(field("exports_imports", seq($.inlineExport, repeat(choice($.inlineImport, $.inlineExport))))),
+    block_block: $ =>
+      seq(
+        "block",
+        optional(field("identifier0", $.identifier)),
+        field(
+          "block",
           alias(
             seq(
-              optional(seq("(", $.TYPE, field("typeidx", $.typeidx), ")")),
-              repeat(field("param", $.param)),
-              repeat(field("result", $.result)),
+              optional(field("type_use", $.type_use)),
+              repeat(field("params", $.func_type_params_many)),
+              repeat(field("results", $.func_type_results)),
+              optional($._instr_list),
             ),
-            "typeuse",
+            $.block,
           ),
-          repeat(field("local", $.local)),
-          repeat(field("instr", $._instr)),
-          ")",
         ),
-        // abbreviation
-        seq(
-          "(",
-          $.FUNC,
-          optional(field("id", $.id)),
-          field("import", $.inlineImport),
+        "end",
+        optional(field("identifier1", $.identifier)),
+      ),
+
+    block_loop: $ =>
+      seq(
+        "loop",
+        optional(field("identifier0", $.identifier)),
+        field(
+          "block",
           alias(
             seq(
-              optional(seq("(", $.TYPE, field("typeidx", $.typeidx), ")")),
-              repeat(field("param", $.param)),
-              repeat(field("result", $.result)),
+              optional(field("type_use", $.type_use)),
+              repeat(field("params", $.func_type_params_many)),
+              repeat(field("results", $.func_type_results)),
+              optional($._instr_list),
             ),
-            "typeuse",
+            $.block,
           ),
-          ")",
+        ),
+        "end",
+        optional(field("identifier1", $.identifier)),
+      ),
+
+    block_if_then: $ =>
+      seq(
+        "if",
+        optional(field("identifier0", $.identifier)),
+        field(
+          "block",
+          alias(
+            seq(
+              optional(field("type_use", $.type_use)),
+              repeat(field("params", $.func_type_params_many)),
+              repeat(field("results", $.func_type_results)),
+              optional($._instr_list),
+            ),
+            $.block,
+          ),
+        ),
+        "end",
+        optional(field("identifier1", $.identifier)),
+      ),
+
+    block_if_then_else: $ =>
+      seq(
+        "if",
+        optional(field("identifier0", $.identifier)),
+        field(
+          "block",
+          alias(
+            seq(
+              optional(field("type_use", $.type_use)),
+              repeat(field("params", $.func_type_params_many)),
+              repeat(field("results", $.func_type_results)),
+              optional($._instr_list),
+            ),
+            $.block,
+          ),
+        ),
+        "else",
+        optional(field("identifier1", $.identifier)),
+        optional(field("instr_list", $._instr_list)),
+        "end",
+        optional(field("identifier2", $.identifier)),
+      ),
+
+    _expr: $ => seq("(", $._expr1, ")"),
+
+    _expr1: $ => choice($._expr1_plain, $.expr1_call, $.expr1_block, $.expr1_loop, $.expr1_if),
+
+    _expr1_plain: $ => seq(field("instr", $._instr_plain), repeat(field("expr", $._expr))),
+
+    expr1_call: $ =>
+      seq(
+        "call_indirect",
+        optional(field("type_use", $.type_use)),
+        repeat(field("params", $.func_type_params_many)),
+        repeat(field("results", $.func_type_results)),
+        repeat(field("expr", $._expr)),
+      ),
+
+    expr1_block: $ =>
+      seq(
+        "block",
+        optional(field("identifier", $.identifier)),
+        field(
+          "block",
+          alias(
+            seq(
+              optional(field("type_use", $.type_use)),
+              repeat(field("params", $.func_type_params_many)),
+              repeat(field("results", $.func_type_results)),
+              optional($._instr_list),
+            ),
+            $.block,
+          ),
         ),
       ),
 
-    local: $ =>
-      choice(
-        // NOTE: re-factored to avoid conflict with abbreviation
-        seq("(", $.LOCAL, optional(seq(field("id", $.id), field("valtype", $.valtype))), ")"),
-        // abbreviation
-        seq("(", $.LOCAL, repeat1(field("valtype", $.valtype)), ")"),
-      ),
-
-    inlineImport: $ => seq("(", $.IMPORT, field("module", $.name), field("item", $.name), ")"),
-
-    inlineExport: $ => seq("(", $.EXPORT, field("item", $.name), ")"),
-
-    /**********
-     * Tables *
-     **********/
-
-    table: $ =>
-      choice(
-        seq(
-          "(",
-          $.TABLE,
-          optional(field("id", $.id)),
-          // abbreviation
-          optional(field("exports_imports", seq($.inlineExport, repeat(choice($.inlineImport, $.inlineExport))))),
-          choice(
-            field("tabletype", $.tabletype),
-            // abbreviation
-            // NOTE: are inline element segments allowed after inline imports?
-            field("elem", seq($.elemtype, "(", $.ELEM, repeat(field("funcidx", $.funcidx)), ")")),
+    expr1_loop: $ =>
+      seq(
+        "loop",
+        optional(field("identifier", $.identifier)),
+        field(
+          "block",
+          alias(
+            seq(
+              optional(field("type_use", $.type_use)),
+              repeat(field("params", $.func_type_params_many)),
+              repeat(field("results", $.func_type_results)),
+              optional($._instr_list),
+            ),
+            $.block,
           ),
-          ")",
-        ),
-        seq(
-          "(",
-          $.TABLE,
-          optional(field("id", $.id)),
-          // abbreviation
-          field("import", $.inlineImport),
-          choice(
-            field("tabletype", $.tabletype),
-            // abbreviation
-            // NOTE: are inline element segments allowed after inline imports?
-            field("elem", seq($.elemtype, "(", $.ELEM, repeat(field("funcidx", $.funcidx)), ")")),
-          ),
-          ")",
         ),
       ),
 
-    /************
-     * Memories *
-     ************/
+    expr1_if: $ => seq("if", optional(field("identifier", $.identifier)), field("if_block", $._if_block)),
 
-    mem: $ =>
-      choice(
-        seq(
-          "(",
-          $.MEMORY,
-          optional(field("id", $.id)),
-          // abbreviation
-          optional(field("exports_import", seq($.inlineExport, repeat(choice($.inlineImport, $.inlineExport))))),
-          choice(
-            field("memtype", $.memtype),
-            // abbreviation
-            field("data", seq("(", $.DATA, alias(repeat(field("datastring", $.string)), "datastring"), ")")),
-          ),
-          ")",
-        ),
-        seq(
-          "(",
-          $.MEMORY,
-          optional(field("id", $.id)),
-          // abbreviation
-          field("import", $.inlineImport),
-          choice(
-            field("memtype", $.memtype),
-            // abbreviation
-            field("data", seq("(", $.DATA, alias(repeat(field("datastring", $.string)), "datastring"), ")")),
-          ),
-          ")",
-        ),
+    _if_block: $ =>
+      seq(
+        optional(field("type_use", $.type_use)),
+        repeat(field("params", $.func_type_params_many)),
+        repeat(field("results", $.func_type_results)),
+        repeat(field("if_expr", $._expr)),
+        seq("(", "then", optional(field("then_instr_list", $._instr_list)), ")"),
+        optional(seq("(", "else", optional(field("else_instr_list", $._instr_list)), ")")),
       ),
 
-    /***********
-     * Globals *
-     ***********/
+    _offset: $ => choice($.offset_const_expr, $.offset_expr),
 
-    global: $ =>
-      choice(
-        seq(
-          "(",
-          $.GLOBAL,
-          optional(field("id", $.id)),
-          // abbreviation
-          optional(field("exports_imports", seq($.inlineExport, repeat(choice($.inlineImport, $.inlineExport))))),
-          field("globaltype", $.globaltype),
-          alias(repeat(field("expr", $._instr)), "expr"),
-          ")",
-        ),
-        seq(
-          "(",
-          $.GLOBAL,
-          optional(field("id", $.id)),
-          // abbreviation
-          field("import", $.inlineImport),
-          field("globaltype", $.globaltype),
-          ")",
-        ),
-      ),
+    offset_const_expr: $ =>
+      seq("(", "offset", field("const_expr", alias(repeat(field("instr", $._instr)), $.const_expr)), ")"),
 
-    /***********
-     * Exports *
-     ***********/
+    offset_expr: $ => field("expr", $._expr),
 
-    export: $ => seq("(", $.EXPORT, field("item", $.name), field("exportdesc", $._exportdesc), ")"),
+    module_field_type: $ =>
+      seq("(", "type", optional(field("identifier", $.identifier)), field("type_field", $._type_field), ")"),
 
-    _exportdesc: $ => choice($.exportdesc_func, $.exportdesc_table, $.exportdesc_memory, $.exportdesc_global),
+    _type_field: $ => seq("(", "func", repeat(field("func_type", $._func_type)), ")"),
 
-    exportdesc_func: $ => seq("(", $.FUNC, field("funcidx", $.funcidx), ")"),
-
-    exportdesc_table: $ => seq("(", $.TABLE, field("tableidx", $.tableidx), ")"),
-
-    exportdesc_memory: $ => seq("(", $.MEMORY, field("memidx", $.memidx), ")"),
-
-    exportdesc_global: $ => seq("(", $.GLOBAL, field("globalidx", $.globalidx), ")"),
-
-    /******************
-     * Start Function *
-     ******************/
-
-    start: $ => seq("(", $.START, field("funcidx", $.funcidx), ")"),
-
-    /********************
-     * Element Segments *
-     ********************/
-
-    elem: $ =>
+    module_field_import: $ =>
       seq(
         "(",
-        $.ELEM,
-        optional(field("tableidx", $.tableidx)),
-        choice(
-          // abbreviation
-          field("instr", $._instr),
-          seq("(", $.OFFSET, alias(repeat(field("expr", $._instr)), "expr"), ")"),
-        ),
-        repeat(field("funcidx", $.funcidx)),
+        "import",
+        field("module_name", $.name),
+        field("item_name", $.name),
+        field("import_desc", $._import_desc),
         ")",
       ),
 
-    /*****************
-     * Data Segments *
-     *****************/
+    _import_desc: $ =>
+      choice(
+        $.import_desc_type_use,
+        $.import_desc_func_type,
+        $.import_desc_table_type,
+        $.import_desc_memory_type,
+        $.import_desc_global_type,
+      ),
 
-    data: $ =>
+    import_desc_type_use: $ =>
+      seq("(", "func", optional(field("identifier", $.identifier)), field("type_use", $.type_use), ")"),
+
+    import_desc_func_type: $ =>
+      seq("(", "func", optional(field("identifier", $.identifier)), repeat(field("func_type", $._func_type)), ")"),
+
+    import_desc_table_type: $ =>
+      seq("(", "table", optional(field("identifier", $.identifier)), field("table_type", $.table_type), ")"),
+
+    import_desc_memory_type: $ =>
+      seq("(", "memory", optional(field("identifier", $.identifier)), field("memory_type", $.table_type), ")"),
+
+    import_desc_global_type: $ =>
+      seq("(", "global", optional(field("identifier", $.identifier)), field("global_type", $.table_type), ")"),
+
+    inline_import: $ => seq("(", "import", field("module_name", $.name), field("item_name", $.name), ")"),
+
+    module_field_func: $ =>
       seq(
         "(",
-        $.DATA,
-        optional(field("memidx", $.memidx)),
-        choice(
-          // abbreviation
-          field("instr", $._instr),
-          seq("(", $.OFFSET, alias(repeat(field("expr", $._instr)), "expr"), ")"),
-        ),
-        alias(repeat(field("datastring", $.string)), "datastring"),
+        "func",
+        optional(field("identifier", $.identifier)),
+        repeat(field("exports", $.inline_export)),
+        optional(field("import", $.inline_import)),
+        optional(field("type_use", $.type_use)),
+        repeat(field("params", $._func_type_params)),
+        repeat(field("results", $.func_type_results)),
+        repeat(field("locals", $._func_locals)),
+        optional($._instr_list),
         ")",
       ),
 
-    // NOTE: we inline this because it matches the empty string
-    // datastring: $ => repeat($.string),
+    _func_locals: $ => choice($.func_locals_one, $.func_locals_many),
 
-    /***********
-     * Modules *
-     ***********/
+    func_locals_one: $ => seq("(", "local", field("identifier", $.identifier), field("value_type", $.value_type), ")"),
 
-    module: $ => seq("(", $.MODULE, optional(field("id", $.id)), repeat(field("field", $._modulefield)), ")"),
+    func_locals_many: $ => seq("(", "local", repeat(field("value_type", $.value_type)), ")"),
 
-    module_inline: $ => repeat1(field("field", $._modulefield)),
+    module_field_table: $ =>
+      seq(
+        "(",
+        "table",
+        optional(field("identifier", $.identifier)),
+        repeat(field("export", $.inline_export)),
+        choice($.table_fields_elem, $.table_fields_type),
+        ")",
+      ),
 
-    _modulefield: $ => choice($.type, $.import, $.func, $.table, $.mem, $.global, $.export, $.start, $.elem, $.data),
+    table_fields_elem: $ => seq(field("elem_type", $.elem_type), "(", "elem", repeat(field("index", $.index)), ")"),
+
+    table_fields_type: $ => seq(optional(field("import", $.inline_import)), field("table_type", $.table_type)),
+
+    module_field_memory: $ =>
+      seq(
+        "(",
+        "memory",
+        optional(field("identifier", $.identifier)),
+        repeat(field("export", $.inline_export)),
+        choice($.memory_fields_data, $.memory_fields_type),
+        ")",
+      ),
+
+    memory_fields_data: $ => seq("(", "data", repeat(field("string", $.string)), ")"),
+
+    memory_fields_type: $ => seq(optional(field("import", $.inline_import)), field("type", $.memory_type)),
+
+    module_field_global: $ =>
+      seq(
+        "(",
+        "global",
+        optional(field("identifier", $.identifier)),
+        repeat(field("export", $.inline_export)),
+        optional(field("import", $.inline_import)),
+        field("global_type", $.global_type),
+        field("expr", alias(repeat($._instr), $.expr)),
+        ")",
+      ),
+
+    module_field_export: $ => seq("(", "export", field("name", $.name), field("export_desc", $._export_desc), ")"),
+
+    _export_desc: $ => choice($.export_desc_func, $.export_desc_table, $.export_desc_memory, $.export_desc_global),
+
+    export_desc_func: $ => seq("(", "func", field("index", $.index), ")"),
+
+    export_desc_table: $ => seq("(", "table", field("index", $.index), ")"),
+
+    export_desc_memory: $ => seq("(", "memory", field("index", $.index), ")"),
+
+    export_desc_global: $ => seq("(", "global", field("index", $.index), ")"),
+
+    inline_export: $ => seq("(", "export", field("name", $.name), ")"),
+
+    module_field_start: $ => seq("(", "start", field("index", $.index), ")"),
+
+    module_field_elem: $ =>
+      seq(
+        "(",
+        "elem",
+        optional(field("identifier", $.identifier)),
+        field("offset", $._offset),
+        repeat(field("index", $.index)),
+        ")",
+      ),
+
+    module_field_data: $ => seq("(", "data", optional(field("index", $.index)), repeat(field("string", $.string)), ")"),
+
+    module: $ =>
+      seq("(", "module", optional(field("identifier", $.identifier)), repeat(field("field", $._module_field)), ")"),
+
+    _module_field: $ =>
+      choice(
+        $.module_field_type,
+        $.module_field_global,
+        $.module_field_table,
+        $.module_field_memory,
+        $.module_field_func,
+        $.module_field_elem,
+        $.module_field_data,
+        $.module_field_start,
+        $.module_field_import,
+        $.module_field_export,
+      ),
   },
 });
