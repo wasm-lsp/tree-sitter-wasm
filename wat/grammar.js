@@ -714,9 +714,9 @@ module.exports = grammar({
       seq(
         "(",
         "elem",
-        optional(field("identifier", $.identifier)),
+        optional(field("index_head", $.index)),
         field("offset", $._offset),
-        repeat(field("index", $.index)),
+        repeat(field("index_tail", $.index)),
         ")",
       ),
 
