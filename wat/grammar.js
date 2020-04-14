@@ -72,7 +72,7 @@ module.exports = grammar({
     string: $ =>
       seq('"', repeat(choice(token.immediate(prec(PREC.STRING, /[^"\\\n]+|\\\r?\n/)), $.escape_sequence)), '"'),
 
-    escape_sequence: $ => token.immediate(seq("\\", choice(/[^xu0-7]/, /[0-7]{2}/, /u{[0-9a-fA-F]+}/))),
+    escape_sequence: $ => token.immediate(seq("\\", choice(/[^u0-9a-fA-F]/, /[0-9a-fA-F]{2}/, /u{[0-9a-fA-F]+}/))),
 
     name: $ => $.string,
 
