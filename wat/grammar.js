@@ -720,7 +720,15 @@ module.exports = grammar({
         ")",
       ),
 
-    module_field_data: $ => seq("(", "data", optional(field("index", $.index)), repeat(field("string", $.string)), ")"),
+    module_field_data: $ =>
+      seq(
+        "(",
+        "data",
+        optional(field("index", $.index)),
+        field("offset", $._offset),
+        repeat(field("string", $.string)),
+        ")",
+      ),
 
     module: $ =>
       seq(
