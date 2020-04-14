@@ -112,17 +112,17 @@ module.exports = grammar({
     global_type_mut: $ => seq("(", "mut", field("value_type", $.value_type), ")"),
 
     // NOTE: this must be wrapped in "optional"
-    _instr_list: $ => choice($.instr_list_call, $._instr_list_instr),
+    _instr_list: $ => repeat1(choice($.instr_list_call, $._instr)),
 
     instr_list_call: $ =>
-      seq(
-        "call_indirect",
-        optional(field("type_use", $.type_use)),
-        repeat(field("params", $.func_type_params_many)),
-        repeat(field("results", $.func_type_results)),
+      prec.right(
+        seq(
+          "call_indirect",
+          optional(field("type_use", $.type_use)),
+          repeat(field("params", $.func_type_params_many)),
+          repeat(field("results", $.func_type_results)),
+        ),
       ),
-
-    _instr_list_instr: $ => repeat1(field("instr", $._instr)),
 
     _instr: $ => choice($._instr_plain, $.instr_call, $.instr_block, $._expr),
 
