@@ -4,7 +4,7 @@ module.exports = grammar(wat, {
   name: "wast",
 
   rules: {
-    PARSE: $ => choice(repeat(field("command", $.command)), alias(repeat1($._module_field), $.inline_module)),
+    PARSE: $ => choice(repeat(field("command", $.command)), alias(repeat1(field("module_field", $._module_field)), $.inline_module)),
 
     _literal_nan: $ => choice($.literal_nan_arithmetic, $.literal_nan_canonical),
 
