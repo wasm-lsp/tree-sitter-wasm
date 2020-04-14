@@ -437,7 +437,7 @@ module.exports = grammar({
         field("instr", $._instr),
       ),
 
-    instr_block: $ => choice($.block_block, $.block_loop, $.block_if_then, $.block_if_then_else),
+    instr_block: $ => choice($.block_block, $.block_loop, $.block_if),
 
     block_block: $ =>
       seq(
@@ -479,7 +479,7 @@ module.exports = grammar({
         optional(field("identifier1", $.identifier)),
       ),
 
-    block_if_then: $ =>
+    block_if: $ =>
       seq(
         "if",
         optional(field("identifier0", $.identifier)),
@@ -495,29 +495,9 @@ module.exports = grammar({
             $.block,
           ),
         ),
-        "end",
-        optional(field("identifier1", $.identifier)),
-      ),
-
-    block_if_then_else: $ =>
-      seq(
-        "if",
-        optional(field("identifier0", $.identifier)),
-        field(
-          "block",
-          alias(
-            seq(
-              optional(field("type_use", $.type_use)),
-              repeat(field("params", $.func_type_params_many)),
-              repeat(field("results", $.func_type_results)),
-              optional($._instr_list),
-            ),
-            $.block,
-          ),
+        optional(
+          seq("else", optional(field("identifier1", $.identifier)), optional(field("instr_list", $._instr_list))),
         ),
-        "else",
-        optional(field("identifier1", $.identifier)),
-        optional(field("instr_list", $._instr_list)),
         "end",
         optional(field("identifier2", $.identifier)),
       ),
