@@ -32,7 +32,7 @@ module.exports = grammar({
   ],
 
   rules: {
-    PARSE: $ => choice($.module, alias(repeat($._module_field), $.inline_module)),
+    PARSE: $ => choice($.module, alias(repeat(field("module_field", $._module_field)), $.inline_module)),
 
     comment: $ => token(prec(PREC.COMMENT, choice(seq(";;", /.*/), seq("(;", /[^;]*;+([^);][^;]*;+)*/, ")")))),
 
@@ -723,7 +723,13 @@ module.exports = grammar({
     module_field_data: $ => seq("(", "data", optional(field("index", $.index)), repeat(field("string", $.string)), ")"),
 
     module: $ =>
-      seq("(", "module", optional(field("identifier", $.identifier)), repeat(field("field", $._module_field)), ")"),
+      seq(
+        "(",
+        "module",
+        optional(field("identifier", $.identifier)),
+        repeat(field("module_field", $._module_field)),
+        ")",
+      ),
 
     _module_field: $ =>
       choice(
