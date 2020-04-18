@@ -606,7 +606,7 @@ module.exports = grammar({
       seq("(", "table", optional(field("identifier", $.identifier)), field("table_type", $.table_type), ")"),
 
     import_desc_memory_type: $ =>
-      seq("(", "memory", optional(field("identifier", $.identifier)), field("memory_type", $.table_type), ")"),
+      seq("(", "memory", optional(field("identifier", $.identifier)), field("memory_type", $.memory_type), ")"),
 
     import_desc_global_type: $ =>
       seq("(", "global", optional(field("identifier", $.identifier)), field("global_type", $.global_type), ")"),
