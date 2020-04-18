@@ -36,6 +36,7 @@ module.exports = grammar({
 
     comment: $ => token(prec(PREC.COMMENT, choice(seq(";;", /.*/), seq("(;", /[^;]*;+([^);][^;]*;+)*/, ")")))),
 
+    // eslint-disable-next-line no-useless-escape
     reserved: $ => token(choice(pattern_identifier, /[,;\[\]{}]/)),
 
     annot: $ =>
