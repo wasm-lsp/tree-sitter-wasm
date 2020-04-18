@@ -75,6 +75,119 @@
         }
       }
     },
+    "reserved": {
+      "type": "TOKEN",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "PATTERN",
+            "value": "[0-9A-Za-z!#$%&'*+-.\\/:<=>?@\\\\^_'|~]+"
+          },
+          {
+            "type": "PATTERN",
+            "value": "[,;\\[\\]{}]"
+          }
+        ]
+      }
+    },
+    "annot": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "(@"
+        },
+        {
+          "type": "FIELD",
+          "name": "identifier",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "PATTERN",
+                "value": "[0-9A-Za-z!#$%&'*+-.\\/:<=>?@\\\\^_'|~]+"
+              }
+            },
+            "named": true,
+            "value": "identifier"
+          }
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "FIELD",
+            "name": "annot_part",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_annot_part"
+            }
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "_annot_part": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "annot_parens"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "reserved"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "uN"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "sN"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "fN"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "string"
+        }
+      ]
+    },
+    "annot_parens": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "FIELD",
+            "name": "annot_part",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_annot_part"
+            }
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
     "sign": {
       "type": "TOKEN",
       "content": {
@@ -418,8 +531,20 @@
     "identifier": {
       "type": "TOKEN",
       "content": {
-        "type": "PATTERN",
-        "value": "\\$[0-9A-Za-z!#$%&'*+-.\\/:<=>?@\\\\^_'|~]+"
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "IMMEDIATE_TOKEN",
+            "content": {
+              "type": "STRING",
+              "value": "$"
+            }
+          },
+          {
+            "type": "PATTERN",
+            "value": "[0-9A-Za-z!#$%&'*+-.\\/:<=>?@\\\\^_'|~]+"
+          }
+        ]
       }
     },
     "index": {
@@ -4533,7 +4658,7 @@
           "name": "memory_type",
           "content": {
             "type": "SYMBOL",
-            "name": "table_type"
+            "name": "memory_type"
           }
         },
         {
@@ -6336,6 +6461,10 @@
     }
   },
   "extras": [
+    {
+      "type": "SYMBOL",
+      "name": "annot"
+    },
     {
       "type": "SYMBOL",
       "name": "comment"

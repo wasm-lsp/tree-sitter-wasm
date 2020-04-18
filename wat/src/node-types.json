@@ -30,6 +30,46 @@
     }
   },
   {
+    "type": "annot_parens",
+    "named": true,
+    "fields": {
+      "annot_part": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "annot_parens",
+            "named": true
+          },
+          {
+            "type": "fN",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "reserved",
+            "named": true
+          },
+          {
+            "type": "sN",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "uN",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "block",
     "named": true,
     "fields": {
@@ -3076,7 +3116,7 @@
         "required": true,
         "types": [
           {
-            "type": "table_type",
+            "type": "memory_type",
             "named": true
           }
         ]
@@ -5999,6 +6039,10 @@
     "named": false
   },
   {
+    "type": "(@",
+    "named": false
+  },
+  {
     "type": ")",
     "named": false
   },
@@ -6149,6 +6193,10 @@
   {
     "type": "param",
     "named": false
+  },
+  {
+    "type": "reserved",
+    "named": true
   },
   {
     "type": "result",
