@@ -4,7 +4,7 @@ const PREC = {
 };
 
 const pattern_hexnum = /[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*/;
-const pattern_identifier = /\$[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+/;
+const pattern_identifier = /[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+/;
 const pattern_num = /[0-9]+(?:_?[0-9]+)*/;
 const pattern_sign = /[+-]/;
 const pattern_value_type = /[fi](?:32|64)/;
@@ -76,7 +76,7 @@ module.exports = grammar({
 
     name: $ => $.string,
 
-    identifier: $ => token(pattern_identifier),
+    identifier: $ => token(seq(token.immediate("$"), pattern_identifier)),
 
     index: $ => choice($.uN, $.identifier),
 
