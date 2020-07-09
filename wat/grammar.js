@@ -1,5 +1,4 @@
 const PREC = {
-  COMMENT: 1,
   STRING: 2,
 };
 
@@ -12,7 +11,7 @@ const pattern_value_type = /[fi](?:32|64)/;
 module.exports = grammar({
   name: "wat",
 
-  extras: $ => [$.annot, $.comment, /[\s\uFEFF\u2060\u200B\u00A0]/],
+  extras: $ => [$.annot, $.comment_block, $.comment_line, /[\s\uFEFF\u2060\u200B\u00A0]/],
 
   conflicts: $ => [
     [$.instr_type_int, $.instr_type_int_32],
@@ -112,7 +111,9 @@ module.exports = grammar({
         optional(field("identifier1", $.identifier)),
       ),
 
-    comment: $ => token(prec(PREC.COMMENT, choice(seq(";;", /.*/), seq("(;", /[^;]*;+([^);][^;]*;+)*/, ")")))),
+    comment_block: $ => seq("(;", repeat(choice($.comment_block, /[^(;]+/, "(", ";")), ";)"),
+
+    comment_line: $ => prec.left(token(seq(";;", /.*/))),
 
     elem_type: $ => token("funcref"),
 
