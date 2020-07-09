@@ -882,6 +882,21 @@
     }
   },
   {
+    "type": "comment_block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "comment_block",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "const_expr",
     "named": true,
     "fields": {
@@ -5847,6 +5862,10 @@
     "named": false
   },
   {
+    "type": "(;",
+    "named": false
+  },
+  {
     "type": "(@",
     "named": false
   },
@@ -5860,6 +5879,14 @@
   },
   {
     "type": "0x",
+    "named": false
+  },
+  {
+    "type": ";",
+    "named": false
+  },
+  {
+    "type": ";)",
     "named": false
   },
   {
