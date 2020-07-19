@@ -161,11 +161,11 @@ static uint32_t ts_small_parse_table_map[] = {
 };
 
 static TSParseActionEntry ts_parse_actions[] = {
-  [0] = {.count = 0, .reusable = false},
-  [1] = {.count = 1, .reusable = false}, RECOVER(),
-  [3] = {.count = 1, .reusable = true}, SHIFT(2),
-  [5] = {.count = 1, .reusable = true}, REDUCE(sym_INSTANCE, 1),
-  [7] = {.count = 1, .reusable = true},  ACCEPT_INPUT(),
+  [0] = {.entry = {.count = 0, .reusable = false}},
+  [1] = {.entry = {.count = 1, .reusable = false}}, RECOVER(),
+  [3] = {.entry = {.count = 1, .reusable = true}}, SHIFT(2),
+  [5] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_INSTANCE, 1),
+  [7] = {.entry = {.count = 1, .reusable = true}},  ACCEPT_INPUT(),
 };
 
 #ifdef __cplusplus
