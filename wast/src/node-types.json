@@ -280,6 +280,66 @@
     }
   },
   {
+    "type": "assert_return_arithmetic_nan",
+    "named": true,
+    "fields": {
+      "action": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "action_get",
+            "named": true
+          },
+          {
+            "type": "action_invoke",
+            "named": true
+          }
+        ]
+      },
+      "result": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "result",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "assert_return_canonical_nan",
+    "named": true,
+    "fields": {
+      "action": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "action_get",
+            "named": true
+          },
+          {
+            "type": "action_invoke",
+            "named": true
+          }
+        ]
+      },
+      "result": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "result",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "assert_trap_action",
     "named": true,
     "fields": {
@@ -1315,6 +1375,14 @@
         },
         {
           "type": "assert_return",
+          "named": true
+        },
+        {
+          "type": "assert_return_arithmetic_nan",
+          "named": true
+        },
+        {
+          "type": "assert_return_canonical_nan",
           "named": true
         },
         {
@@ -6709,6 +6777,14 @@
   },
   {
     "type": "assert_return",
+    "named": false
+  },
+  {
+    "type": "assert_return_arithmetic_nan",
+    "named": false
+  },
+  {
+    "type": "assert_return_canonical_nan",
     "named": false
   },
   {

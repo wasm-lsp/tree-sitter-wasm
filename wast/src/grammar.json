@@ -5873,6 +5873,23 @@
         }
       ]
     },
+    "_assert_return": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "assert_return"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "assert_return_arithmetic_nan"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "assert_return_canonical_nan"
+        }
+      ]
+    },
     "assert_return": {
       "type": "SEQ",
       "members": [
@@ -5883,6 +5900,78 @@
         {
           "type": "STRING",
           "value": "assert_return"
+        },
+        {
+          "type": "FIELD",
+          "name": "action",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_action"
+          }
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "FIELD",
+            "name": "result",
+            "content": {
+              "type": "SYMBOL",
+              "name": "result"
+            }
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "assert_return_arithmetic_nan": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "STRING",
+          "value": "assert_return_arithmetic_nan"
+        },
+        {
+          "type": "FIELD",
+          "name": "action",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_action"
+          }
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "FIELD",
+            "name": "result",
+            "content": {
+              "type": "SYMBOL",
+              "name": "result"
+            }
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "assert_return_canonical_nan": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "STRING",
+          "value": "assert_return_canonical_nan"
         },
         {
           "type": "FIELD",
@@ -6025,7 +6114,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "assert_return"
+          "name": "_assert_return"
         },
         {
           "type": "SYMBOL",
