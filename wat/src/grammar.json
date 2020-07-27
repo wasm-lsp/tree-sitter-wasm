@@ -115,6 +115,14 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "comment_block_annot"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "comment_line_annot"
+        },
+        {
+          "type": "SYMBOL",
           "name": "annot_parens"
         },
         {
@@ -557,6 +565,63 @@
       ]
     },
     "comment_line": {
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "TOKEN",
+        "content": {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": ";;"
+            },
+            {
+              "type": "PATTERN",
+              "value": ".*"
+            }
+          ]
+        }
+      }
+    },
+    "comment_block_annot": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "(;"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "comment_block_annot"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[^(;]+"
+              },
+              {
+                "type": "STRING",
+                "value": "("
+              },
+              {
+                "type": "STRING",
+                "value": ";"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ";)"
+        }
+      ]
+    },
+    "comment_line_annot": {
       "type": "PREC_LEFT",
       "value": 0,
       "content": {

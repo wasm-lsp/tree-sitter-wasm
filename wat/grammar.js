@@ -46,7 +46,18 @@ module.exports = grammar({
 
     annot_parens: $ => seq("(", repeat(field("annot_part", $._annot_part)), ")"),
 
-    _annot_part: $ => choice($.annot_parens, $.reserved, $.uN, $.sN, $.fN, $.identifier, $.string),
+    _annot_part: $ =>
+      choice(
+        $.comment_block_annot,
+        $.comment_line_annot,
+        $.annot_parens,
+        $.reserved,
+        $.uN,
+        $.sN,
+        $.fN,
+        $.identifier,
+        $.string,
+      ),
 
     block_block: $ =>
       seq(
@@ -114,6 +125,10 @@ module.exports = grammar({
     comment_block: $ => seq("(;", repeat(choice($.comment_block, /[^(;]+/, "(", ";")), ";)"),
 
     comment_line: $ => prec.left(token(seq(";;", /.*/))),
+
+    comment_block_annot: $ => seq("(;", repeat(choice($.comment_block_annot, /[^(;]+/, "(", ";")), ";)"),
+
+    comment_line_annot: $ => prec.left(token(seq(";;", /.*/))),
 
     elem_type: $ => token("funcref"),
 
