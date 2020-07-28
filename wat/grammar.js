@@ -36,6 +36,7 @@ module.exports = grammar({
     align_value: $ =>
       seq("align=", field("value", token.immediate(/[0-9]+(?:_?[0-9]+)*|0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*/))),
 
+    // proposal: annotations
     annotation: $ =>
       seq(
         "(@",
@@ -44,8 +45,10 @@ module.exports = grammar({
         ")",
       ),
 
+    // proposal: annotations
     annotation_parens: $ => seq("(", repeat(field("annot_part", $._annotation_part)), ")"),
 
+    // proposal: annotations
     _annotation_part: $ =>
       choice(
         $.comment_block_annot,
