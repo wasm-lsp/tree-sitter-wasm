@@ -11,7 +11,7 @@ const pattern_value_type = /[fi](?:32|64)/;
 module.exports = grammar({
   name: "wat",
 
-  extras: $ => [$.annot, $.comment_block, $.comment_line, /[\s\uFEFF\u2060\u200B\u00A0]/],
+  extras: $ => [$.annotation, $.comment_block, $.comment_line, /[\s\uFEFF\u2060\u200B\u00A0]/],
 
   conflicts: $ => [
     [$.instr_type_int, $.instr_type_int_32],
@@ -36,21 +36,21 @@ module.exports = grammar({
     align_value: $ =>
       seq("align=", field("value", token.immediate(/[0-9]+(?:_?[0-9]+)*|0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*/))),
 
-    annot: $ =>
+    annotation: $ =>
       seq(
         "(@",
         field("identifier", alias(token.immediate(pattern_identifier), $.identifier)),
-        repeat(field("annot_part", $._annot_part)),
+        repeat(field("annot_part", $._annotation_part)),
         ")",
       ),
 
-    annot_parens: $ => seq("(", repeat(field("annot_part", $._annot_part)), ")"),
+    annotation_parens: $ => seq("(", repeat(field("annot_part", $._annotation_part)), ")"),
 
-    _annot_part: $ =>
+    _annotation_part: $ =>
       choice(
         $.comment_block_annot,
         $.comment_line_annot,
-        $.annot_parens,
+        $.annotation_parens,
         $.reserved,
         $.uN,
         $.sN,
