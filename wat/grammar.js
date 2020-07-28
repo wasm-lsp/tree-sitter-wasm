@@ -27,6 +27,7 @@ module.exports = grammar({
       $.instr_plain_convert,
       $.instr_plain_load,
       $.instr_plain_store,
+      $.instr_plain_atomic,
     ],
   ],
 
@@ -61,6 +62,9 @@ module.exports = grammar({
         $.identifier,
         $.string,
       ),
+
+    // proposal: threads
+    atomicop: $ => choice("add", "and", "cmpxchg", "or", "sub", "xchg", "xor"),
 
     block_block: $ =>
       seq(
@@ -342,6 +346,91 @@ module.exports = grammar({
         $.instr_plain_load,
         $.instr_plain_store,
         $.instr_plain_call,
+        $.instr_plain_atomic,
+      ),
+
+    // proposal: threads
+    instr_plain_atomic: $ =>
+      choice(
+        seq(
+          seq("memory", token.immediate("."), token.immediate("atomic"), token.immediate(".")),
+          choice(
+            seq(
+              field("op", alias(token.immediate("wait"), $.op)),
+              field("bits", alias(token.immediate(/32|64/), $.bits)),
+            ),
+            field("op", alias(token.immediate("notify"), $.op)),
+          ),
+        ),
+        seq(seq(token.immediate("atomic"), token.immediate(".")), field("op", token.immediate("fence"))),
+        seq(
+          field("type", $.instr_type_int),
+          token.immediate("."),
+          token.immediate("atomic"),
+          token.immediate("."),
+          choice(
+            seq(
+              field("op", alias(token.immediate("load"), $.op)),
+              optional(
+                seq(
+                  field("bits", alias(choice(token.immediate("8"), token.immediate("16")), $.bits)),
+                  token.immediate("_"),
+                  field("sign", alias(token.immediate("u"), $.sign)),
+                ),
+              ),
+            ),
+            seq(
+              field("rmw", alias(token.immediate("rmw"), $.rmw)),
+              token.immediate("."),
+              field("op", alias(token.immediate(/add|and|cmpxchg|or|sub|xchg|xor/), $.op)),
+            ),
+            seq(
+              field("rmw", alias(token.immediate("rmw"), $.rmw)),
+              field("bits", alias(choice(token.immediate("8"), token.immediate("16")), $.bits)),
+              token.immediate("."),
+              field("op", alias(token.immediate(/add|and|cmpxchg|or|sub|xchg|xor/), $.op)),
+              token.immediate("_"),
+              field("sign", alias(token.immediate("u"), $.sign)),
+            ),
+            seq(
+              field("op", alias(token.immediate("store"), $.op)),
+              optional(field("bits", alias(choice(token.immediate("8"), token.immediate("16")), $.bits))),
+            ),
+          ),
+        ),
+        seq(
+          field("type", $.instr_type_int_64),
+          token.immediate("."),
+          token.immediate("atomic"),
+          token.immediate("."),
+          seq(
+            field("op", alias(token.immediate("load"), $.op)),
+            field("bits", alias(token.immediate("32"), $.bits)),
+            token.immediate("_"),
+            field("sign", alias(token.immediate("u"), $.sign)),
+          ),
+        ),
+        seq(
+          field("type", $.instr_type_int_64),
+          token.immediate("."),
+          token.immediate("atomic"),
+          token.immediate("."),
+          seq(
+            field("rmw", alias(token.immediate("rmw"), $.rmw)),
+            field("bits", alias(token.immediate("32"), $.bits)),
+            token.immediate("."),
+            field("op", alias(token.immediate(/add|and|cmpxchg|or|sub|xchg|xor/), $.op)),
+            token.immediate("_"),
+            field("sign", alias(token.immediate("u"), $.sign)),
+          ),
+        ),
+        seq(
+          field("type", $.instr_type_int_64),
+          token.immediate("."),
+          token.immediate("atomic"),
+          token.immediate("."),
+          seq(field("op", alias(token.immediate("store"), $.op)), field("bits", alias(token.immediate("32"), $.bits))),
+        ),
       ),
 
     instr_plain_binary: $ =>
@@ -612,7 +701,13 @@ module.exports = grammar({
 
     instr_type_int_64: $ => seq(field("kind", alias("i", $.kind)), field("bits", alias(token.immediate("64"), $.bits))),
 
-    limits: $ => seq(field("min", $.uN), optional(field("max", $.uN))),
+    limits: $ =>
+      seq(
+        field("min", $.uN),
+        optional(field("max", $.uN)),
+        // proposal: threads
+        optional(field("share", $.share)),
+      ),
 
     literal: $ => choice($.sN, $.uN, $.fN),
 
@@ -747,6 +842,9 @@ module.exports = grammar({
     reserved: $ => token(choice(pattern_identifier, /[,;\[\]{}]/)),
 
     sN: $ => seq(field("sign", $.sign), $.uN),
+
+    // proposal: threads
+    share: $ => choice("shared", "unshared"),
 
     sign: $ => token(/[+-]/),
 
