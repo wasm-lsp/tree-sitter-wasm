@@ -112,7 +112,7 @@
     }
   },
   {
-    "type": "annot_parens",
+    "type": "annotation_parens",
     "named": true,
     "fields": {
       "annot_part": {
@@ -120,7 +120,7 @@
         "required": false,
         "types": [
           {
-            "type": "annot_parens",
+            "type": "annotation_parens",
             "named": true
           },
           {
@@ -478,6 +478,10 @@
             "named": true
           },
           {
+            "type": "instr_plain_atomic",
+            "named": true
+          },
+          {
             "type": "instr_plain_binary",
             "named": true
           },
@@ -589,6 +593,10 @@
         "multiple": true,
         "required": false,
         "types": [
+          {
+            "type": "instr_plain_atomic",
+            "named": true
+          },
           {
             "type": "instr_plain_binary",
             "named": true
@@ -738,6 +746,10 @@
         },
         {
           "type": "instr_list_call",
+          "named": true
+        },
+        {
+          "type": "instr_plain_atomic",
           "named": true
         },
         {
@@ -928,6 +940,10 @@
             "named": true
           },
           {
+            "type": "instr_plain_atomic",
+            "named": true
+          },
+          {
             "type": "instr_plain_binary",
             "named": true
           },
@@ -1059,6 +1075,10 @@
         "multiple": true,
         "required": false,
         "types": [
+          {
+            "type": "instr_plain_atomic",
+            "named": true
+          },
           {
             "type": "instr_plain_binary",
             "named": true
@@ -1195,6 +1215,10 @@
           },
           {
             "type": "instr_list_call",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic",
             "named": true
           },
           {
@@ -1504,6 +1528,10 @@
             "named": true
           },
           {
+            "type": "instr_plain_atomic",
+            "named": true
+          },
+          {
             "type": "instr_plain_binary",
             "named": true
           },
@@ -1635,6 +1663,10 @@
           },
           {
             "type": "instr_call",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic",
             "named": true
           },
           {
@@ -1834,6 +1866,10 @@
             "named": true
           },
           {
+            "type": "instr_plain_atomic",
+            "named": true
+          },
+          {
             "type": "instr_plain_binary",
             "named": true
           },
@@ -1935,6 +1971,10 @@
         "multiple": true,
         "required": false,
         "types": [
+          {
+            "type": "instr_plain_atomic",
+            "named": true
+          },
           {
             "type": "instr_plain_binary",
             "named": true
@@ -2060,6 +2100,10 @@
         },
         {
           "type": "instr_call",
+          "named": true
+        },
+        {
+          "type": "instr_plain_atomic",
           "named": true
         },
         {
@@ -2230,6 +2274,10 @@
             "named": true
           },
           {
+            "type": "instr_plain_atomic",
+            "named": true
+          },
+          {
             "type": "instr_plain_binary",
             "named": true
           },
@@ -2331,6 +2379,10 @@
         "multiple": true,
         "required": false,
         "types": [
+          {
+            "type": "instr_plain_atomic",
+            "named": true
+          },
           {
             "type": "instr_plain_binary",
             "named": true
@@ -2506,6 +2558,10 @@
             "named": true
           },
           {
+            "type": "instr_plain_atomic",
+            "named": true
+          },
+          {
             "type": "instr_plain_binary",
             "named": true
           },
@@ -2629,6 +2685,10 @@
           },
           {
             "type": "expr1_loop",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic",
             "named": true
           },
           {
@@ -2792,6 +2852,10 @@
             "named": true
           },
           {
+            "type": "instr_plain_atomic",
+            "named": true
+          },
+          {
             "type": "instr_plain_binary",
             "named": true
           },
@@ -2926,6 +2990,10 @@
             "named": true
           },
           {
+            "type": "instr_plain_atomic",
+            "named": true
+          },
+          {
             "type": "instr_plain_binary",
             "named": true
           },
@@ -3027,6 +3095,10 @@
         "multiple": true,
         "required": false,
         "types": [
+          {
+            "type": "instr_plain_atomic",
+            "named": true
+          },
           {
             "type": "instr_plain_binary",
             "named": true
@@ -3183,6 +3255,10 @@
           },
           {
             "type": "instr_list_call",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic",
             "named": true
           },
           {
@@ -3838,6 +3914,10 @@
             "named": true
           },
           {
+            "type": "instr_plain_atomic",
+            "named": true
+          },
+          {
             "type": "instr_plain_binary",
             "named": true
           },
@@ -3969,6 +4049,10 @@
           },
           {
             "type": "instr_call",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic",
             "named": true
           },
           {
@@ -4141,6 +4225,70 @@
         "types": [
           {
             "type": "type_use",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "instr_plain_atomic",
+    "named": true,
+    "fields": {
+      "bits": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "bits",
+            "named": true
+          }
+        ]
+      },
+      "op": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "fence",
+            "named": false
+          },
+          {
+            "type": "op",
+            "named": true
+          }
+        ]
+      },
+      "rmw": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "rmw",
+            "named": true
+          }
+        ]
+      },
+      "sign": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "sign",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "instr_type_int",
+            "named": true
+          },
+          {
+            "type": "instr_type_int_64",
             "named": true
           }
         ]
@@ -5090,6 +5238,16 @@
             "named": true
           }
         ]
+      },
+      "share": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "share",
+            "named": true
+          }
+        ]
       }
     }
   },
@@ -5475,6 +5633,10 @@
             "named": true
           },
           {
+            "type": "instr_plain_atomic",
+            "named": true
+          },
+          {
             "type": "instr_plain_binary",
             "named": true
           },
@@ -5596,6 +5758,10 @@
         "multiple": true,
         "required": false,
         "types": [
+          {
+            "type": "instr_plain_atomic",
+            "named": true
+          },
           {
             "type": "instr_plain_binary",
             "named": true
@@ -5773,6 +5939,10 @@
         },
         {
           "type": "instr_list_call",
+          "named": true
+        },
+        {
+          "type": "instr_plain_atomic",
           "named": true
         },
         {
@@ -6206,6 +6376,10 @@
             "named": true
           },
           {
+            "type": "instr_plain_atomic",
+            "named": true
+          },
+          {
             "type": "instr_plain_binary",
             "named": true
           },
@@ -6307,6 +6481,10 @@
         "multiple": true,
         "required": false,
         "types": [
+          {
+            "type": "instr_plain_atomic",
+            "named": true
+          },
           {
             "type": "instr_plain_binary",
             "named": true
@@ -6612,6 +6790,11 @@
     }
   },
   {
+    "type": "share",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "string",
     "named": true,
     "fields": {},
@@ -6788,7 +6971,15 @@
     "named": false
   },
   {
+    "type": "add",
+    "named": false
+  },
+  {
     "type": "align=",
+    "named": false
+  },
+  {
+    "type": "and",
     "named": false
   },
   {
@@ -6824,6 +7015,10 @@
     "named": false
   },
   {
+    "type": "atomic",
+    "named": false
+  },
+  {
     "type": "binary",
     "named": false
   },
@@ -6837,6 +7032,10 @@
   },
   {
     "type": "call_indirect",
+    "named": false
+  },
+  {
+    "type": "cmpxchg",
     "named": false
   },
   {
@@ -6865,6 +7064,10 @@
   },
   {
     "type": "export",
+    "named": false
+  },
+  {
+    "type": "fence",
     "named": false
   },
   {
@@ -6968,6 +7171,10 @@
     "named": false
   },
   {
+    "type": "or",
+    "named": false
+  },
+  {
     "type": "output",
     "named": false
   },
@@ -6992,6 +7199,10 @@
     "named": false
   },
   {
+    "type": "rmw",
+    "named": true
+  },
+  {
     "type": "sat",
     "named": true
   },
@@ -7000,11 +7211,19 @@
     "named": false
   },
   {
+    "type": "shared",
+    "named": false
+  },
+  {
     "type": "sign",
     "named": true
   },
   {
     "type": "start",
+    "named": false
+  },
+  {
+    "type": "sub",
     "named": false
   },
   {
@@ -7020,7 +7239,19 @@
     "named": false
   },
   {
+    "type": "unshared",
+    "named": false
+  },
+  {
     "type": "value_type",
     "named": true
+  },
+  {
+    "type": "xchg",
+    "named": false
+  },
+  {
+    "type": "xor",
+    "named": false
   }
 ]
