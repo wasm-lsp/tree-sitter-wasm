@@ -53,7 +53,7 @@
         }
       ]
     },
-    "annot": {
+    "annotation": {
       "type": "SEQ",
       "members": [
         {
@@ -83,7 +83,7 @@
             "name": "annot_part",
             "content": {
               "type": "SYMBOL",
-              "name": "_annot_part"
+              "name": "_annotation_part"
             }
           }
         },
@@ -93,7 +93,7 @@
         }
       ]
     },
-    "annot_parens": {
+    "annotation_parens": {
       "type": "SEQ",
       "members": [
         {
@@ -107,7 +107,7 @@
             "name": "annot_part",
             "content": {
               "type": "SYMBOL",
-              "name": "_annot_part"
+              "name": "_annotation_part"
             }
           }
         },
@@ -117,7 +117,7 @@
         }
       ]
     },
-    "_annot_part": {
+    "_annotation_part": {
       "type": "CHOICE",
       "members": [
         {
@@ -130,7 +130,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "annot_parens"
+          "name": "annotation_parens"
         },
         {
           "type": "SYMBOL",
@@ -155,6 +155,39 @@
         {
           "type": "SYMBOL",
           "name": "string"
+        }
+      ]
+    },
+    "atomicop": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "add"
+        },
+        {
+          "type": "STRING",
+          "value": "and"
+        },
+        {
+          "type": "STRING",
+          "value": "cmpxchg"
+        },
+        {
+          "type": "STRING",
+          "value": "or"
+        },
+        {
+          "type": "STRING",
+          "value": "sub"
+        },
+        {
+          "type": "STRING",
+          "value": "xchg"
+        },
+        {
+          "type": "STRING",
+          "value": "xor"
         }
       ]
     },
@@ -2311,6 +2344,745 @@
         {
           "type": "SYMBOL",
           "name": "instr_plain_call"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "instr_plain_atomic"
+        }
+      ]
+    },
+    "instr_plain_atomic": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "memory"
+                },
+                {
+                  "type": "IMMEDIATE_TOKEN",
+                  "content": {
+                    "type": "STRING",
+                    "value": "."
+                  }
+                },
+                {
+                  "type": "IMMEDIATE_TOKEN",
+                  "content": {
+                    "type": "STRING",
+                    "value": "atomic"
+                  }
+                },
+                {
+                  "type": "IMMEDIATE_TOKEN",
+                  "content": {
+                    "type": "STRING",
+                    "value": "."
+                  }
+                }
+              ]
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "FIELD",
+                      "name": "op",
+                      "content": {
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "IMMEDIATE_TOKEN",
+                          "content": {
+                            "type": "STRING",
+                            "value": "wait"
+                          }
+                        },
+                        "named": true,
+                        "value": "op"
+                      }
+                    },
+                    {
+                      "type": "FIELD",
+                      "name": "bits",
+                      "content": {
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "IMMEDIATE_TOKEN",
+                          "content": {
+                            "type": "PATTERN",
+                            "value": "32|64"
+                          }
+                        },
+                        "named": true,
+                        "value": "bits"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "FIELD",
+                  "name": "op",
+                  "content": {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "IMMEDIATE_TOKEN",
+                      "content": {
+                        "type": "STRING",
+                        "value": "notify"
+                      }
+                    },
+                    "named": true,
+                    "value": "op"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "IMMEDIATE_TOKEN",
+                  "content": {
+                    "type": "STRING",
+                    "value": "atomic"
+                  }
+                },
+                {
+                  "type": "IMMEDIATE_TOKEN",
+                  "content": {
+                    "type": "STRING",
+                    "value": "."
+                  }
+                }
+              ]
+            },
+            {
+              "type": "FIELD",
+              "name": "op",
+              "content": {
+                "type": "IMMEDIATE_TOKEN",
+                "content": {
+                  "type": "STRING",
+                  "value": "fence"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "type",
+              "content": {
+                "type": "SYMBOL",
+                "name": "instr_type_int"
+              }
+            },
+            {
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "STRING",
+                "value": "."
+              }
+            },
+            {
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "STRING",
+                "value": "atomic"
+              }
+            },
+            {
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "STRING",
+                "value": "."
+              }
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "FIELD",
+                      "name": "op",
+                      "content": {
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "IMMEDIATE_TOKEN",
+                          "content": {
+                            "type": "STRING",
+                            "value": "load"
+                          }
+                        },
+                        "named": true,
+                        "value": "op"
+                      }
+                    },
+                    {
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "SEQ",
+                          "members": [
+                            {
+                              "type": "FIELD",
+                              "name": "bits",
+                              "content": {
+                                "type": "ALIAS",
+                                "content": {
+                                  "type": "CHOICE",
+                                  "members": [
+                                    {
+                                      "type": "IMMEDIATE_TOKEN",
+                                      "content": {
+                                        "type": "STRING",
+                                        "value": "8"
+                                      }
+                                    },
+                                    {
+                                      "type": "IMMEDIATE_TOKEN",
+                                      "content": {
+                                        "type": "STRING",
+                                        "value": "16"
+                                      }
+                                    }
+                                  ]
+                                },
+                                "named": true,
+                                "value": "bits"
+                              }
+                            },
+                            {
+                              "type": "IMMEDIATE_TOKEN",
+                              "content": {
+                                "type": "STRING",
+                                "value": "_"
+                              }
+                            },
+                            {
+                              "type": "FIELD",
+                              "name": "sign",
+                              "content": {
+                                "type": "ALIAS",
+                                "content": {
+                                  "type": "IMMEDIATE_TOKEN",
+                                  "content": {
+                                    "type": "STRING",
+                                    "value": "u"
+                                  }
+                                },
+                                "named": true,
+                                "value": "sign"
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "type": "BLANK"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "FIELD",
+                      "name": "rmw",
+                      "content": {
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "IMMEDIATE_TOKEN",
+                          "content": {
+                            "type": "STRING",
+                            "value": "rmw"
+                          }
+                        },
+                        "named": true,
+                        "value": "rmw"
+                      }
+                    },
+                    {
+                      "type": "IMMEDIATE_TOKEN",
+                      "content": {
+                        "type": "STRING",
+                        "value": "."
+                      }
+                    },
+                    {
+                      "type": "FIELD",
+                      "name": "op",
+                      "content": {
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "IMMEDIATE_TOKEN",
+                          "content": {
+                            "type": "PATTERN",
+                            "value": "add|and|cmpxchg|or|sub|xchg|xor"
+                          }
+                        },
+                        "named": true,
+                        "value": "op"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "FIELD",
+                      "name": "rmw",
+                      "content": {
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "IMMEDIATE_TOKEN",
+                          "content": {
+                            "type": "STRING",
+                            "value": "rmw"
+                          }
+                        },
+                        "named": true,
+                        "value": "rmw"
+                      }
+                    },
+                    {
+                      "type": "FIELD",
+                      "name": "bits",
+                      "content": {
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "CHOICE",
+                          "members": [
+                            {
+                              "type": "IMMEDIATE_TOKEN",
+                              "content": {
+                                "type": "STRING",
+                                "value": "8"
+                              }
+                            },
+                            {
+                              "type": "IMMEDIATE_TOKEN",
+                              "content": {
+                                "type": "STRING",
+                                "value": "16"
+                              }
+                            }
+                          ]
+                        },
+                        "named": true,
+                        "value": "bits"
+                      }
+                    },
+                    {
+                      "type": "IMMEDIATE_TOKEN",
+                      "content": {
+                        "type": "STRING",
+                        "value": "."
+                      }
+                    },
+                    {
+                      "type": "FIELD",
+                      "name": "op",
+                      "content": {
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "IMMEDIATE_TOKEN",
+                          "content": {
+                            "type": "PATTERN",
+                            "value": "add|and|cmpxchg|or|sub|xchg|xor"
+                          }
+                        },
+                        "named": true,
+                        "value": "op"
+                      }
+                    },
+                    {
+                      "type": "IMMEDIATE_TOKEN",
+                      "content": {
+                        "type": "STRING",
+                        "value": "_"
+                      }
+                    },
+                    {
+                      "type": "FIELD",
+                      "name": "sign",
+                      "content": {
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "IMMEDIATE_TOKEN",
+                          "content": {
+                            "type": "STRING",
+                            "value": "u"
+                          }
+                        },
+                        "named": true,
+                        "value": "sign"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "FIELD",
+                      "name": "op",
+                      "content": {
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "IMMEDIATE_TOKEN",
+                          "content": {
+                            "type": "STRING",
+                            "value": "store"
+                          }
+                        },
+                        "named": true,
+                        "value": "op"
+                      }
+                    },
+                    {
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "FIELD",
+                          "name": "bits",
+                          "content": {
+                            "type": "ALIAS",
+                            "content": {
+                              "type": "CHOICE",
+                              "members": [
+                                {
+                                  "type": "IMMEDIATE_TOKEN",
+                                  "content": {
+                                    "type": "STRING",
+                                    "value": "8"
+                                  }
+                                },
+                                {
+                                  "type": "IMMEDIATE_TOKEN",
+                                  "content": {
+                                    "type": "STRING",
+                                    "value": "16"
+                                  }
+                                }
+                              ]
+                            },
+                            "named": true,
+                            "value": "bits"
+                          }
+                        },
+                        {
+                          "type": "BLANK"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "type",
+              "content": {
+                "type": "SYMBOL",
+                "name": "instr_type_int_64"
+              }
+            },
+            {
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "STRING",
+                "value": "."
+              }
+            },
+            {
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "STRING",
+                "value": "atomic"
+              }
+            },
+            {
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "STRING",
+                "value": "."
+              }
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "FIELD",
+                  "name": "op",
+                  "content": {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "IMMEDIATE_TOKEN",
+                      "content": {
+                        "type": "STRING",
+                        "value": "load"
+                      }
+                    },
+                    "named": true,
+                    "value": "op"
+                  }
+                },
+                {
+                  "type": "FIELD",
+                  "name": "bits",
+                  "content": {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "IMMEDIATE_TOKEN",
+                      "content": {
+                        "type": "STRING",
+                        "value": "32"
+                      }
+                    },
+                    "named": true,
+                    "value": "bits"
+                  }
+                },
+                {
+                  "type": "IMMEDIATE_TOKEN",
+                  "content": {
+                    "type": "STRING",
+                    "value": "_"
+                  }
+                },
+                {
+                  "type": "FIELD",
+                  "name": "sign",
+                  "content": {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "IMMEDIATE_TOKEN",
+                      "content": {
+                        "type": "STRING",
+                        "value": "u"
+                      }
+                    },
+                    "named": true,
+                    "value": "sign"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "type",
+              "content": {
+                "type": "SYMBOL",
+                "name": "instr_type_int_64"
+              }
+            },
+            {
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "STRING",
+                "value": "."
+              }
+            },
+            {
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "STRING",
+                "value": "atomic"
+              }
+            },
+            {
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "STRING",
+                "value": "."
+              }
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "FIELD",
+                  "name": "rmw",
+                  "content": {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "IMMEDIATE_TOKEN",
+                      "content": {
+                        "type": "STRING",
+                        "value": "rmw"
+                      }
+                    },
+                    "named": true,
+                    "value": "rmw"
+                  }
+                },
+                {
+                  "type": "FIELD",
+                  "name": "bits",
+                  "content": {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "IMMEDIATE_TOKEN",
+                      "content": {
+                        "type": "STRING",
+                        "value": "32"
+                      }
+                    },
+                    "named": true,
+                    "value": "bits"
+                  }
+                },
+                {
+                  "type": "IMMEDIATE_TOKEN",
+                  "content": {
+                    "type": "STRING",
+                    "value": "."
+                  }
+                },
+                {
+                  "type": "FIELD",
+                  "name": "op",
+                  "content": {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "IMMEDIATE_TOKEN",
+                      "content": {
+                        "type": "PATTERN",
+                        "value": "add|and|cmpxchg|or|sub|xchg|xor"
+                      }
+                    },
+                    "named": true,
+                    "value": "op"
+                  }
+                },
+                {
+                  "type": "IMMEDIATE_TOKEN",
+                  "content": {
+                    "type": "STRING",
+                    "value": "_"
+                  }
+                },
+                {
+                  "type": "FIELD",
+                  "name": "sign",
+                  "content": {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "IMMEDIATE_TOKEN",
+                      "content": {
+                        "type": "STRING",
+                        "value": "u"
+                      }
+                    },
+                    "named": true,
+                    "value": "sign"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "type",
+              "content": {
+                "type": "SYMBOL",
+                "name": "instr_type_int_64"
+              }
+            },
+            {
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "STRING",
+                "value": "."
+              }
+            },
+            {
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "STRING",
+                "value": "atomic"
+              }
+            },
+            {
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "STRING",
+                "value": "."
+              }
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "FIELD",
+                  "name": "op",
+                  "content": {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "IMMEDIATE_TOKEN",
+                      "content": {
+                        "type": "STRING",
+                        "value": "store"
+                      }
+                    },
+                    "named": true,
+                    "value": "op"
+                  }
+                },
+                {
+                  "type": "FIELD",
+                  "name": "bits",
+                  "content": {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "IMMEDIATE_TOKEN",
+                      "content": {
+                        "type": "STRING",
+                        "value": "32"
+                      }
+                    },
+                    "named": true,
+                    "value": "bits"
+                  }
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -4663,6 +5435,22 @@
               "type": "BLANK"
             }
           ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "share",
+              "content": {
+                "type": "SYMBOL",
+                "name": "share"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
@@ -5519,6 +6307,19 @@
         {
           "type": "SYMBOL",
           "name": "uN"
+        }
+      ]
+    },
+    "share": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "shared"
+        },
+        {
+          "type": "STRING",
+          "value": "unshared"
         }
       ]
     },
@@ -6632,7 +7433,7 @@
   "extras": [
     {
       "type": "SYMBOL",
-      "name": "annot"
+      "name": "annotation"
     },
     {
       "type": "SYMBOL",
@@ -6678,7 +7479,8 @@
       "instr_plain_binary",
       "instr_plain_convert",
       "instr_plain_load",
-      "instr_plain_store"
+      "instr_plain_store",
+      "instr_plain_atomic"
     ]
   ],
   "externals": [],
