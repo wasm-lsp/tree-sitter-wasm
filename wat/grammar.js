@@ -346,6 +346,7 @@ module.exports = grammar({
         $.instr_plain_load,
         $.instr_plain_store,
         $.instr_plain_call,
+        // proposal: threads
         $.instr_plain_atomic,
       ),
 
