@@ -348,6 +348,14 @@ module.exports = grammar({
         $.instr_plain_call,
         // proposal: threads
         $.instr_plain_atomic,
+        // proposal: bulk-memory-operations
+        $.instr_plain_data_drop,
+        $.instr_plain_elem_drop,
+        $.instr_plain_memory_copy,
+        $.instr_plain_memory_fill,
+        $.instr_plain_memory_init,
+        $.instr_plain_table_copy,
+        $.instr_plain_table_init,
       ),
 
     // proposal: threads
@@ -575,7 +583,11 @@ module.exports = grammar({
         ),
       ),
 
+    instr_plain_data_drop: $ => field("op", alias(token("data.drop"), $.op)),
+
     instr_plain_drop: $ => field("op", alias(token("drop"), $.op)),
+
+    instr_plain_elem_drop: $ => field("op", alias(token("elem.drop"), $.op)),
 
     instr_plain_global_get: $ => field("op", alias(seq("global.get", field("index", $.index)), $.op)),
 
@@ -612,7 +624,13 @@ module.exports = grammar({
 
     instr_plain_local_tee: $ => field("op", alias(seq("local.tee", field("index", $.index)), $.op)),
 
+    instr_plain_memory_copy: $ => field("op", alias(token("memory.copy"), $.op)),
+
+    instr_plain_memory_fill: $ => field("op", alias(token("memory.fill"), $.op)),
+
     instr_plain_memory_grow: $ => field("op", alias(token("memory.grow"), $.op)),
+
+    instr_plain_memory_init: $ => field("op", alias(token("memory.init"), $.op)),
 
     instr_plain_memory_size: $ => field("op", alias(token("memory.size"), $.op)),
 
@@ -642,6 +660,10 @@ module.exports = grammar({
         optional(field("offset_value", $.offset_value)),
         optional(field("align_value", $.align_value)),
       ),
+
+    instr_plain_table_copy: $ => field("op", alias(token("table.copy"), $.op)),
+
+    instr_plain_table_init: $ => field("op", alias(token("table.init"), $.op)),
 
     instr_plain_test: $ =>
       seq(field("type", $._instr_type), token.immediate("."), field("op", alias(token.immediate(/eqz/), $.op))),
@@ -745,8 +767,9 @@ module.exports = grammar({
       seq(
         "(",
         "data",
-        optional(field("index", $.index)),
-        field("offset", $._offset),
+        // proposal: bulk-memory-operations
+        // NOTE: we could maybe have a field here to decide between "active" and "passive"
+        optional(seq(optional(field("index", $.index)), field("offset", $._offset))),
         repeat(field("string", $.string)),
         ")",
       ),
