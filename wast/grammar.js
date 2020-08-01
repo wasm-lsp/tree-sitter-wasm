@@ -31,13 +31,13 @@ module.exports = grammar(wat, {
     assert_malformed: $ =>
       seq("(", "assert_malformed", field("module", $._script_module), field("string", $.string), ")"),
 
-    _assert_return: $ => choice($.assert_return, $.assert_return_arithmetic_nan, $.assert_return_canonical_nan),
-
     assert_return: $ => seq("(", "assert_return", field("action", $._action), repeat(field("result", $.result)), ")"),
 
+    // proposal: annotations
     assert_return_arithmetic_nan: $ =>
       seq("(", "assert_return_arithmetic_nan", field("action", $._action), repeat(field("result", $.result)), ")"),
 
+    // proposal: annotations
     assert_return_canonical_nan: $ =>
       seq("(", "assert_return_canonical_nan", field("action", $._action), repeat(field("result", $.result)), ")"),
 
@@ -50,13 +50,17 @@ module.exports = grammar(wat, {
 
     _assertion: $ =>
       choice(
-        $.assert_exhaustion,
-        $.assert_invalid,
         $.assert_malformed,
-        $._assert_return,
+        $.assert_invalid,
+        $.assert_unlinkable,
         $.assert_trap_action,
         $.assert_trap_module,
-        $.assert_unlinkable,
+        $.assert_return,
+        // proposal: annotations
+        $.assert_return_canonical_nan,
+        // proposal: annotations
+        $.assert_return_arithmetic_nan,
+        $.assert_exhaustion,
       ),
 
     command: $ => choice($._action, $._assertion, $._meta, $.register, $._script_module),
