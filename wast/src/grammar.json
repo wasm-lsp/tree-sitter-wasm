@@ -6892,23 +6892,6 @@
         }
       ]
     },
-    "_assert_return": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "assert_return"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "assert_return_arithmetic_nan"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "assert_return_canonical_nan"
-        }
-      ]
-    },
     "assert_return": {
       "type": "SEQ",
       "members": [
@@ -7121,7 +7104,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "assert_exhaustion"
+          "name": "assert_malformed"
         },
         {
           "type": "SYMBOL",
@@ -7129,11 +7112,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "assert_malformed"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_assert_return"
+          "name": "assert_unlinkable"
         },
         {
           "type": "SYMBOL",
@@ -7145,7 +7124,19 @@
         },
         {
           "type": "SYMBOL",
-          "name": "assert_unlinkable"
+          "name": "assert_return"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "assert_return_canonical_nan"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "assert_return_arithmetic_nan"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "assert_exhaustion"
         }
       ]
     },
