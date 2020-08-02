@@ -2,11 +2,11 @@ const PREC = {
   STRING: 2,
 };
 
+const pattern_decnum = /[0-9]+(?:_?[0-9]+)*/;
 const pattern_hexnum = /[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*/;
 const pattern_identifier = /[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+/;
-const pattern_num = /[0-9]+(?:_?[0-9]+)*/;
+const pattern_num_type = /[fi](?:32|64)/;
 const pattern_sign = /[+-]/;
-const pattern_value_type = /[fi](?:32|64)/;
 
 module.exports = grammar({
   name: "wat",
@@ -31,10 +31,20 @@ module.exports = grammar({
       $.instr_plain_store,
       $.instr_plain_unary,
     ],
+    [$.instr_plain_select],
+    [$.module_field_elem],
   ],
 
   rules: {
     PARSE: $ => choice($.module, alias(repeat(field("module_field", $._module_field)), $.inline_module)),
+
+    FLOAT: $ => seq(optional(field("sign", $.sign)), $.FLOAT_MAG),
+
+    FLOAT_MAG: $ => choice($.float, $.hexfloat, "inf", "nan", seq("nan:0x", $.hexnum)),
+
+    NAT: $ => choice($.decnum, seq("0x", $.hexnum)),
+
+    INT: $ => seq(field("sign", $.sign), $.NAT),
 
     align_value: $ =>
       seq("align=", field("value", token.immediate(/[0-9]+(?:_?[0-9]+)*|0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*/))),
@@ -58,9 +68,9 @@ module.exports = grammar({
         $.comment_line_annot,
         $.annotation_parens,
         $.reserved,
-        $.uN,
-        $.sN,
-        $.fN,
+        $.NAT,
+        $.INT,
+        $.FLOAT,
         $.identifier,
         $.string,
       ),
@@ -139,7 +149,27 @@ module.exports = grammar({
 
     comment_line_annot: $ => prec.left(token(seq(";;", /.*/))),
 
-    elem_type: $ => token("funcref"),
+    decnum: $ => token(pattern_decnum),
+
+    // proposal: reference-types
+    _elem_expr: $ => choice($.elem_expr_item, $.elem_expr_expr),
+
+    // proposal: reference-types
+    elem_expr_expr: $ => $._expr,
+
+    // proposal: reference-types
+    elem_expr_item: $ =>
+      seq("(", "item", field("const_expr", alias(repeat(field("instr", $._instr)), $.const_expr)), ")"),
+
+    // proposal: reference-types
+    elem_kind: $ => token(/func/),
+
+    // proposal: reference-types
+    elem_list: $ =>
+      choice(
+        seq(field("elem_kind", $.elem_kind), field("elem_var_list", repeat(field("index", $.index)))),
+        seq(field("ref_type", $.ref_type), field("elem_expr_list", repeat(field("elem_exr", $._elem_expr)))),
+      ),
 
     escape_sequence: $ => token.immediate(seq("\\", choice(/[^u0-9a-fA-F]/, /[0-9a-fA-F]{2}/, /u{[0-9a-fA-F]+}/))),
 
@@ -178,6 +208,8 @@ module.exports = grammar({
     expr1_call: $ =>
       seq(
         "call_indirect",
+        // proposal: reference-types
+        optional(field("index", $.index)),
         optional(field("type_use", $.type_use)),
         repeat(field("params", $.func_type_params_many)),
         repeat(field("results", $.func_type_results)),
@@ -206,16 +238,12 @@ module.exports = grammar({
 
     _expr1_plain: $ => seq(field("instr", $._instr_plain), repeat(field("expr", $._expr))),
 
-    fN: $ => seq(optional(field("sign", $.sign)), $.fNmag),
-
-    fNmag: $ => choice($.float, $.hexfloat, "inf", "nan", seq("nan:0x", $.hexnum)),
-
     float: $ =>
       token(
         seq(
-          pattern_num,
-          optional(seq(".", optional(pattern_num))),
-          optional(seq(/[Ee]/, optional(pattern_sign), pattern_num)),
+          pattern_decnum,
+          optional(seq(".", optional(pattern_decnum))),
+          optional(seq(/[Ee]/, optional(pattern_sign), pattern_decnum)),
         ),
       ),
 
@@ -248,7 +276,7 @@ module.exports = grammar({
           "0x",
           pattern_hexnum,
           optional(seq(".", optional(pattern_hexnum))),
-          optional(seq(/[Pp]/, optional(pattern_sign), pattern_num)),
+          optional(seq(/[Pp]/, optional(pattern_sign), pattern_decnum)),
         ),
       ),
 
@@ -290,7 +318,7 @@ module.exports = grammar({
     import_desc_type_use: $ =>
       seq("(", "func", optional(field("identifier", $.identifier)), field("type_use", $.type_use), ")"),
 
-    index: $ => choice($.uN, $.identifier),
+    index: $ => choice($.NAT, $.identifier),
 
     inline_export: $ => seq("(", "export", field("name", $.name), ")"),
 
@@ -337,6 +365,20 @@ module.exports = grammar({
         $.instr_plain_local_tee,
         $.instr_plain_global_get,
         $.instr_plain_global_set,
+
+        // proposal <start>: reference-types
+        $.instr_plain_table_get,
+        $.instr_plain_table_set,
+        $.instr_plain_table_size,
+        $.instr_plain_table_grow,
+        $.instr_plain_table_fill,
+        $.instr_plain_table_size,
+        $.instr_plain_table_grow,
+        $.instr_plain_table_fill,
+        $.instr_plain_ref_is_null,
+        $.instr_plain_ref_func,
+        // proposal <stop>: reference-types
+
         $.instr_plain_memory_size,
         $.instr_plain_memory_grow,
         $.instr_plain_const,
@@ -348,13 +390,16 @@ module.exports = grammar({
         $.instr_plain_load,
         $.instr_plain_store,
         $.instr_plain_call,
-        // proposal: threads
+
+        // proposal <start>: threads
         $.instr_plain_atomic_wait,
         $.instr_plain_atomic_notify,
         $.instr_plain_atomic_load,
         $.instr_plain_atomic_store,
         $.instr_plain_atomic_rmw,
-        // proposal: bulk-memory-operations
+        // proposal <stop>: threads
+
+        // proposal <start>: bulk-memory-operations
         $.instr_plain_data_drop,
         $.instr_plain_elem_drop,
         $.instr_plain_memory_copy,
@@ -362,6 +407,7 @@ module.exports = grammar({
         $.instr_plain_memory_init,
         $.instr_plain_table_copy,
         $.instr_plain_table_init,
+        // proposal <stop>: bulk-memory-operations
       ),
 
     // proposal: threads
@@ -532,11 +578,31 @@ module.exports = grammar({
       ),
 
     instr_plain_const: $ =>
+      choice(
+        $.instr_plain_const_num,
+        // proposal: reference-types
+        $.instr_plain_ref_extern,
+        // proposal: reference-types
+        $.instr_plain_ref_null,
+      ),
+
+    instr_plain_const_num: $ =>
       seq(
         field("type", $._instr_type),
         token.immediate("."),
         field("op", alias(token.immediate(/const/), $.op)),
-        field("literal", $.literal),
+        field("num", $.num),
+      ),
+
+    instr_plain_ref_extern: $ =>
+      seq(token("ref"), token.immediate("."), field("op", alias(token.immediate(/extern/), $.op)), field("nat", $.NAT)),
+
+    instr_plain_ref_null: $ =>
+      seq(
+        token("ref"),
+        token.immediate("."),
+        field("op", alias(token.immediate(/null/), $.op)),
+        field("ref_kind", $.ref_kind),
       ),
 
     instr_plain_convert: $ =>
@@ -620,11 +686,13 @@ module.exports = grammar({
         ),
       ),
 
-    instr_plain_data_drop: $ => field("op", alias(token("data.drop"), $.op)),
+    // proposal: bulk-memory-operations
+    instr_plain_data_drop: $ => seq(field("op", alias(token("data.drop"), $.op)), field("index", $.index)),
 
     instr_plain_drop: $ => field("op", alias(token("drop"), $.op)),
 
-    instr_plain_elem_drop: $ => field("op", alias(token("elem.drop"), $.op)),
+    // proposal: bulk-memory-operations
+    instr_plain_elem_drop: $ => seq(field("op", alias(token("elem.drop"), $.op)), field("index", $.index)),
 
     instr_plain_global_get: $ => seq(field("op", alias("global.get", $.op)), field("index", $.index)),
 
@@ -661,21 +729,35 @@ module.exports = grammar({
 
     instr_plain_local_tee: $ => seq(field("op", alias("local.tee", $.op)), field("index", $.index)),
 
+    // proposal: bulk-memory-operations
     instr_plain_memory_copy: $ => field("op", alias(token("memory.copy"), $.op)),
 
+    // proposal: bulk-memory-operations
     instr_plain_memory_fill: $ => field("op", alias(token("memory.fill"), $.op)),
 
     instr_plain_memory_grow: $ => field("op", alias(token("memory.grow"), $.op)),
 
-    instr_plain_memory_init: $ => field("op", alias(token("memory.init"), $.op)),
+    // proposal: bulk-memory-operations
+    instr_plain_memory_init: $ => seq(field("op", alias(token("memory.init"), $.op)), field("index", $.index)),
 
     instr_plain_memory_size: $ => field("op", alias(token("memory.size"), $.op)),
 
     instr_plain_nop: $ => field("op", alias(token("nop"), $.op)),
 
+    // proposal: reference-types
+    instr_plain_ref_func: $ => seq(field("op", alias("ref.func", $.op)), field("index", $.index)),
+
+    // proposal: reference-types
+    instr_plain_ref_is_null: $ => field("op", alias(token("ref.is_null"), $.op)),
+
     instr_plain_return: $ => field("op", alias(token("return"), $.op)),
 
-    instr_plain_select: $ => field("op", alias(token("select"), $.op)),
+    instr_plain_select: $ =>
+      seq(
+        field("op", alias(token("select"), $.op)),
+        // proposal: reference-types
+        repeat(field("results", $.func_type_results)),
+      ),
 
     instr_plain_store: $ =>
       seq(
@@ -698,9 +780,31 @@ module.exports = grammar({
         optional(field("align_value", $.align_value)),
       ),
 
-    instr_plain_table_copy: $ => field("op", alias(token("table.copy"), $.op)),
+    // proposal: bulk-memory-operations
+    instr_plain_table_copy: $ =>
+      seq(
+        field("op", alias(token("table.copy"), $.op)),
+        optional(seq(field("index", $.index), field("index", $.index))),
+      ),
 
-    instr_plain_table_init: $ => field("op", alias(token("table.init"), $.op)),
+    // proposal: reference-types
+    instr_plain_table_fill: $ => seq(field("op", alias("table.fill", $.op)), optional(field("index", $.index))),
+
+    // proposal: reference-types
+    instr_plain_table_get: $ => seq(field("op", alias("table.get", $.op)), optional(field("index", $.index))),
+
+    // proposal: reference-types
+    instr_plain_table_grow: $ => seq(field("op", alias("table.grow", $.op)), optional(field("index", $.index))),
+
+    // proposal: bulk-memory-operations
+    instr_plain_table_init: $ =>
+      seq(field("op", alias(token("table.init"), $.op)), field("index", $.index), optional(field("index", $.index))),
+
+    // proposal: reference-types
+    instr_plain_table_set: $ => seq(field("op", alias("table.set", $.op)), optional(field("index", $.index))),
+
+    // proposal: reference-types
+    instr_plain_table_size: $ => seq(field("op", alias("table.size", $.op)), optional(field("index", $.index))),
 
     instr_plain_test: $ =>
       seq(field("type", $._instr_type), token.immediate("."), field("op", alias(token.immediate(/eqz/), $.op))),
@@ -763,19 +867,19 @@ module.exports = grammar({
 
     limits: $ =>
       seq(
-        field("min", $.uN),
-        optional(field("max", $.uN)),
+        field("min", $.NAT),
+        optional(field("max", $.NAT)),
         // proposal: threads
         optional(field("share", $.share)),
       ),
-
-    literal: $ => choice($.sN, $.uN, $.fN),
 
     memory_fields_data: $ => seq("(", "data", repeat(field("string", $.string)), ")"),
 
     memory_fields_type: $ => seq(optional(field("import", $.inline_import)), field("type", $.memory_type)),
 
     memory_type: $ => field("limits", $.limits),
+
+    memory_use: $ => seq("(", "memory", field("index", $.index), ")"),
 
     module: $ =>
       seq(
@@ -804,9 +908,8 @@ module.exports = grammar({
       seq(
         "(",
         "data",
-        // proposal: bulk-memory-operations
-        // NOTE: we could maybe have a field here to decide between "active" and "passive"
-        optional(seq(optional(field("index", $.index)), field("offset", $._offset))),
+        optional(field("index", $.index)),
+        optional(seq(optional(field("memory_use", $.memory_use)), field("offset", $._offset))),
         repeat(field("string", $.string)),
         ")",
       ),
@@ -816,8 +919,13 @@ module.exports = grammar({
         "(",
         "elem",
         optional(field("index_head", $.index)),
-        field("offset", $._offset),
-        repeat(field("index_tail", $.index)),
+        choice(
+          field("elem_list", $.elem_list),
+          seq(field("table_use", $.table_use), field("offset", $._offset), field("elem_list", $.elem_list)),
+          seq(field("declare", alias("declare", $.declare)), field("elem_list", $.elem_list)),
+          seq(field("offset", $._offset), field("elem_list", $.elem_list)),
+          seq(field("offset", $._offset), field("elem_var_list", repeat(field("index", $.index)))),
+        ),
         ")",
       ),
 
@@ -887,7 +995,7 @@ module.exports = grammar({
 
     name: $ => $.string,
 
-    num: $ => token(pattern_num),
+    num: $ => choice($.NAT, $.INT, $.FLOAT),
 
     _offset: $ => choice($.offset_const_expr, $.offset_expr),
 
@@ -899,10 +1007,14 @@ module.exports = grammar({
     offset_value: $ =>
       seq("offset=", field("value", token.immediate(/[0-9]+(?:_?[0-9]+)*|0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*/))),
 
+    // proposal: reference-types
+    ref_kind: $ => choice(/extern|func/),
+
+    // proposal: reference-types
+    ref_type: $ => choice(/externref|funcref/),
+
     // eslint-disable-next-line no-useless-escape
     reserved: $ => token(choice(pattern_identifier, /[,;\[\]{}]/)),
-
-    sN: $ => seq(field("sign", $.sign), $.uN),
 
     // proposal: threads
     share: $ => choice("shared", "unshared"),
@@ -912,18 +1024,32 @@ module.exports = grammar({
     string: $ =>
       seq('"', repeat(choice(token.immediate(prec(PREC.STRING, /[^"\\\n]+|\\\r?\n/)), $.escape_sequence)), '"'),
 
-    table_fields_elem: $ => seq(field("elem_type", $.elem_type), "(", "elem", repeat(field("index", $.index)), ")"),
+    table_fields_elem: $ =>
+      seq(
+        field("ref_type", $.ref_type),
+        "(",
+        "elem",
+        choice(
+          field("elem_var_list", repeat(field("index", $.index))),
+          seq(field("elem_expr", $._elem_expr), field("elem_expr_list", repeat(field("elem_expr", $._elem_expr)))),
+        ),
+        ")",
+      ),
 
     table_fields_type: $ => seq(optional(field("import", $.inline_import)), field("table_type", $.table_type)),
 
-    table_type: $ => seq(field("limits", $.limits), field("elem_type", $.elem_type)),
+    table_type: $ => seq(field("limits", $.limits), field("ref_type", $.ref_type)),
+
+    table_use: $ => seq("(", "table", field("index", $.index), ")"),
 
     _type_field: $ => seq("(", "func", repeat(field("func_type", $._func_type)), ")"),
 
     type_use: $ => seq("(", "type", field("index", $.index), ")"),
 
-    uN: $ => choice($.num, seq("0x", $.hexnum)),
+    value_type: $ => choice($.value_type_num_type, $.value_type_ref_type),
 
-    value_type: $ => token(pattern_value_type),
+    value_type_num_type: $ => token(pattern_num_type),
+
+    value_type_ref_type: $ => $.ref_type,
   },
 });
