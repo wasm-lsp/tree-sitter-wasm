@@ -18,16 +18,18 @@ module.exports = grammar({
     [$.instr_type_int, $.instr_type_int_64],
     [$.instr_type_float, $.instr_type_float_32],
     [$.instr_type_float, $.instr_type_float_64],
-    [$._instr_type, $.instr_plain_compare, $.instr_plain_unary, $.instr_plain_binary, $.instr_plain_convert],
+    [$._instr_type, $.instr_plain_binary, $.instr_plain_compare, $.instr_plain_convert, $.instr_plain_unary],
     [
       $._instr_type,
-      $.instr_plain_compare,
-      $.instr_plain_unary,
+      $.instr_plain_atomic_load,
+      $.instr_plain_atomic_rmw,
+      $.instr_plain_atomic_store,
       $.instr_plain_binary,
+      $.instr_plain_compare,
       $.instr_plain_convert,
       $.instr_plain_load,
       $.instr_plain_store,
-      $.instr_plain_atomic,
+      $.instr_plain_unary,
     ],
   ],
 
@@ -347,7 +349,11 @@ module.exports = grammar({
         $.instr_plain_store,
         $.instr_plain_call,
         // proposal: threads
-        $.instr_plain_atomic,
+        $.instr_plain_atomic_wait,
+        $.instr_plain_atomic_notify,
+        $.instr_plain_atomic_load,
+        $.instr_plain_atomic_store,
+        $.instr_plain_atomic_rmw,
         // proposal: bulk-memory-operations
         $.instr_plain_data_drop,
         $.instr_plain_elem_drop,
@@ -359,35 +365,78 @@ module.exports = grammar({
       ),
 
     // proposal: threads
-    instr_plain_atomic: $ =>
+    instr_plain_atomic_fence: $ =>
+      seq(token.immediate("atomic"), token.immediate("."), field("op", token.immediate("fence"))),
+
+    // proposal: threads
+    instr_plain_atomic_load: $ =>
       choice(
         seq(
-          seq("memory", token.immediate("."), token.immediate("atomic"), token.immediate(".")),
-          choice(
+          field("type", $.instr_type_int),
+          token.immediate("."),
+          token.immediate("atomic"),
+          token.immediate("."),
+          field("op", alias(token.immediate("load"), $.op)),
+          optional(
             seq(
-              field("op", alias(token.immediate("wait"), $.op)),
-              field("bits", alias(token.immediate(/32|64/), $.bits)),
+              field("bits", alias(choice(token.immediate("8"), token.immediate("16")), $.bits)),
+              token.immediate("_"),
+              field("sign", alias(token.immediate("u"), $.sign)),
             ),
-            field("op", alias(token.immediate("notify"), $.op)),
           ),
         ),
-        seq(seq(token.immediate("atomic"), token.immediate(".")), field("op", token.immediate("fence"))),
+        seq(
+          field("type", $.instr_type_int_64),
+          token.immediate("."),
+          token.immediate("atomic"),
+          token.immediate("."),
+          field("op", alias(token.immediate("load"), $.op)),
+          field("bits", alias(token.immediate("32"), $.bits)),
+          token.immediate("_"),
+          field("sign", alias(token.immediate("u"), $.sign)),
+        ),
+      ),
+
+    // proposal: threads
+    instr_plain_atomic_notify: $ =>
+      seq(
+        token("memory"),
+        token.immediate("."),
+        token.immediate("atomic"),
+        token.immediate("."),
+        field("op", alias(token.immediate("notify"), $.op)),
+      ),
+
+    // proposal: threads
+    instr_plain_atomic_store: $ =>
+      choice(
+        seq(
+          field("type", $.instr_type_int),
+          token.immediate("."),
+          token.immediate("atomic"),
+          token.immediate("."),
+          field("op", alias(token.immediate("store"), $.op)),
+          optional(field("bits", alias(choice(token.immediate("8"), token.immediate("16")), $.bits))),
+        ),
+        seq(
+          field("type", $.instr_type_int_64),
+          token.immediate("."),
+          token.immediate("atomic"),
+          token.immediate("."),
+          field("op", alias(token.immediate("store"), $.op)),
+          field("bits", alias(token.immediate("32"), $.bits)),
+        ),
+      ),
+
+    // proposal: threads
+    instr_plain_atomic_rmw: $ =>
+      choice(
         seq(
           field("type", $.instr_type_int),
           token.immediate("."),
           token.immediate("atomic"),
           token.immediate("."),
           choice(
-            seq(
-              field("op", alias(token.immediate("load"), $.op)),
-              optional(
-                seq(
-                  field("bits", alias(choice(token.immediate("8"), token.immediate("16")), $.bits)),
-                  token.immediate("_"),
-                  field("sign", alias(token.immediate("u"), $.sign)),
-                ),
-              ),
-            ),
             seq(
               field("rmw", alias(token.immediate("rmw"), $.rmw)),
               token.immediate("."),
@@ -401,22 +450,6 @@ module.exports = grammar({
               token.immediate("_"),
               field("sign", alias(token.immediate("u"), $.sign)),
             ),
-            seq(
-              field("op", alias(token.immediate("store"), $.op)),
-              optional(field("bits", alias(choice(token.immediate("8"), token.immediate("16")), $.bits))),
-            ),
-          ),
-        ),
-        seq(
-          field("type", $.instr_type_int_64),
-          token.immediate("."),
-          token.immediate("atomic"),
-          token.immediate("."),
-          seq(
-            field("op", alias(token.immediate("load"), $.op)),
-            field("bits", alias(token.immediate("32"), $.bits)),
-            token.immediate("_"),
-            field("sign", alias(token.immediate("u"), $.sign)),
           ),
         ),
         seq(
@@ -433,13 +466,17 @@ module.exports = grammar({
             field("sign", alias(token.immediate("u"), $.sign)),
           ),
         ),
-        seq(
-          field("type", $.instr_type_int_64),
-          token.immediate("."),
-          token.immediate("atomic"),
-          token.immediate("."),
-          seq(field("op", alias(token.immediate("store"), $.op)), field("bits", alias(token.immediate("32"), $.bits))),
-        ),
+      ),
+
+    // proposal: threads
+    instr_plain_atomic_wait: $ =>
+      seq(
+        token("memory"),
+        token.immediate("."),
+        token.immediate("atomic"),
+        token.immediate("."),
+        field("op", alias(token.immediate("wait"), $.op)),
+        field("bits", alias(token.immediate(/32|64/), $.bits)),
       ),
 
     instr_plain_binary: $ =>
