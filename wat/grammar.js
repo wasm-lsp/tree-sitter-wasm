@@ -626,9 +626,9 @@ module.exports = grammar({
 
     instr_plain_elem_drop: $ => field("op", alias(token("elem.drop"), $.op)),
 
-    instr_plain_global_get: $ => field("op", alias(seq("global.get", field("index", $.index)), $.op)),
+    instr_plain_global_get: $ => seq(field("op", alias("global.get", $.op)), field("index", $.index)),
 
-    instr_plain_global_set: $ => field("op", alias(seq("global.set", field("index", $.index)), $.op)),
+    instr_plain_global_set: $ => seq(field("op", alias("global.set", $.op)), field("index", $.index)),
 
     instr_plain_load: $ =>
       seq(
@@ -655,11 +655,11 @@ module.exports = grammar({
         optional(field("align_value", $.align_value)),
       ),
 
-    instr_plain_local_get: $ => field("op", alias(seq("local.get", field("index", $.index)), $.op)),
+    instr_plain_local_get: $ => seq(field("op", alias("local.get", $.op)), field("index", $.index)),
 
-    instr_plain_local_set: $ => field("op", alias(seq("local.set", field("index", $.index)), $.op)),
+    instr_plain_local_set: $ => seq(field("op", alias("local.set", $.op)), field("index", $.index)),
 
-    instr_plain_local_tee: $ => field("op", alias(seq("local.tee", field("index", $.index)), $.op)),
+    instr_plain_local_tee: $ => seq(field("op", alias("local.tee", $.op)), field("index", $.index)),
 
     instr_plain_memory_copy: $ => field("op", alias(token("memory.copy"), $.op)),
 
