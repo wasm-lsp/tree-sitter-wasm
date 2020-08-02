@@ -478,7 +478,23 @@
             "named": true
           },
           {
-            "type": "instr_plain_atomic",
+            "type": "instr_plain_atomic_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_notify",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_rmw",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_wait",
             "named": true
           },
           {
@@ -622,7 +638,23 @@
         "required": false,
         "types": [
           {
-            "type": "instr_plain_atomic",
+            "type": "instr_plain_atomic_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_notify",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_rmw",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_wait",
             "named": true
           },
           {
@@ -805,7 +837,23 @@
           "named": true
         },
         {
-          "type": "instr_plain_atomic",
+          "type": "instr_plain_atomic_load",
+          "named": true
+        },
+        {
+          "type": "instr_plain_atomic_notify",
+          "named": true
+        },
+        {
+          "type": "instr_plain_atomic_rmw",
+          "named": true
+        },
+        {
+          "type": "instr_plain_atomic_store",
+          "named": true
+        },
+        {
+          "type": "instr_plain_atomic_wait",
           "named": true
         },
         {
@@ -1024,7 +1072,23 @@
             "named": true
           },
           {
-            "type": "instr_plain_atomic",
+            "type": "instr_plain_atomic_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_notify",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_rmw",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_wait",
             "named": true
           },
           {
@@ -1188,7 +1252,23 @@
         "required": false,
         "types": [
           {
-            "type": "instr_plain_atomic",
+            "type": "instr_plain_atomic_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_notify",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_rmw",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_wait",
             "named": true
           },
           {
@@ -1358,7 +1438,23 @@
             "named": true
           },
           {
-            "type": "instr_plain_atomic",
+            "type": "instr_plain_atomic_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_notify",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_rmw",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_wait",
             "named": true
           },
           {
@@ -1696,7 +1792,23 @@
             "named": true
           },
           {
-            "type": "instr_plain_atomic",
+            "type": "instr_plain_atomic_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_notify",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_rmw",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_wait",
             "named": true
           },
           {
@@ -1862,7 +1974,23 @@
             "named": true
           },
           {
-            "type": "instr_plain_atomic",
+            "type": "instr_plain_atomic_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_notify",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_rmw",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_wait",
             "named": true
           },
           {
@@ -2090,7 +2218,23 @@
             "named": true
           },
           {
-            "type": "instr_plain_atomic",
+            "type": "instr_plain_atomic_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_notify",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_rmw",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_wait",
             "named": true
           },
           {
@@ -2224,7 +2368,23 @@
         "required": false,
         "types": [
           {
-            "type": "instr_plain_atomic",
+            "type": "instr_plain_atomic_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_notify",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_rmw",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_wait",
             "named": true
           },
           {
@@ -2383,7 +2543,23 @@
           "named": true
         },
         {
-          "type": "instr_plain_atomic",
+          "type": "instr_plain_atomic_load",
+          "named": true
+        },
+        {
+          "type": "instr_plain_atomic_notify",
+          "named": true
+        },
+        {
+          "type": "instr_plain_atomic_rmw",
+          "named": true
+        },
+        {
+          "type": "instr_plain_atomic_store",
+          "named": true
+        },
+        {
+          "type": "instr_plain_atomic_wait",
           "named": true
         },
         {
@@ -2582,7 +2758,23 @@
             "named": true
           },
           {
-            "type": "instr_plain_atomic",
+            "type": "instr_plain_atomic_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_notify",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_rmw",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_wait",
             "named": true
           },
           {
@@ -2716,7 +2908,23 @@
         "required": false,
         "types": [
           {
-            "type": "instr_plain_atomic",
+            "type": "instr_plain_atomic_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_notify",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_rmw",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_wait",
             "named": true
           },
           {
@@ -2922,7 +3130,23 @@
             "named": true
           },
           {
-            "type": "instr_plain_atomic",
+            "type": "instr_plain_atomic_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_notify",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_rmw",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_wait",
             "named": true
           },
           {
@@ -3080,7 +3304,23 @@
             "named": true
           },
           {
-            "type": "instr_plain_atomic",
+            "type": "instr_plain_atomic_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_notify",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_rmw",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_wait",
             "named": true
           },
           {
@@ -3272,7 +3512,23 @@
             "named": true
           },
           {
-            "type": "instr_plain_atomic",
+            "type": "instr_plain_atomic_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_notify",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_rmw",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_wait",
             "named": true
           },
           {
@@ -3438,7 +3694,23 @@
             "named": true
           },
           {
-            "type": "instr_plain_atomic",
+            "type": "instr_plain_atomic_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_notify",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_rmw",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_wait",
             "named": true
           },
           {
@@ -3572,7 +3844,23 @@
         "required": false,
         "types": [
           {
-            "type": "instr_plain_atomic",
+            "type": "instr_plain_atomic_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_notify",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_rmw",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_wait",
             "named": true
           },
           {
@@ -3762,7 +4050,23 @@
             "named": true
           },
           {
-            "type": "instr_plain_atomic",
+            "type": "instr_plain_atomic_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_notify",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_rmw",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_wait",
             "named": true
           },
           {
@@ -4446,7 +4750,23 @@
             "named": true
           },
           {
-            "type": "instr_plain_atomic",
+            "type": "instr_plain_atomic_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_notify",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_rmw",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_wait",
             "named": true
           },
           {
@@ -4612,7 +4932,23 @@
             "named": true
           },
           {
-            "type": "instr_plain_atomic",
+            "type": "instr_plain_atomic_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_notify",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_rmw",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_wait",
             "named": true
           },
           {
@@ -4820,7 +5156,7 @@
     }
   },
   {
-    "type": "instr_plain_atomic",
+    "type": "instr_plain_atomic_load",
     "named": true,
     "fields": {
       "bits": {
@@ -4838,9 +5174,71 @@
         "required": true,
         "types": [
           {
-            "type": "fence",
-            "named": false
+            "type": "op",
+            "named": true
+          }
+        ]
+      },
+      "sign": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "sign",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "instr_type_int",
+            "named": true
           },
+          {
+            "type": "instr_type_int_64",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "instr_plain_atomic_notify",
+    "named": true,
+    "fields": {
+      "op": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "op",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "instr_plain_atomic_rmw",
+    "named": true,
+    "fields": {
+      "bits": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "bits",
+            "named": true
+          }
+        ]
+      },
+      "op": {
+        "multiple": false,
+        "required": true,
+        "types": [
           {
             "type": "op",
             "named": true
@@ -4849,7 +5247,7 @@
       },
       "rmw": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "rmw",
@@ -4869,7 +5267,7 @@
       },
       "type": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "instr_type_int",
@@ -4877,6 +5275,72 @@
           },
           {
             "type": "instr_type_int_64",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "instr_plain_atomic_store",
+    "named": true,
+    "fields": {
+      "bits": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "bits",
+            "named": true
+          }
+        ]
+      },
+      "op": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "op",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "instr_type_int",
+            "named": true
+          },
+          {
+            "type": "instr_type_int_64",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "instr_plain_atomic_wait",
+    "named": true,
+    "fields": {
+      "bits": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "bits",
+            "named": true
+          }
+        ]
+      },
+      "op": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "op",
             "named": true
           }
         ]
@@ -6333,7 +6797,23 @@
             "named": true
           },
           {
-            "type": "instr_plain_atomic",
+            "type": "instr_plain_atomic_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_notify",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_rmw",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_wait",
             "named": true
           },
           {
@@ -6487,7 +6967,23 @@
         "required": false,
         "types": [
           {
-            "type": "instr_plain_atomic",
+            "type": "instr_plain_atomic_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_notify",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_rmw",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_wait",
             "named": true
           },
           {
@@ -6698,7 +7194,23 @@
           "named": true
         },
         {
-          "type": "instr_plain_atomic",
+          "type": "instr_plain_atomic_load",
+          "named": true
+        },
+        {
+          "type": "instr_plain_atomic_notify",
+          "named": true
+        },
+        {
+          "type": "instr_plain_atomic_rmw",
+          "named": true
+        },
+        {
+          "type": "instr_plain_atomic_store",
+          "named": true
+        },
+        {
+          "type": "instr_plain_atomic_wait",
           "named": true
         },
         {
@@ -7160,7 +7672,23 @@
             "named": true
           },
           {
-            "type": "instr_plain_atomic",
+            "type": "instr_plain_atomic_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_notify",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_rmw",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_wait",
             "named": true
           },
           {
@@ -7294,7 +7822,23 @@
         "required": false,
         "types": [
           {
-            "type": "instr_plain_atomic",
+            "type": "instr_plain_atomic_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_notify",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_rmw",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_wait",
             "named": true
           },
           {

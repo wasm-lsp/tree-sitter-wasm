@@ -2347,7 +2347,23 @@
         },
         {
           "type": "SYMBOL",
-          "name": "instr_plain_atomic"
+          "name": "instr_plain_atomic_wait"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "instr_plain_atomic_notify"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "instr_plain_atomic_load"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "instr_plain_atomic_store"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "instr_plain_atomic_rmw"
         },
         {
           "type": "SYMBOL",
@@ -2379,41 +2395,86 @@
         }
       ]
     },
-    "instr_plain_atomic": {
+    "instr_plain_atomic_fence": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "atomic"
+          }
+        },
+        {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "."
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "op",
+          "content": {
+            "type": "IMMEDIATE_TOKEN",
+            "content": {
+              "type": "STRING",
+              "value": "fence"
+            }
+          }
+        }
+      ]
+    },
+    "instr_plain_atomic_load": {
       "type": "CHOICE",
       "members": [
         {
           "type": "SEQ",
           "members": [
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "memory"
-                },
-                {
+              "type": "FIELD",
+              "name": "type",
+              "content": {
+                "type": "SYMBOL",
+                "name": "instr_type_int"
+              }
+            },
+            {
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "STRING",
+                "value": "."
+              }
+            },
+            {
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "STRING",
+                "value": "atomic"
+              }
+            },
+            {
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "STRING",
+                "value": "."
+              }
+            },
+            {
+              "type": "FIELD",
+              "name": "op",
+              "content": {
+                "type": "ALIAS",
+                "content": {
                   "type": "IMMEDIATE_TOKEN",
                   "content": {
                     "type": "STRING",
-                    "value": "."
+                    "value": "load"
                   }
                 },
-                {
-                  "type": "IMMEDIATE_TOKEN",
-                  "content": {
-                    "type": "STRING",
-                    "value": "atomic"
-                  }
-                },
-                {
-                  "type": "IMMEDIATE_TOKEN",
-                  "content": {
-                    "type": "STRING",
-                    "value": "."
-                  }
-                }
-              ]
+                "named": true,
+                "value": "op"
+              }
             },
             {
               "type": "CHOICE",
@@ -2423,53 +2484,59 @@
                   "members": [
                     {
                       "type": "FIELD",
-                      "name": "op",
+                      "name": "bits",
+                      "content": {
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "CHOICE",
+                          "members": [
+                            {
+                              "type": "IMMEDIATE_TOKEN",
+                              "content": {
+                                "type": "STRING",
+                                "value": "8"
+                              }
+                            },
+                            {
+                              "type": "IMMEDIATE_TOKEN",
+                              "content": {
+                                "type": "STRING",
+                                "value": "16"
+                              }
+                            }
+                          ]
+                        },
+                        "named": true,
+                        "value": "bits"
+                      }
+                    },
+                    {
+                      "type": "IMMEDIATE_TOKEN",
+                      "content": {
+                        "type": "STRING",
+                        "value": "_"
+                      }
+                    },
+                    {
+                      "type": "FIELD",
+                      "name": "sign",
                       "content": {
                         "type": "ALIAS",
                         "content": {
                           "type": "IMMEDIATE_TOKEN",
                           "content": {
                             "type": "STRING",
-                            "value": "wait"
+                            "value": "u"
                           }
                         },
                         "named": true,
-                        "value": "op"
-                      }
-                    },
-                    {
-                      "type": "FIELD",
-                      "name": "bits",
-                      "content": {
-                        "type": "ALIAS",
-                        "content": {
-                          "type": "IMMEDIATE_TOKEN",
-                          "content": {
-                            "type": "PATTERN",
-                            "value": "32|64"
-                          }
-                        },
-                        "named": true,
-                        "value": "bits"
+                        "value": "sign"
                       }
                     }
                   ]
                 },
                 {
-                  "type": "FIELD",
-                  "name": "op",
-                  "content": {
-                    "type": "ALIAS",
-                    "content": {
-                      "type": "IMMEDIATE_TOKEN",
-                      "content": {
-                        "type": "STRING",
-                        "value": "notify"
-                      }
-                    },
-                    "named": true,
-                    "value": "op"
-                  }
+                  "type": "BLANK"
                 }
               ]
             }
@@ -2479,37 +2546,302 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "IMMEDIATE_TOKEN",
-                  "content": {
-                    "type": "STRING",
-                    "value": "atomic"
-                  }
-                },
-                {
-                  "type": "IMMEDIATE_TOKEN",
-                  "content": {
-                    "type": "STRING",
-                    "value": "."
-                  }
-                }
-              ]
+              "type": "FIELD",
+              "name": "type",
+              "content": {
+                "type": "SYMBOL",
+                "name": "instr_type_int_64"
+              }
+            },
+            {
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "STRING",
+                "value": "."
+              }
+            },
+            {
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "STRING",
+                "value": "atomic"
+              }
+            },
+            {
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "STRING",
+                "value": "."
+              }
             },
             {
               "type": "FIELD",
               "name": "op",
               "content": {
-                "type": "IMMEDIATE_TOKEN",
+                "type": "ALIAS",
                 "content": {
-                  "type": "STRING",
-                  "value": "fence"
-                }
+                  "type": "IMMEDIATE_TOKEN",
+                  "content": {
+                    "type": "STRING",
+                    "value": "load"
+                  }
+                },
+                "named": true,
+                "value": "op"
+              }
+            },
+            {
+              "type": "FIELD",
+              "name": "bits",
+              "content": {
+                "type": "ALIAS",
+                "content": {
+                  "type": "IMMEDIATE_TOKEN",
+                  "content": {
+                    "type": "STRING",
+                    "value": "32"
+                  }
+                },
+                "named": true,
+                "value": "bits"
+              }
+            },
+            {
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "STRING",
+                "value": "_"
+              }
+            },
+            {
+              "type": "FIELD",
+              "name": "sign",
+              "content": {
+                "type": "ALIAS",
+                "content": {
+                  "type": "IMMEDIATE_TOKEN",
+                  "content": {
+                    "type": "STRING",
+                    "value": "u"
+                  }
+                },
+                "named": true,
+                "value": "sign"
               }
             }
           ]
+        }
+      ]
+    },
+    "instr_plain_atomic_notify": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "memory"
+          }
         },
+        {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "."
+          }
+        },
+        {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "atomic"
+          }
+        },
+        {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "."
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "op",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "STRING",
+                "value": "notify"
+              }
+            },
+            "named": true,
+            "value": "op"
+          }
+        }
+      ]
+    },
+    "instr_plain_atomic_store": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "type",
+              "content": {
+                "type": "SYMBOL",
+                "name": "instr_type_int"
+              }
+            },
+            {
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "STRING",
+                "value": "."
+              }
+            },
+            {
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "STRING",
+                "value": "atomic"
+              }
+            },
+            {
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "STRING",
+                "value": "."
+              }
+            },
+            {
+              "type": "FIELD",
+              "name": "op",
+              "content": {
+                "type": "ALIAS",
+                "content": {
+                  "type": "IMMEDIATE_TOKEN",
+                  "content": {
+                    "type": "STRING",
+                    "value": "store"
+                  }
+                },
+                "named": true,
+                "value": "op"
+              }
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "FIELD",
+                  "name": "bits",
+                  "content": {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "IMMEDIATE_TOKEN",
+                          "content": {
+                            "type": "STRING",
+                            "value": "8"
+                          }
+                        },
+                        {
+                          "type": "IMMEDIATE_TOKEN",
+                          "content": {
+                            "type": "STRING",
+                            "value": "16"
+                          }
+                        }
+                      ]
+                    },
+                    "named": true,
+                    "value": "bits"
+                  }
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "type",
+              "content": {
+                "type": "SYMBOL",
+                "name": "instr_type_int_64"
+              }
+            },
+            {
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "STRING",
+                "value": "."
+              }
+            },
+            {
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "STRING",
+                "value": "atomic"
+              }
+            },
+            {
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "STRING",
+                "value": "."
+              }
+            },
+            {
+              "type": "FIELD",
+              "name": "op",
+              "content": {
+                "type": "ALIAS",
+                "content": {
+                  "type": "IMMEDIATE_TOKEN",
+                  "content": {
+                    "type": "STRING",
+                    "value": "store"
+                  }
+                },
+                "named": true,
+                "value": "op"
+              }
+            },
+            {
+              "type": "FIELD",
+              "name": "bits",
+              "content": {
+                "type": "ALIAS",
+                "content": {
+                  "type": "IMMEDIATE_TOKEN",
+                  "content": {
+                    "type": "STRING",
+                    "value": "32"
+                  }
+                },
+                "named": true,
+                "value": "bits"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "instr_plain_atomic_rmw": {
+      "type": "CHOICE",
+      "members": [
         {
           "type": "SEQ",
           "members": [
@@ -2545,91 +2877,6 @@
             {
               "type": "CHOICE",
               "members": [
-                {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "FIELD",
-                      "name": "op",
-                      "content": {
-                        "type": "ALIAS",
-                        "content": {
-                          "type": "IMMEDIATE_TOKEN",
-                          "content": {
-                            "type": "STRING",
-                            "value": "load"
-                          }
-                        },
-                        "named": true,
-                        "value": "op"
-                      }
-                    },
-                    {
-                      "type": "CHOICE",
-                      "members": [
-                        {
-                          "type": "SEQ",
-                          "members": [
-                            {
-                              "type": "FIELD",
-                              "name": "bits",
-                              "content": {
-                                "type": "ALIAS",
-                                "content": {
-                                  "type": "CHOICE",
-                                  "members": [
-                                    {
-                                      "type": "IMMEDIATE_TOKEN",
-                                      "content": {
-                                        "type": "STRING",
-                                        "value": "8"
-                                      }
-                                    },
-                                    {
-                                      "type": "IMMEDIATE_TOKEN",
-                                      "content": {
-                                        "type": "STRING",
-                                        "value": "16"
-                                      }
-                                    }
-                                  ]
-                                },
-                                "named": true,
-                                "value": "bits"
-                              }
-                            },
-                            {
-                              "type": "IMMEDIATE_TOKEN",
-                              "content": {
-                                "type": "STRING",
-                                "value": "_"
-                              }
-                            },
-                            {
-                              "type": "FIELD",
-                              "name": "sign",
-                              "content": {
-                                "type": "ALIAS",
-                                "content": {
-                                  "type": "IMMEDIATE_TOKEN",
-                                  "content": {
-                                    "type": "STRING",
-                                    "value": "u"
-                                  }
-                                },
-                                "named": true,
-                                "value": "sign"
-                              }
-                            }
-                          ]
-                        },
-                        {
-                          "type": "BLANK"
-                        }
-                      ]
-                    }
-                  ]
-                },
                 {
                   "type": "SEQ",
                   "members": [
@@ -2768,157 +3015,6 @@
                       }
                     }
                   ]
-                },
-                {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "FIELD",
-                      "name": "op",
-                      "content": {
-                        "type": "ALIAS",
-                        "content": {
-                          "type": "IMMEDIATE_TOKEN",
-                          "content": {
-                            "type": "STRING",
-                            "value": "store"
-                          }
-                        },
-                        "named": true,
-                        "value": "op"
-                      }
-                    },
-                    {
-                      "type": "CHOICE",
-                      "members": [
-                        {
-                          "type": "FIELD",
-                          "name": "bits",
-                          "content": {
-                            "type": "ALIAS",
-                            "content": {
-                              "type": "CHOICE",
-                              "members": [
-                                {
-                                  "type": "IMMEDIATE_TOKEN",
-                                  "content": {
-                                    "type": "STRING",
-                                    "value": "8"
-                                  }
-                                },
-                                {
-                                  "type": "IMMEDIATE_TOKEN",
-                                  "content": {
-                                    "type": "STRING",
-                                    "value": "16"
-                                  }
-                                }
-                              ]
-                            },
-                            "named": true,
-                            "value": "bits"
-                          }
-                        },
-                        {
-                          "type": "BLANK"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "FIELD",
-              "name": "type",
-              "content": {
-                "type": "SYMBOL",
-                "name": "instr_type_int_64"
-              }
-            },
-            {
-              "type": "IMMEDIATE_TOKEN",
-              "content": {
-                "type": "STRING",
-                "value": "."
-              }
-            },
-            {
-              "type": "IMMEDIATE_TOKEN",
-              "content": {
-                "type": "STRING",
-                "value": "atomic"
-              }
-            },
-            {
-              "type": "IMMEDIATE_TOKEN",
-              "content": {
-                "type": "STRING",
-                "value": "."
-              }
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "FIELD",
-                  "name": "op",
-                  "content": {
-                    "type": "ALIAS",
-                    "content": {
-                      "type": "IMMEDIATE_TOKEN",
-                      "content": {
-                        "type": "STRING",
-                        "value": "load"
-                      }
-                    },
-                    "named": true,
-                    "value": "op"
-                  }
-                },
-                {
-                  "type": "FIELD",
-                  "name": "bits",
-                  "content": {
-                    "type": "ALIAS",
-                    "content": {
-                      "type": "IMMEDIATE_TOKEN",
-                      "content": {
-                        "type": "STRING",
-                        "value": "32"
-                      }
-                    },
-                    "named": true,
-                    "value": "bits"
-                  }
-                },
-                {
-                  "type": "IMMEDIATE_TOKEN",
-                  "content": {
-                    "type": "STRING",
-                    "value": "_"
-                  }
-                },
-                {
-                  "type": "FIELD",
-                  "name": "sign",
-                  "content": {
-                    "type": "ALIAS",
-                    "content": {
-                      "type": "IMMEDIATE_TOKEN",
-                      "content": {
-                        "type": "STRING",
-                        "value": "u"
-                      }
-                    },
-                    "named": true,
-                    "value": "sign"
-                  }
                 }
               ]
             }
@@ -3040,77 +3136,71 @@
               ]
             }
           ]
+        }
+      ]
+    },
+    "instr_plain_atomic_wait": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "memory"
+          }
         },
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "FIELD",
-              "name": "type",
-              "content": {
-                "type": "SYMBOL",
-                "name": "instr_type_int_64"
-              }
-            },
-            {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "."
+          }
+        },
+        {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "atomic"
+          }
+        },
+        {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "."
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "op",
+          "content": {
+            "type": "ALIAS",
+            "content": {
               "type": "IMMEDIATE_TOKEN",
               "content": {
                 "type": "STRING",
-                "value": "."
+                "value": "wait"
               }
             },
-            {
+            "named": true,
+            "value": "op"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "bits",
+          "content": {
+            "type": "ALIAS",
+            "content": {
               "type": "IMMEDIATE_TOKEN",
               "content": {
-                "type": "STRING",
-                "value": "atomic"
+                "type": "PATTERN",
+                "value": "32|64"
               }
             },
-            {
-              "type": "IMMEDIATE_TOKEN",
-              "content": {
-                "type": "STRING",
-                "value": "."
-              }
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "FIELD",
-                  "name": "op",
-                  "content": {
-                    "type": "ALIAS",
-                    "content": {
-                      "type": "IMMEDIATE_TOKEN",
-                      "content": {
-                        "type": "STRING",
-                        "value": "store"
-                      }
-                    },
-                    "named": true,
-                    "value": "op"
-                  }
-                },
-                {
-                  "type": "FIELD",
-                  "name": "bits",
-                  "content": {
-                    "type": "ALIAS",
-                    "content": {
-                      "type": "IMMEDIATE_TOKEN",
-                      "content": {
-                        "type": "STRING",
-                        "value": "32"
-                      }
-                    },
-                    "named": true,
-                    "value": "bits"
-                  }
-                }
-              ]
-            }
-          ]
+            "named": true,
+            "value": "bits"
+          }
         }
       ]
     },
@@ -7611,20 +7701,22 @@
     ],
     [
       "_instr_type",
-      "instr_plain_compare",
-      "instr_plain_unary",
       "instr_plain_binary",
-      "instr_plain_convert"
+      "instr_plain_compare",
+      "instr_plain_convert",
+      "instr_plain_unary"
     ],
     [
       "_instr_type",
-      "instr_plain_compare",
-      "instr_plain_unary",
+      "instr_plain_atomic_load",
+      "instr_plain_atomic_rmw",
+      "instr_plain_atomic_store",
       "instr_plain_binary",
+      "instr_plain_compare",
       "instr_plain_convert",
       "instr_plain_load",
       "instr_plain_store",
-      "instr_plain_atomic"
+      "instr_plain_unary"
     ]
   ],
   "externals": [],
