@@ -1,5 +1,99 @@
 [
   {
+    "type": "FLOAT",
+    "named": true,
+    "fields": {
+      "sign": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "sign",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "FLOAT_MAG",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "FLOAT_MAG",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "hexfloat",
+          "named": true
+        },
+        {
+          "type": "hexnum",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "INT",
+    "named": true,
+    "fields": {
+      "sign": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "sign",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "NAT",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "NAT",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "decnum",
+          "named": true
+        },
+        {
+          "type": "hexnum",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "PARSE",
     "named": true,
     "fields": {
@@ -120,6 +214,18 @@
         "required": false,
         "types": [
           {
+            "type": "FLOAT",
+            "named": true
+          },
+          {
+            "type": "INT",
+            "named": true
+          },
+          {
+            "type": "NAT",
+            "named": true
+          },
+          {
             "type": "annotation_parens",
             "named": true
           },
@@ -132,10 +238,6 @@
             "named": true
           },
           {
-            "type": "fN",
-            "named": true
-          },
-          {
             "type": "identifier",
             "named": true
           },
@@ -144,15 +246,7 @@
             "named": true
           },
           {
-            "type": "sN",
-            "named": true
-          },
-          {
             "type": "string",
-            "named": true
-          },
-          {
-            "type": "uN",
             "named": true
           }
         ]
@@ -590,6 +684,14 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_func",
+            "named": true
+          },
+          {
+            "type": "instr_plain_ref_is_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_return",
             "named": true
           },
@@ -606,7 +708,27 @@
             "named": true
           },
           {
+            "type": "instr_plain_table_fill",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_get",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_grow",
+            "named": true
+          },
+          {
             "type": "instr_plain_table_init",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_size",
             "named": true
           },
           {
@@ -750,6 +872,14 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_func",
+            "named": true
+          },
+          {
+            "type": "instr_plain_ref_is_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_return",
             "named": true
           },
@@ -766,7 +896,27 @@
             "named": true
           },
           {
+            "type": "instr_plain_table_fill",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_get",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_grow",
+            "named": true
+          },
+          {
             "type": "instr_plain_table_init",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_size",
             "named": true
           },
           {
@@ -949,6 +1099,14 @@
           "named": true
         },
         {
+          "type": "instr_plain_ref_func",
+          "named": true
+        },
+        {
+          "type": "instr_plain_ref_is_null",
+          "named": true
+        },
+        {
           "type": "instr_plain_return",
           "named": true
         },
@@ -965,7 +1123,27 @@
           "named": true
         },
         {
+          "type": "instr_plain_table_fill",
+          "named": true
+        },
+        {
+          "type": "instr_plain_table_get",
+          "named": true
+        },
+        {
+          "type": "instr_plain_table_grow",
+          "named": true
+        },
+        {
           "type": "instr_plain_table_init",
+          "named": true
+        },
+        {
+          "type": "instr_plain_table_set",
+          "named": true
+        },
+        {
+          "type": "instr_plain_table_size",
           "named": true
         },
         {
@@ -1184,6 +1362,14 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_func",
+            "named": true
+          },
+          {
+            "type": "instr_plain_ref_is_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_return",
             "named": true
           },
@@ -1200,7 +1386,27 @@
             "named": true
           },
           {
+            "type": "instr_plain_table_fill",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_get",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_grow",
+            "named": true
+          },
+          {
             "type": "instr_plain_table_init",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_size",
             "named": true
           },
           {
@@ -1364,6 +1570,14 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_func",
+            "named": true
+          },
+          {
+            "type": "instr_plain_ref_is_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_return",
             "named": true
           },
@@ -1380,7 +1594,27 @@
             "named": true
           },
           {
+            "type": "instr_plain_table_fill",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_get",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_grow",
+            "named": true
+          },
+          {
             "type": "instr_plain_table_init",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_size",
             "named": true
           },
           {
@@ -1550,6 +1784,14 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_func",
+            "named": true
+          },
+          {
+            "type": "instr_plain_ref_is_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_return",
             "named": true
           },
@@ -1566,7 +1808,27 @@
             "named": true
           },
           {
+            "type": "instr_plain_table_fill",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_get",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_grow",
+            "named": true
+          },
+          {
             "type": "instr_plain_table_init",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_size",
             "named": true
           },
           {
@@ -1904,6 +2166,14 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_func",
+            "named": true
+          },
+          {
+            "type": "instr_plain_ref_is_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_return",
             "named": true
           },
@@ -1920,7 +2190,27 @@
             "named": true
           },
           {
+            "type": "instr_plain_table_fill",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_get",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_grow",
+            "named": true
+          },
+          {
             "type": "instr_plain_table_init",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_size",
             "named": true
           },
           {
@@ -2086,6 +2376,14 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_func",
+            "named": true
+          },
+          {
+            "type": "instr_plain_ref_is_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_return",
             "named": true
           },
@@ -2102,7 +2400,27 @@
             "named": true
           },
           {
+            "type": "instr_plain_table_fill",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_get",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_grow",
+            "named": true
+          },
+          {
             "type": "instr_plain_table_init",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_size",
             "named": true
           },
           {
@@ -2115,6 +2433,504 @@
           },
           {
             "type": "instr_plain_unreachable",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "elem_expr_expr",
+    "named": true,
+    "fields": {
+      "expr": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": "expr1_block",
+            "named": true
+          },
+          {
+            "type": "expr1_call",
+            "named": true
+          },
+          {
+            "type": "expr1_if",
+            "named": true
+          },
+          {
+            "type": "expr1_loop",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_notify",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_rmw",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_wait",
+            "named": true
+          },
+          {
+            "type": "instr_plain_binary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_br",
+            "named": true
+          },
+          {
+            "type": "instr_plain_br_if",
+            "named": true
+          },
+          {
+            "type": "instr_plain_br_table",
+            "named": true
+          },
+          {
+            "type": "instr_plain_call",
+            "named": true
+          },
+          {
+            "type": "instr_plain_compare",
+            "named": true
+          },
+          {
+            "type": "instr_plain_const",
+            "named": true
+          },
+          {
+            "type": "instr_plain_convert",
+            "named": true
+          },
+          {
+            "type": "instr_plain_data_drop",
+            "named": true
+          },
+          {
+            "type": "instr_plain_drop",
+            "named": true
+          },
+          {
+            "type": "instr_plain_elem_drop",
+            "named": true
+          },
+          {
+            "type": "instr_plain_global_get",
+            "named": true
+          },
+          {
+            "type": "instr_plain_global_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_local_get",
+            "named": true
+          },
+          {
+            "type": "instr_plain_local_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_local_tee",
+            "named": true
+          },
+          {
+            "type": "instr_plain_memory_copy",
+            "named": true
+          },
+          {
+            "type": "instr_plain_memory_fill",
+            "named": true
+          },
+          {
+            "type": "instr_plain_memory_grow",
+            "named": true
+          },
+          {
+            "type": "instr_plain_memory_init",
+            "named": true
+          },
+          {
+            "type": "instr_plain_memory_size",
+            "named": true
+          },
+          {
+            "type": "instr_plain_nop",
+            "named": true
+          },
+          {
+            "type": "instr_plain_ref_func",
+            "named": true
+          },
+          {
+            "type": "instr_plain_ref_is_null",
+            "named": true
+          },
+          {
+            "type": "instr_plain_return",
+            "named": true
+          },
+          {
+            "type": "instr_plain_select",
+            "named": true
+          },
+          {
+            "type": "instr_plain_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_copy",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_fill",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_get",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_grow",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_init",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_size",
+            "named": true
+          },
+          {
+            "type": "instr_plain_test",
+            "named": true
+          },
+          {
+            "type": "instr_plain_unary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_unreachable",
+            "named": true
+          }
+        ]
+      },
+      "instr": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "instr_plain_atomic_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_notify",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_rmw",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_atomic_wait",
+            "named": true
+          },
+          {
+            "type": "instr_plain_binary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_br",
+            "named": true
+          },
+          {
+            "type": "instr_plain_br_if",
+            "named": true
+          },
+          {
+            "type": "instr_plain_br_table",
+            "named": true
+          },
+          {
+            "type": "instr_plain_call",
+            "named": true
+          },
+          {
+            "type": "instr_plain_compare",
+            "named": true
+          },
+          {
+            "type": "instr_plain_const",
+            "named": true
+          },
+          {
+            "type": "instr_plain_convert",
+            "named": true
+          },
+          {
+            "type": "instr_plain_data_drop",
+            "named": true
+          },
+          {
+            "type": "instr_plain_drop",
+            "named": true
+          },
+          {
+            "type": "instr_plain_elem_drop",
+            "named": true
+          },
+          {
+            "type": "instr_plain_global_get",
+            "named": true
+          },
+          {
+            "type": "instr_plain_global_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_local_get",
+            "named": true
+          },
+          {
+            "type": "instr_plain_local_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_local_tee",
+            "named": true
+          },
+          {
+            "type": "instr_plain_memory_copy",
+            "named": true
+          },
+          {
+            "type": "instr_plain_memory_fill",
+            "named": true
+          },
+          {
+            "type": "instr_plain_memory_grow",
+            "named": true
+          },
+          {
+            "type": "instr_plain_memory_init",
+            "named": true
+          },
+          {
+            "type": "instr_plain_memory_size",
+            "named": true
+          },
+          {
+            "type": "instr_plain_nop",
+            "named": true
+          },
+          {
+            "type": "instr_plain_ref_func",
+            "named": true
+          },
+          {
+            "type": "instr_plain_ref_is_null",
+            "named": true
+          },
+          {
+            "type": "instr_plain_return",
+            "named": true
+          },
+          {
+            "type": "instr_plain_select",
+            "named": true
+          },
+          {
+            "type": "instr_plain_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_copy",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_fill",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_get",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_grow",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_init",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_size",
+            "named": true
+          },
+          {
+            "type": "instr_plain_test",
+            "named": true
+          },
+          {
+            "type": "instr_plain_unary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_unreachable",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "expr1_block",
+          "named": true
+        },
+        {
+          "type": "expr1_call",
+          "named": true
+        },
+        {
+          "type": "expr1_if",
+          "named": true
+        },
+        {
+          "type": "expr1_loop",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "elem_expr_item",
+    "named": true,
+    "fields": {
+      "const_expr": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "const_expr",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "elem_list",
+    "named": true,
+    "fields": {
+      "elem_expr_list": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "elem_expr_expr",
+            "named": true
+          },
+          {
+            "type": "elem_expr_item",
+            "named": true
+          }
+        ]
+      },
+      "elem_exr": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "elem_expr_expr",
+            "named": true
+          },
+          {
+            "type": "elem_expr_item",
+            "named": true
+          }
+        ]
+      },
+      "elem_kind": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "elem_kind",
+            "named": true
+          }
+        ]
+      },
+      "elem_var_list": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "index",
+            "named": true
+          }
+        ]
+      },
+      "index": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "index",
+            "named": true
+          }
+        ]
+      },
+      "ref_type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "ref_type",
             "named": true
           }
         ]
@@ -2330,6 +3146,14 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_func",
+            "named": true
+          },
+          {
+            "type": "instr_plain_ref_is_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_return",
             "named": true
           },
@@ -2346,7 +3170,27 @@
             "named": true
           },
           {
+            "type": "instr_plain_table_fill",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_get",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_grow",
+            "named": true
+          },
+          {
             "type": "instr_plain_table_init",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_size",
             "named": true
           },
           {
@@ -2480,6 +3324,14 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_func",
+            "named": true
+          },
+          {
+            "type": "instr_plain_ref_is_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_return",
             "named": true
           },
@@ -2496,7 +3348,27 @@
             "named": true
           },
           {
+            "type": "instr_plain_table_fill",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_get",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_grow",
+            "named": true
+          },
+          {
             "type": "instr_plain_table_init",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_size",
             "named": true
           },
           {
@@ -2655,6 +3527,14 @@
           "named": true
         },
         {
+          "type": "instr_plain_ref_func",
+          "named": true
+        },
+        {
+          "type": "instr_plain_ref_is_null",
+          "named": true
+        },
+        {
           "type": "instr_plain_return",
           "named": true
         },
@@ -2671,7 +3551,27 @@
           "named": true
         },
         {
+          "type": "instr_plain_table_fill",
+          "named": true
+        },
+        {
+          "type": "instr_plain_table_get",
+          "named": true
+        },
+        {
+          "type": "instr_plain_table_grow",
+          "named": true
+        },
+        {
           "type": "instr_plain_table_init",
+          "named": true
+        },
+        {
+          "type": "instr_plain_table_set",
+          "named": true
+        },
+        {
+          "type": "instr_plain_table_size",
           "named": true
         },
         {
@@ -2870,6 +3770,14 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_func",
+            "named": true
+          },
+          {
+            "type": "instr_plain_ref_is_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_return",
             "named": true
           },
@@ -2886,7 +3794,27 @@
             "named": true
           },
           {
+            "type": "instr_plain_table_fill",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_get",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_grow",
+            "named": true
+          },
+          {
             "type": "instr_plain_table_init",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_size",
             "named": true
           },
           {
@@ -2899,6 +3827,16 @@
           },
           {
             "type": "instr_plain_unreachable",
+            "named": true
+          }
+        ]
+      },
+      "index": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "index",
             "named": true
           }
         ]
@@ -3020,6 +3958,14 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_func",
+            "named": true
+          },
+          {
+            "type": "instr_plain_ref_is_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_return",
             "named": true
           },
@@ -3036,7 +3982,27 @@
             "named": true
           },
           {
+            "type": "instr_plain_table_fill",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_get",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_grow",
+            "named": true
+          },
+          {
             "type": "instr_plain_table_init",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_size",
             "named": true
           },
           {
@@ -3242,6 +4208,14 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_func",
+            "named": true
+          },
+          {
+            "type": "instr_plain_ref_is_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_return",
             "named": true
           },
@@ -3258,7 +4232,27 @@
             "named": true
           },
           {
+            "type": "instr_plain_table_fill",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_get",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_grow",
+            "named": true
+          },
+          {
             "type": "instr_plain_table_init",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_size",
             "named": true
           },
           {
@@ -3416,6 +4410,14 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_func",
+            "named": true
+          },
+          {
+            "type": "instr_plain_ref_is_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_return",
             "named": true
           },
@@ -3432,7 +4434,27 @@
             "named": true
           },
           {
+            "type": "instr_plain_table_fill",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_get",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_grow",
+            "named": true
+          },
+          {
             "type": "instr_plain_table_init",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_size",
             "named": true
           },
           {
@@ -3624,6 +4646,14 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_func",
+            "named": true
+          },
+          {
+            "type": "instr_plain_ref_is_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_return",
             "named": true
           },
@@ -3640,7 +4670,27 @@
             "named": true
           },
           {
+            "type": "instr_plain_table_fill",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_get",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_grow",
+            "named": true
+          },
+          {
             "type": "instr_plain_table_init",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_size",
             "named": true
           },
           {
@@ -3806,6 +4856,14 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_func",
+            "named": true
+          },
+          {
+            "type": "instr_plain_ref_is_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_return",
             "named": true
           },
@@ -3822,7 +4880,27 @@
             "named": true
           },
           {
+            "type": "instr_plain_table_fill",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_get",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_grow",
+            "named": true
+          },
+          {
             "type": "instr_plain_table_init",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_size",
             "named": true
           },
           {
@@ -3956,6 +5034,14 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_func",
+            "named": true
+          },
+          {
+            "type": "instr_plain_ref_is_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_return",
             "named": true
           },
@@ -3972,7 +5058,27 @@
             "named": true
           },
           {
+            "type": "instr_plain_table_fill",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_get",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_grow",
+            "named": true
+          },
+          {
             "type": "instr_plain_table_init",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_size",
             "named": true
           },
           {
@@ -4162,6 +5268,14 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_func",
+            "named": true
+          },
+          {
+            "type": "instr_plain_ref_is_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_return",
             "named": true
           },
@@ -4178,7 +5292,27 @@
             "named": true
           },
           {
+            "type": "instr_plain_table_fill",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_get",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_grow",
+            "named": true
+          },
+          {
             "type": "instr_plain_table_init",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_size",
             "named": true
           },
           {
@@ -4241,55 +5375,6 @@
           }
         ]
       }
-    }
-  },
-  {
-    "type": "fN",
-    "named": true,
-    "fields": {
-      "sign": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "sign",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "fNmag",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "fNmag",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "hexfloat",
-          "named": true
-        },
-        {
-          "type": "hexnum",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -4590,11 +5675,11 @@
       "required": true,
       "types": [
         {
-          "type": "identifier",
+          "type": "NAT",
           "named": true
         },
         {
-          "type": "uN",
+          "type": "identifier",
           "named": true
         }
       ]
@@ -4862,6 +5947,14 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_func",
+            "named": true
+          },
+          {
+            "type": "instr_plain_ref_is_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_return",
             "named": true
           },
@@ -4878,7 +5971,27 @@
             "named": true
           },
           {
+            "type": "instr_plain_table_fill",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_get",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_grow",
+            "named": true
+          },
+          {
             "type": "instr_plain_table_init",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_size",
             "named": true
           },
           {
@@ -5044,6 +6157,14 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_func",
+            "named": true
+          },
+          {
+            "type": "instr_plain_ref_is_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_return",
             "named": true
           },
@@ -5060,7 +6181,27 @@
             "named": true
           },
           {
+            "type": "instr_plain_table_fill",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_get",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_grow",
+            "named": true
+          },
+          {
             "type": "instr_plain_table_init",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_size",
             "named": true
           },
           {
@@ -5534,13 +6675,36 @@
   {
     "type": "instr_plain_const",
     "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "instr_plain_const_num",
+          "named": true
+        },
+        {
+          "type": "instr_plain_ref_extern",
+          "named": true
+        },
+        {
+          "type": "instr_plain_ref_null",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "instr_plain_const_num",
+    "named": true,
     "fields": {
-      "literal": {
+      "num": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "literal",
+            "type": "num",
             "named": true
           }
         ]
@@ -5651,6 +6815,16 @@
     "type": "instr_plain_data_drop",
     "named": true,
     "fields": {
+      "index": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "index",
+            "named": true
+          }
+        ]
+      },
       "op": {
         "multiple": false,
         "required": true,
@@ -5683,6 +6857,16 @@
     "type": "instr_plain_elem_drop",
     "named": true,
     "fields": {
+      "index": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "index",
+            "named": true
+          }
+        ]
+      },
       "op": {
         "multiple": false,
         "required": true,
@@ -5704,7 +6888,7 @@
         "required": true,
         "types": [
           {
-            "type": "op",
+            "type": "index",
             "named": true
           }
         ]
@@ -5730,7 +6914,7 @@
         "required": true,
         "types": [
           {
-            "type": "op",
+            "type": "index",
             "named": true
           }
         ]
@@ -5830,7 +7014,7 @@
         "required": true,
         "types": [
           {
-            "type": "op",
+            "type": "index",
             "named": true
           }
         ]
@@ -5856,7 +7040,7 @@
         "required": true,
         "types": [
           {
-            "type": "op",
+            "type": "index",
             "named": true
           }
         ]
@@ -5882,7 +7066,7 @@
         "required": true,
         "types": [
           {
-            "type": "op",
+            "type": "index",
             "named": true
           }
         ]
@@ -5951,6 +7135,16 @@
     "type": "instr_plain_memory_init",
     "named": true,
     "fields": {
+      "index": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "index",
+            "named": true
+          }
+        ]
+      },
       "op": {
         "multiple": false,
         "required": true,
@@ -5996,6 +7190,100 @@
     }
   },
   {
+    "type": "instr_plain_ref_extern",
+    "named": true,
+    "fields": {
+      "nat": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "NAT",
+            "named": true
+          }
+        ]
+      },
+      "op": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "op",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "instr_plain_ref_func",
+    "named": true,
+    "fields": {
+      "index": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "index",
+            "named": true
+          }
+        ]
+      },
+      "op": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "op",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "instr_plain_ref_is_null",
+    "named": true,
+    "fields": {
+      "op": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "op",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "instr_plain_ref_null",
+    "named": true,
+    "fields": {
+      "op": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "op",
+            "named": true
+          }
+        ]
+      },
+      "ref_kind": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref_kind",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "instr_plain_return",
     "named": true,
     "fields": {
@@ -6021,6 +7309,16 @@
         "types": [
           {
             "type": "op",
+            "named": true
+          }
+        ]
+      },
+      "results": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "func_type_results",
             "named": true
           }
         ]
@@ -6095,6 +7393,94 @@
     "type": "instr_plain_table_copy",
     "named": true,
     "fields": {
+      "index": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "index",
+            "named": true
+          }
+        ]
+      },
+      "op": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "op",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "instr_plain_table_fill",
+    "named": true,
+    "fields": {
+      "index": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "index",
+            "named": true
+          }
+        ]
+      },
+      "op": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "op",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "instr_plain_table_get",
+    "named": true,
+    "fields": {
+      "index": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "index",
+            "named": true
+          }
+        ]
+      },
+      "op": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "op",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "instr_plain_table_grow",
+    "named": true,
+    "fields": {
+      "index": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "index",
+            "named": true
+          }
+        ]
+      },
       "op": {
         "multiple": false,
         "required": true,
@@ -6111,6 +7497,68 @@
     "type": "instr_plain_table_init",
     "named": true,
     "fields": {
+      "index": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "index",
+            "named": true
+          }
+        ]
+      },
+      "op": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "op",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "instr_plain_table_set",
+    "named": true,
+    "fields": {
+      "index": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "index",
+            "named": true
+          }
+        ]
+      },
+      "op": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "op",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "instr_plain_table_size",
+    "named": true,
+    "fields": {
+      "index": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "index",
+            "named": true
+          }
+        ]
+      },
       "op": {
         "multiple": false,
         "required": true,
@@ -6388,7 +7836,7 @@
         "required": false,
         "types": [
           {
-            "type": "uN",
+            "type": "NAT",
             "named": true
           }
         ]
@@ -6398,7 +7846,7 @@
         "required": true,
         "types": [
           {
-            "type": "uN",
+            "type": "NAT",
             "named": true
           }
         ]
@@ -6413,29 +7861,6 @@
           }
         ]
       }
-    }
-  },
-  {
-    "type": "literal",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "fN",
-          "named": true
-        },
-        {
-          "type": "sN",
-          "named": true
-        },
-        {
-          "type": "uN",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -6490,6 +7915,22 @@
         "types": [
           {
             "type": "limits",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "memory_use",
+    "named": true,
+    "fields": {
+      "index": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "index",
             "named": true
           }
         ]
@@ -6650,6 +8091,16 @@
           }
         ]
       },
+      "memory_use": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "memory_use",
+            "named": true
+          }
+        ]
+      },
       "offset": {
         "multiple": false,
         "required": false,
@@ -6680,6 +8131,46 @@
     "type": "module_field_elem",
     "named": true,
     "fields": {
+      "declare": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "declare",
+            "named": true
+          }
+        ]
+      },
+      "elem_list": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "elem_list",
+            "named": true
+          }
+        ]
+      },
+      "elem_var_list": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "index",
+            "named": true
+          }
+        ]
+      },
+      "index": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "index",
+            "named": true
+          }
+        ]
+      },
       "index_head": {
         "multiple": false,
         "required": false,
@@ -6690,19 +8181,9 @@
           }
         ]
       },
-      "index_tail": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "index",
-            "named": true
-          }
-        ]
-      },
       "offset": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "offset_const_expr",
@@ -6710,6 +8191,16 @@
           },
           {
             "type": "offset_expr",
+            "named": true
+          }
+        ]
+      },
+      "table_use": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "table_use",
             "named": true
           }
         ]
@@ -6909,6 +8400,14 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_func",
+            "named": true
+          },
+          {
+            "type": "instr_plain_ref_is_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_return",
             "named": true
           },
@@ -6925,7 +8424,27 @@
             "named": true
           },
           {
+            "type": "instr_plain_table_fill",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_get",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_grow",
+            "named": true
+          },
+          {
             "type": "instr_plain_table_init",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_size",
             "named": true
           },
           {
@@ -7079,6 +8598,14 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_func",
+            "named": true
+          },
+          {
+            "type": "instr_plain_ref_is_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_return",
             "named": true
           },
@@ -7095,7 +8622,27 @@
             "named": true
           },
           {
+            "type": "instr_plain_table_fill",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_get",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_grow",
+            "named": true
+          },
+          {
             "type": "instr_plain_table_init",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_size",
             "named": true
           },
           {
@@ -7306,6 +8853,14 @@
           "named": true
         },
         {
+          "type": "instr_plain_ref_func",
+          "named": true
+        },
+        {
+          "type": "instr_plain_ref_is_null",
+          "named": true
+        },
+        {
           "type": "instr_plain_return",
           "named": true
         },
@@ -7322,7 +8877,27 @@
           "named": true
         },
         {
+          "type": "instr_plain_table_fill",
+          "named": true
+        },
+        {
+          "type": "instr_plain_table_get",
+          "named": true
+        },
+        {
+          "type": "instr_plain_table_grow",
+          "named": true
+        },
+        {
           "type": "instr_plain_table_init",
+          "named": true
+        },
+        {
+          "type": "instr_plain_table_set",
+          "named": true
+        },
+        {
+          "type": "instr_plain_table_size",
           "named": true
         },
         {
@@ -7624,6 +9199,29 @@
     }
   },
   {
+    "type": "num",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "FLOAT",
+          "named": true
+        },
+        {
+          "type": "INT",
+          "named": true
+        },
+        {
+          "type": "NAT",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "offset_const_expr",
     "named": true,
     "fields": {
@@ -7784,6 +9382,14 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_func",
+            "named": true
+          },
+          {
+            "type": "instr_plain_ref_is_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_return",
             "named": true
           },
@@ -7800,7 +9406,27 @@
             "named": true
           },
           {
+            "type": "instr_plain_table_fill",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_get",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_grow",
+            "named": true
+          },
+          {
             "type": "instr_plain_table_init",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_size",
             "named": true
           },
           {
@@ -7934,6 +9560,14 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_func",
+            "named": true
+          },
+          {
+            "type": "instr_plain_ref_is_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_return",
             "named": true
           },
@@ -7950,7 +9584,27 @@
             "named": true
           },
           {
+            "type": "instr_plain_table_fill",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_get",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_grow",
+            "named": true
+          },
+          {
             "type": "instr_plain_table_init",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_table_size",
             "named": true
           },
           {
@@ -8005,15 +9659,25 @@
       "required": false,
       "types": [
         {
-          "type": "identifier",
+          "type": "NAT",
           "named": true
         },
         {
-          "type": "uN",
+          "type": "identifier",
           "named": true
         }
       ]
     }
+  },
+  {
+    "type": "ref_kind",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "ref_type",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "register",
@@ -8096,32 +9760,6 @@
     }
   },
   {
-    "type": "sN",
-    "named": true,
-    "fields": {
-      "sign": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "sign",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "uN",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "script_module_binary",
     "named": true,
     "fields": {
@@ -8197,12 +9835,40 @@
     "type": "table_fields_elem",
     "named": true,
     "fields": {
-      "elem_type": {
-        "multiple": false,
-        "required": true,
+      "elem_expr": {
+        "multiple": true,
+        "required": false,
         "types": [
           {
-            "type": "elem_type",
+            "type": "elem_expr_expr",
+            "named": true
+          },
+          {
+            "type": "elem_expr_item",
+            "named": true
+          }
+        ]
+      },
+      "elem_expr_list": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "elem_expr_expr",
+            "named": true
+          },
+          {
+            "type": "elem_expr_item",
+            "named": true
+          }
+        ]
+      },
+      "elem_var_list": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "index",
             "named": true
           }
         ]
@@ -8213,6 +9879,16 @@
         "types": [
           {
             "type": "index",
+            "named": true
+          }
+        ]
+      },
+      "ref_type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref_type",
             "named": true
           }
         ]
@@ -8249,22 +9925,38 @@
     "type": "table_type",
     "named": true,
     "fields": {
-      "elem_type": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "elem_type",
-            "named": true
-          }
-        ]
-      },
       "limits": {
         "multiple": false,
         "required": true,
         "types": [
           {
             "type": "limits",
+            "named": true
+          }
+        ]
+      },
+      "ref_type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref_type",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "table_use",
+    "named": true,
+    "fields": {
+      "index": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "index",
             "named": true
           }
         ]
@@ -8288,7 +9980,7 @@
     }
   },
   {
-    "type": "uN",
+    "type": "value_type",
     "named": true,
     "fields": {},
     "children": {
@@ -8296,11 +9988,26 @@
       "required": true,
       "types": [
         {
-          "type": "hexnum",
+          "type": "value_type_num_type",
           "named": true
         },
         {
-          "type": "num",
+          "type": "value_type_ref_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "value_type_ref_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "ref_type",
           "named": true
         }
       ]
@@ -8427,11 +10134,19 @@
     "named": false
   },
   {
+    "type": "declare",
+    "named": true
+  },
+  {
+    "type": "decnum",
+    "named": true
+  },
+  {
     "type": "elem",
     "named": false
   },
   {
-    "type": "elem_type",
+    "type": "elem_kind",
     "named": true
   },
   {
@@ -8503,6 +10218,10 @@
     "named": false
   },
   {
+    "type": "item",
+    "named": false
+  },
+  {
     "type": "kind",
     "named": true
   },
@@ -8543,10 +10262,6 @@
     "named": false
   },
   {
-    "type": "num",
-    "named": true
-  },
-  {
     "type": "offset",
     "named": false
   },
@@ -8568,6 +10283,10 @@
   },
   {
     "type": "quote",
+    "named": false
+  },
+  {
+    "type": "ref",
     "named": false
   },
   {
@@ -8627,7 +10346,7 @@
     "named": false
   },
   {
-    "type": "value_type",
+    "type": "value_type_num_type",
     "named": true
   },
   {
