@@ -65,7 +65,7 @@ module.exports = grammar(wat, {
 
     command: $ => choice($._action, $._assertion, $._meta, $.register, $._script_module),
 
-    _expr_plain_const: $ => seq("(", $.instr_plain_const, ")"),
+    _expr_plain_const: $ => seq("(", choice($.instr_plain_const, $.instr_plain_simd_const), ")"),
 
     _expr_plain_const_nan: $ =>
       seq(
