@@ -34,48 +34,22 @@
       "required": false,
       "types": [
         {
+          "type": "NAN",
+          "named": true
+        },
+        {
           "type": "float",
           "named": true
         },
         {
           "type": "hexfloat",
           "named": true
-        },
-        {
-          "type": "hexnum",
-          "named": true
         }
       ]
     }
   },
   {
-    "type": "INT",
-    "named": true,
-    "fields": {
-      "sign": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "sign",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "NAT",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "NAT",
+    "type": "INTEGER",
     "named": true,
     "fields": {},
     "children": {
@@ -83,14 +57,46 @@
       "required": true,
       "types": [
         {
-          "type": "decnum",
+          "type": "SIGNED",
           "named": true
         },
         {
-          "type": "hexnum",
+          "type": "UNSIGNED",
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "NAN",
+    "named": true,
+    "fields": {
+      "kind": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "0x",
+            "named": false
+          },
+          {
+            "type": "UNSIGNED",
+            "named": true
+          },
+          {
+            "type": "arithmetic",
+            "named": false
+          },
+          {
+            "type": "canonical",
+            "named": false
+          },
+          {
+            "type": "sign",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -113,16 +119,97 @@
     }
   },
   {
-    "type": "align_value",
+    "type": "SIGNED",
     "named": true,
     "fields": {
-      "value": {
+      "sign": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "align=",
+            "type": "sign",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "UNSIGNED",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "UNSIGNED",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "decnum",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "align_value",
+    "named": true,
+    "fields": {
+      "value": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "(@",
             "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": "FLOAT",
+            "named": true
+          },
+          {
+            "type": "SIGNED",
+            "named": true
+          },
+          {
+            "type": "UNSIGNED",
+            "named": true
+          },
+          {
+            "type": "annotation_parens",
+            "named": true
+          },
+          {
+            "type": "comment_block_annot",
+            "named": true
+          },
+          {
+            "type": "comment_line_annot",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "reserved",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
           }
         ]
       }
@@ -141,11 +228,11 @@
             "named": true
           },
           {
-            "type": "INT",
+            "type": "SIGNED",
             "named": true
           },
           {
-            "type": "NAT",
+            "type": "UNSIGNED",
             "named": true
           },
           {
@@ -337,6 +424,42 @@
             "named": true
           },
           {
+            "type": "instr_plain_simd_binary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_compare",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_const",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_convert",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_lane",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_trinary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_unary",
+            "named": true
+          },
+          {
             "type": "instr_plain_store",
             "named": true
           },
@@ -522,6 +645,42 @@
           },
           {
             "type": "instr_plain_select",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_binary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_compare",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_const",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_convert",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_lane",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_trinary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_unary",
             "named": true
           },
           {
@@ -749,6 +908,42 @@
         },
         {
           "type": "instr_plain_select",
+          "named": true
+        },
+        {
+          "type": "instr_plain_simd_binary",
+          "named": true
+        },
+        {
+          "type": "instr_plain_simd_compare",
+          "named": true
+        },
+        {
+          "type": "instr_plain_simd_const",
+          "named": true
+        },
+        {
+          "type": "instr_plain_simd_convert",
+          "named": true
+        },
+        {
+          "type": "instr_plain_simd_lane",
+          "named": true
+        },
+        {
+          "type": "instr_plain_simd_load",
+          "named": true
+        },
+        {
+          "type": "instr_plain_simd_store",
+          "named": true
+        },
+        {
+          "type": "instr_plain_simd_trinary",
+          "named": true
+        },
+        {
+          "type": "instr_plain_simd_unary",
           "named": true
         },
         {
@@ -1015,6 +1210,42 @@
             "named": true
           },
           {
+            "type": "instr_plain_simd_binary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_compare",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_const",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_convert",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_lane",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_trinary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_unary",
+            "named": true
+          },
+          {
             "type": "instr_plain_store",
             "named": true
           },
@@ -1220,6 +1451,42 @@
           },
           {
             "type": "instr_plain_select",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_binary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_compare",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_const",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_convert",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_lane",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_trinary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_unary",
             "named": true
           },
           {
@@ -1434,6 +1701,42 @@
           },
           {
             "type": "instr_plain_select",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_binary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_compare",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_const",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_convert",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_lane",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_trinary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_unary",
             "named": true
           },
           {
@@ -1736,6 +2039,42 @@
             "named": true
           },
           {
+            "type": "instr_plain_simd_binary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_compare",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_const",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_convert",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_lane",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_trinary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_unary",
+            "named": true
+          },
+          {
             "type": "instr_plain_store",
             "named": true
           },
@@ -1943,6 +2282,42 @@
           },
           {
             "type": "instr_plain_select",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_binary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_compare",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_const",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_convert",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_lane",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_trinary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_unary",
             "named": true
           },
           {
@@ -2154,6 +2529,42 @@
             "named": true
           },
           {
+            "type": "instr_plain_simd_binary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_compare",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_const",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_convert",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_lane",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_trinary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_unary",
+            "named": true
+          },
+          {
             "type": "instr_plain_store",
             "named": true
           },
@@ -2329,6 +2740,42 @@
           },
           {
             "type": "instr_plain_select",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_binary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_compare",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_const",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_convert",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_lane",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_trinary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_unary",
             "named": true
           },
           {
@@ -2716,6 +3163,42 @@
             "named": true
           },
           {
+            "type": "instr_plain_simd_binary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_compare",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_const",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_convert",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_lane",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_trinary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_unary",
+            "named": true
+          },
+          {
             "type": "instr_plain_store",
             "named": true
           },
@@ -2891,6 +3374,42 @@
           },
           {
             "type": "instr_plain_select",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_binary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_compare",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_const",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_convert",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_lane",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_trinary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_unary",
             "named": true
           },
           {
@@ -3094,6 +3613,42 @@
         },
         {
           "type": "instr_plain_select",
+          "named": true
+        },
+        {
+          "type": "instr_plain_simd_binary",
+          "named": true
+        },
+        {
+          "type": "instr_plain_simd_compare",
+          "named": true
+        },
+        {
+          "type": "instr_plain_simd_const",
+          "named": true
+        },
+        {
+          "type": "instr_plain_simd_convert",
+          "named": true
+        },
+        {
+          "type": "instr_plain_simd_lane",
+          "named": true
+        },
+        {
+          "type": "instr_plain_simd_load",
+          "named": true
+        },
+        {
+          "type": "instr_plain_simd_store",
+          "named": true
+        },
+        {
+          "type": "instr_plain_simd_trinary",
+          "named": true
+        },
+        {
+          "type": "instr_plain_simd_unary",
           "named": true
         },
         {
@@ -3340,6 +3895,42 @@
             "named": true
           },
           {
+            "type": "instr_plain_simd_binary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_compare",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_const",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_convert",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_lane",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_trinary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_unary",
+            "named": true
+          },
+          {
             "type": "instr_plain_store",
             "named": true
           },
@@ -3525,6 +4116,42 @@
           },
           {
             "type": "instr_plain_select",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_binary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_compare",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_const",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_convert",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_lane",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_trinary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_unary",
             "named": true
           },
           {
@@ -3778,6 +4405,42 @@
             "named": true
           },
           {
+            "type": "instr_plain_simd_binary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_compare",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_const",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_convert",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_lane",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_trinary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_unary",
+            "named": true
+          },
+          {
             "type": "instr_plain_store",
             "named": true
           },
@@ -3977,6 +4640,42 @@
           },
           {
             "type": "instr_plain_select",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_binary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_compare",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_const",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_convert",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_lane",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_trinary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_unary",
             "named": true
           },
           {
@@ -4216,6 +4915,42 @@
             "named": true
           },
           {
+            "type": "instr_plain_simd_binary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_compare",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_const",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_convert",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_lane",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_trinary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_unary",
+            "named": true
+          },
+          {
             "type": "instr_plain_store",
             "named": true
           },
@@ -4426,6 +5161,42 @@
             "named": true
           },
           {
+            "type": "instr_plain_simd_binary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_compare",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_const",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_convert",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_lane",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_trinary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_unary",
+            "named": true
+          },
+          {
             "type": "instr_plain_store",
             "named": true
           },
@@ -4601,6 +5372,42 @@
           },
           {
             "type": "instr_plain_select",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_binary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_compare",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_const",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_convert",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_lane",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_trinary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_unary",
             "named": true
           },
           {
@@ -4835,6 +5642,42 @@
           },
           {
             "type": "instr_plain_select",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_binary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_compare",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_const",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_convert",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_lane",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_trinary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_unary",
             "named": true
           },
           {
@@ -5229,7 +6072,7 @@
       "required": true,
       "types": [
         {
-          "type": "NAT",
+          "type": "UNSIGNED",
           "named": true
         },
         {
@@ -5517,6 +6360,42 @@
             "named": true
           },
           {
+            "type": "instr_plain_simd_binary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_compare",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_const",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_convert",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_lane",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_trinary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_unary",
+            "named": true
+          },
+          {
             "type": "instr_plain_store",
             "named": true
           },
@@ -5724,6 +6603,42 @@
           },
           {
             "type": "instr_plain_select",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_binary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_compare",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_const",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_convert",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_lane",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_trinary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_unary",
             "named": true
           },
           {
@@ -6752,7 +7667,7 @@
         "required": true,
         "types": [
           {
-            "type": "NAT",
+            "type": "UNSIGNED",
             "named": true
           }
         ]
@@ -6873,6 +7788,363 @@
         "types": [
           {
             "type": "func_type_results",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "instr_plain_simd_binary",
+    "named": true,
+    "fields": {
+      "align_value": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "align_value",
+            "named": true
+          }
+        ]
+      },
+      "offset_value": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "offset_value",
+            "named": true
+          }
+        ]
+      },
+      "op": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "op",
+            "named": true
+          }
+        ]
+      },
+      "sign": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "sign",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "instr_plain_simd_compare",
+    "named": true,
+    "fields": {
+      "op": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "op",
+            "named": true
+          }
+        ]
+      },
+      "sign": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "sign",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "instr_plain_simd_const",
+    "named": true,
+    "fields": {
+      "bits": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "bits",
+            "named": true
+          }
+        ]
+      },
+      "kind": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "kind",
+            "named": true
+          }
+        ]
+      },
+      "lanes": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "lanes",
+            "named": true
+          }
+        ]
+      },
+      "op": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "op",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "FLOAT",
+            "named": true
+          },
+          {
+            "type": "INTEGER",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "instr_plain_simd_convert",
+    "named": true,
+    "fields": {
+      "kind": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "kind",
+            "named": true
+          }
+        ]
+      },
+      "op": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "op",
+            "named": true
+          }
+        ]
+      },
+      "shape": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "shape",
+            "named": true
+          }
+        ]
+      },
+      "sign": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "sign",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "instr_plain_simd_lane",
+    "named": true,
+    "fields": {
+      "arg": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "INTEGER",
+            "named": true
+          }
+        ]
+      },
+      "op": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "op",
+            "named": true
+          }
+        ]
+      },
+      "sign": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "sign",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "FLOAT",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "instr_plain_simd_load",
+    "named": true,
+    "fields": {
+      "align_value": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "align_value",
+            "named": true
+          }
+        ]
+      },
+      "offset_value": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "offset_value",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "instr_plain_simd_store",
+    "named": true,
+    "fields": {
+      "align_value": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "align_value",
+            "named": true
+          }
+        ]
+      },
+      "offset_value": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "offset_value",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "instr_plain_simd_trinary",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "instr_plain_simd_unary",
+    "named": true,
+    "fields": {
+      "align_value": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "align_value",
+            "named": true
+          }
+        ]
+      },
+      "offset_value": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "offset_value",
             "named": true
           }
         ]
@@ -7226,162 +8498,6 @@
     }
   },
   {
-    "type": "instr_type_float",
-    "named": true,
-    "fields": {
-      "bits": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "bits",
-            "named": true
-          }
-        ]
-      },
-      "kind": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "kind",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "instr_type_float_32",
-    "named": true,
-    "fields": {
-      "bits": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "bits",
-            "named": true
-          }
-        ]
-      },
-      "kind": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "kind",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "instr_type_float_64",
-    "named": true,
-    "fields": {
-      "bits": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "bits",
-            "named": true
-          }
-        ]
-      },
-      "kind": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "kind",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "instr_type_int",
-    "named": true,
-    "fields": {
-      "bits": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "bits",
-            "named": true
-          }
-        ]
-      },
-      "kind": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "kind",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "instr_type_int_32",
-    "named": true,
-    "fields": {
-      "bits": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "bits",
-            "named": true
-          }
-        ]
-      },
-      "kind": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "kind",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "instr_type_int_64",
-    "named": true,
-    "fields": {
-      "bits": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "bits",
-            "named": true
-          }
-        ]
-      },
-      "kind": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "kind",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
     "type": "limits",
     "named": true,
     "fields": {
@@ -7390,7 +8506,7 @@
         "required": false,
         "types": [
           {
-            "type": "NAT",
+            "type": "UNSIGNED",
             "named": true
           }
         ]
@@ -7400,7 +8516,7 @@
         "required": true,
         "types": [
           {
-            "type": "NAT",
+            "type": "UNSIGNED",
             "named": true
           }
         ]
@@ -7892,6 +9008,42 @@
             "named": true
           },
           {
+            "type": "instr_plain_simd_binary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_compare",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_const",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_convert",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_lane",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_trinary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_unary",
+            "named": true
+          },
+          {
             "type": "instr_plain_store",
             "named": true
           },
@@ -8087,6 +9239,42 @@
           },
           {
             "type": "instr_plain_select",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_binary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_compare",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_const",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_convert",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_lane",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_trinary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_unary",
             "named": true
           },
           {
@@ -8342,6 +9530,42 @@
         },
         {
           "type": "instr_plain_select",
+          "named": true
+        },
+        {
+          "type": "instr_plain_simd_binary",
+          "named": true
+        },
+        {
+          "type": "instr_plain_simd_compare",
+          "named": true
+        },
+        {
+          "type": "instr_plain_simd_const",
+          "named": true
+        },
+        {
+          "type": "instr_plain_simd_convert",
+          "named": true
+        },
+        {
+          "type": "instr_plain_simd_lane",
+          "named": true
+        },
+        {
+          "type": "instr_plain_simd_load",
+          "named": true
+        },
+        {
+          "type": "instr_plain_simd_store",
+          "named": true
+        },
+        {
+          "type": "instr_plain_simd_trinary",
+          "named": true
+        },
+        {
+          "type": "instr_plain_simd_unary",
           "named": true
         },
         {
@@ -8687,11 +9911,11 @@
           "named": true
         },
         {
-          "type": "INT",
+          "type": "SIGNED",
           "named": true
         },
         {
-          "type": "NAT",
+          "type": "UNSIGNED",
           "named": true
         }
       ]
@@ -8874,6 +10098,42 @@
             "named": true
           },
           {
+            "type": "instr_plain_simd_binary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_compare",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_const",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_convert",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_lane",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_trinary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_unary",
+            "named": true
+          },
+          {
             "type": "instr_plain_store",
             "named": true
           },
@@ -9052,6 +10312,42 @@
             "named": true
           },
           {
+            "type": "instr_plain_simd_binary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_compare",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_const",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_convert",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_lane",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_load",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_store",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_trinary",
+            "named": true
+          },
+          {
+            "type": "instr_plain_simd_unary",
+            "named": true
+          },
+          {
             "type": "instr_plain_store",
             "named": true
           },
@@ -9104,12 +10400,52 @@
     "named": true,
     "fields": {
       "value": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
-            "type": "align=",
+            "type": "(@",
             "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": "FLOAT",
+            "named": true
+          },
+          {
+            "type": "SIGNED",
+            "named": true
+          },
+          {
+            "type": "UNSIGNED",
+            "named": true
+          },
+          {
+            "type": "annotation_parens",
+            "named": true
+          },
+          {
+            "type": "comment_block_annot",
+            "named": true
+          },
+          {
+            "type": "comment_line_annot",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "reserved",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
           }
         ]
       }
@@ -9135,7 +10471,7 @@
       "required": false,
       "types": [
         {
-          "type": "NAT",
+          "type": "UNSIGNED",
           "named": true
         },
         {
@@ -9386,6 +10722,10 @@
     "named": false
   },
   {
+    "type": ":",
+    "named": false
+  },
+  {
     "type": ";",
     "named": false
   },
@@ -9418,6 +10758,10 @@
     "named": false
   },
   {
+    "type": "arithmetic",
+    "named": false
+  },
+  {
     "type": "atomic",
     "named": false
   },
@@ -9426,11 +10770,19 @@
     "named": true
   },
   {
+    "type": "bitselect",
+    "named": false
+  },
+  {
     "type": "block",
     "named": false
   },
   {
     "type": "call_indirect",
+    "named": false
+  },
+  {
+    "type": "canonical",
     "named": false
   },
   {
@@ -9474,6 +10826,14 @@
     "named": false
   },
   {
+    "type": "f32x4",
+    "named": false
+  },
+  {
+    "type": "f64x2",
+    "named": false
+  },
+  {
     "type": "fence",
     "named": false
   },
@@ -9494,8 +10854,20 @@
     "named": true
   },
   {
-    "type": "hexnum",
-    "named": true
+    "type": "i16x8",
+    "named": false
+  },
+  {
+    "type": "i32x4",
+    "named": false
+  },
+  {
+    "type": "i64x2",
+    "named": false
+  },
+  {
+    "type": "i8x16",
+    "named": false
   },
   {
     "type": "identifier",
@@ -9514,12 +10886,60 @@
     "named": false
   },
   {
+    "type": "instr_type_float",
+    "named": true
+  },
+  {
+    "type": "instr_type_float_32",
+    "named": true
+  },
+  {
+    "type": "instr_type_float_64",
+    "named": true
+  },
+  {
+    "type": "instr_type_int",
+    "named": true
+  },
+  {
+    "type": "instr_type_int_32",
+    "named": true
+  },
+  {
+    "type": "instr_type_int_64",
+    "named": true
+  },
+  {
     "type": "item",
     "named": false
   },
   {
     "type": "kind",
     "named": true
+  },
+  {
+    "type": "lanes",
+    "named": true
+  },
+  {
+    "type": "load",
+    "named": false
+  },
+  {
+    "type": "load16x4_",
+    "named": false
+  },
+  {
+    "type": "load32x2_",
+    "named": false
+  },
+  {
+    "type": "load8x8_",
+    "named": false
+  },
+  {
+    "type": "load_splat",
+    "named": false
   },
   {
     "type": "local",
@@ -9546,7 +10966,7 @@
     "named": false
   },
   {
-    "type": "nan:0x",
+    "type": "not",
     "named": false
   },
   {
@@ -9586,6 +11006,10 @@
     "named": true
   },
   {
+    "type": "shape",
+    "named": true
+  },
+  {
     "type": "shared",
     "named": false
   },
@@ -9595,6 +11019,10 @@
   },
   {
     "type": "start",
+    "named": false
+  },
+  {
+    "type": "store",
     "named": false
   },
   {
@@ -9614,12 +11042,40 @@
     "named": false
   },
   {
+    "type": "type",
+    "named": true
+  },
+  {
     "type": "unshared",
+    "named": false
+  },
+  {
+    "type": "v128",
+    "named": false
+  },
+  {
+    "type": "v16x8",
+    "named": false
+  },
+  {
+    "type": "v32x4",
+    "named": false
+  },
+  {
+    "type": "v64x2",
+    "named": false
+  },
+  {
+    "type": "v8x16",
     "named": false
   },
   {
     "type": "value_type_num_type",
     "named": true
+  },
+  {
+    "type": "x",
+    "named": false
   },
   {
     "type": "xchg",
