@@ -2,10 +2,10 @@ const PREC = {
   STRING: 2,
 };
 
-const pattern_decnum = /[0-9]+(?:_?[0-9]+)*/;
-const pattern_hexnum = /[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*/;
+const pattern_decnum = /[0-9]+(_?[0-9]+)*/;
+const pattern_hexnum = /[0-9A-Fa-f]+(_?[0-9A-Fa-f]+)*/;
 const pattern_identifier = /[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+/;
-const pattern_num_type = /[fi](?:32|64)/;
+const pattern_num_type = /[fi](32|64)|v128/;
 const pattern_sign = /[+-]/;
 
 module.exports = grammar({
@@ -32,6 +32,9 @@ module.exports = grammar({
       $.instr_plain_unary,
     ],
     [$.instr_plain_select],
+    [$.instr_plain_simd_load, $.instr_plain_simd_unary],
+    [$.instr_plain_simd_binary, $.instr_plain_simd_store],
+    [$.instr_plain_simd_binary, $.instr_plain_simd_store, $.instr_plain_simd_unary],
     [$.module_field_elem],
   ],
 
@@ -40,11 +43,24 @@ module.exports = grammar({
 
     FLOAT: $ => seq(optional(field("sign", $.sign)), $.FLOAT_MAG),
 
-    FLOAT_MAG: $ => choice($.float, $.hexfloat, "inf", "nan", seq("nan:0x", $.hexnum)),
+    FLOAT_MAG: $ => choice($.float, $.hexfloat, "inf", $.NAN),
 
-    NAT: $ => choice($.decnum, seq("0x", $.hexnum)),
+    INTEGER: $ => choice($.SIGNED, $.UNSIGNED),
 
-    INT: $ => seq(field("sign", $.sign), $.NAT),
+    NAN: $ =>
+      seq(
+        "nan",
+        optional(
+          seq(
+            token.immediate(":"),
+            field("kind", choice("arithmetic", "canonical", seq("0x", token.immediate(pattern_hexnum)))),
+          ),
+        ),
+      ),
+
+    UNSIGNED: $ => choice($.decnum, seq("0x", token.immediate(pattern_hexnum))),
+
+    SIGNED: $ => seq(field("sign", $.sign), $.UNSIGNED),
 
     align_value: $ =>
       seq("align=", field("value", token.immediate(/[0-9]+(?:_?[0-9]+)*|0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*/))),
@@ -68,8 +84,8 @@ module.exports = grammar({
         $.comment_line_annot,
         $.annotation_parens,
         $.reserved,
-        $.NAT,
-        $.INT,
+        $.UNSIGNED,
+        $.SIGNED,
         $.FLOAT,
         $.identifier,
         $.string,
@@ -280,8 +296,6 @@ module.exports = grammar({
         ),
       ),
 
-    hexnum: $ => token(pattern_hexnum),
-
     identifier: $ => token(seq(token.immediate("$"), pattern_identifier)),
 
     _if_block: $ =>
@@ -318,7 +332,7 @@ module.exports = grammar({
     import_desc_type_use: $ =>
       seq("(", "func", optional(field("identifier", $.identifier)), field("type_use", $.type_use), ")"),
 
-    index: $ => choice($.NAT, $.identifier),
+    index: $ => choice($.UNSIGNED, $.identifier),
 
     inline_export: $ => seq("(", "export", field("name", $.name), ")"),
 
@@ -408,6 +422,18 @@ module.exports = grammar({
         $.instr_plain_table_copy,
         $.instr_plain_table_init,
         // proposal <stop>: bulk-memory-operations
+
+        // proposal <start>: simd
+        $.instr_plain_simd_compare,
+        $.instr_plain_simd_const,
+        $.instr_plain_simd_convert,
+        $.instr_plain_simd_binary,
+        $.instr_plain_simd_trinary,
+        $.instr_plain_simd_lane,
+        $.instr_plain_simd_load,
+        $.instr_plain_simd_store,
+        $.instr_plain_simd_unary,
+        // proposal <stop>: simd
       ),
 
     // proposal: threads
@@ -595,7 +621,12 @@ module.exports = grammar({
       ),
 
     instr_plain_ref_extern: $ =>
-      seq(token("ref"), token.immediate("."), field("op", alias(token.immediate(/extern/), $.op)), field("nat", $.NAT)),
+      seq(
+        token("ref"),
+        token.immediate("."),
+        field("op", alias(token.immediate(/extern/), $.op)),
+        field("nat", $.UNSIGNED),
+      ),
 
     instr_plain_ref_null: $ =>
       seq(
@@ -759,6 +790,325 @@ module.exports = grammar({
         repeat(field("results", $.func_type_results)),
       ),
 
+    // proposal: simd
+    instr_plain_simd_binary: $ =>
+      choice(
+        seq(
+          field("type", alias(token("v128"), $.type)),
+          token.immediate("."),
+          choice(
+            field("op", alias(token.immediate(/and|andnot|not|or|xor/), $.op)),
+            seq(
+              field("op", alias(token.immediate("store"), $.op)),
+              optional(field("offset_value", $.offset_value)),
+              optional(field("align_value", $.align_value)),
+            ),
+          ),
+        ),
+        seq(
+          field("type", alias(choice(token("f32x4"), token("f64x2")), $.type)),
+          token.immediate("."),
+          field("op", alias(token.immediate(/div|min|max|sqrt/), $.op)),
+        ),
+        seq(
+          field("type", alias(choice(token("i8x16"), token("i16x8")), $.type)),
+          token.immediate("."),
+          field("op", alias(token.immediate(/(add|sub)_saturate|avgr/), $.op)),
+          token.immediate("_"),
+          field("sign", alias(token.immediate(/[su]/), $.sign)),
+        ),
+        seq(
+          field("type", alias(choice(token("i8x16"), token("i16x8"), token("i32x4")), $.type)),
+          token.immediate("."),
+          field("op", alias(token.immediate(/min|max/), $.op)),
+          token.immediate("_"),
+          field("sign", alias(token.immediate(/[su]/), $.sign)),
+        ),
+        seq(
+          field("type", alias(choice(token("i8x16"), token("i16x8"), token("i32x4"), token("i64x2")), $.type)),
+          token.immediate("."),
+          field("op", alias(token.immediate("shl"), $.op)),
+        ),
+        seq(
+          field("type", alias(choice(token("i8x16"), token("i16x8"), token("i32x4"), token("i64x2")), $.type)),
+          token.immediate("."),
+          field("op", alias(token.immediate("shr"), $.op)),
+          token.immediate("_"),
+          field("sign", alias(token.immediate(/[su]/), $.sign)),
+        ),
+        seq(
+          field(
+            "type",
+            alias(
+              choice(token("f32x4"), token("f64x2"), token("i8x16"), token("i16x8"), token("i32x4"), token("i64x2")),
+              $.type,
+            ),
+          ),
+          token.immediate("."),
+          field("op", alias(token.immediate(/add|sub/), $.op)),
+        ),
+        seq(
+          field(
+            "type",
+            alias(choice(token("f32x4"), token("f64x2"), token("i16x8"), token("i32x4"), token("i64x2")), $.type),
+          ),
+          token.immediate("."),
+          field("op", alias(token.immediate(/mul/), $.op)),
+        ),
+      ),
+
+    // proposal: simd
+    instr_plain_simd_compare: $ =>
+      choice(
+        seq(
+          field("type", alias(choice(token("f32x4"), token("f64x2")), $.type)),
+          token.immediate("."),
+          field("op", alias(token.immediate(/ge|gt|le|lt/), $.op)),
+        ),
+        seq(
+          field(
+            "type",
+            alias(choice(token("f32x4"), token("f64x2"), token("i8x16"), token("i16x8"), token("i32x4")), $.type),
+          ),
+          token.immediate("."),
+          field("op", alias(token.immediate(/eq|ne/), $.op)),
+        ),
+        seq(
+          field("type", alias(choice(token("i8x16"), token("i16x8"), token("i32x4")), $.type)),
+          token.immediate("."),
+          field("op", alias(token.immediate(/ge|gt|le|lt/), $.op)),
+          token.immediate("_"),
+          field("sign", alias(token.immediate(/[su]/), $.sign)),
+        ),
+      ),
+
+    // proposal: simd
+    instr_plain_simd_const: $ =>
+      seq(
+        field("type", alias(token("v128"), $.type)),
+        token.immediate("."),
+        field("op", alias(token.immediate("const"), $.op)),
+        token.immediate(/[\s\uFEFF\u2060\u200B\u00A0]/),
+        choice(
+          seq(
+            field("kind", alias(token.immediate("f"), $.kind)),
+            field("bits", alias(token.immediate("32"), $.bits)),
+            token.immediate("x"),
+            field("lanes", alias(token.immediate("4"), $.lanes)),
+            ...Array(4).fill(field("value", $.FLOAT)),
+          ),
+          seq(
+            field("kind", alias(token.immediate("f"), $.kind)),
+            field("bits", alias(token.immediate("64"), $.bits)),
+            token.immediate("x"),
+            field("lanes", alias(token.immediate("2"), $.lanes)),
+            ...Array(2).fill(field("value", $.FLOAT)),
+          ),
+          seq(
+            field("kind", alias(token.immediate("i"), $.kind)),
+            field("bits", alias(token.immediate("8"), $.bits)),
+            token.immediate("x"),
+            field("lanes", alias(token.immediate("16"), $.lanes)),
+            ...Array(16).fill(field("value", $.INTEGER)),
+          ),
+          seq(
+            field("kind", alias(token.immediate("i"), $.kind)),
+            field("bits", alias(token.immediate("16"), $.bits)),
+            token.immediate("x"),
+            field("lanes", alias(token.immediate("8"), $.lanes)),
+            ...Array(8).fill(field("value", $.INTEGER)),
+          ),
+          seq(
+            field("kind", alias(token.immediate("i"), $.kind)),
+            field("bits", alias(token.immediate("32"), $.bits)),
+            token.immediate("x"),
+            field("lanes", alias(token.immediate("4"), $.lanes)),
+            ...Array(4).fill(field("value", $.INTEGER)),
+          ),
+          seq(
+            field("kind", alias(token.immediate("i"), $.kind)),
+            field("bits", alias(token.immediate("64"), $.bits)),
+            token.immediate("x"),
+            field("lanes", alias(token.immediate("2"), $.lanes)),
+            ...Array(2).fill(field("value", $.INTEGER)),
+          ),
+        ),
+      ),
+
+    // proposal: simd
+    instr_plain_simd_convert: $ =>
+      choice(
+        seq(
+          field("type", alias(token("f32x4"), $.type)),
+          token.immediate("."),
+          field("op", alias(token.immediate("convert"), $.op)),
+          token.immediate("_"),
+          field("shape", alias(token.immediate("i32x4"), $.shape)),
+          token.immediate("_"),
+          field("sign", alias(token.immediate(/[su]/), $.sign)),
+        ),
+        seq(
+          field("type", alias(token("i8x16"), $.type)),
+          token.immediate("."),
+          field("op", alias(token.immediate("narrow"), $.op)),
+          token.immediate("_"),
+          field("shape", alias(token.immediate("i16x8"), $.shape)),
+          token.immediate("_"),
+          field("sign", alias(token.immediate(/[su]/), $.sign)),
+        ),
+        seq(
+          field("type", alias(token("i16x8"), $.type)),
+          token.immediate("."),
+          choice(
+            seq(
+              field("op", alias(token.immediate("narrow"), $.op)),
+              token.immediate("_"),
+              field("shape", alias(token.immediate("i32x4"), $.shape)),
+              token.immediate("_"),
+              field("sign", alias(token.immediate(/[su]/), $.sign)),
+            ),
+            seq(
+              field("op", alias(token.immediate("widen"), $.op)),
+              token.immediate("_"),
+              field("kind", alias(token.immediate(/high|low/), $.kind)),
+              token.immediate("_"),
+              field("shape", alias(token.immediate("i8x16"), $.shape)),
+              token.immediate("_"),
+              field("sign", alias(token.immediate(/[su]/), $.sign)),
+            ),
+          ),
+        ),
+        seq(
+          field("type", alias(token("i32x4"), $.type)),
+          token.immediate("."),
+          choice(
+            seq(
+              field("op", alias(token.immediate("trunc_sat"), $.op)),
+              token.immediate("_"),
+              field("shape", alias(token.immediate("f32x4"), $.shape)),
+              token.immediate("_"),
+              field("sign", alias(token.immediate(/[su]/), $.sign)),
+            ),
+            seq(
+              field("op", alias(token.immediate("widen"), $.op)),
+              token.immediate("_"),
+              field("kind", alias(token.immediate(/high|low/), $.kind)),
+              token.immediate("_"),
+              field("shape", alias(token.immediate("i16x8"), $.shape)),
+              token.immediate("_"),
+              field("sign", alias(token.immediate(/[su]/), $.sign)),
+            ),
+          ),
+        ),
+      ),
+
+    // proposal: simd
+    instr_plain_simd_lane: $ =>
+      choice(
+        seq(
+          field("type", alias(token("v8x16"), $.type)),
+          token.immediate("."),
+          choice(
+            field("op", alias(token.immediate("swizzle"), $.op)),
+            seq(field("op", alias(token.immediate("shuffle"), $.op)), ...Array(16).fill(field("value", $.FLOAT))),
+          ),
+        ),
+        seq(
+          field("type", alias(choice(token("i8x16"), token("i16x8")), $.type)),
+          token.immediate("."),
+          field("op", alias(token.immediate("extract_lane"), $.op)),
+          token.immediate("_"),
+          field("sign", alias(token.immediate(/[su]/), $.sign)),
+          field("arg", $.INTEGER),
+        ),
+        seq(
+          field("type", alias(choice(token("f32x4"), token("f64x2"), token("i32x4"), token("i64x2")), $.type)),
+          token.immediate("."),
+          field("op", alias(token.immediate("extract_lane"), $.op)),
+          field("arg", $.INTEGER),
+        ),
+        seq(
+          field(
+            "type",
+            alias(
+              choice(token("f32x4"), token("f64x2"), token("i8x16"), token("i16x8"), token("i32x4"), token("i64x2")),
+              $.type,
+            ),
+          ),
+          token.immediate("."),
+          field("op", alias(token.immediate("replace_lane"), $.op)),
+          field("arg", $.INTEGER),
+        ),
+      ),
+
+    // proposal: simd
+    instr_plain_simd_load: $ =>
+      choice(
+        seq(
+          choice(
+            choice(
+              seq(token("i16x8"), token.immediate("."), token.immediate("load8x8_"), token.immediate(/[su]/)),
+              seq(token("i32x4"), token.immediate("."), token.immediate("load16x4_"), token.immediate(/[su]/)),
+              seq(token("i64x2"), token.immediate("."), token.immediate("load32x2_"), token.immediate(/[su]/)),
+            ),
+            choice(
+              seq(token("v8x16"), token.immediate("."), token.immediate("load_splat")),
+              seq(token("v16x8"), token.immediate("."), token.immediate("load_splat")),
+              seq(token("v32x4"), token.immediate("."), token.immediate("load_splat")),
+              seq(token("v64x2"), token.immediate("."), token.immediate("load_splat")),
+            ),
+            seq(token("v128"), token.immediate("."), token.immediate("load")),
+          ),
+          optional(field("offset_value", $.offset_value)),
+          optional(field("align_value", $.align_value)),
+        ),
+      ),
+
+    // proposal: simd
+    instr_plain_simd_store: $ =>
+      seq(
+        seq(token("v128"), token.immediate("."), token.immediate("store")),
+        optional(field("offset_value", $.offset_value)),
+        optional(field("align_value", $.align_value)),
+      ),
+
+    // proposal: simd
+    instr_plain_simd_trinary: $ => choice(seq(token("v128"), token.immediate("."), token.immediate("bitselect"))),
+
+    // proposal: simd
+    instr_plain_simd_unary: $ =>
+      choice(
+        seq(
+          choice(token("f32x4"), token("f64x2"), token("i8x16"), token("i16x8"), token("i32x4"), token("i64x2")),
+          token.immediate("."),
+          token.immediate(/abs|neg|splat/),
+        ),
+        seq(
+          choice(token("i8x16"), token("i16x8"), token("i32x4")),
+          token.immediate("."),
+          token.immediate(/all_true|any_true/),
+        ),
+        seq(token("v128"), token.immediate("."), token.immediate("not")),
+        seq(
+          choice(
+            choice(
+              seq(token("i16x8"), token.immediate("."), token.immediate("load8x8_"), token.immediate(/[su]/)),
+              seq(token("i32x4"), token.immediate("."), token.immediate("load16x4_"), token.immediate(/[su]/)),
+              seq(token("i64x2"), token.immediate("."), token.immediate("load32x2_"), token.immediate(/[su]/)),
+            ),
+            choice(
+              seq(token("v8x16"), token.immediate("."), token.immediate("load_splat")),
+              seq(token("v16x8"), token.immediate("."), token.immediate("load_splat")),
+              seq(token("v32x4"), token.immediate("."), token.immediate("load_splat")),
+              seq(token("v64x2"), token.immediate("."), token.immediate("load_splat")),
+            ),
+            seq(token("v128"), token.immediate("."), token.immediate(/load|store/)),
+          ),
+          optional(field("offset_value", $.offset_value)),
+          optional(field("align_value", $.align_value)),
+        ),
+      ),
+
     instr_plain_store: $ =>
       seq(
         choice(
@@ -843,32 +1193,22 @@ module.exports = grammar({
 
     _instr_type: $ => choice($.instr_type_int, $.instr_type_float),
 
-    instr_type_float: $ =>
-      seq(
-        field("kind", alias("f", $.kind)),
-        field("bits", alias(choice(token.immediate("32"), token.immediate("64")), $.bits)),
-      ),
+    instr_type_float: $ => choice(token("f32"), token("f64")),
 
-    instr_type_float_32: $ =>
-      seq(field("kind", alias("f", $.kind)), field("bits", alias(token.immediate("32"), $.bits))),
+    instr_type_float_32: $ => token("f32"),
 
-    instr_type_float_64: $ =>
-      seq(field("kind", alias("f", $.kind)), field("bits", alias(token.immediate("64"), $.bits))),
+    instr_type_float_64: $ => token("f64"),
 
-    instr_type_int: $ =>
-      seq(
-        field("kind", alias("i", $.kind)),
-        field("bits", alias(choice(token.immediate("32"), token.immediate("64")), $.bits)),
-      ),
+    instr_type_int: $ => choice(token("i32"), token("i64")),
 
-    instr_type_int_32: $ => seq(field("kind", alias("i", $.kind)), field("bits", alias(token.immediate("32"), $.bits))),
+    instr_type_int_32: $ => token("i32"),
 
-    instr_type_int_64: $ => seq(field("kind", alias("i", $.kind)), field("bits", alias(token.immediate("64"), $.bits))),
+    instr_type_int_64: $ => token("i64"),
 
     limits: $ =>
       seq(
-        field("min", $.NAT),
-        optional(field("max", $.NAT)),
+        field("min", $.UNSIGNED),
+        optional(field("max", $.UNSIGNED)),
         // proposal: threads
         optional(field("share", $.share)),
       ),
@@ -995,7 +1335,7 @@ module.exports = grammar({
 
     name: $ => $.string,
 
-    num: $ => choice($.NAT, $.INT, $.FLOAT),
+    num: $ => choice($.UNSIGNED, $.SIGNED, $.FLOAT),
 
     _offset: $ => choice($.offset_const_expr, $.offset_expr),
 
