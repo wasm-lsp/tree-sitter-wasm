@@ -26,8 +26,8 @@
     "format": "prettier --write '**/*.{js,json,ts,tsx,yml,yaml}'",
     "lint": "eslint '**/*.{js,ts,tsx}'",
     "test": "npm run test-wast && npm run test-wat && npm run test-wit && npm run test-witx",
-    "test-wast": "cd wast && tree-sitter parse corpus/**.wast",
-    "test-wat": "cd wat && tree-sitter parse corpus/**.wat",
+    "test-wast": "cd wast && tree-sitter parse corpus/**/*.wast",
+    "test-wat": "cd wat && tree-sitter parse corpus/**/*.wat",
     "test-wit": "cd wit && tree-sitter test",
     "test-witx": "cd witx && tree-sitter test"
   },
