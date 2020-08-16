@@ -11,12 +11,12 @@
 
 ## Supported Document Types
 
-| supported | extension | kind |
-|:---------:|-----------|------|
-| 🗹 | `.wat` | [WebAssembly module definition](https://github.com/WebAssembly/spec/tree/master/interpreter#s-expression-syntax) |
-| 🗹 | `.wast` | [WebAssembly script](https://github.com/WebAssembly/spec/tree/master/interpreter#scripts) |
-| soon | `.wit` | [WebAssembly module type](https://github.com/WebAssembly/module-types/blob/master/proposals/module-types/Overview.md) |
-| soon | `.witx` | [WebAssembly API description](https://github.com/WebAssembly/WASI/blob/57744f48ec7d4e211d1542d1f56746b5cc1cf6a9/meetings/2019/WASI-09-12.md#meeting-notes) |
+| extension | supported | kind                                                                                                                                                       |
+| :-------: | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  `.wat`   | 🗹         | [WebAssembly module definition](https://github.com/WebAssembly/spec/tree/master/interpreter#s-expression-syntax)                                           |
+|  `.wast`  | 🗹         | [WebAssembly script](https://github.com/WebAssembly/spec/tree/master/interpreter#scripts)                                                                  |
+|  `.wit`   | soon      | [WebAssembly module type](https://github.com/WebAssembly/module-types/blob/master/proposals/module-types/Overview.md)                                      |
+|  `.witx`  | soon      | [WebAssembly API description](https://github.com/WebAssembly/WASI/blob/57744f48ec7d4e211d1542d1f56746b5cc1cf6a9/meetings/2019/WASI-09-12.md#meeting-notes) |
 
 ## Supported WebAssembly Proposals
 
