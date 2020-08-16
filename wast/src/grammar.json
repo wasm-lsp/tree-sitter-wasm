@@ -301,18 +301,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "UNSIGNED"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "SIGNED"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "FLOAT"
-        },
-        {
-          "type": "SYMBOL",
           "name": "identifier"
         },
         {
@@ -9564,28 +9552,70 @@
       ]
     },
     "instr_type_float": {
-      "type": "PATTERN",
-      "value": "f(32|64)"
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "f32"
+          }
+        },
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "f64"
+          }
+        }
+      ]
     },
     "instr_type_float_32": {
-      "type": "PATTERN",
-      "value": "f32"
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "f32"
+      }
     },
     "instr_type_float_64": {
-      "type": "PATTERN",
-      "value": "f64"
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "f64"
+      }
     },
     "instr_type_int": {
-      "type": "PATTERN",
-      "value": "i(32|64)"
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "i32"
+          }
+        },
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "i64"
+          }
+        }
+      ]
     },
     "instr_type_int_32": {
-      "type": "PATTERN",
-      "value": "i32"
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "i32"
+      }
     },
     "instr_type_int_64": {
-      "type": "PATTERN",
-      "value": "i64"
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "i64"
+      }
     },
     "limits": {
       "type": "SEQ",
