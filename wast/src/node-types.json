@@ -257,18 +257,6 @@
             "named": false
           },
           {
-            "type": "FLOAT",
-            "named": true
-          },
-          {
-            "type": "SIGNED",
-            "named": true
-          },
-          {
-            "type": "UNSIGNED",
-            "named": true
-          },
-          {
             "type": "annotation_parens",
             "named": true
           },
@@ -304,18 +292,6 @@
         "multiple": true,
         "required": false,
         "types": [
-          {
-            "type": "FLOAT",
-            "named": true
-          },
-          {
-            "type": "SIGNED",
-            "named": true
-          },
-          {
-            "type": "UNSIGNED",
-            "named": true
-          },
           {
             "type": "annotation_parens",
             "named": true
@@ -8948,6 +8924,36 @@
     }
   },
   {
+    "type": "instr_type_float",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "instr_type_float_32",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "instr_type_float_64",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "instr_type_int",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "instr_type_int_32",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "instr_type_int_64",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "limits",
     "named": true,
     "fields": {
@@ -10940,18 +10946,6 @@
             "named": false
           },
           {
-            "type": "FLOAT",
-            "named": true
-          },
-          {
-            "type": "SIGNED",
-            "named": true
-          },
-          {
-            "type": "UNSIGNED",
-            "named": true
-          },
-          {
             "type": "annotation_parens",
             "named": true
           },
@@ -11526,7 +11520,15 @@
     "named": false
   },
   {
+    "type": "f32",
+    "named": false
+  },
+  {
     "type": "f32x4",
+    "named": false
+  },
+  {
+    "type": "f64",
     "named": false
   },
   {
@@ -11562,7 +11564,15 @@
     "named": false
   },
   {
+    "type": "i32",
+    "named": false
+  },
+  {
     "type": "i32x4",
+    "named": false
+  },
+  {
+    "type": "i64",
     "named": false
   },
   {
@@ -11592,30 +11602,6 @@
   {
     "type": "input",
     "named": false
-  },
-  {
-    "type": "instr_type_float",
-    "named": true
-  },
-  {
-    "type": "instr_type_float_32",
-    "named": true
-  },
-  {
-    "type": "instr_type_float_64",
-    "named": true
-  },
-  {
-    "type": "instr_type_int",
-    "named": true
-  },
-  {
-    "type": "instr_type_int_32",
-    "named": true
-  },
-  {
-    "type": "instr_type_int_64",
-    "named": true
   },
   {
     "type": "invoke",
