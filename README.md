@@ -30,7 +30,7 @@ The included grammars also support parsing WebAssembly modules using the followi
 #### Phase 3 (Implementation)
 
 - 🗹 [annotations](https://github.com/WebAssembly/annotations)
-- ☐ [simd](https://github.com/WebAssembly/simd) (soon)
+- 🗹 [simd](https://github.com/WebAssembly/simd)
 
 #### Phase 2 (Specification)
 
