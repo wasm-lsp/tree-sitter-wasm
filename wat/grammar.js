@@ -79,17 +79,7 @@ module.exports = grammar({
 
     // proposal: annotations
     _annotation_part: $ =>
-      choice(
-        $.comment_block_annot,
-        $.comment_line_annot,
-        $.annotation_parens,
-        $.reserved,
-        $.UNSIGNED,
-        $.SIGNED,
-        $.FLOAT,
-        $.identifier,
-        $.string,
-      ),
+      choice($.comment_block_annot, $.comment_line_annot, $.annotation_parens, $.reserved, $.identifier, $.string),
 
     // proposal: threads
     atomicop: $ => choice("add", "and", "cmpxchg", "or", "sub", "xchg", "xor"),
