@@ -36,6 +36,7 @@ The included grammars also support parsing WebAssembly modules using the followi
 #### Phase 2 (Specification)
 
 - 🗹 [exception-handling](https://github.com/WebAssembly/exception-handling)
+- 🗹 [function-references](https://github.com/WebAssembly/function-references)
 - 🗹 [threads](https://github.com/WebAssembly/threads)
 
 #### Phase 1 (Proposal)
