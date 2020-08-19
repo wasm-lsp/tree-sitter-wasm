@@ -740,6 +740,8 @@ module.exports = grammar({
             field("sign", alias(token.immediate(/[su]/), $.sign)),
           ),
         ),
+        // proposal: multi-memory
+        optional(field("index", $.index)),
         optional(field("offset_value", $.offset_value)),
         optional(field("align_value", $.align_value)),
       ),
@@ -756,12 +758,22 @@ module.exports = grammar({
     // proposal: bulk-memory-operations
     instr_plain_memory_fill: $ => field("op", alias(token("memory.fill"), $.op)),
 
-    instr_plain_memory_grow: $ => field("op", alias(token("memory.grow"), $.op)),
+    instr_plain_memory_grow: $ =>
+      seq(
+        field("op", alias(token("memory.grow"), $.op)),
+        // proposal: multi-memory
+        optional(field("index", $.index)),
+      ),
 
     // proposal: bulk-memory-operations
     instr_plain_memory_init: $ => seq(field("op", alias(token("memory.init"), $.op)), field("index", $.index)),
 
-    instr_plain_memory_size: $ => field("op", alias(token("memory.size"), $.op)),
+    instr_plain_memory_size: $ =>
+      seq(
+        field("op", alias(token("memory.size"), $.op)),
+        // proposal: multi-memory
+        optional(field("index", $.index)),
+      ),
 
     instr_plain_nop: $ => field("op", alias(token("nop"), $.op)),
 
@@ -1116,6 +1128,8 @@ module.exports = grammar({
             field("bits", alias(token.immediate("32"), $.bits)),
           ),
         ),
+        // proposal: multi-memory
+        optional(field("index", $.index)),
         optional(field("offset_value", $.offset_value)),
         optional(field("align_value", $.align_value)),
       ),
@@ -1251,7 +1265,15 @@ module.exports = grammar({
         optional(field("index_head", $.index)),
         choice(
           field("elem_list", $.elem_list),
-          seq(field("table_use", $.table_use), field("offset", $._offset), field("elem_list", $.elem_list)),
+          seq(
+            field("table_use", $.table_use),
+            field("offset", $._offset),
+            choice(
+              field("elem_list", $.elem_list),
+              // proposal: multi-memory
+              field("elem_var_list", repeat(field("index", $.index))),
+            ),
+          ),
           seq(field("declare", alias("declare", $.declare)), field("elem_list", $.elem_list)),
           seq(field("offset", $._offset), field("elem_list", $.elem_list)),
           seq(field("offset", $._offset), field("elem_var_list", repeat(field("index", $.index)))),
