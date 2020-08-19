@@ -671,11 +671,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_br_on_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_br_table",
             "named": true
           },
           {
             "type": "instr_plain_call",
+            "named": true
+          },
+          {
+            "type": "instr_plain_call_ref",
             "named": true
           },
           {
@@ -703,11 +711,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_func_bind",
+            "named": true
+          },
+          {
             "type": "instr_plain_global_get",
             "named": true
           },
           {
             "type": "instr_plain_global_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_let",
             "named": true
           },
           {
@@ -751,6 +767,10 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_as_non_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_ref_func",
             "named": true
           },
@@ -760,6 +780,10 @@
           },
           {
             "type": "instr_plain_return",
+            "named": true
+          },
+          {
+            "type": "instr_plain_return_call_ref",
             "named": true
           },
           {
@@ -895,11 +919,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_br_on_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_br_table",
             "named": true
           },
           {
             "type": "instr_plain_call",
+            "named": true
+          },
+          {
+            "type": "instr_plain_call_ref",
             "named": true
           },
           {
@@ -927,11 +959,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_func_bind",
+            "named": true
+          },
+          {
             "type": "instr_plain_global_get",
             "named": true
           },
           {
             "type": "instr_plain_global_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_let",
             "named": true
           },
           {
@@ -975,6 +1015,10 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_as_non_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_ref_func",
             "named": true
           },
@@ -984,6 +1028,10 @@
           },
           {
             "type": "instr_plain_return",
+            "named": true
+          },
+          {
+            "type": "instr_plain_return_call_ref",
             "named": true
           },
           {
@@ -1158,11 +1206,19 @@
           "named": true
         },
         {
+          "type": "instr_plain_br_on_null",
+          "named": true
+        },
+        {
           "type": "instr_plain_br_table",
           "named": true
         },
         {
           "type": "instr_plain_call",
+          "named": true
+        },
+        {
+          "type": "instr_plain_call_ref",
           "named": true
         },
         {
@@ -1190,11 +1246,19 @@
           "named": true
         },
         {
+          "type": "instr_plain_func_bind",
+          "named": true
+        },
+        {
           "type": "instr_plain_global_get",
           "named": true
         },
         {
           "type": "instr_plain_global_set",
+          "named": true
+        },
+        {
+          "type": "instr_plain_let",
           "named": true
         },
         {
@@ -1238,6 +1302,10 @@
           "named": true
         },
         {
+          "type": "instr_plain_ref_as_non_null",
+          "named": true
+        },
+        {
           "type": "instr_plain_ref_func",
           "named": true
         },
@@ -1247,6 +1315,10 @@
         },
         {
           "type": "instr_plain_return",
+          "named": true
+        },
+        {
+          "type": "instr_plain_return_call_ref",
           "named": true
         },
         {
@@ -1457,11 +1529,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_br_on_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_br_table",
             "named": true
           },
           {
             "type": "instr_plain_call",
+            "named": true
+          },
+          {
+            "type": "instr_plain_call_ref",
             "named": true
           },
           {
@@ -1489,11 +1569,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_func_bind",
+            "named": true
+          },
+          {
             "type": "instr_plain_global_get",
             "named": true
           },
           {
             "type": "instr_plain_global_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_let",
             "named": true
           },
           {
@@ -1537,6 +1625,10 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_as_non_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_ref_func",
             "named": true
           },
@@ -1546,6 +1638,10 @@
           },
           {
             "type": "instr_plain_return",
+            "named": true
+          },
+          {
+            "type": "instr_plain_return_call_ref",
             "named": true
           },
           {
@@ -1701,11 +1797,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_br_on_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_br_table",
             "named": true
           },
           {
             "type": "instr_plain_call",
+            "named": true
+          },
+          {
+            "type": "instr_plain_call_ref",
             "named": true
           },
           {
@@ -1733,11 +1837,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_func_bind",
+            "named": true
+          },
+          {
             "type": "instr_plain_global_get",
             "named": true
           },
           {
             "type": "instr_plain_global_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_let",
             "named": true
           },
           {
@@ -1781,6 +1893,10 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_as_non_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_ref_func",
             "named": true
           },
@@ -1790,6 +1906,10 @@
           },
           {
             "type": "instr_plain_return",
+            "named": true
+          },
+          {
+            "type": "instr_plain_return_call_ref",
             "named": true
           },
           {
@@ -1951,11 +2071,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_br_on_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_br_table",
             "named": true
           },
           {
             "type": "instr_plain_call",
+            "named": true
+          },
+          {
+            "type": "instr_plain_call_ref",
             "named": true
           },
           {
@@ -1983,11 +2111,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_func_bind",
+            "named": true
+          },
+          {
             "type": "instr_plain_global_get",
             "named": true
           },
           {
             "type": "instr_plain_global_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_let",
             "named": true
           },
           {
@@ -2031,6 +2167,10 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_as_non_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_ref_func",
             "named": true
           },
@@ -2040,6 +2180,10 @@
           },
           {
             "type": "instr_plain_return",
+            "named": true
+          },
+          {
+            "type": "instr_plain_return_call_ref",
             "named": true
           },
           {
@@ -2369,11 +2513,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_br_on_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_br_table",
             "named": true
           },
           {
             "type": "instr_plain_call",
+            "named": true
+          },
+          {
+            "type": "instr_plain_call_ref",
             "named": true
           },
           {
@@ -2401,11 +2553,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_func_bind",
+            "named": true
+          },
+          {
             "type": "instr_plain_global_get",
             "named": true
           },
           {
             "type": "instr_plain_global_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_let",
             "named": true
           },
           {
@@ -2449,6 +2609,10 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_as_non_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_ref_func",
             "named": true
           },
@@ -2458,6 +2622,10 @@
           },
           {
             "type": "instr_plain_return",
+            "named": true
+          },
+          {
+            "type": "instr_plain_return_call_ref",
             "named": true
           },
           {
@@ -2615,11 +2783,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_br_on_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_br_table",
             "named": true
           },
           {
             "type": "instr_plain_call",
+            "named": true
+          },
+          {
+            "type": "instr_plain_call_ref",
             "named": true
           },
           {
@@ -2647,11 +2823,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_func_bind",
+            "named": true
+          },
+          {
             "type": "instr_plain_global_get",
             "named": true
           },
           {
             "type": "instr_plain_global_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_let",
             "named": true
           },
           {
@@ -2695,6 +2879,10 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_as_non_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_ref_func",
             "named": true
           },
@@ -2704,6 +2892,10 @@
           },
           {
             "type": "instr_plain_return",
+            "named": true
+          },
+          {
+            "type": "instr_plain_return_call_ref",
             "named": true
           },
           {
@@ -2859,11 +3051,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_br_on_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_br_table",
             "named": true
           },
           {
             "type": "instr_plain_call",
+            "named": true
+          },
+          {
+            "type": "instr_plain_call_ref",
             "named": true
           },
           {
@@ -2891,11 +3091,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_func_bind",
+            "named": true
+          },
+          {
             "type": "instr_plain_global_get",
             "named": true
           },
           {
             "type": "instr_plain_global_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_let",
             "named": true
           },
           {
@@ -2939,6 +3147,10 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_as_non_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_ref_func",
             "named": true
           },
@@ -2948,6 +3160,10 @@
           },
           {
             "type": "instr_plain_return",
+            "named": true
+          },
+          {
+            "type": "instr_plain_return_call_ref",
             "named": true
           },
           {
@@ -3073,11 +3289,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_br_on_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_br_table",
             "named": true
           },
           {
             "type": "instr_plain_call",
+            "named": true
+          },
+          {
+            "type": "instr_plain_call_ref",
             "named": true
           },
           {
@@ -3105,11 +3329,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_func_bind",
+            "named": true
+          },
+          {
             "type": "instr_plain_global_get",
             "named": true
           },
           {
             "type": "instr_plain_global_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_let",
             "named": true
           },
           {
@@ -3153,6 +3385,10 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_as_non_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_ref_func",
             "named": true
           },
@@ -3162,6 +3398,10 @@
           },
           {
             "type": "instr_plain_return",
+            "named": true
+          },
+          {
+            "type": "instr_plain_return_call_ref",
             "named": true
           },
           {
@@ -3357,7 +3597,15 @@
         "required": false,
         "types": [
           {
-            "type": "ref_type",
+            "type": "ref_type_externref",
+            "named": true
+          },
+          {
+            "type": "ref_type_funcref",
+            "named": true
+          },
+          {
+            "type": "ref_type_ref",
             "named": true
           }
         ]
@@ -3493,11 +3741,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_br_on_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_br_table",
             "named": true
           },
           {
             "type": "instr_plain_call",
+            "named": true
+          },
+          {
+            "type": "instr_plain_call_ref",
             "named": true
           },
           {
@@ -3525,11 +3781,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_func_bind",
+            "named": true
+          },
+          {
             "type": "instr_plain_global_get",
             "named": true
           },
           {
             "type": "instr_plain_global_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_let",
             "named": true
           },
           {
@@ -3573,6 +3837,10 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_as_non_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_ref_func",
             "named": true
           },
@@ -3582,6 +3850,10 @@
           },
           {
             "type": "instr_plain_return",
+            "named": true
+          },
+          {
+            "type": "instr_plain_return_call_ref",
             "named": true
           },
           {
@@ -3707,11 +3979,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_br_on_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_br_table",
             "named": true
           },
           {
             "type": "instr_plain_call",
+            "named": true
+          },
+          {
+            "type": "instr_plain_call_ref",
             "named": true
           },
           {
@@ -3739,11 +4019,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_func_bind",
+            "named": true
+          },
+          {
             "type": "instr_plain_global_get",
             "named": true
           },
           {
             "type": "instr_plain_global_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_let",
             "named": true
           },
           {
@@ -3787,6 +4075,10 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_as_non_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_ref_func",
             "named": true
           },
@@ -3796,6 +4088,10 @@
           },
           {
             "type": "instr_plain_return",
+            "named": true
+          },
+          {
+            "type": "instr_plain_return_call_ref",
             "named": true
           },
           {
@@ -3946,11 +4242,19 @@
           "named": true
         },
         {
+          "type": "instr_plain_br_on_null",
+          "named": true
+        },
+        {
           "type": "instr_plain_br_table",
           "named": true
         },
         {
           "type": "instr_plain_call",
+          "named": true
+        },
+        {
+          "type": "instr_plain_call_ref",
           "named": true
         },
         {
@@ -3978,11 +4282,19 @@
           "named": true
         },
         {
+          "type": "instr_plain_func_bind",
+          "named": true
+        },
+        {
           "type": "instr_plain_global_get",
           "named": true
         },
         {
           "type": "instr_plain_global_set",
+          "named": true
+        },
+        {
+          "type": "instr_plain_let",
           "named": true
         },
         {
@@ -4026,6 +4338,10 @@
           "named": true
         },
         {
+          "type": "instr_plain_ref_as_non_null",
+          "named": true
+        },
+        {
           "type": "instr_plain_ref_func",
           "named": true
         },
@@ -4035,6 +4351,10 @@
         },
         {
           "type": "instr_plain_return",
+          "named": true
+        },
+        {
+          "type": "instr_plain_return_call_ref",
           "named": true
         },
         {
@@ -4225,11 +4545,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_br_on_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_br_table",
             "named": true
           },
           {
             "type": "instr_plain_call",
+            "named": true
+          },
+          {
+            "type": "instr_plain_call_ref",
             "named": true
           },
           {
@@ -4257,11 +4585,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_func_bind",
+            "named": true
+          },
+          {
             "type": "instr_plain_global_get",
             "named": true
           },
           {
             "type": "instr_plain_global_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_let",
             "named": true
           },
           {
@@ -4305,6 +4641,10 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_as_non_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_ref_func",
             "named": true
           },
@@ -4314,6 +4654,10 @@
           },
           {
             "type": "instr_plain_return",
+            "named": true
+          },
+          {
+            "type": "instr_plain_return_call_ref",
             "named": true
           },
           {
@@ -4449,11 +4793,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_br_on_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_br_table",
             "named": true
           },
           {
             "type": "instr_plain_call",
+            "named": true
+          },
+          {
+            "type": "instr_plain_call_ref",
             "named": true
           },
           {
@@ -4481,11 +4833,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_func_bind",
+            "named": true
+          },
+          {
             "type": "instr_plain_global_get",
             "named": true
           },
           {
             "type": "instr_plain_global_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_let",
             "named": true
           },
           {
@@ -4529,6 +4889,10 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_as_non_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_ref_func",
             "named": true
           },
@@ -4538,6 +4902,10 @@
           },
           {
             "type": "instr_plain_return",
+            "named": true
+          },
+          {
+            "type": "instr_plain_return_call_ref",
             "named": true
           },
           {
@@ -4735,11 +5103,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_br_on_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_br_table",
             "named": true
           },
           {
             "type": "instr_plain_call",
+            "named": true
+          },
+          {
+            "type": "instr_plain_call_ref",
             "named": true
           },
           {
@@ -4767,11 +5143,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_func_bind",
+            "named": true
+          },
+          {
             "type": "instr_plain_global_get",
             "named": true
           },
           {
             "type": "instr_plain_global_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_let",
             "named": true
           },
           {
@@ -4815,6 +5199,10 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_as_non_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_ref_func",
             "named": true
           },
@@ -4824,6 +5212,10 @@
           },
           {
             "type": "instr_plain_return",
+            "named": true
+          },
+          {
+            "type": "instr_plain_return_call_ref",
             "named": true
           },
           {
@@ -4973,11 +5365,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_br_on_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_br_table",
             "named": true
           },
           {
             "type": "instr_plain_call",
+            "named": true
+          },
+          {
+            "type": "instr_plain_call_ref",
             "named": true
           },
           {
@@ -5005,11 +5405,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_func_bind",
+            "named": true
+          },
+          {
             "type": "instr_plain_global_get",
             "named": true
           },
           {
             "type": "instr_plain_global_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_let",
             "named": true
           },
           {
@@ -5053,6 +5461,10 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_as_non_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_ref_func",
             "named": true
           },
@@ -5062,6 +5474,10 @@
           },
           {
             "type": "instr_plain_return",
+            "named": true
+          },
+          {
+            "type": "instr_plain_return_call_ref",
             "named": true
           },
           {
@@ -5245,11 +5661,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_br_on_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_br_table",
             "named": true
           },
           {
             "type": "instr_plain_call",
+            "named": true
+          },
+          {
+            "type": "instr_plain_call_ref",
             "named": true
           },
           {
@@ -5277,11 +5701,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_func_bind",
+            "named": true
+          },
+          {
             "type": "instr_plain_global_get",
             "named": true
           },
           {
             "type": "instr_plain_global_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_let",
             "named": true
           },
           {
@@ -5325,6 +5757,10 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_as_non_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_ref_func",
             "named": true
           },
@@ -5334,6 +5770,10 @@
           },
           {
             "type": "instr_plain_return",
+            "named": true
+          },
+          {
+            "type": "instr_plain_return_call_ref",
             "named": true
           },
           {
@@ -5491,11 +5931,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_br_on_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_br_table",
             "named": true
           },
           {
             "type": "instr_plain_call",
+            "named": true
+          },
+          {
+            "type": "instr_plain_call_ref",
             "named": true
           },
           {
@@ -5523,11 +5971,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_func_bind",
+            "named": true
+          },
+          {
             "type": "instr_plain_global_get",
             "named": true
           },
           {
             "type": "instr_plain_global_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_let",
             "named": true
           },
           {
@@ -5571,6 +6027,10 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_as_non_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_ref_func",
             "named": true
           },
@@ -5580,6 +6040,10 @@
           },
           {
             "type": "instr_plain_return",
+            "named": true
+          },
+          {
+            "type": "instr_plain_return_call_ref",
             "named": true
           },
           {
@@ -5705,11 +6169,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_br_on_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_br_table",
             "named": true
           },
           {
             "type": "instr_plain_call",
+            "named": true
+          },
+          {
+            "type": "instr_plain_call_ref",
             "named": true
           },
           {
@@ -5737,11 +6209,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_func_bind",
+            "named": true
+          },
+          {
             "type": "instr_plain_global_get",
             "named": true
           },
           {
             "type": "instr_plain_global_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_let",
             "named": true
           },
           {
@@ -5785,6 +6265,10 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_as_non_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_ref_func",
             "named": true
           },
@@ -5794,6 +6278,10 @@
           },
           {
             "type": "instr_plain_return",
+            "named": true
+          },
+          {
+            "type": "instr_plain_return_call_ref",
             "named": true
           },
           {
@@ -5975,11 +6463,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_br_on_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_br_table",
             "named": true
           },
           {
             "type": "instr_plain_call",
+            "named": true
+          },
+          {
+            "type": "instr_plain_call_ref",
             "named": true
           },
           {
@@ -6007,11 +6503,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_func_bind",
+            "named": true
+          },
+          {
             "type": "instr_plain_global_get",
             "named": true
           },
           {
             "type": "instr_plain_global_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_let",
             "named": true
           },
           {
@@ -6055,6 +6559,10 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_as_non_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_ref_func",
             "named": true
           },
@@ -6064,6 +6572,10 @@
           },
           {
             "type": "instr_plain_return",
+            "named": true
+          },
+          {
+            "type": "instr_plain_return_call_ref",
             "named": true
           },
           {
@@ -6690,11 +7202,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_br_on_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_br_table",
             "named": true
           },
           {
             "type": "instr_plain_call",
+            "named": true
+          },
+          {
+            "type": "instr_plain_call_ref",
             "named": true
           },
           {
@@ -6722,11 +7242,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_func_bind",
+            "named": true
+          },
+          {
             "type": "instr_plain_global_get",
             "named": true
           },
           {
             "type": "instr_plain_global_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_let",
             "named": true
           },
           {
@@ -6770,6 +7298,10 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_as_non_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_ref_func",
             "named": true
           },
@@ -6779,6 +7311,10 @@
           },
           {
             "type": "instr_plain_return",
+            "named": true
+          },
+          {
+            "type": "instr_plain_return_call_ref",
             "named": true
           },
           {
@@ -6936,11 +7472,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_br_on_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_br_table",
             "named": true
           },
           {
             "type": "instr_plain_call",
+            "named": true
+          },
+          {
+            "type": "instr_plain_call_ref",
             "named": true
           },
           {
@@ -6968,11 +7512,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_func_bind",
+            "named": true
+          },
+          {
             "type": "instr_plain_global_get",
             "named": true
           },
           {
             "type": "instr_plain_global_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_let",
             "named": true
           },
           {
@@ -7016,6 +7568,10 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_as_non_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_ref_func",
             "named": true
           },
@@ -7025,6 +7581,10 @@
           },
           {
             "type": "instr_plain_return",
+            "named": true
+          },
+          {
+            "type": "instr_plain_return_call_ref",
             "named": true
           },
           {
@@ -7476,6 +8036,32 @@
     }
   },
   {
+    "type": "instr_plain_br_on_null",
+    "named": true,
+    "fields": {
+      "index": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "op",
+            "named": true
+          }
+        ]
+      },
+      "op": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "op",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "instr_plain_br_table",
     "named": true,
     "fields": {
@@ -7515,6 +8101,22 @@
           }
         ]
       },
+      "op": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "op",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "instr_plain_call_ref",
+    "named": true,
+    "fields": {
       "op": {
         "multiple": false,
         "required": true,
@@ -7581,6 +8183,10 @@
         },
         {
           "type": "instr_plain_ref_extern",
+          "named": true
+        },
+        {
+          "type": "instr_plain_ref_func",
           "named": true
         },
         {
@@ -7775,6 +8381,50 @@
     }
   },
   {
+    "type": "instr_plain_func_bind",
+    "named": true,
+    "fields": {
+      "index": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "index",
+            "named": true
+          }
+        ]
+      },
+      "op": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "op",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": "type",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "instr_plain_global_get",
     "named": true,
     "fields": {
@@ -7820,6 +8470,70 @@
         "types": [
           {
             "type": "op",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "instr_plain_let",
+    "named": true,
+    "fields": {
+      "index": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "index",
+            "named": true
+          }
+        ]
+      },
+      "locals": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "func_locals_many",
+            "named": true
+          },
+          {
+            "type": "func_locals_one",
+            "named": true
+          }
+        ]
+      },
+      "op": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "op",
+            "named": true
+          }
+        ]
+      },
+      "params": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "func_type_params_many",
+            "named": true
+          },
+          {
+            "type": "func_type_params_one",
+            "named": true
+          }
+        ]
+      },
+      "results": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "func_type_results",
             "named": true
           }
         ]
@@ -8115,6 +8829,22 @@
     }
   },
   {
+    "type": "instr_plain_ref_as_non_null",
+    "named": true,
+    "fields": {
+      "op": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "op",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "instr_plain_ref_extern",
     "named": true,
     "fields": {
@@ -8146,7 +8876,7 @@
     "fields": {
       "index": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "index",
@@ -8186,6 +8916,16 @@
     "type": "instr_plain_ref_null",
     "named": true,
     "fields": {
+      "index": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "index",
+            "named": true
+          }
+        ]
+      },
       "op": {
         "multiple": false,
         "required": true,
@@ -8198,7 +8938,7 @@
       },
       "ref_kind": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "ref_kind",
@@ -8210,6 +8950,22 @@
   },
   {
     "type": "instr_plain_return",
+    "named": true,
+    "fields": {
+      "op": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "op",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "instr_plain_return_call_ref",
     "named": true,
     "fields": {
       "op": {
@@ -9486,11 +10242,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_br_on_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_br_table",
             "named": true
           },
           {
             "type": "instr_plain_call",
+            "named": true
+          },
+          {
+            "type": "instr_plain_call_ref",
             "named": true
           },
           {
@@ -9518,11 +10282,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_func_bind",
+            "named": true
+          },
+          {
             "type": "instr_plain_global_get",
             "named": true
           },
           {
             "type": "instr_plain_global_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_let",
             "named": true
           },
           {
@@ -9566,6 +10338,10 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_as_non_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_ref_func",
             "named": true
           },
@@ -9575,6 +10351,10 @@
           },
           {
             "type": "instr_plain_return",
+            "named": true
+          },
+          {
+            "type": "instr_plain_return_call_ref",
             "named": true
           },
           {
@@ -9720,11 +10500,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_br_on_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_br_table",
             "named": true
           },
           {
             "type": "instr_plain_call",
+            "named": true
+          },
+          {
+            "type": "instr_plain_call_ref",
             "named": true
           },
           {
@@ -9752,11 +10540,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_func_bind",
+            "named": true
+          },
+          {
             "type": "instr_plain_global_get",
             "named": true
           },
           {
             "type": "instr_plain_global_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_let",
             "named": true
           },
           {
@@ -9800,6 +10596,10 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_as_non_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_ref_func",
             "named": true
           },
@@ -9809,6 +10609,10 @@
           },
           {
             "type": "instr_plain_return",
+            "named": true
+          },
+          {
+            "type": "instr_plain_return_call_ref",
             "named": true
           },
           {
@@ -10011,11 +10815,19 @@
           "named": true
         },
         {
+          "type": "instr_plain_br_on_null",
+          "named": true
+        },
+        {
           "type": "instr_plain_br_table",
           "named": true
         },
         {
           "type": "instr_plain_call",
+          "named": true
+        },
+        {
+          "type": "instr_plain_call_ref",
           "named": true
         },
         {
@@ -10043,11 +10855,19 @@
           "named": true
         },
         {
+          "type": "instr_plain_func_bind",
+          "named": true
+        },
+        {
           "type": "instr_plain_global_get",
           "named": true
         },
         {
           "type": "instr_plain_global_set",
+          "named": true
+        },
+        {
+          "type": "instr_plain_let",
           "named": true
         },
         {
@@ -10091,6 +10911,10 @@
           "named": true
         },
         {
+          "type": "instr_plain_ref_as_non_null",
+          "named": true
+        },
+        {
           "type": "instr_plain_ref_func",
           "named": true
         },
@@ -10100,6 +10924,10 @@
         },
         {
           "type": "instr_plain_return",
+          "named": true
+        },
+        {
+          "type": "instr_plain_return_call_ref",
           "named": true
         },
         {
@@ -10576,11 +11404,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_br_on_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_br_table",
             "named": true
           },
           {
             "type": "instr_plain_call",
+            "named": true
+          },
+          {
+            "type": "instr_plain_call_ref",
             "named": true
           },
           {
@@ -10608,11 +11444,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_func_bind",
+            "named": true
+          },
+          {
             "type": "instr_plain_global_get",
             "named": true
           },
           {
             "type": "instr_plain_global_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_let",
             "named": true
           },
           {
@@ -10656,6 +11500,10 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_as_non_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_ref_func",
             "named": true
           },
@@ -10665,6 +11513,10 @@
           },
           {
             "type": "instr_plain_return",
+            "named": true
+          },
+          {
+            "type": "instr_plain_return_call_ref",
             "named": true
           },
           {
@@ -10790,11 +11642,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_br_on_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_br_table",
             "named": true
           },
           {
             "type": "instr_plain_call",
+            "named": true
+          },
+          {
+            "type": "instr_plain_call_ref",
             "named": true
           },
           {
@@ -10822,11 +11682,19 @@
             "named": true
           },
           {
+            "type": "instr_plain_func_bind",
+            "named": true
+          },
+          {
             "type": "instr_plain_global_get",
             "named": true
           },
           {
             "type": "instr_plain_global_set",
+            "named": true
+          },
+          {
+            "type": "instr_plain_let",
             "named": true
           },
           {
@@ -10870,6 +11738,10 @@
             "named": true
           },
           {
+            "type": "instr_plain_ref_as_non_null",
+            "named": true
+          },
+          {
             "type": "instr_plain_ref_func",
             "named": true
           },
@@ -10879,6 +11751,10 @@
           },
           {
             "type": "instr_plain_return",
+            "named": true
+          },
+          {
+            "type": "instr_plain_return_call_ref",
             "named": true
           },
           {
@@ -11049,9 +11925,40 @@
     "fields": {}
   },
   {
-    "type": "ref_type",
+    "type": "ref_type_ref",
     "named": true,
-    "fields": {}
+    "fields": {
+      "index": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "index",
+            "named": true
+          }
+        ]
+      },
+      "null": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "null",
+            "named": true
+          }
+        ]
+      },
+      "ref_kind": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "ref_kind",
+            "named": true
+          }
+        ]
+      }
+    }
   },
   {
     "type": "register",
@@ -11266,7 +12173,15 @@
         "required": true,
         "types": [
           {
-            "type": "ref_type",
+            "type": "ref_type_externref",
+            "named": true
+          },
+          {
+            "type": "ref_type_funcref",
+            "named": true
+          },
+          {
+            "type": "ref_type_ref",
             "named": true
           }
         ]
@@ -11318,7 +12233,15 @@
         "required": true,
         "types": [
           {
-            "type": "ref_type",
+            "type": "ref_type_externref",
+            "named": true
+          },
+          {
+            "type": "ref_type_funcref",
+            "named": true
+          },
+          {
+            "type": "ref_type_ref",
             "named": true
           }
         ]
@@ -11366,26 +12289,19 @@
       "required": true,
       "types": [
         {
-          "type": "value_type_num_type",
+          "type": "ref_type_externref",
           "named": true
         },
         {
-          "type": "value_type_ref_type",
+          "type": "ref_type_funcref",
           "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "value_type_ref_type",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
+        },
         {
-          "type": "ref_type",
+          "type": "ref_type_ref",
+          "named": true
+        },
+        {
+          "type": "value_type_num_type",
           "named": true
         }
       ]
@@ -11716,6 +12632,10 @@
     "named": false
   },
   {
+    "type": "null",
+    "named": true
+  },
+  {
     "type": "offset",
     "named": false
   },
@@ -11742,6 +12662,14 @@
   {
     "type": "ref",
     "named": false
+  },
+  {
+    "type": "ref_type_externref",
+    "named": true
+  },
+  {
+    "type": "ref_type_funcref",
+    "named": true
   },
   {
     "type": "register",
@@ -11801,11 +12729,11 @@
   },
   {
     "type": "type",
-    "named": false
+    "named": true
   },
   {
     "type": "type",
-    "named": true
+    "named": false
   },
   {
     "type": "unshared",
