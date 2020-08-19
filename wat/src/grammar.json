@@ -5091,6 +5091,22 @@
           "members": [
             {
               "type": "FIELD",
+              "name": "index",
+              "content": {
+                "type": "SYMBOL",
+                "name": "index"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
               "name": "offset_value",
               "content": {
                 "type": "SYMBOL",
@@ -5231,20 +5247,41 @@
       }
     },
     "instr_plain_memory_grow": {
-      "type": "FIELD",
-      "name": "op",
-      "content": {
-        "type": "ALIAS",
-        "content": {
-          "type": "TOKEN",
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "op",
           "content": {
-            "type": "STRING",
-            "value": "memory.grow"
+            "type": "ALIAS",
+            "content": {
+              "type": "TOKEN",
+              "content": {
+                "type": "STRING",
+                "value": "memory.grow"
+              }
+            },
+            "named": true,
+            "value": "op"
           }
         },
-        "named": true,
-        "value": "op"
-      }
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "index",
+              "content": {
+                "type": "SYMBOL",
+                "name": "index"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
     },
     "instr_plain_memory_init": {
       "type": "SEQ",
@@ -5276,20 +5313,41 @@
       ]
     },
     "instr_plain_memory_size": {
-      "type": "FIELD",
-      "name": "op",
-      "content": {
-        "type": "ALIAS",
-        "content": {
-          "type": "TOKEN",
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "op",
           "content": {
-            "type": "STRING",
-            "value": "memory.size"
+            "type": "ALIAS",
+            "content": {
+              "type": "TOKEN",
+              "content": {
+                "type": "STRING",
+                "value": "memory.size"
+              }
+            },
+            "named": true,
+            "value": "op"
           }
         },
-        "named": true,
-        "value": "op"
-      }
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "index",
+              "content": {
+                "type": "SYMBOL",
+                "name": "index"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
     },
     "instr_plain_nop": {
       "type": "FIELD",
@@ -8958,6 +9016,22 @@
           "members": [
             {
               "type": "FIELD",
+              "name": "index",
+              "content": {
+                "type": "SYMBOL",
+                "name": "index"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
               "name": "offset_value",
               "content": {
                 "type": "SYMBOL",
@@ -9973,12 +10047,32 @@
                   }
                 },
                 {
-                  "type": "FIELD",
-                  "name": "elem_list",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "elem_list"
-                  }
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "FIELD",
+                      "name": "elem_list",
+                      "content": {
+                        "type": "SYMBOL",
+                        "name": "elem_list"
+                      }
+                    },
+                    {
+                      "type": "FIELD",
+                      "name": "elem_var_list",
+                      "content": {
+                        "type": "REPEAT",
+                        "content": {
+                          "type": "FIELD",
+                          "name": "index",
+                          "content": {
+                            "type": "SYMBOL",
+                            "name": "index"
+                          }
+                        }
+                      }
+                    }
+                  ]
                 }
               ]
             },

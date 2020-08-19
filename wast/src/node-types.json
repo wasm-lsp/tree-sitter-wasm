@@ -7850,6 +7850,16 @@
           }
         ]
       },
+      "index": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "index",
+            "named": true
+          }
+        ]
+      },
       "offset_value": {
         "multiple": false,
         "required": false,
@@ -8014,6 +8024,16 @@
     "type": "instr_plain_memory_grow",
     "named": true,
     "fields": {
+      "index": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "index",
+            "named": true
+          }
+        ]
+      },
       "op": {
         "multiple": false,
         "required": true,
@@ -8056,6 +8076,16 @@
     "type": "instr_plain_memory_size",
     "named": true,
     "fields": {
+      "index": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "index",
+            "named": true
+          }
+        ]
+      },
       "op": {
         "multiple": false,
         "required": true,
@@ -8597,6 +8627,16 @@
         "types": [
           {
             "type": "bits",
+            "named": true
+          }
+        ]
+      },
+      "index": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "index",
             "named": true
           }
         ]
