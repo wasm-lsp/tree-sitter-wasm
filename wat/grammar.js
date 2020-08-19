@@ -31,6 +31,9 @@ module.exports = grammar({
       $.instr_plain_store,
       $.instr_plain_unary,
     ],
+    [$._instr_plain, $.instr_plain_const],
+    [$.instr_plain_func_bind],
+    [$.instr_plain_let],
     [$.instr_plain_select],
     [$.instr_plain_simd_load, $.instr_plain_simd_unary],
     [$.instr_plain_simd_binary, $.instr_plain_simd_store],
@@ -174,7 +177,7 @@ module.exports = grammar({
     elem_list: $ =>
       choice(
         seq(field("elem_kind", $.elem_kind), field("elem_var_list", repeat(field("index", $.index)))),
-        seq(field("ref_type", $.ref_type), field("elem_expr_list", repeat(field("elem_exr", $._elem_expr)))),
+        seq(field("ref_type", $._ref_type), field("elem_expr_list", repeat(field("elem_exr", $._elem_expr)))),
       ),
 
     escape_sequence: $ => token.immediate(seq("\\", choice(/[^u0-9a-fA-F]/, /[0-9a-fA-F]{2}/, /u{[0-9a-fA-F]+}/))),
@@ -383,6 +386,15 @@ module.exports = grammar({
         $.instr_plain_ref_func,
         // proposal <stop>: reference-types
 
+        // proposal <start>: function-references
+        $.instr_plain_br_on_null,
+        $.instr_plain_call_ref,
+        $.instr_plain_func_bind,
+        $.instr_plain_let,
+        $.instr_plain_ref_as_non_null,
+        $.instr_plain_return_call_ref,
+        // proposal <stop>: function-references
+
         $.instr_plain_memory_size,
         $.instr_plain_memory_grow,
         $.instr_plain_const,
@@ -571,10 +583,16 @@ module.exports = grammar({
 
     instr_plain_br_if: $ => field("op", alias(seq("br_if", field("index", $.index)), $.op)),
 
+    // proposal: function-references
+    instr_plain_br_on_null: $ => field("op", alias(seq("br_on_null", field("index", $.index)), $.op)),
+
     instr_plain_br_table: $ =>
       field("op", alias(seq("br_table", field("index_head", $.index), repeat(field("index_tail", $.index))), $.op)),
 
     instr_plain_call: $ => field("op", alias(seq("call", field("index", $.index)), $.op)),
+
+    // proposal: function-references
+    instr_plain_call_ref: $ => field("op", alias("call_ref", $.op)),
 
     instr_plain_compare: $ =>
       choice(
@@ -600,6 +618,8 @@ module.exports = grammar({
         $.instr_plain_ref_extern,
         // proposal: reference-types
         $.instr_plain_ref_null,
+        // proposal: function-references
+        $.instr_plain_ref_func,
       ),
 
     instr_plain_const_num: $ =>
@@ -609,6 +629,9 @@ module.exports = grammar({
         field("op", alias(token.immediate(/const/), $.op)),
         field("num", $.num),
       ),
+
+    instr_plain_ref_as_non_null: $ =>
+      seq(token("ref"), token.immediate("."), field("op", alias(token.immediate(/as_non_null/), $.op))),
 
     instr_plain_ref_extern: $ =>
       seq(
@@ -623,7 +646,7 @@ module.exports = grammar({
         token("ref"),
         token.immediate("."),
         field("op", alias(token.immediate(/null/), $.op)),
-        field("ref_kind", $.ref_kind),
+        choice(field("ref_kind", $.ref_kind), field("index", $.index)),
       ),
 
     instr_plain_convert: $ =>
@@ -715,9 +738,26 @@ module.exports = grammar({
     // proposal: bulk-memory-operations
     instr_plain_elem_drop: $ => seq(field("op", alias(token("elem.drop"), $.op)), field("index", $.index)),
 
+    // proposal: function-references
+    instr_plain_func_bind: $ =>
+      seq(
+        field("op", alias(token("func.bind"), $.op)),
+        optional(field("type", seq("(", "type", field("index", $.index), ")"))),
+      ),
+
     instr_plain_global_get: $ => seq(field("op", alias("global.get", $.op)), field("index", $.index)),
 
     instr_plain_global_set: $ => seq(field("op", alias("global.set", $.op)), field("index", $.index)),
+
+    // proposal: function-references
+    instr_plain_let: $ =>
+      seq(
+        field("op", alias("let", $.op)),
+        optional(field("index", $.index)),
+        repeat(field("params", $._func_type_params)),
+        repeat(field("results", $.func_type_results)),
+        repeat(field("locals", $._func_locals)),
+      ),
 
     instr_plain_load: $ =>
       seq(
@@ -778,12 +818,15 @@ module.exports = grammar({
     instr_plain_nop: $ => field("op", alias(token("nop"), $.op)),
 
     // proposal: reference-types
-    instr_plain_ref_func: $ => seq(field("op", alias("ref.func", $.op)), field("index", $.index)),
+    instr_plain_ref_func: $ => seq(field("op", alias("ref.func", $.op)), optional(field("index", $.index))),
 
     // proposal: reference-types
     instr_plain_ref_is_null: $ => field("op", alias(token("ref.is_null"), $.op)),
 
     instr_plain_return: $ => field("op", alias(token("return"), $.op)),
+
+    // proposal: function-references
+    instr_plain_return_call_ref: $ => field("op", alias("return_call_ref", $.op)),
 
     instr_plain_select: $ =>
       seq(
@@ -1363,7 +1406,23 @@ module.exports = grammar({
     ref_kind: $ => choice(/extern|func/),
 
     // proposal: reference-types
-    ref_type: $ => choice(/externref|funcref/),
+    _ref_type: $ => choice($.ref_type_externref, $.ref_type_funcref, $.ref_type_ref),
+
+    // proposal: reference-types
+    ref_type_externref: $ => token("externref"),
+
+    // proposal: reference-types
+    ref_type_funcref: $ => token("funcref"),
+
+    // proposal: function-references
+    ref_type_ref: $ =>
+      seq(
+        "(",
+        "ref",
+        optional(field("null", alias(token("null"), $.null))),
+        choice(field("ref_kind", $.ref_kind), field("index", $.index)),
+        ")",
+      ),
 
     // eslint-disable-next-line no-useless-escape
     reserved: $ => token(choice(pattern_identifier, /[,;\[\]{}]/)),
@@ -1378,7 +1437,7 @@ module.exports = grammar({
 
     table_fields_elem: $ =>
       seq(
-        field("ref_type", $.ref_type),
+        field("ref_type", $._ref_type),
         "(",
         "elem",
         choice(
@@ -1390,7 +1449,7 @@ module.exports = grammar({
 
     table_fields_type: $ => seq(optional(field("import", $.inline_import)), field("table_type", $.table_type)),
 
-    table_type: $ => seq(field("limits", $.limits), field("ref_type", $.ref_type)),
+    table_type: $ => seq(field("limits", $.limits), field("ref_type", $._ref_type)),
 
     table_use: $ => seq("(", "table", field("index", $.index), ")"),
 
@@ -1398,10 +1457,10 @@ module.exports = grammar({
 
     type_use: $ => seq("(", "type", field("index", $.index), ")"),
 
-    value_type: $ => choice($.value_type_num_type, $.value_type_ref_type),
+    value_type: $ => choice($.value_type_num_type, $._value_type_ref_type),
 
     value_type_num_type: $ => token(pattern_num_type),
 
-    value_type_ref_type: $ => $.ref_type,
+    _value_type_ref_type: $ => $._ref_type,
   },
 });
