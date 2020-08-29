@@ -17,7 +17,7 @@
               "name": "module_field",
               "content": {
                 "type": "SYMBOL",
-                "name": "_module_field"
+                "name": "module_field"
               }
             }
           },
@@ -872,7 +872,7 @@
                 "name": "instr",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "_instr"
+                  "name": "instr"
                 }
               }
             },
@@ -1439,7 +1439,7 @@
           "name": "instr",
           "content": {
             "type": "SYMBOL",
-            "name": "_instr_plain"
+            "name": "instr_plain"
           }
         },
         {
@@ -2293,12 +2293,12 @@
         }
       ]
     },
-    "_instr": {
+    "instr": {
       "type": "CHOICE",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_instr_plain"
+          "name": "instr_plain"
         },
         {
           "type": "SYMBOL",
@@ -2390,7 +2390,7 @@
           "name": "instr",
           "content": {
             "type": "SYMBOL",
-            "name": "_instr"
+            "name": "instr"
           }
         }
       ]
@@ -2406,7 +2406,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "_instr"
+            "name": "instr"
           }
         ]
       }
@@ -2462,7 +2462,7 @@
         ]
       }
     },
-    "_instr_plain": {
+    "instr_plain": {
       "type": "CHOICE",
       "members": [
         {
@@ -10114,7 +10114,7 @@
             "name": "module_field",
             "content": {
               "type": "SYMBOL",
-              "name": "_module_field"
+              "name": "module_field"
             }
           }
         },
@@ -10124,7 +10124,7 @@
         }
       ]
     },
-    "_module_field": {
+    "module_field": {
       "type": "CHOICE",
       "members": [
         {
@@ -10645,7 +10645,7 @@
               "type": "REPEAT",
               "content": {
                 "type": "SYMBOL",
-                "name": "_instr"
+                "name": "instr"
               }
             },
             "named": true,
@@ -10936,7 +10936,7 @@
                 "name": "instr",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "_instr"
+                  "name": "instr"
                 }
               }
             },
@@ -11433,7 +11433,7 @@
       "instr_plain_unary"
     ],
     [
-      "_instr_plain",
+      "instr_plain",
       "instr_plain_const"
     ],
     [
