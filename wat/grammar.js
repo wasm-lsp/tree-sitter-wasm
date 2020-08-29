@@ -37,14 +37,12 @@ module.exports = grammar({
     [$.instr_plain_select],
     [$.instr_plain_simd_load, $.instr_plain_simd_unary],
     [$.instr_plain_simd_binary, $.instr_plain_simd_store],
-    [$.instr_plain_simd_binary, $.instr_plain_simd_store, $.instr_plain_simd_unary],
-    [$.module_field_elem],
   ],
 
   rules: {
     PARSE: $ => choice($.module, alias(repeat(field("module_field", $.module_field)), $.inline_module)),
 
-    FLOAT: $ => seq(optional(field("sign", $.sign)), $.FLOAT_MAG),
+    FLOAT: $ => seq(optional($.sign), $.FLOAT_MAG),
 
     FLOAT_MAG: $ => choice($.float, $.hexfloat, "inf", $.NAN),
 
@@ -56,17 +54,20 @@ module.exports = grammar({
         optional(
           seq(
             token.immediate(":"),
-            field("kind", choice("arithmetic", "canonical", seq("0x", token.immediate(pattern_hexnum)))),
+            choice(
+              token.immediate("arithmetic"),
+              token.immediate("canonical"),
+              seq(token.immediate("0x"), token.immediate(pattern_hexnum)),
+            ),
           ),
         ),
       ),
 
     UNSIGNED: $ => choice($.decnum, seq("0x", token.immediate(pattern_hexnum))),
 
-    SIGNED: $ => seq(field("sign", $.sign), $.UNSIGNED),
+    SIGNED: $ => seq($.sign, $.UNSIGNED),
 
-    align_value: $ =>
-      seq("align=", field("value", token.immediate(/[0-9]+(?:_?[0-9]+)*|0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*/))),
+    align_value: $ => seq("align=", token.immediate(/[0-9]+(?:_?[0-9]+)*|0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*/)),
 
     // proposal: annotations
     annotation: $ =>
@@ -90,7 +91,7 @@ module.exports = grammar({
     block_block: $ =>
       seq(
         "block",
-        optional(field("identifier0", $.identifier)),
+        optional(field("identifier", $.identifier)),
         field(
           "block",
           alias(
@@ -110,7 +111,7 @@ module.exports = grammar({
     block_if: $ =>
       seq(
         "if",
-        optional(field("identifier0", $.identifier)),
+        optional(field("identifier", $.identifier)),
         field(
           "block",
           alias(
@@ -133,7 +134,7 @@ module.exports = grammar({
     block_loop: $ =>
       seq(
         "loop",
-        optional(field("identifier0", $.identifier)),
+        optional(field("identifier", $.identifier)),
         field(
           "block",
           alias(
@@ -147,7 +148,7 @@ module.exports = grammar({
           ),
         ),
         "end",
-        optional(field("identifier1", $.identifier)),
+        optional(field("identifier", $.identifier)),
       ),
 
     comment_block: $ => seq("(;", repeat(choice($.comment_block, /[^(;]+/, "(", ";")), ";)"),
@@ -439,66 +440,59 @@ module.exports = grammar({
       ),
 
     // proposal: threads
-    instr_plain_atomic_fence: $ =>
-      seq(token.immediate("atomic"), token.immediate("."), field("op", token.immediate("fence"))),
+    instr_plain_atomic_fence: $ => seq(token.immediate("atomic"), token.immediate("."), token.immediate("fence")),
 
     // proposal: threads
     instr_plain_atomic_load: $ =>
       choice(
         seq(
-          field("type", $.instr_type_int),
+          $.instr_type_int,
           token.immediate("."),
           token.immediate("atomic"),
           token.immediate("."),
-          field("op", alias(token.immediate("load"), $.op)),
+          token.immediate("load"),
           optional(
             seq(
-              field("bits", alias(choice(token.immediate("8"), token.immediate("16")), $.bits)),
+              choice(token.immediate("8"), token.immediate("16")),
               token.immediate("_"),
-              field("sign", alias(token.immediate("u"), $.sign)),
+              alias(token.immediate("u"), $.sign),
             ),
           ),
         ),
         seq(
-          field("type", $.instr_type_int_64),
+          $.instr_type_int_64,
           token.immediate("."),
           token.immediate("atomic"),
           token.immediate("."),
-          field("op", alias(token.immediate("load"), $.op)),
-          field("bits", alias(token.immediate("32"), $.bits)),
+          token.immediate("load"),
+          token.immediate("32"),
           token.immediate("_"),
-          field("sign", alias(token.immediate("u"), $.sign)),
+          token.immediate("u"),
         ),
       ),
 
     // proposal: threads
     instr_plain_atomic_notify: $ =>
-      seq(
-        token("memory"),
-        token.immediate("."),
-        token.immediate("atomic"),
-        token.immediate("."),
-        field("op", alias(token.immediate("notify"), $.op)),
-      ),
+      seq("memory", token.immediate("."), token.immediate("atomic"), token.immediate("."), token.immediate("notify")),
 
     // proposal: threads
     instr_plain_atomic_store: $ =>
       choice(
         seq(
-          field("type", $.instr_type_int),
+          $.instr_type_int,
           token.immediate("."),
           token.immediate("atomic"),
           token.immediate("."),
-          field("op", alias(token.immediate("store"), $.op)),
-          optional(field("bits", alias(choice(token.immediate("8"), token.immediate("16")), $.bits))),
+          token.immediate("store"),
+          optional(choice(token.immediate("8"), token.immediate("16"))),
         ),
         seq(
-          field("type", $.instr_type_int_64),
+          $.instr_type_int_64,
           token.immediate("."),
           token.immediate("atomic"),
           token.immediate("."),
-          field("op", alias(token.immediate("store"), $.op)),
-          field("bits", alias(token.immediate("32"), $.bits)),
+          token.immediate("store"),
+          token.immediate("32"),
         ),
       ),
 
@@ -506,38 +500,34 @@ module.exports = grammar({
     instr_plain_atomic_rmw: $ =>
       choice(
         seq(
-          field("type", $.instr_type_int),
+          $.instr_type_int,
           token.immediate("."),
           token.immediate("atomic"),
           token.immediate("."),
           choice(
+            seq(token.immediate("rmw"), token.immediate("."), token.immediate(/add|and|cmpxchg|or|sub|xchg|xor/)),
             seq(
-              field("rmw", alias(token.immediate("rmw"), $.rmw)),
+              token.immediate("rmw"),
+              choice(token.immediate("8"), token.immediate("16")),
               token.immediate("."),
-              field("op", alias(token.immediate(/add|and|cmpxchg|or|sub|xchg|xor/), $.op)),
-            ),
-            seq(
-              field("rmw", alias(token.immediate("rmw"), $.rmw)),
-              field("bits", alias(choice(token.immediate("8"), token.immediate("16")), $.bits)),
-              token.immediate("."),
-              field("op", alias(token.immediate(/add|and|cmpxchg|or|sub|xchg|xor/), $.op)),
+              token.immediate(/add|and|cmpxchg|or|sub|xchg|xor/),
               token.immediate("_"),
-              field("sign", alias(token.immediate("u"), $.sign)),
+              token.immediate("u"),
             ),
           ),
         ),
         seq(
-          field("type", $.instr_type_int_64),
+          $.instr_type_int_64,
           token.immediate("."),
           token.immediate("atomic"),
           token.immediate("."),
           seq(
-            field("rmw", alias(token.immediate("rmw"), $.rmw)),
-            field("bits", alias(token.immediate("32"), $.bits)),
+            token.immediate("rmw"),
+            token.immediate("32"),
             token.immediate("."),
-            field("op", alias(token.immediate(/add|and|cmpxchg|or|sub|xchg|xor/), $.op)),
+            token.immediate(/add|and|cmpxchg|or|sub|xchg|xor/),
             token.immediate("_"),
-            field("sign", alias(token.immediate("u"), $.sign)),
+            token.immediate("u"),
           ),
         ),
       ),
@@ -545,70 +535,53 @@ module.exports = grammar({
     // proposal: threads
     instr_plain_atomic_wait: $ =>
       seq(
-        token("memory"),
+        "memory",
         token.immediate("."),
         token.immediate("atomic"),
         token.immediate("."),
-        field("op", alias(token.immediate("wait"), $.op)),
-        field("bits", alias(token.immediate(/32|64/), $.bits)),
+        token.immediate("wait"),
+        token.immediate(/32|64/),
       ),
 
     instr_plain_binary: $ =>
       choice(
+        seq($._instr_type, token.immediate("."), token.immediate(/add|sub|mul/)),
+        seq($.instr_type_int, token.immediate("."), token.immediate(/and|or|xor|shl|rotl|rotr/)),
         seq(
-          field("type", $._instr_type),
+          $.instr_type_int,
           token.immediate("."),
-          field("op", alias(token.immediate(/add|sub|mul/), $.op)),
-        ),
-        seq(
-          field("type", $.instr_type_int),
-          token.immediate("."),
-          field("op", alias(token.immediate(/and|or|xor|shl|rotl|rotr/), $.op)),
-        ),
-        seq(
-          field("type", $.instr_type_int),
-          token.immediate("."),
-          field("op", alias(token.immediate(/div|rem|shr/), $.op)),
+          token.immediate(/div|rem|shr/),
           token.immediate("_"),
-          field("sign", alias(token.immediate(/[su]/), $.sign)),
+          token.immediate(/[su]/),
         ),
-        seq(
-          field("type", $.instr_type_float),
-          token.immediate("."),
-          field("op", alias(token.immediate(/add|sub|mul|div|min|max|copysign/), $.op)),
-        ),
+        seq($.instr_type_float, token.immediate("."), token.immediate(/add|sub|mul|div|min|max|copysign/)),
       ),
 
-    instr_plain_br: $ => field("op", alias(seq("br", field("index", $.index)), $.op)),
+    instr_plain_br: $ => seq("br", field("index", $.index)),
 
-    instr_plain_br_if: $ => field("op", alias(seq("br_if", field("index", $.index)), $.op)),
-
-    // proposal: function-references
-    instr_plain_br_on_null: $ => field("op", alias(seq("br_on_null", field("index", $.index)), $.op)),
-
-    instr_plain_br_table: $ =>
-      field("op", alias(seq("br_table", field("index_head", $.index), repeat(field("index_tail", $.index))), $.op)),
-
-    instr_plain_call: $ => field("op", alias(seq("call", field("index", $.index)), $.op)),
+    instr_plain_br_if: $ => seq("br_if", field("index", $.index)),
 
     // proposal: function-references
-    instr_plain_call_ref: $ => field("op", alias("call_ref", $.op)),
+    instr_plain_br_on_null: $ => seq("br_on_null", field("index", $.index)),
+
+    instr_plain_br_table: $ => seq("br_table", field("index_head", $.index), repeat(field("index_tail", $.index))),
+
+    instr_plain_call: $ => seq("call", field("index", $.index)),
+
+    // proposal: function-references
+    instr_plain_call_ref: $ => "call_ref",
 
     instr_plain_compare: $ =>
       choice(
-        seq(field("type", $._instr_type), token.immediate("."), field("op", alias(token.immediate(/eq|ne/), $.op))),
+        seq($._instr_type, token.immediate("."), token.immediate(/eq|ne/)),
         seq(
-          field("type", $.instr_type_int),
+          $.instr_type_int,
           token.immediate("."),
-          field("op", alias(token.immediate(/lt|le|gt|ge/), $.op)),
+          token.immediate(/lt|le|gt|ge/),
           token.immediate("_"),
-          field("sign", alias(token.immediate(/[su]/), $.sign)),
+          token.immediate(/[su]/),
         ),
-        seq(
-          field("type", $.instr_type_float),
-          token.immediate("."),
-          field("op", alias(token.immediate(/lt|le|gt|ge/), $.op)),
-        ),
+        seq($.instr_type_float, token.immediate("."), token.immediate(/lt|le|gt|ge/)),
       ),
 
     instr_plain_const: $ =>
@@ -622,137 +595,120 @@ module.exports = grammar({
         $.instr_plain_ref_func,
       ),
 
-    instr_plain_const_num: $ =>
-      seq(
-        field("type", $._instr_type),
-        token.immediate("."),
-        field("op", alias(token.immediate(/const/), $.op)),
-        field("num", $.num),
-      ),
+    instr_plain_const_num: $ => seq($._instr_type, token.immediate("."), token.immediate(/const/), $.num),
 
-    instr_plain_ref_as_non_null: $ =>
-      seq(token("ref"), token.immediate("."), field("op", alias(token.immediate(/as_non_null/), $.op))),
+    instr_plain_ref_as_non_null: $ => seq("ref", token.immediate("."), token.immediate(/as_non_null/)),
 
-    instr_plain_ref_extern: $ =>
-      seq(
-        token("ref"),
-        token.immediate("."),
-        field("op", alias(token.immediate(/extern/), $.op)),
-        field("nat", $.UNSIGNED),
-      ),
+    instr_plain_ref_extern: $ => seq("ref", token.immediate("."), token.immediate(/extern/), $.UNSIGNED),
 
     instr_plain_ref_null: $ =>
       seq(
-        token("ref"),
+        "ref",
         token.immediate("."),
-        field("op", alias(token.immediate(/null/), $.op)),
+        token.immediate(/null/),
         choice(field("ref_kind", $.ref_kind), field("index", $.index)),
       ),
 
     instr_plain_convert: $ =>
       choice(
         seq(
-          field("type", $.instr_type_int_32),
+          $.instr_type_int_32,
           token.immediate("."),
-          field("op", alias(token.immediate("wrap"), $.op)),
+          token.immediate("wrap"),
           token.immediate("_i"),
-          field("bits", alias(token.immediate("64"), $.bits)),
+          token.immediate("64"),
         ),
         seq(
-          field("type", $.instr_type_int_64),
+          $.instr_type_int_64,
           token.immediate("."),
-          field("op", alias(token.immediate("extend"), $.op)),
+          token.immediate("extend"),
           token.immediate("_i"),
-          field("bits", alias(token.immediate("32"), $.bits)),
+          token.immediate("32"),
           token.immediate("_"),
-          field("sign", alias(token.immediate(/[su]/), $.sign)),
+          token.immediate(/[su]/),
         ),
         seq(
-          field("type", $.instr_type_float_32),
+          $.instr_type_float_32,
           token.immediate("."),
-          field("op", alias(token.immediate("demote"), $.op)),
+          token.immediate("demote"),
           token.immediate("_f"),
-          field("bits", alias(token.immediate("64"), $.bits)),
+          token.immediate("64"),
         ),
         seq(
-          field("type", $.instr_type_float_64),
+          $.instr_type_float_64,
           token.immediate("."),
-          field("op", alias(token.immediate("promote"), $.op)),
+          token.immediate("promote"),
           token.immediate("_f"),
-          field("bits", alias(token.immediate("32"), $.bits)),
+          token.immediate("32"),
         ),
         seq(
-          field("type", $.instr_type_int),
+          $.instr_type_int,
           token.immediate("."),
-          field("op", alias(token.immediate("trunc"), $.op)),
-          optional(seq(token.immediate("_"), field("sat", alias(token.immediate("sat"), $.sat)))),
+          token.immediate("trunc"),
+          optional(seq(token.immediate("_"), token.immediate("sat"))),
           token.immediate("_f"),
-          field("bits", alias(token.immediate(/32|64/), $.bits)),
+          token.immediate(/32|64/),
           token.immediate("_"),
-          field("sign", alias(token.immediate(/[su]/), $.sign)),
+          token.immediate(/[su]/),
         ),
         seq(
-          field("type", $.instr_type_float),
+          $.instr_type_float,
           token.immediate("."),
-          field("op", alias(token.immediate("convert"), $.op)),
+          token.immediate("convert"),
           token.immediate("_i"),
-          field("bits", alias(token.immediate(/32|64/), $.bits)),
+          token.immediate(/32|64/),
           token.immediate("_"),
-          field("sign", alias(token.immediate(/[su]/), $.sign)),
+          token.immediate(/[su]/),
         ),
         seq(
-          field("type", $.instr_type_int_32),
+          $.instr_type_int_32,
           token.immediate("."),
-          field("op", alias(token.immediate("reinterpret"), $.op)),
+          token.immediate("reinterpret"),
           token.immediate("_f"),
-          field("bits", alias(token.immediate("32"), $.bits)),
+          token.immediate("32"),
         ),
         seq(
-          field("type", $.instr_type_int_64),
+          $.instr_type_int_64,
           token.immediate("."),
-          field("op", alias(token.immediate("reinterpret"), $.op)),
+          token.immediate("reinterpret"),
           token.immediate("_f"),
-          field("bits", alias(token.immediate("64"), $.bits)),
+          token.immediate("64"),
         ),
         seq(
-          field("type", $.instr_type_float_32),
+          $.instr_type_float_32,
           token.immediate("."),
-          field("op", alias(token.immediate("reinterpret"), $.op)),
+          token.immediate("reinterpret"),
           token.immediate("_i"),
-          field("bits", alias(token.immediate("32"), $.bits)),
+          token.immediate("32"),
         ),
         seq(
-          field("type", $.instr_type_float_64),
+          $.instr_type_float_64,
           token.immediate("."),
-          field("op", alias(token.immediate("reinterpret"), $.op)),
+          token.immediate("reinterpret"),
           token.immediate("_i"),
-          field("bits", alias(token.immediate("64"), $.bits)),
+          token.immediate("64"),
         ),
       ),
 
     // proposal: bulk-memory-operations
-    instr_plain_data_drop: $ => seq(field("op", alias(token("data.drop"), $.op)), field("index", $.index)),
+    instr_plain_data_drop: $ => seq("data.drop", field("index", $.index)),
 
-    instr_plain_drop: $ => field("op", alias(token("drop"), $.op)),
+    instr_plain_drop: $ => "drop",
 
     // proposal: bulk-memory-operations
-    instr_plain_elem_drop: $ => seq(field("op", alias(token("elem.drop"), $.op)), field("index", $.index)),
+    instr_plain_elem_drop: $ => seq(token("elem.drop"), field("index", $.index)),
 
     // proposal: function-references
-    instr_plain_func_bind: $ =>
-      seq(
-        field("op", alias(token("func.bind"), $.op)),
-        optional(field("type", seq("(", "type", field("index", $.index), ")"))),
-      ),
+    instr_plain_func_bind: $ => seq(token("func.bind"), optional(seq("(", "type", field("index", $.index), ")"))),
 
-    instr_plain_global_get: $ => seq(field("op", alias("global.get", $.op)), field("index", $.index)),
+    instr_plain_global_get: $ => seq("global.get", field("index", $.index)),
 
-    instr_plain_global_set: $ => seq(field("op", alias("global.set", $.op)), field("index", $.index)),
+    instr_plain_global_set: $ => seq("global.set", field("index", $.index)),
 
     // proposal: function-references
     instr_plain_let: $ =>
       seq(
-        field("op", alias("let", $.op)),
+        "let",
         optional(field("index", $.index)),
         repeat(field("params", $._func_type_params)),
         repeat(field("results", $.func_type_results)),
@@ -762,22 +718,22 @@ module.exports = grammar({
     instr_plain_load: $ =>
       seq(
         choice(
-          seq(field("type", $._instr_type), token.immediate("."), field("op", alias(token.immediate("load"), $.op))),
+          seq($._instr_type, token.immediate("."), token.immediate("load")),
           seq(
-            field("type", $.instr_type_int),
+            $.instr_type_int,
             token.immediate("."),
-            field("op", alias(token.immediate("load"), $.op)),
-            field("bits", alias(token.immediate(/(?:8|16)/), $.bits)),
+            token.immediate("load"),
+            token.immediate(/(?:8|16)/),
             token.immediate("_"),
-            field("sign", alias(token.immediate(/[su]/), $.sign)),
+            token.immediate(/[su]/),
           ),
           seq(
-            field("type", $.instr_type_int_64),
+            $.instr_type_int_64,
             token.immediate("."),
-            field("op", alias(token.immediate("load"), $.op)),
-            field("bits", alias(token.immediate("32"), $.bits)),
+            token.immediate("load"),
+            token.immediate("32"),
             token.immediate("_"),
-            field("sign", alias(token.immediate(/[su]/), $.sign)),
+            token.immediate(/[su]/),
           ),
         ),
         // proposal: multi-memory
@@ -786,51 +742,51 @@ module.exports = grammar({
         optional(field("align_value", $.align_value)),
       ),
 
-    instr_plain_local_get: $ => seq(field("op", alias("local.get", $.op)), field("index", $.index)),
+    instr_plain_local_get: $ => seq("local.get", field("index", $.index)),
 
-    instr_plain_local_set: $ => seq(field("op", alias("local.set", $.op)), field("index", $.index)),
+    instr_plain_local_set: $ => seq("local.set", field("index", $.index)),
 
-    instr_plain_local_tee: $ => seq(field("op", alias("local.tee", $.op)), field("index", $.index)),
-
-    // proposal: bulk-memory-operations
-    instr_plain_memory_copy: $ => field("op", alias(token("memory.copy"), $.op)),
+    instr_plain_local_tee: $ => seq("local.tee", field("index", $.index)),
 
     // proposal: bulk-memory-operations
-    instr_plain_memory_fill: $ => field("op", alias(token("memory.fill"), $.op)),
+    instr_plain_memory_copy: $ => token("memory.copy"),
+
+    // proposal: bulk-memory-operations
+    instr_plain_memory_fill: $ => token("memory.fill"),
 
     instr_plain_memory_grow: $ =>
       seq(
-        field("op", alias(token("memory.grow"), $.op)),
+        token("memory.grow"),
         // proposal: multi-memory
         optional(field("index", $.index)),
       ),
 
     // proposal: bulk-memory-operations
-    instr_plain_memory_init: $ => seq(field("op", alias(token("memory.init"), $.op)), field("index", $.index)),
+    instr_plain_memory_init: $ => seq(token("memory.init"), field("index", $.index)),
 
     instr_plain_memory_size: $ =>
       seq(
-        field("op", alias(token("memory.size"), $.op)),
+        token("memory.size"),
         // proposal: multi-memory
         optional(field("index", $.index)),
       ),
 
-    instr_plain_nop: $ => field("op", alias(token("nop"), $.op)),
+    instr_plain_nop: $ => "nop",
 
     // proposal: reference-types
-    instr_plain_ref_func: $ => seq(field("op", alias("ref.func", $.op)), optional(field("index", $.index))),
+    instr_plain_ref_func: $ => seq("ref.func", optional(field("index", $.index))),
 
     // proposal: reference-types
-    instr_plain_ref_is_null: $ => field("op", alias(token("ref.is_null"), $.op)),
+    instr_plain_ref_is_null: $ => token("ref.is_null"),
 
-    instr_plain_return: $ => field("op", alias(token("return"), $.op)),
+    instr_plain_return: $ => "return",
 
     // proposal: function-references
-    instr_plain_return_call_ref: $ => field("op", alias("return_call_ref", $.op)),
+    instr_plain_return_call_ref: $ => "return_call_ref",
 
     instr_plain_select: $ =>
       seq(
-        field("op", alias(token("select"), $.op)),
+        "select",
         // proposal: reference-types
         repeat(field("results", $.func_type_results)),
       ),
@@ -839,143 +795,111 @@ module.exports = grammar({
     instr_plain_simd_binary: $ =>
       choice(
         seq(
-          field("type", alias(token("v128"), $.type)),
+          "v128",
           token.immediate("."),
           choice(
-            field("op", alias(token.immediate(/and|andnot|not|or|xor/), $.op)),
+            token.immediate(/and|andnot|not|or|xor/),
             seq(
-              field("op", alias(token.immediate("store"), $.op)),
+              token.immediate("store"),
               optional(field("offset_value", $.offset_value)),
               optional(field("align_value", $.align_value)),
             ),
           ),
         ),
+        seq(choice("f32x4", "f64x2"), token.immediate("."), token.immediate(/div|min|max|sqrt/)),
         seq(
-          field("type", alias(choice(token("f32x4"), token("f64x2")), $.type)),
+          choice("i8x16", "i16x8"),
           token.immediate("."),
-          field("op", alias(token.immediate(/div|min|max|sqrt/), $.op)),
-        ),
-        seq(
-          field("type", alias(choice(token("i8x16"), token("i16x8")), $.type)),
-          token.immediate("."),
-          field("op", alias(token.immediate(/(add|sub)_saturate|avgr/), $.op)),
+          token.immediate(/(add|sub)_saturate|avgr/),
           token.immediate("_"),
-          field("sign", alias(token.immediate(/[su]/), $.sign)),
+          token.immediate(/[su]/),
         ),
         seq(
-          field("type", alias(choice(token("i8x16"), token("i16x8"), token("i32x4")), $.type)),
+          choice("i8x16", "i16x8", "i32x4"),
           token.immediate("."),
-          field("op", alias(token.immediate(/min|max/), $.op)),
+          token.immediate(/min|max/),
           token.immediate("_"),
-          field("sign", alias(token.immediate(/[su]/), $.sign)),
+          token.immediate(/[su]/),
         ),
+        seq(choice("i8x16", "i16x8", "i32x4", "i64x2"), token.immediate("."), token.immediate("shl")),
         seq(
-          field("type", alias(choice(token("i8x16"), token("i16x8"), token("i32x4"), token("i64x2")), $.type)),
+          choice("i8x16", "i16x8", "i32x4", "i64x2"),
           token.immediate("."),
-          field("op", alias(token.immediate("shl"), $.op)),
-        ),
-        seq(
-          field("type", alias(choice(token("i8x16"), token("i16x8"), token("i32x4"), token("i64x2")), $.type)),
-          token.immediate("."),
-          field("op", alias(token.immediate("shr"), $.op)),
+          token.immediate("shr"),
           token.immediate("_"),
-          field("sign", alias(token.immediate(/[su]/), $.sign)),
+          token.immediate(/[su]/),
         ),
         seq(
-          field(
-            "type",
-            alias(
-              choice(token("f32x4"), token("f64x2"), token("i8x16"), token("i16x8"), token("i32x4"), token("i64x2")),
-              $.type,
-            ),
-          ),
+          choice("f32x4", "f64x2", "i8x16", "i16x8", "i32x4", "i64x2"),
           token.immediate("."),
-          field("op", alias(token.immediate(/add|sub/), $.op)),
+          token.immediate(/add|sub/),
         ),
-        seq(
-          field(
-            "type",
-            alias(choice(token("f32x4"), token("f64x2"), token("i16x8"), token("i32x4"), token("i64x2")), $.type),
-          ),
-          token.immediate("."),
-          field("op", alias(token.immediate(/mul/), $.op)),
-        ),
+        seq(choice("f32x4", "f64x2", "i16x8", "i32x4", "i64x2"), token.immediate("."), token.immediate(/mul/)),
       ),
 
     // proposal: simd
     instr_plain_simd_compare: $ =>
       choice(
+        seq(choice("f32x4", "f64x2"), token.immediate("."), token.immediate(/ge|gt|le|lt/)),
+        seq(choice("f32x4", "f64x2", "i8x16", "i16x8", "i32x4"), token.immediate("."), token.immediate(/eq|ne/)),
         seq(
-          field("type", alias(choice(token("f32x4"), token("f64x2")), $.type)),
+          choice("i8x16", "i16x8", "i32x4"),
           token.immediate("."),
-          field("op", alias(token.immediate(/ge|gt|le|lt/), $.op)),
-        ),
-        seq(
-          field(
-            "type",
-            alias(choice(token("f32x4"), token("f64x2"), token("i8x16"), token("i16x8"), token("i32x4")), $.type),
-          ),
-          token.immediate("."),
-          field("op", alias(token.immediate(/eq|ne/), $.op)),
-        ),
-        seq(
-          field("type", alias(choice(token("i8x16"), token("i16x8"), token("i32x4")), $.type)),
-          token.immediate("."),
-          field("op", alias(token.immediate(/ge|gt|le|lt/), $.op)),
+          token.immediate(/ge|gt|le|lt/),
           token.immediate("_"),
-          field("sign", alias(token.immediate(/[su]/), $.sign)),
+          token.immediate(/[su]/),
         ),
       ),
 
     // proposal: simd
     instr_plain_simd_const: $ =>
       seq(
-        field("type", alias(token("v128"), $.type)),
+        "v128",
         token.immediate("."),
-        field("op", alias(token.immediate("const"), $.op)),
+        token.immediate("const"),
         token.immediate(/[\s\uFEFF\u2060\u200B\u00A0]/),
         choice(
           seq(
-            field("kind", alias(token.immediate("f"), $.kind)),
-            field("bits", alias(token.immediate("32"), $.bits)),
+            token.immediate("f"),
+            token.immediate("32"),
             token.immediate("x"),
-            field("lanes", alias(token.immediate("4"), $.lanes)),
-            ...Array(4).fill(field("value", $.FLOAT)),
+            token.immediate("4"),
+            ...Array(4).fill(field("arg", $.FLOAT)),
           ),
           seq(
-            field("kind", alias(token.immediate("f"), $.kind)),
-            field("bits", alias(token.immediate("64"), $.bits)),
+            token.immediate("f"),
+            token.immediate("64"),
             token.immediate("x"),
-            field("lanes", alias(token.immediate("2"), $.lanes)),
-            ...Array(2).fill(field("value", $.FLOAT)),
+            token.immediate("2"),
+            ...Array(2).fill(field("arg", $.FLOAT)),
           ),
           seq(
-            field("kind", alias(token.immediate("i"), $.kind)),
-            field("bits", alias(token.immediate("8"), $.bits)),
+            token.immediate("i"),
+            token.immediate("8"),
             token.immediate("x"),
-            field("lanes", alias(token.immediate("16"), $.lanes)),
-            ...Array(16).fill(field("value", $.INTEGER)),
+            token.immediate("16"),
+            ...Array(16).fill(field("arg", $.INTEGER)),
           ),
           seq(
-            field("kind", alias(token.immediate("i"), $.kind)),
-            field("bits", alias(token.immediate("16"), $.bits)),
+            token.immediate("i"),
+            token.immediate("16"),
             token.immediate("x"),
-            field("lanes", alias(token.immediate("8"), $.lanes)),
-            ...Array(8).fill(field("value", $.INTEGER)),
+            token.immediate("8"),
+            ...Array(8).fill(field("arg", $.INTEGER)),
           ),
           seq(
-            field("kind", alias(token.immediate("i"), $.kind)),
-            field("bits", alias(token.immediate("32"), $.bits)),
+            token.immediate("i"),
+            token.immediate("32"),
             token.immediate("x"),
-            field("lanes", alias(token.immediate("4"), $.lanes)),
-            ...Array(4).fill(field("value", $.INTEGER)),
+            token.immediate("4"),
+            ...Array(4).fill(field("arg", $.INTEGER)),
           ),
           seq(
-            field("kind", alias(token.immediate("i"), $.kind)),
-            field("bits", alias(token.immediate("64"), $.bits)),
+            token.immediate("i"),
+            token.immediate("64"),
             token.immediate("x"),
-            field("lanes", alias(token.immediate("2"), $.lanes)),
-            ...Array(2).fill(field("value", $.INTEGER)),
+            token.immediate("2"),
+            ...Array(2).fill(field("arg", $.INTEGER)),
           ),
         ),
       ),
@@ -984,64 +908,64 @@ module.exports = grammar({
     instr_plain_simd_convert: $ =>
       choice(
         seq(
-          field("type", alias(token("f32x4"), $.type)),
+          "f32x4",
           token.immediate("."),
-          field("op", alias(token.immediate("convert"), $.op)),
+          token.immediate("convert"),
           token.immediate("_"),
-          field("shape", alias(token.immediate("i32x4"), $.shape)),
+          token.immediate("i32x4"),
           token.immediate("_"),
-          field("sign", alias(token.immediate(/[su]/), $.sign)),
+          token.immediate(/[su]/),
         ),
         seq(
-          field("type", alias(token("i8x16"), $.type)),
+          "i8x16",
           token.immediate("."),
-          field("op", alias(token.immediate("narrow"), $.op)),
+          token.immediate("narrow"),
           token.immediate("_"),
-          field("shape", alias(token.immediate("i16x8"), $.shape)),
+          token.immediate("i16x8"),
           token.immediate("_"),
-          field("sign", alias(token.immediate(/[su]/), $.sign)),
+          token.immediate(/[su]/),
         ),
         seq(
-          field("type", alias(token("i16x8"), $.type)),
+          "i16x8",
           token.immediate("."),
           choice(
             seq(
-              field("op", alias(token.immediate("narrow"), $.op)),
+              token.immediate("narrow"),
               token.immediate("_"),
-              field("shape", alias(token.immediate("i32x4"), $.shape)),
+              token.immediate("i32x4"),
               token.immediate("_"),
-              field("sign", alias(token.immediate(/[su]/), $.sign)),
+              token.immediate(/[su]/),
             ),
             seq(
-              field("op", alias(token.immediate("widen"), $.op)),
+              token.immediate("widen"),
               token.immediate("_"),
-              field("kind", alias(token.immediate(/high|low/), $.kind)),
+              token.immediate(/high|low/),
               token.immediate("_"),
-              field("shape", alias(token.immediate("i8x16"), $.shape)),
+              token.immediate("i8x16"),
               token.immediate("_"),
-              field("sign", alias(token.immediate(/[su]/), $.sign)),
+              token.immediate(/[su]/),
             ),
           ),
         ),
         seq(
-          field("type", alias(token("i32x4"), $.type)),
+          "i32x4",
           token.immediate("."),
           choice(
             seq(
-              field("op", alias(token.immediate("trunc_sat"), $.op)),
+              token.immediate("trunc_sat"),
               token.immediate("_"),
-              field("shape", alias(token.immediate("f32x4"), $.shape)),
+              token.immediate("f32x4"),
               token.immediate("_"),
-              field("sign", alias(token.immediate(/[su]/), $.sign)),
+              token.immediate(/[su]/),
             ),
             seq(
-              field("op", alias(token.immediate("widen"), $.op)),
+              token.immediate("widen"),
               token.immediate("_"),
-              field("kind", alias(token.immediate(/high|low/), $.kind)),
+              token.immediate(/high|low/),
               token.immediate("_"),
-              field("shape", alias(token.immediate("i16x8"), $.shape)),
+              token.immediate("i16x8"),
               token.immediate("_"),
-              field("sign", alias(token.immediate(/[su]/), $.sign)),
+              token.immediate(/[su]/),
             ),
           ),
         ),
@@ -1051,37 +975,28 @@ module.exports = grammar({
     instr_plain_simd_lane: $ =>
       choice(
         seq(
-          field("type", alias(token("v8x16"), $.type)),
+          "v8x16",
           token.immediate("."),
-          choice(
-            field("op", alias(token.immediate("swizzle"), $.op)),
-            seq(field("op", alias(token.immediate("shuffle"), $.op)), ...Array(16).fill(field("value", $.FLOAT))),
-          ),
+          choice(token.immediate("swizzle"), seq(token.immediate("shuffle"), ...Array(16).fill(field("arg", $.FLOAT)))),
         ),
         seq(
-          field("type", alias(choice(token("i8x16"), token("i16x8")), $.type)),
+          choice("i8x16", "i16x8"),
           token.immediate("."),
-          field("op", alias(token.immediate("extract_lane"), $.op)),
+          token.immediate("extract_lane"),
           token.immediate("_"),
-          field("sign", alias(token.immediate(/[su]/), $.sign)),
+          token.immediate(/[su]/),
           field("arg", $.INTEGER),
         ),
         seq(
-          field("type", alias(choice(token("f32x4"), token("f64x2"), token("i32x4"), token("i64x2")), $.type)),
+          choice("f32x4", "f64x2", "i32x4", "i64x2"),
           token.immediate("."),
-          field("op", alias(token.immediate("extract_lane"), $.op)),
+          token.immediate("extract_lane"),
           field("arg", $.INTEGER),
         ),
         seq(
-          field(
-            "type",
-            alias(
-              choice(token("f32x4"), token("f64x2"), token("i8x16"), token("i16x8"), token("i32x4"), token("i64x2")),
-              $.type,
-            ),
-          ),
+          choice("f32x4", "f64x2", "i8x16", "i16x8", "i32x4", "i64x2"),
           token.immediate("."),
-          field("op", alias(token.immediate("replace_lane"), $.op)),
+          token.immediate("replace_lane"),
           field("arg", $.INTEGER),
         ),
       ),
@@ -1092,17 +1007,17 @@ module.exports = grammar({
         seq(
           choice(
             choice(
-              seq(token("i16x8"), token.immediate("."), token.immediate("load8x8_"), token.immediate(/[su]/)),
-              seq(token("i32x4"), token.immediate("."), token.immediate("load16x4_"), token.immediate(/[su]/)),
-              seq(token("i64x2"), token.immediate("."), token.immediate("load32x2_"), token.immediate(/[su]/)),
+              seq("i16x8", token.immediate("."), token.immediate("load8x8_"), token.immediate(/[su]/)),
+              seq("i32x4", token.immediate("."), token.immediate("load16x4_"), token.immediate(/[su]/)),
+              seq("i64x2", token.immediate("."), token.immediate("load32x2_"), token.immediate(/[su]/)),
             ),
             choice(
-              seq(token("v8x16"), token.immediate("."), token.immediate("load_splat")),
-              seq(token("v16x8"), token.immediate("."), token.immediate("load_splat")),
-              seq(token("v32x4"), token.immediate("."), token.immediate("load_splat")),
-              seq(token("v64x2"), token.immediate("."), token.immediate("load_splat")),
+              seq("v8x16", token.immediate("."), token.immediate("load_splat")),
+              seq("v16x8", token.immediate("."), token.immediate("load_splat")),
+              seq("v32x4", token.immediate("."), token.immediate("load_splat")),
+              seq("v64x2", token.immediate("."), token.immediate("load_splat")),
             ),
-            seq(token("v128"), token.immediate("."), token.immediate("load")),
+            seq("v128", token.immediate("."), token.immediate("load")),
           ),
           optional(field("offset_value", $.offset_value)),
           optional(field("align_value", $.align_value)),
@@ -1112,42 +1027,38 @@ module.exports = grammar({
     // proposal: simd
     instr_plain_simd_store: $ =>
       seq(
-        seq(token("v128"), token.immediate("."), token.immediate("store")),
+        seq("v128", token.immediate("."), token.immediate("store")),
         optional(field("offset_value", $.offset_value)),
         optional(field("align_value", $.align_value)),
       ),
 
     // proposal: simd
-    instr_plain_simd_trinary: $ => choice(seq(token("v128"), token.immediate("."), token.immediate("bitselect"))),
+    instr_plain_simd_trinary: $ => choice(seq("v128", token.immediate("."), token.immediate("bitselect"))),
 
     // proposal: simd
     instr_plain_simd_unary: $ =>
       choice(
         seq(
-          choice(token("f32x4"), token("f64x2"), token("i8x16"), token("i16x8"), token("i32x4"), token("i64x2")),
+          choice("f32x4", "f64x2", "i8x16", "i16x8", "i32x4", "i64x2"),
           token.immediate("."),
           token.immediate(/abs|neg|splat/),
         ),
-        seq(
-          choice(token("i8x16"), token("i16x8"), token("i32x4")),
-          token.immediate("."),
-          token.immediate(/all_true|any_true/),
-        ),
-        seq(token("v128"), token.immediate("."), token.immediate("not")),
+        seq(choice("i8x16", "i16x8", "i32x4"), token.immediate("."), token.immediate(/all_true|any_true/)),
+        seq("v128", token.immediate("."), token.immediate("not")),
         seq(
           choice(
             choice(
-              seq(token("i16x8"), token.immediate("."), token.immediate("load8x8_"), token.immediate(/[su]/)),
-              seq(token("i32x4"), token.immediate("."), token.immediate("load16x4_"), token.immediate(/[su]/)),
-              seq(token("i64x2"), token.immediate("."), token.immediate("load32x2_"), token.immediate(/[su]/)),
+              seq("i16x8", token.immediate("."), token.immediate("load8x8_"), token.immediate(/[su]/)),
+              seq("i32x4", token.immediate("."), token.immediate("load16x4_"), token.immediate(/[su]/)),
+              seq("i64x2", token.immediate("."), token.immediate("load32x2_"), token.immediate(/[su]/)),
             ),
             choice(
-              seq(token("v8x16"), token.immediate("."), token.immediate("load_splat")),
-              seq(token("v16x8"), token.immediate("."), token.immediate("load_splat")),
-              seq(token("v32x4"), token.immediate("."), token.immediate("load_splat")),
-              seq(token("v64x2"), token.immediate("."), token.immediate("load_splat")),
+              seq("v8x16", token.immediate("."), token.immediate("load_splat")),
+              seq("v16x8", token.immediate("."), token.immediate("load_splat")),
+              seq("v32x4", token.immediate("."), token.immediate("load_splat")),
+              seq("v64x2", token.immediate("."), token.immediate("load_splat")),
             ),
-            seq(token("v128"), token.immediate("."), token.immediate(/load|store/)),
+            seq("v128", token.immediate("."), token.immediate(/load|store/)),
           ),
           optional(field("offset_value", $.offset_value)),
           optional(field("align_value", $.align_value)),
@@ -1157,19 +1068,9 @@ module.exports = grammar({
     instr_plain_store: $ =>
       seq(
         choice(
-          seq(field("type", $._instr_type), token.immediate("."), field("op", alias(token.immediate("store"), $.op))),
-          seq(
-            field("type", $.instr_type_int),
-            token.immediate("."),
-            field("op", alias(token.immediate("store"), $.op)),
-            field("bits", alias(token(/(?:8|16)/), $.bits)),
-          ),
-          seq(
-            field("type", $.instr_type_int_64),
-            token.immediate("."),
-            field("op", alias(token.immediate("store"), $.op)),
-            field("bits", alias(token.immediate("32"), $.bits)),
-          ),
+          seq($._instr_type, token.immediate("."), token.immediate("store")),
+          seq($.instr_type_int, token.immediate("."), token.immediate("store"), token(/(?:8|16)/)),
+          seq($.instr_type_int_64, token.immediate("."), token.immediate("store"), token.immediate("32")),
         ),
         // proposal: multi-memory
         optional(field("index", $.index)),
@@ -1179,78 +1080,65 @@ module.exports = grammar({
 
     // proposal: bulk-memory-operations
     instr_plain_table_copy: $ =>
-      seq(
-        field("op", alias(token("table.copy"), $.op)),
-        optional(seq(field("index", $.index), field("index", $.index))),
-      ),
+      seq(token("table.copy"), optional(seq(field("index", $.index), field("index", $.index)))),
 
     // proposal: reference-types
-    instr_plain_table_fill: $ => seq(field("op", alias("table.fill", $.op)), optional(field("index", $.index))),
+    instr_plain_table_fill: $ => seq("table.fill", optional(field("index", $.index))),
 
     // proposal: reference-types
-    instr_plain_table_get: $ => seq(field("op", alias("table.get", $.op)), optional(field("index", $.index))),
+    instr_plain_table_get: $ => seq("table.get", optional(field("index", $.index))),
 
     // proposal: reference-types
-    instr_plain_table_grow: $ => seq(field("op", alias("table.grow", $.op)), optional(field("index", $.index))),
+    instr_plain_table_grow: $ => seq("table.grow", optional(field("index", $.index))),
 
     // proposal: bulk-memory-operations
-    instr_plain_table_init: $ =>
-      seq(field("op", alias(token("table.init"), $.op)), field("index", $.index), optional(field("index", $.index))),
+    instr_plain_table_init: $ => seq(token("table.init"), field("index", $.index), optional(field("index", $.index))),
 
     // proposal: reference-types
-    instr_plain_table_set: $ => seq(field("op", alias("table.set", $.op)), optional(field("index", $.index))),
+    instr_plain_table_set: $ => seq("table.set", optional(field("index", $.index))),
 
     // proposal: reference-types
-    instr_plain_table_size: $ => seq(field("op", alias("table.size", $.op)), optional(field("index", $.index))),
+    instr_plain_table_size: $ => seq("table.size", optional(field("index", $.index))),
 
-    instr_plain_test: $ =>
-      seq(field("type", $._instr_type), token.immediate("."), field("op", alias(token.immediate(/eqz/), $.op))),
+    instr_plain_test: $ => seq($._instr_type, token.immediate("."), token.immediate(/eqz/)),
 
     instr_plain_unary: $ =>
       choice(
+        seq($.instr_type_int, token.immediate("."), token.immediate(/clz|ctz|popcnt/)),
         seq(
-          field("type", $.instr_type_int),
+          $.instr_type_int,
           token.immediate("."),
-          field("op", alias(token.immediate(/clz|ctz|popcnt/), $.op)),
-        ),
-        seq(
-          field("type", $.instr_type_int),
-          token.immediate("."),
-          field("op", alias(token.immediate("extend"), $.op)),
-          field("bits", alias(token.immediate(/8|16/), $.bits)),
+          token.immediate("extend"),
+          token.immediate(/8|16/),
           token.immediate("_"),
-          field("sign", alias(token.immediate("s"), $.sign)),
+          token.immediate("s"),
         ),
         seq(
-          field("type", $.instr_type_int_64),
+          $.instr_type_int_64,
           token.immediate("."),
-          field("op", alias(token.immediate("extend"), $.op)),
-          field("bits", alias(token.immediate("32"), $.bits)),
+          token.immediate("extend"),
+          token.immediate("32"),
           token.immediate("_"),
-          field("sign", alias(token.immediate("s"), $.sign)),
+          token.immediate("s"),
         ),
-        seq(
-          field("type", $.instr_type_float),
-          token.immediate("."),
-          field("op", alias(token.immediate(/neg|abs|sqrt|ceil|floor|trunc|nearest/), $.op)),
-        ),
+        seq($.instr_type_float, token.immediate("."), token.immediate(/neg|abs|sqrt|ceil|floor|trunc|nearest/)),
       ),
 
-    instr_plain_unreachable: $ => field("op", alias(token("unreachable"), $.op)),
+    instr_plain_unreachable: $ => "unreachable",
 
     _instr_type: $ => choice($.instr_type_int, $.instr_type_float),
 
-    instr_type_float: $ => choice(token("f32"), token("f64")),
+    instr_type_float: $ => choice("f32", "f64"),
 
-    instr_type_float_32: $ => token("f32"),
+    instr_type_float_32: $ => "f32",
 
-    instr_type_float_64: $ => token("f64"),
+    instr_type_float_64: $ => "f64",
 
-    instr_type_int: $ => choice(token("i32"), token("i64")),
+    instr_type_int: $ => choice("i32", "i64"),
 
-    instr_type_int_32: $ => token("i32"),
+    instr_type_int_32: $ => "i32",
 
-    instr_type_int_64: $ => token("i64"),
+    instr_type_int_64: $ => "i64",
 
     limits: $ =>
       seq(
@@ -1409,17 +1297,17 @@ module.exports = grammar({
     _ref_type: $ => choice($.ref_type_externref, $.ref_type_funcref, $.ref_type_ref),
 
     // proposal: reference-types
-    ref_type_externref: $ => token("externref"),
+    ref_type_externref: $ => "externref",
 
     // proposal: reference-types
-    ref_type_funcref: $ => token("funcref"),
+    ref_type_funcref: $ => "funcref",
 
     // proposal: function-references
     ref_type_ref: $ =>
       seq(
         "(",
         "ref",
-        optional(field("null", alias(token("null"), $.null))),
+        optional(field("null", alias("null", $.null))),
         choice(field("ref_kind", $.ref_kind), field("index", $.index)),
         ")",
       ),
