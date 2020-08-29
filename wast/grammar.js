@@ -7,7 +7,7 @@ module.exports = grammar(wat, {
     PARSE: $ =>
       choice(
         repeat(field("command", $.command)),
-        alias(repeat1(field("module_field", $._module_field)), $.inline_module),
+        alias(repeat1(field("module_field", $.module_field)), $.inline_module),
       ),
 
     _action: $ => choice($.action_invoke, $.action_get),

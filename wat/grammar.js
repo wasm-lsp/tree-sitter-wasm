@@ -31,7 +31,7 @@ module.exports = grammar({
       $.instr_plain_store,
       $.instr_plain_unary,
     ],
-    [$._instr_plain, $.instr_plain_const],
+    [$.instr_plain, $.instr_plain_const],
     [$.instr_plain_func_bind],
     [$.instr_plain_let],
     [$.instr_plain_select],
@@ -42,7 +42,7 @@ module.exports = grammar({
   ],
 
   rules: {
-    PARSE: $ => choice($.module, alias(repeat(field("module_field", $._module_field)), $.inline_module)),
+    PARSE: $ => choice($.module, alias(repeat(field("module_field", $.module_field)), $.inline_module)),
 
     FLOAT: $ => seq(optional(field("sign", $.sign)), $.FLOAT_MAG),
 
@@ -168,7 +168,7 @@ module.exports = grammar({
 
     // proposal: reference-types
     elem_expr_item: $ =>
-      seq("(", "item", field("const_expr", alias(repeat(field("instr", $._instr)), $.const_expr)), ")"),
+      seq("(", "item", field("const_expr", alias(repeat(field("instr", $.instr)), $.const_expr)), ")"),
 
     // proposal: reference-types
     elem_kind: $ => token(/func/),
@@ -245,7 +245,7 @@ module.exports = grammar({
         ),
       ),
 
-    _expr1_plain: $ => seq(field("instr", $._instr_plain), repeat(field("expr", $._expr))),
+    _expr1_plain: $ => seq(field("instr", $.instr_plain), repeat(field("expr", $._expr))),
 
     float: $ =>
       token(
@@ -331,7 +331,7 @@ module.exports = grammar({
 
     inline_import: $ => seq("(", "import", field("module_name", $.name), field("item_name", $.name), ")"),
 
-    _instr: $ => choice($._instr_plain, $.instr_call, $.instr_block, $._expr),
+    instr: $ => choice($.instr_plain, $.instr_call, $.instr_block, $._expr),
 
     instr_block: $ => choice($.block_block, $.block_loop, $.block_if),
 
@@ -341,11 +341,11 @@ module.exports = grammar({
         optional(field("type_use", $.type_use)),
         repeat(field("params", $.func_type_params_many)),
         repeat(field("results", $.func_type_results)),
-        field("instr", $._instr),
+        field("instr", $.instr),
       ),
 
     // NOTE: this must be wrapped in "optional"
-    _instr_list: $ => repeat1(choice($.instr_list_call, $._instr)),
+    _instr_list: $ => repeat1(choice($.instr_list_call, $.instr)),
 
     instr_list_call: $ =>
       prec.right(
@@ -357,7 +357,7 @@ module.exports = grammar({
         ),
       ),
 
-    _instr_plain: $ =>
+    instr_plain: $ =>
       choice(
         $.instr_plain_unreachable,
         $.instr_plain_nop,
@@ -1273,11 +1273,11 @@ module.exports = grammar({
         "(",
         "module",
         optional(field("identifier", $.identifier)),
-        repeat(field("module_field", $._module_field)),
+        repeat(field("module_field", $.module_field)),
         ")",
       ),
 
-    _module_field: $ =>
+    module_field: $ =>
       choice(
         $.module_field_type,
         $.module_field_global,
@@ -1349,7 +1349,7 @@ module.exports = grammar({
         repeat(field("export", $.inline_export)),
         optional(field("import", $.inline_import)),
         field("global_type", $.global_type),
-        field("expr", alias(repeat($._instr), $.expr)),
+        field("expr", alias(repeat($.instr), $.expr)),
         ")",
       ),
 
@@ -1395,7 +1395,7 @@ module.exports = grammar({
     _offset: $ => choice($.offset_const_expr, $.offset_expr),
 
     offset_const_expr: $ =>
-      seq("(", "offset", field("const_expr", alias(repeat(field("instr", $._instr)), $.const_expr)), ")"),
+      seq("(", "offset", field("const_expr", alias(repeat(field("instr", $.instr)), $.const_expr)), ")"),
 
     offset_expr: $ => field("expr", $._expr),
 
