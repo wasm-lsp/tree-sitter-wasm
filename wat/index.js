@@ -1,13 +1,3 @@
-try {
-  module.exports = require("./build/Release/tree_sitter_webassembly_module_binding");
-} catch (error) {
-  try {
-    module.exports = require("./build/Debug/tree_sitter_webassembly_module_binding");
-  } catch (_) {
-    throw error
-  }
-}
-
-try {
-  module.exports.nodeTypeInfo = require("./src/node-types.json");
-} catch (_) {}
+version https://git-lfs.github.com/spec/v1
+oid sha256:bc8547b7793f388a729761d69f237e5703ba63f25025a2c31b9d648d9f243b82
+size 330
