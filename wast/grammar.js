@@ -4,49 +4,33 @@ module.exports = grammar(wat, {
   name: "wast",
 
   rules: {
-    PARSE: $ =>
-      choice(
-        repeat(field("command", $.command)),
-        alias(repeat1(field("module_field", $.module_field)), $.inline_module),
-      ),
+    PARSE: $ => choice(repeat($.command), repeat1($.module_field)),
 
     _action: $ => choice($.action_invoke, $.action_get),
 
-    action_get: $ => seq("(", "get", optional(field("identifier", $.identifier)), field("name", $.name), ")"),
+    action_get: $ => seq("(", "get", optional($.identifier), $.name, ")"),
 
-    action_invoke: $ =>
-      seq(
-        "(",
-        "invoke",
-        optional(field("identifier", $.identifier)),
-        field("name", $.name),
-        repeat(field("const", $._expr_plain_const)),
-        ")",
-      ),
+    action_invoke: $ => seq("(", "invoke", optional($.identifier), $.name, repeat($._expr_plain_const), ")"),
 
-    assert_exhaustion: $ => seq("(", "assert_exhaustion", field("action", $._action), field("string", $.string), ")"),
+    assert_exhaustion: $ => seq("(", "assert_exhaustion", $._action, $.string, ")"),
 
-    assert_invalid: $ => seq("(", "assert_invalid", field("module", $._script_module), field("string", $.string), ")"),
+    assert_invalid: $ => seq("(", "assert_invalid", $._script_module, $.string, ")"),
 
-    assert_malformed: $ =>
-      seq("(", "assert_malformed", field("module", $._script_module), field("string", $.string), ")"),
+    assert_malformed: $ => seq("(", "assert_malformed", $._script_module, $.string, ")"),
 
-    assert_return: $ => seq("(", "assert_return", field("action", $._action), repeat(field("result", $.result)), ")"),
+    assert_return: $ => seq("(", "assert_return", $._action, repeat($.result), ")"),
 
     // proposal: annotations
-    assert_return_arithmetic_nan: $ =>
-      seq("(", "assert_return_arithmetic_nan", field("action", $._action), repeat(field("result", $.result)), ")"),
+    assert_return_arithmetic_nan: $ => seq("(", "assert_return_arithmetic_nan", $._action, repeat($.result), ")"),
 
     // proposal: annotations
-    assert_return_canonical_nan: $ =>
-      seq("(", "assert_return_canonical_nan", field("action", $._action), repeat(field("result", $.result)), ")"),
+    assert_return_canonical_nan: $ => seq("(", "assert_return_canonical_nan", $._action, repeat($.result), ")"),
 
-    assert_trap_action: $ => seq("(", "assert_trap", field("action", $._action), field("string", $.string), ")"),
+    assert_trap_action: $ => seq("(", "assert_trap", $._action, $.string, ")"),
 
-    assert_trap_module: $ => seq("(", "assert_trap", field("module", $._script_module), field("string", $.string), ")"),
+    assert_trap_module: $ => seq("(", "assert_trap", $._script_module, $.string, ")"),
 
-    assert_unlinkable: $ =>
-      seq("(", "assert_unlinkable", field("module", $._script_module), field("string", $.string), ")"),
+    assert_unlinkable: $ => seq("(", "assert_unlinkable", $._script_module, $.string, ")"),
 
     _assertion: $ =>
       choice(
@@ -68,14 +52,7 @@ module.exports = grammar(wat, {
     _expr_plain_const: $ => seq("(", choice($.instr_plain_const, $.instr_plain_simd_const), ")"),
 
     _expr_plain_const_nan: $ =>
-      seq(
-        "(",
-        field("type", $._instr_type),
-        token.immediate("."),
-        field("op", alias(token.immediate(/const/), $.op)),
-        field("literal", $._literal_nan),
-        ")",
-      ),
+      seq("(", $._instr_type, token.immediate("."), token.immediate(/const/), $._literal_nan, ")"),
 
     _literal_nan: $ => choice($.literal_nan_arithmetic, $.literal_nan_canonical),
 
@@ -85,24 +62,20 @@ module.exports = grammar(wat, {
 
     _meta: $ => choice($.meta_script, $.meta_input, $.meta_output),
 
-    meta_script: $ =>
-      seq("(", "script", optional(field("identifier", $.identifier)), repeat(field("command", $.command)), ")"),
+    meta_script: $ => seq("(", "script", optional($.identifier), repeat($.command), ")"),
 
-    meta_input: $ => seq("(", "input", optional(field("identifier", $.identifier)), field("string", $.string), ")"),
+    meta_input: $ => seq("(", "input", optional($.identifier), $.string, ")"),
 
-    meta_output: $ =>
-      seq("(", "output", optional(field("identifier", $.identifier)), optional(field("string", $.string)), ")"),
+    meta_output: $ => seq("(", "output", optional($.identifier), optional($.string), ")"),
 
-    register: $ => seq("(", "register", field("name", $.name), optional(field("identifier", $.identifier)), ")"),
+    register: $ => seq("(", "register", $.name, optional($.identifier), ")"),
 
     result: $ => choice($._expr_plain_const, $._expr_plain_const_nan),
 
     _script_module: $ => choice($.module, $.script_module_binary, $.script_module_quote),
 
-    script_module_binary: $ =>
-      seq("(", "module", optional(field("identifier", $.identifier)), "binary", repeat(field("string", $.string)), ")"),
+    script_module_binary: $ => seq("(", "module", optional($.identifier), "binary", repeat($.string), ")"),
 
-    script_module_quote: $ =>
-      seq("(", "module", optional(field("identifier", $.identifier)), "quote", repeat(field("string", $.string)), ")"),
+    script_module_quote: $ => seq("(", "module", optional($.identifier), "quote", repeat($.string), ")"),
   },
 });
