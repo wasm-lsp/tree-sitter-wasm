@@ -40,7 +40,7 @@ module.exports = grammar({
   ],
 
   rules: {
-    PARSE: $ => choice($.module, alias(repeat(field("module_field", $.module_field)), $.inline_module)),
+    PARSE: $ => choice($.module, repeat($.module_field)),
 
     FLOAT: $ => seq(optional($.sign), $.FLOAT_MAG),
 
@@ -70,16 +70,10 @@ module.exports = grammar({
     align_value: $ => seq("align=", token.immediate(/[0-9]+(?:_?[0-9]+)*|0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*/)),
 
     // proposal: annotations
-    annotation: $ =>
-      seq(
-        "(@",
-        field("identifier", alias(token.immediate(pattern_identifier), $.identifier)),
-        repeat(field("annot_part", $._annotation_part)),
-        ")",
-      ),
+    annotation: $ => seq("(@", token.immediate(pattern_identifier), repeat($._annotation_part), ")"),
 
     // proposal: annotations
-    annotation_parens: $ => seq("(", repeat(field("annot_part", $._annotation_part)), ")"),
+    annotation_parens: $ => seq("(", repeat($._annotation_part), ")"),
 
     // proposal: annotations
     _annotation_part: $ =>
@@ -91,64 +85,44 @@ module.exports = grammar({
     block_block: $ =>
       seq(
         "block",
-        optional(field("identifier", $.identifier)),
-        field(
-          "block",
-          alias(
-            seq(
-              optional(field("type_use", $.type_use)),
-              repeat(field("params", $.func_type_params_many)),
-              repeat(field("results", $.func_type_results)),
-              optional($._instr_list),
-            ),
-            $.block,
-          ),
+        optional($.identifier),
+        seq(
+          optional($.type_use),
+          repeat($.func_type_params_many),
+          repeat($.func_type_results),
+          optional($._instr_list),
         ),
         "end",
-        optional(field("identifier1", $.identifier)),
+        optional($.identifier),
       ),
 
     block_if: $ =>
       seq(
         "if",
-        optional(field("identifier", $.identifier)),
-        field(
-          "block",
-          alias(
-            seq(
-              optional(field("type_use", $.type_use)),
-              repeat(field("params", $.func_type_params_many)),
-              repeat(field("results", $.func_type_results)),
-              optional($._instr_list),
-            ),
-            $.block,
-          ),
+        optional($.identifier),
+        seq(
+          optional($.type_use),
+          repeat($.func_type_params_many),
+          repeat($.func_type_results),
+          optional($._instr_list),
         ),
-        optional(
-          seq("else", optional(field("identifier1", $.identifier)), optional(field("instr_list", $._instr_list))),
-        ),
+        optional(seq("else", optional($.identifier), optional($._instr_list))),
         "end",
-        optional(field("identifier2", $.identifier)),
+        optional($.identifier),
       ),
 
     block_loop: $ =>
       seq(
         "loop",
-        optional(field("identifier", $.identifier)),
-        field(
-          "block",
-          alias(
-            seq(
-              optional(field("type_use", $.type_use)),
-              repeat(field("params", $.func_type_params_many)),
-              repeat(field("results", $.func_type_results)),
-              optional($._instr_list),
-            ),
-            $.block,
-          ),
+        optional($.identifier),
+        seq(
+          optional($.type_use),
+          repeat($.func_type_params_many),
+          repeat($.func_type_results),
+          optional($._instr_list),
         ),
         "end",
-        optional(field("identifier", $.identifier)),
+        optional($.identifier),
       ),
 
     comment_block: $ => seq("(;", repeat(choice($.comment_block, /[^(;]+/, "(", ";")), ";)"),
@@ -168,30 +142,25 @@ module.exports = grammar({
     elem_expr_expr: $ => $._expr,
 
     // proposal: reference-types
-    elem_expr_item: $ =>
-      seq("(", "item", field("const_expr", alias(repeat(field("instr", $.instr)), $.const_expr)), ")"),
+    elem_expr_item: $ => seq("(", "item", repeat($.instr), ")"),
 
     // proposal: reference-types
     elem_kind: $ => token(/func/),
 
     // proposal: reference-types
-    elem_list: $ =>
-      choice(
-        seq(field("elem_kind", $.elem_kind), field("elem_var_list", repeat(field("index", $.index)))),
-        seq(field("ref_type", $._ref_type), field("elem_expr_list", repeat(field("elem_exr", $._elem_expr)))),
-      ),
+    elem_list: $ => choice(seq($.elem_kind, repeat($.index)), seq($._ref_type, repeat($._elem_expr))),
 
     escape_sequence: $ => token.immediate(seq("\\", choice(/[^u0-9a-fA-F]/, /[0-9a-fA-F]{2}/, /u{[0-9a-fA-F]+}/))),
 
     _export_desc: $ => choice($.export_desc_func, $.export_desc_table, $.export_desc_memory, $.export_desc_global),
 
-    export_desc_func: $ => seq("(", "func", field("index", $.index), ")"),
+    export_desc_func: $ => seq("(", "func", $.index, ")"),
 
-    export_desc_global: $ => seq("(", "global", field("index", $.index), ")"),
+    export_desc_global: $ => seq("(", "global", $.index, ")"),
 
-    export_desc_memory: $ => seq("(", "memory", field("index", $.index), ")"),
+    export_desc_memory: $ => seq("(", "memory", $.index, ")"),
 
-    export_desc_table: $ => seq("(", "table", field("index", $.index), ")"),
+    export_desc_table: $ => seq("(", "table", $.index, ")"),
 
     _expr: $ => seq("(", $._expr1, ")"),
 
@@ -200,18 +169,12 @@ module.exports = grammar({
     expr1_block: $ =>
       seq(
         "block",
-        optional(field("identifier", $.identifier)),
-        field(
-          "block",
-          alias(
-            seq(
-              optional(field("type_use", $.type_use)),
-              repeat(field("params", $.func_type_params_many)),
-              repeat(field("results", $.func_type_results)),
-              optional($._instr_list),
-            ),
-            $.block,
-          ),
+        optional($.identifier),
+        seq(
+          optional($.type_use),
+          repeat($.func_type_params_many),
+          repeat($.func_type_results),
+          optional($._instr_list),
         ),
       ),
 
@@ -219,34 +182,28 @@ module.exports = grammar({
       seq(
         "call_indirect",
         // proposal: reference-types
-        optional(field("index", $.index)),
-        optional(field("type_use", $.type_use)),
-        repeat(field("params", $.func_type_params_many)),
-        repeat(field("results", $.func_type_results)),
-        repeat(field("expr", $._expr)),
+        optional($.index),
+        optional($.type_use),
+        repeat($.func_type_params_many),
+        repeat($.func_type_results),
+        repeat($._expr),
       ),
 
-    expr1_if: $ => seq("if", optional(field("identifier", $.identifier)), field("if_block", $._if_block)),
+    expr1_if: $ => seq("if", optional($.identifier), $._if_block),
 
     expr1_loop: $ =>
       seq(
         "loop",
-        optional(field("identifier", $.identifier)),
-        field(
-          "block",
-          alias(
-            seq(
-              optional(field("type_use", $.type_use)),
-              repeat(field("params", $.func_type_params_many)),
-              repeat(field("results", $.func_type_results)),
-              optional($._instr_list),
-            ),
-            $.block,
-          ),
+        optional($.identifier),
+        seq(
+          optional($.type_use),
+          repeat($.func_type_params_many),
+          repeat($.func_type_results),
+          optional($._instr_list),
         ),
       ),
 
-    _expr1_plain: $ => seq(field("instr", $.instr_plain), repeat(field("expr", $._expr))),
+    _expr1_plain: $ => seq($.instr_plain, repeat($._expr)),
 
     float: $ =>
       token(
@@ -259,26 +216,25 @@ module.exports = grammar({
 
     _func_locals: $ => choice($.func_locals_one, $.func_locals_many),
 
-    func_locals_many: $ => seq("(", "local", repeat(field("value_type", $.value_type)), ")"),
+    func_locals_many: $ => seq("(", "local", repeat($.value_type), ")"),
 
-    func_locals_one: $ => seq("(", "local", field("identifier", $.identifier), field("value_type", $.value_type), ")"),
+    func_locals_one: $ => seq("(", "local", $.identifier, $.value_type, ")"),
 
     _func_type: $ => choice($._func_type_params, $.func_type_results),
 
     _func_type_params: $ => choice($.func_type_params_one, $.func_type_params_many),
 
-    func_type_params_many: $ => seq("(", "param", repeat(field("value_type", $.value_type)), ")"),
+    func_type_params_many: $ => seq("(", "param", repeat($.value_type), ")"),
 
-    func_type_params_one: $ =>
-      seq("(", "param", field("identifier", $.identifier), field("value_type", $.value_type), ")"),
+    func_type_params_one: $ => seq("(", "param", $.identifier, $.value_type, ")"),
 
-    func_type_results: $ => seq("(", "result", repeat(field("value_type", $.value_type)), ")"),
+    func_type_results: $ => seq("(", "result", repeat($.value_type), ")"),
 
     global_type: $ => choice($.global_type_imm, $.global_type_mut),
 
-    global_type_imm: $ => field("value_type", $.value_type),
+    global_type_imm: $ => $.value_type,
 
-    global_type_mut: $ => seq("(", "mut", field("value_type", $.value_type), ")"),
+    global_type_mut: $ => seq("(", "mut", $.value_type, ")"),
 
     hexfloat: $ =>
       token(
@@ -294,12 +250,12 @@ module.exports = grammar({
 
     _if_block: $ =>
       seq(
-        optional(field("type_use", $.type_use)),
-        repeat(field("params", $.func_type_params_many)),
-        repeat(field("results", $.func_type_results)),
-        repeat(field("if_expr", $._expr)),
-        seq("(", "then", optional(field("then_instr_list", $._instr_list)), ")"),
-        optional(seq("(", "else", optional(field("else_instr_list", $._instr_list)), ")")),
+        optional($.type_use),
+        repeat($.func_type_params_many),
+        repeat($.func_type_results),
+        repeat($._expr),
+        seq("(", "then", optional($._instr_list), ")"),
+        optional(seq("(", "else", optional($._instr_list), ")")),
       ),
 
     _import_desc: $ =>
@@ -311,51 +267,35 @@ module.exports = grammar({
         $.import_desc_global_type,
       ),
 
-    import_desc_func_type: $ =>
-      seq("(", "func", optional(field("identifier", $.identifier)), repeat(field("func_type", $._func_type)), ")"),
+    import_desc_func_type: $ => seq("(", "func", optional($.identifier), repeat($._func_type), ")"),
 
-    import_desc_global_type: $ =>
-      seq("(", "global", optional(field("identifier", $.identifier)), field("global_type", $.global_type), ")"),
+    import_desc_global_type: $ => seq("(", "global", optional($.identifier), $.global_type, ")"),
 
-    import_desc_memory_type: $ =>
-      seq("(", "memory", optional(field("identifier", $.identifier)), field("memory_type", $.memory_type), ")"),
+    import_desc_memory_type: $ => seq("(", "memory", optional($.identifier), $.memory_type, ")"),
 
-    import_desc_table_type: $ =>
-      seq("(", "table", optional(field("identifier", $.identifier)), field("table_type", $.table_type), ")"),
+    import_desc_table_type: $ => seq("(", "table", optional($.identifier), $.table_type, ")"),
 
-    import_desc_type_use: $ =>
-      seq("(", "func", optional(field("identifier", $.identifier)), field("type_use", $.type_use), ")"),
+    import_desc_type_use: $ => seq("(", "func", optional($.identifier), $.type_use, ")"),
 
     index: $ => choice($.UNSIGNED, $.identifier),
 
-    inline_export: $ => seq("(", "export", field("name", $.name), ")"),
+    inline_export: $ => seq("(", "export", $.name, ")"),
 
-    inline_import: $ => seq("(", "import", field("module_name", $.name), field("item_name", $.name), ")"),
+    inline_import: $ => seq("(", "import", $.name, $.name, ")"),
 
     instr: $ => choice($.instr_plain, $.instr_call, $.instr_block, $._expr),
 
     instr_block: $ => choice($.block_block, $.block_loop, $.block_if),
 
     instr_call: $ =>
-      seq(
-        field("op", alias("call_indirect", $.op)),
-        optional(field("type_use", $.type_use)),
-        repeat(field("params", $.func_type_params_many)),
-        repeat(field("results", $.func_type_results)),
-        field("instr", $.instr),
-      ),
+      seq("call_indirect", optional($.type_use), repeat($.func_type_params_many), repeat($.func_type_results), $.instr),
 
     // NOTE: this must be wrapped in "optional"
     _instr_list: $ => repeat1(choice($.instr_list_call, $.instr)),
 
     instr_list_call: $ =>
       prec.right(
-        seq(
-          "call_indirect",
-          optional(field("type_use", $.type_use)),
-          repeat(field("params", $.func_type_params_many)),
-          repeat(field("results", $.func_type_results)),
-        ),
+        seq("call_indirect", optional($.type_use), repeat($.func_type_params_many), repeat($.func_type_results)),
       ),
 
     instr_plain: $ =>
@@ -452,11 +392,7 @@ module.exports = grammar({
           token.immediate("."),
           token.immediate("load"),
           optional(
-            seq(
-              choice(token.immediate("8"), token.immediate("16")),
-              token.immediate("_"),
-              alias(token.immediate("u"), $.sign),
-            ),
+            seq(choice(token.immediate("8"), token.immediate("16")), token.immediate("_"), token.immediate("u")),
           ),
         ),
         seq(
@@ -557,16 +493,16 @@ module.exports = grammar({
         seq($.instr_type_float, token.immediate("."), token.immediate(/add|sub|mul|div|min|max|copysign/)),
       ),
 
-    instr_plain_br: $ => seq("br", field("index", $.index)),
+    instr_plain_br: $ => seq("br", $.index),
 
-    instr_plain_br_if: $ => seq("br_if", field("index", $.index)),
+    instr_plain_br_if: $ => seq("br_if", $.index),
 
     // proposal: function-references
-    instr_plain_br_on_null: $ => seq("br_on_null", field("index", $.index)),
+    instr_plain_br_on_null: $ => seq("br_on_null", $.index),
 
-    instr_plain_br_table: $ => seq("br_table", field("index_head", $.index), repeat(field("index_tail", $.index))),
+    instr_plain_br_table: $ => seq("br_table", $.index, repeat($.index)),
 
-    instr_plain_call: $ => seq("call", field("index", $.index)),
+    instr_plain_call: $ => seq("call", $.index),
 
     // proposal: function-references
     instr_plain_call_ref: $ => "call_ref",
@@ -601,13 +537,7 @@ module.exports = grammar({
 
     instr_plain_ref_extern: $ => seq("ref", token.immediate("."), token.immediate(/extern/), $.UNSIGNED),
 
-    instr_plain_ref_null: $ =>
-      seq(
-        "ref",
-        token.immediate("."),
-        token.immediate(/null/),
-        choice(field("ref_kind", $.ref_kind), field("index", $.index)),
-      ),
+    instr_plain_ref_null: $ => seq("ref", token.immediate("."), token.immediate(/null/), choice($.ref_kind, $.index)),
 
     instr_plain_convert: $ =>
       choice(
@@ -691,29 +621,23 @@ module.exports = grammar({
       ),
 
     // proposal: bulk-memory-operations
-    instr_plain_data_drop: $ => seq("data.drop", field("index", $.index)),
+    instr_plain_data_drop: $ => seq("data.drop", $.index),
 
     instr_plain_drop: $ => "drop",
 
     // proposal: bulk-memory-operations
-    instr_plain_elem_drop: $ => seq(token("elem.drop"), field("index", $.index)),
+    instr_plain_elem_drop: $ => seq(token("elem.drop"), $.index),
 
     // proposal: function-references
-    instr_plain_func_bind: $ => seq(token("func.bind"), optional(seq("(", "type", field("index", $.index), ")"))),
+    instr_plain_func_bind: $ => seq(token("func.bind"), optional(seq("(", "type", $.index, ")"))),
 
-    instr_plain_global_get: $ => seq("global.get", field("index", $.index)),
+    instr_plain_global_get: $ => seq("global.get", $.index),
 
-    instr_plain_global_set: $ => seq("global.set", field("index", $.index)),
+    instr_plain_global_set: $ => seq("global.set", $.index),
 
     // proposal: function-references
     instr_plain_let: $ =>
-      seq(
-        "let",
-        optional(field("index", $.index)),
-        repeat(field("params", $._func_type_params)),
-        repeat(field("results", $.func_type_results)),
-        repeat(field("locals", $._func_locals)),
-      ),
+      seq("let", optional($.index), repeat($._func_type_params), repeat($.func_type_results), repeat($._func_locals)),
 
     instr_plain_load: $ =>
       seq(
@@ -737,16 +661,16 @@ module.exports = grammar({
           ),
         ),
         // proposal: multi-memory
-        optional(field("index", $.index)),
-        optional(field("offset_value", $.offset_value)),
-        optional(field("align_value", $.align_value)),
+        optional($.index),
+        optional($.offset_value),
+        optional($.align_value),
       ),
 
-    instr_plain_local_get: $ => seq("local.get", field("index", $.index)),
+    instr_plain_local_get: $ => seq("local.get", $.index),
 
-    instr_plain_local_set: $ => seq("local.set", field("index", $.index)),
+    instr_plain_local_set: $ => seq("local.set", $.index),
 
-    instr_plain_local_tee: $ => seq("local.tee", field("index", $.index)),
+    instr_plain_local_tee: $ => seq("local.tee", $.index),
 
     // proposal: bulk-memory-operations
     instr_plain_memory_copy: $ => token("memory.copy"),
@@ -758,23 +682,23 @@ module.exports = grammar({
       seq(
         token("memory.grow"),
         // proposal: multi-memory
-        optional(field("index", $.index)),
+        optional($.index),
       ),
 
     // proposal: bulk-memory-operations
-    instr_plain_memory_init: $ => seq(token("memory.init"), field("index", $.index)),
+    instr_plain_memory_init: $ => seq(token("memory.init"), $.index),
 
     instr_plain_memory_size: $ =>
       seq(
         token("memory.size"),
         // proposal: multi-memory
-        optional(field("index", $.index)),
+        optional($.index),
       ),
 
     instr_plain_nop: $ => "nop",
 
     // proposal: reference-types
-    instr_plain_ref_func: $ => seq("ref.func", optional(field("index", $.index))),
+    instr_plain_ref_func: $ => seq("ref.func", optional($.index)),
 
     // proposal: reference-types
     instr_plain_ref_is_null: $ => token("ref.is_null"),
@@ -788,7 +712,7 @@ module.exports = grammar({
       seq(
         "select",
         // proposal: reference-types
-        repeat(field("results", $.func_type_results)),
+        repeat($.func_type_results),
       ),
 
     // proposal: simd
@@ -799,11 +723,7 @@ module.exports = grammar({
           token.immediate("."),
           choice(
             token.immediate(/and|andnot|not|or|xor/),
-            seq(
-              token.immediate("store"),
-              optional(field("offset_value", $.offset_value)),
-              optional(field("align_value", $.align_value)),
-            ),
+            seq(token.immediate("store"), optional($.offset_value), optional($.align_value)),
           ),
         ),
         seq(choice("f32x4", "f64x2"), token.immediate("."), token.immediate(/div|min|max|sqrt/)),
@@ -864,42 +784,42 @@ module.exports = grammar({
             token.immediate("32"),
             token.immediate("x"),
             token.immediate("4"),
-            ...Array(4).fill(field("arg", $.FLOAT)),
+            ...Array(4).fill($.FLOAT),
           ),
           seq(
             token.immediate("f"),
             token.immediate("64"),
             token.immediate("x"),
             token.immediate("2"),
-            ...Array(2).fill(field("arg", $.FLOAT)),
+            ...Array(2).fill($.FLOAT),
           ),
           seq(
             token.immediate("i"),
             token.immediate("8"),
             token.immediate("x"),
             token.immediate("16"),
-            ...Array(16).fill(field("arg", $.INTEGER)),
+            ...Array(16).fill($.INTEGER),
           ),
           seq(
             token.immediate("i"),
             token.immediate("16"),
             token.immediate("x"),
             token.immediate("8"),
-            ...Array(8).fill(field("arg", $.INTEGER)),
+            ...Array(8).fill($.INTEGER),
           ),
           seq(
             token.immediate("i"),
             token.immediate("32"),
             token.immediate("x"),
             token.immediate("4"),
-            ...Array(4).fill(field("arg", $.INTEGER)),
+            ...Array(4).fill($.INTEGER),
           ),
           seq(
             token.immediate("i"),
             token.immediate("64"),
             token.immediate("x"),
             token.immediate("2"),
-            ...Array(2).fill(field("arg", $.INTEGER)),
+            ...Array(2).fill($.INTEGER),
           ),
         ),
       ),
@@ -977,7 +897,7 @@ module.exports = grammar({
         seq(
           "v8x16",
           token.immediate("."),
-          choice(token.immediate("swizzle"), seq(token.immediate("shuffle"), ...Array(16).fill(field("arg", $.FLOAT)))),
+          choice(token.immediate("swizzle"), seq(token.immediate("shuffle"), ...Array(16).fill($.FLOAT))),
         ),
         seq(
           choice("i8x16", "i16x8"),
@@ -985,19 +905,19 @@ module.exports = grammar({
           token.immediate("extract_lane"),
           token.immediate("_"),
           token.immediate(/[su]/),
-          field("arg", $.INTEGER),
+          $.INTEGER,
         ),
         seq(
           choice("f32x4", "f64x2", "i32x4", "i64x2"),
           token.immediate("."),
           token.immediate("extract_lane"),
-          field("arg", $.INTEGER),
+          $.INTEGER,
         ),
         seq(
           choice("f32x4", "f64x2", "i8x16", "i16x8", "i32x4", "i64x2"),
           token.immediate("."),
           token.immediate("replace_lane"),
-          field("arg", $.INTEGER),
+          $.INTEGER,
         ),
       ),
 
@@ -1019,8 +939,8 @@ module.exports = grammar({
             ),
             seq("v128", token.immediate("."), token.immediate("load")),
           ),
-          optional(field("offset_value", $.offset_value)),
-          optional(field("align_value", $.align_value)),
+          optional($.offset_value),
+          optional($.align_value),
         ),
       ),
 
@@ -1028,8 +948,8 @@ module.exports = grammar({
     instr_plain_simd_store: $ =>
       seq(
         seq("v128", token.immediate("."), token.immediate("store")),
-        optional(field("offset_value", $.offset_value)),
-        optional(field("align_value", $.align_value)),
+        optional($.offset_value),
+        optional($.align_value),
       ),
 
     // proposal: simd
@@ -1060,8 +980,8 @@ module.exports = grammar({
             ),
             seq("v128", token.immediate("."), token.immediate(/load|store/)),
           ),
-          optional(field("offset_value", $.offset_value)),
-          optional(field("align_value", $.align_value)),
+          optional($.offset_value),
+          optional($.align_value),
         ),
       ),
 
@@ -1073,32 +993,31 @@ module.exports = grammar({
           seq($.instr_type_int_64, token.immediate("."), token.immediate("store"), token.immediate("32")),
         ),
         // proposal: multi-memory
-        optional(field("index", $.index)),
-        optional(field("offset_value", $.offset_value)),
-        optional(field("align_value", $.align_value)),
+        optional($.index),
+        optional($.offset_value),
+        optional($.align_value),
       ),
 
     // proposal: bulk-memory-operations
-    instr_plain_table_copy: $ =>
-      seq(token("table.copy"), optional(seq(field("index", $.index), field("index", $.index)))),
+    instr_plain_table_copy: $ => seq(token("table.copy"), optional(seq($.index, $.index))),
 
     // proposal: reference-types
-    instr_plain_table_fill: $ => seq("table.fill", optional(field("index", $.index))),
+    instr_plain_table_fill: $ => seq("table.fill", optional($.index)),
 
     // proposal: reference-types
-    instr_plain_table_get: $ => seq("table.get", optional(field("index", $.index))),
+    instr_plain_table_get: $ => seq("table.get", optional($.index)),
 
     // proposal: reference-types
-    instr_plain_table_grow: $ => seq("table.grow", optional(field("index", $.index))),
+    instr_plain_table_grow: $ => seq("table.grow", optional($.index)),
 
     // proposal: bulk-memory-operations
-    instr_plain_table_init: $ => seq(token("table.init"), field("index", $.index), optional(field("index", $.index))),
+    instr_plain_table_init: $ => seq(token("table.init"), $.index, optional($.index)),
 
     // proposal: reference-types
-    instr_plain_table_set: $ => seq("table.set", optional(field("index", $.index))),
+    instr_plain_table_set: $ => seq("table.set", optional($.index)),
 
     // proposal: reference-types
-    instr_plain_table_size: $ => seq("table.size", optional(field("index", $.index))),
+    instr_plain_table_size: $ => seq("table.size", optional($.index)),
 
     instr_plain_test: $ => seq($._instr_type, token.immediate("."), token.immediate(/eqz/)),
 
@@ -1142,28 +1061,21 @@ module.exports = grammar({
 
     limits: $ =>
       seq(
-        field("min", $.UNSIGNED),
-        optional(field("max", $.UNSIGNED)),
+        $.UNSIGNED,
+        optional($.UNSIGNED),
         // proposal: threads
-        optional(field("share", $.share)),
+        optional($.share),
       ),
 
-    memory_fields_data: $ => seq("(", "data", repeat(field("string", $.string)), ")"),
+    memory_fields_data: $ => seq("(", "data", repeat($.string), ")"),
 
-    memory_fields_type: $ => seq(optional(field("import", $.inline_import)), field("type", $.memory_type)),
+    memory_fields_type: $ => seq(optional($.inline_import), $.memory_type),
 
-    memory_type: $ => field("limits", $.limits),
+    memory_type: $ => $.limits,
 
-    memory_use: $ => seq("(", "memory", field("index", $.index), ")"),
+    memory_use: $ => seq("(", "memory", $.index, ")"),
 
-    module: $ =>
-      seq(
-        "(",
-        "module",
-        optional(field("identifier", $.identifier)),
-        repeat(field("module_field", $.module_field)),
-        ")",
-      ),
+    module: $ => seq("(", "module", optional(field("identifier", $.identifier)), repeat($.module_field), ")"),
 
     module_field: $ =>
       choice(
@@ -1180,51 +1092,44 @@ module.exports = grammar({
       ),
 
     module_field_data: $ =>
-      seq(
-        "(",
-        "data",
-        optional(field("index", $.index)),
-        optional(seq(optional(field("memory_use", $.memory_use)), field("offset", $._offset))),
-        repeat(field("string", $.string)),
-        ")",
-      ),
+      seq("(", "data", optional($.index), optional(seq(optional($.memory_use), $._offset)), repeat($.string), ")"),
 
     module_field_elem: $ =>
       seq(
         "(",
         "elem",
-        optional(field("index_head", $.index)),
+        optional($.index),
         choice(
-          field("elem_list", $.elem_list),
+          $.elem_list,
           seq(
-            field("table_use", $.table_use),
-            field("offset", $._offset),
+            $.table_use,
+            $._offset,
             choice(
-              field("elem_list", $.elem_list),
+              $.elem_list,
               // proposal: multi-memory
-              field("elem_var_list", repeat(field("index", $.index))),
+              repeat($.index),
             ),
           ),
-          seq(field("declare", alias("declare", $.declare)), field("elem_list", $.elem_list)),
-          seq(field("offset", $._offset), field("elem_list", $.elem_list)),
-          seq(field("offset", $._offset), field("elem_var_list", repeat(field("index", $.index)))),
+          seq("declare", $.elem_list),
+          seq($._offset, $.elem_list),
+          seq($._offset, repeat($.index)),
         ),
         ")",
       ),
 
-    module_field_export: $ => seq("(", "export", field("name", $.name), field("export_desc", $._export_desc), ")"),
+    module_field_export: $ => seq("(", "export", $.name, $._export_desc, ")"),
 
     module_field_func: $ =>
       seq(
         "(",
         "func",
         optional(field("identifier", $.identifier)),
-        repeat(field("exports", $.inline_export)),
-        optional(field("import", $.inline_import)),
-        optional(field("type_use", $.type_use)),
-        repeat(field("params", $._func_type_params)),
-        repeat(field("results", $.func_type_results)),
-        repeat(field("locals", $._func_locals)),
+        repeat($.inline_export),
+        optional($.inline_import),
+        optional($.type_use),
+        repeat($._func_type_params),
+        repeat($.func_type_results),
+        repeat($._func_locals),
         optional($._instr_list),
         ")",
       ),
@@ -1234,47 +1139,38 @@ module.exports = grammar({
         "(",
         "global",
         optional(field("identifier", $.identifier)),
-        repeat(field("export", $.inline_export)),
-        optional(field("import", $.inline_import)),
-        field("global_type", $.global_type),
-        field("expr", alias(repeat($.instr), $.expr)),
+        repeat($.inline_export),
+        optional($.inline_import),
+        $.global_type,
+        repeat($.instr),
         ")",
       ),
 
-    module_field_import: $ =>
-      seq(
-        "(",
-        "import",
-        field("module_name", $.name),
-        field("item_name", $.name),
-        field("import_desc", $._import_desc),
-        ")",
-      ),
+    module_field_import: $ => seq("(", "import", $.name, $.name, $._import_desc, ")"),
 
     module_field_memory: $ =>
       seq(
         "(",
         "memory",
         optional(field("identifier", $.identifier)),
-        repeat(field("export", $.inline_export)),
+        repeat($.inline_export),
         choice($.memory_fields_data, $.memory_fields_type),
         ")",
       ),
 
-    module_field_start: $ => seq("(", "start", field("index", $.index), ")"),
+    module_field_start: $ => seq("(", "start", $.index, ")"),
 
     module_field_table: $ =>
       seq(
         "(",
         "table",
         optional(field("identifier", $.identifier)),
-        repeat(field("export", $.inline_export)),
+        repeat($.inline_export),
         choice($.table_fields_elem, $.table_fields_type),
         ")",
       ),
 
-    module_field_type: $ =>
-      seq("(", "type", optional(field("identifier", $.identifier)), field("type_field", $._type_field), ")"),
+    module_field_type: $ => seq("(", "type", optional(field("identifier", $.identifier)), $._type_field, ")"),
 
     name: $ => $.string,
 
@@ -1282,13 +1178,11 @@ module.exports = grammar({
 
     _offset: $ => choice($.offset_const_expr, $.offset_expr),
 
-    offset_const_expr: $ =>
-      seq("(", "offset", field("const_expr", alias(repeat(field("instr", $.instr)), $.const_expr)), ")"),
+    offset_const_expr: $ => seq("(", "offset", repeat($.instr), ")"),
 
-    offset_expr: $ => field("expr", $._expr),
+    offset_expr: $ => $._expr,
 
-    offset_value: $ =>
-      seq("offset=", field("value", token.immediate(/[0-9]+(?:_?[0-9]+)*|0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*/))),
+    offset_value: $ => seq("offset=", token.immediate(/[0-9]+(?:_?[0-9]+)*|0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*/)),
 
     // proposal: reference-types
     ref_kind: $ => choice(/extern|func/),
@@ -1303,14 +1197,7 @@ module.exports = grammar({
     ref_type_funcref: $ => "funcref",
 
     // proposal: function-references
-    ref_type_ref: $ =>
-      seq(
-        "(",
-        "ref",
-        optional(field("null", alias("null", $.null))),
-        choice(field("ref_kind", $.ref_kind), field("index", $.index)),
-        ")",
-      ),
+    ref_type_ref: $ => seq("(", "ref", optional("null"), choice($.ref_kind, $.index), ")"),
 
     // eslint-disable-next-line no-useless-escape
     reserved: $ => token(choice(pattern_identifier, /[,;\[\]{}]/)),
@@ -1324,26 +1211,17 @@ module.exports = grammar({
       seq('"', repeat(choice(token.immediate(prec(PREC.STRING, /[^"\\\n]+|\\\r?\n/)), $.escape_sequence)), '"'),
 
     table_fields_elem: $ =>
-      seq(
-        field("ref_type", $._ref_type),
-        "(",
-        "elem",
-        choice(
-          field("elem_var_list", repeat(field("index", $.index))),
-          seq(field("elem_expr", $._elem_expr), field("elem_expr_list", repeat(field("elem_expr", $._elem_expr)))),
-        ),
-        ")",
-      ),
+      seq($._ref_type, "(", "elem", choice(repeat($.index), seq($._elem_expr, repeat($._elem_expr))), ")"),
 
-    table_fields_type: $ => seq(optional(field("import", $.inline_import)), field("table_type", $.table_type)),
+    table_fields_type: $ => seq(optional($.inline_import), $.table_type),
 
-    table_type: $ => seq(field("limits", $.limits), field("ref_type", $._ref_type)),
+    table_type: $ => seq($.limits, $._ref_type),
 
-    table_use: $ => seq("(", "table", field("index", $.index), ")"),
+    table_use: $ => seq("(", "table", $.index, ")"),
 
-    _type_field: $ => seq("(", "func", repeat(field("func_type", $._func_type)), ")"),
+    _type_field: $ => seq("(", "func", repeat($._func_type), ")"),
 
-    type_use: $ => seq("(", "type", field("index", $.index), ")"),
+    type_use: $ => seq("(", "type", $.index, ")"),
 
     value_type: $ => choice($.value_type_num_type, $._value_type_ref_type),
 
