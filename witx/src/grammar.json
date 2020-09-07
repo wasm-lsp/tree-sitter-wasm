@@ -1,3 +1,24 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b262c57e81f1233afcc0f65e73719a43db8878d17ab86a43fa34d7f6715ad714
-size 340
+{
+  "name": "witx",
+  "rules": {
+    "INSTANCE": {
+      "type": "STRING",
+      "value": "instance"
+    },
+    "TYPENAME": {
+      "type": "STRING",
+      "value": "typename"
+    }
+  },
+  "extras": [
+    {
+      "type": "PATTERN",
+      "value": "\\s"
+    }
+  ],
+  "conflicts": [],
+  "externals": [],
+  "inline": [],
+  "supertypes": []
+}
+

@@ -1,3 +1,20 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:46636d3c960d6278584fe9024e4be6b740177f438c7dd770bddd59fd8e72eaaf
-size 264
+{
+  "name": "wit",
+  "rules": {
+    "INSTANCE": {
+      "type": "STRING",
+      "value": "instance"
+    }
+  },
+  "extras": [
+    {
+      "type": "PATTERN",
+      "value": "\\s"
+    }
+  ],
+  "conflicts": [],
+  "externals": [],
+  "inline": [],
+  "supertypes": []
+}
+
