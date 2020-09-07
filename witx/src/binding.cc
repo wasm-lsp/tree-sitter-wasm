@@ -1,3 +1,28 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:a6a8846b0fa5ce1d545026568164fe214fe4567f3f8596101f88394f1008ac0c
-size 953
+#include "tree_sitter/parser.h"
+#include <node.h>
+#include "nan.h"
+
+using namespace v8;
+
+extern "C" TSLanguage * tree_sitter_webassembly_api_description();
+
+namespace {
+
+NAN_METHOD(New) {}
+
+void Init(Local<Object> exports, Local<Object> module) {
+  Local<FunctionTemplate> tpl = Nan::New<FunctionTemplate>(New);
+  tpl->SetClassName(Nan::New("Language").ToLocalChecked());
+  tpl->InstanceTemplate()->SetInternalFieldCount(1);
+
+  Local<Function> constructor = Nan::GetFunction(tpl).ToLocalChecked();
+  Local<Object> instance = constructor->NewInstance(Nan::GetCurrentContext()).ToLocalChecked();
+  Nan::SetInternalFieldPointer(instance, 0, tree_sitter_webassembly_api_description());
+
+  Nan::Set(instance, Nan::New("name").ToLocalChecked(), Nan::New("webassembly_api_description").ToLocalChecked());
+  Nan::Set(module, Nan::New("exports").ToLocalChecked(), instance);
+}
+
+NODE_MODULE(tree_sitter_webassembly_api_description_binding, Init)
+
+}  // namespace

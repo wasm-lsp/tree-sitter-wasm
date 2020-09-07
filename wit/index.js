@@ -1,3 +1,13 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:0536146b4a6c925cae3fa7d2b6cae891b724085805004d966dfdc77856d47c81
-size 340
+try {
+  module.exports = require("./build/Release/tree_sitter_webassembly_module_type_binding");
+} catch (error) {
+  try {
+    module.exports = require("./build/Debug/tree_sitter_webassembly_module_type_binding");
+  } catch (_) {
+    throw error
+  }
+}
+
+try {
+  module.exports.nodeTypeInfo = require("./src/node-types.json");
+} catch (_) {}
