@@ -18,18 +18,14 @@
   },
   "main": "index.js",
   "scripts": {
-    "build": "npm run build-wast && npm run build-wat && npm run build-wit && npm run build-witx",
+    "build": "npm run build-wast && npm run build-wat",
     "build-wast": "cd wast && tree-sitter generate",
     "build-wat": "cd wat && tree-sitter generate",
-    "build-wit": "cd wit && tree-sitter generate",
-    "build-witx": "cd witx && tree-sitter generate",
     "format": "prettier --write '**/*.{js,json,ts,tsx,yml,yaml}'",
     "lint": "eslint '**/*.{js,ts,tsx}'",
-    "test": "npm run test-wast && npm run test-wat && npm run test-wit && npm run test-witx",
+    "test": "npm run test-wast && npm run test-wat",
     "test-wast": "cd wast && tree-sitter parse corpus/**/*.wast",
-    "test-wat": "cd wat && tree-sitter parse corpus/**/*.wat",
-    "test-wit": "cd wit && tree-sitter test",
-    "test-witx": "cd witx && tree-sitter test"
+    "test-wat": "cd wat && tree-sitter parse corpus/**/*.wat"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
@@ -56,20 +52,6 @@
         "wast"
       ],
       "path": "wast"
-    },
-    {
-      "scope": "source.wit",
-      "file-types": [
-        "wit"
-      ],
-      "path": "wit"
-    },
-    {
-      "scope": "source.witx",
-      "file-types": [
-        "witx"
-      ],
-      "path": "witx"
     }
   ]
 }
