@@ -2138,6 +2138,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "instr_plain_ref_null"
+        },
+        {
+          "type": "SYMBOL",
           "name": "instr_plain_ref_is_null"
         },
         {
@@ -2178,7 +2182,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "instr_plain_const"
+          "name": "instr_plain_const_num"
         },
         {
           "type": "SYMBOL",
@@ -3150,15 +3154,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "instr_plain_ref_extern"
-        },
-        {
-          "type": "SYMBOL",
           "name": "instr_plain_ref_null"
         },
         {
           "type": "SYMBOL",
-          "name": "instr_plain_ref_func"
+          "name": "instr_plain_ref_extern"
         }
       ]
     },
@@ -3190,48 +3190,15 @@
       ]
     },
     "instr_plain_ref_as_non_null": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "ref"
-        },
-        {
-          "type": "IMMEDIATE_TOKEN",
-          "content": {
-            "type": "STRING",
-            "value": "."
-          }
-        },
-        {
-          "type": "IMMEDIATE_TOKEN",
-          "content": {
-            "type": "PATTERN",
-            "value": "as_non_null"
-          }
-        }
-      ]
+      "type": "STRING",
+      "value": "ref.as_non_null"
     },
     "instr_plain_ref_extern": {
       "type": "SEQ",
       "members": [
         {
           "type": "STRING",
-          "value": "ref"
-        },
-        {
-          "type": "IMMEDIATE_TOKEN",
-          "content": {
-            "type": "STRING",
-            "value": "."
-          }
-        },
-        {
-          "type": "IMMEDIATE_TOKEN",
-          "content": {
-            "type": "PATTERN",
-            "value": "extern"
-          }
+          "value": "ref.extern"
         },
         {
           "type": "SYMBOL",
@@ -3244,21 +3211,7 @@
       "members": [
         {
           "type": "STRING",
-          "value": "ref"
-        },
-        {
-          "type": "IMMEDIATE_TOKEN",
-          "content": {
-            "type": "STRING",
-            "value": "."
-          }
-        },
-        {
-          "type": "IMMEDIATE_TOKEN",
-          "content": {
-            "type": "PATTERN",
-            "value": "null"
-          }
+          "value": "ref.null"
         },
         {
           "type": "CHOICE",
@@ -4147,16 +4100,8 @@
           "value": "ref.func"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "index"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "index"
         }
       ]
     },
@@ -8204,7 +8149,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "result"
+            "name": "_result"
           }
         },
         {
@@ -8232,7 +8177,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "result"
+            "name": "_result"
           }
         },
         {
@@ -8260,7 +8205,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "result"
+            "name": "_result"
           }
         },
         {
@@ -8429,41 +8374,6 @@
               "name": "instr_plain_simd_const"
             }
           ]
-        },
-        {
-          "type": "STRING",
-          "value": ")"
-        }
-      ]
-    },
-    "_expr_plain_const_nan": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "("
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_instr_type"
-        },
-        {
-          "type": "IMMEDIATE_TOKEN",
-          "content": {
-            "type": "STRING",
-            "value": "."
-          }
-        },
-        {
-          "type": "IMMEDIATE_TOKEN",
-          "content": {
-            "type": "PATTERN",
-            "value": "const"
-          }
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_literal_nan"
         },
         {
           "type": "STRING",
@@ -8652,18 +8562,95 @@
         }
       ]
     },
-    "result": {
+    "_result": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "result_const"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "result_const_nan"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "result_ref_func"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "result_ref_extern"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "result_ref_null"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "result_const": {
       "type": "CHOICE",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_expr_plain_const"
+          "name": "instr_plain_const"
         },
         {
           "type": "SYMBOL",
-          "name": "_expr_plain_const_nan"
+          "name": "instr_plain_simd_const"
         }
       ]
+    },
+    "result_const_nan": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_instr_type"
+        },
+        {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "."
+          }
+        },
+        {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "const"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_literal_nan"
+        }
+      ]
+    },
+    "result_ref_func": {
+      "type": "STRING",
+      "value": "ref.func"
+    },
+    "result_ref_extern": {
+      "type": "STRING",
+      "value": "ref.extern"
+    },
+    "result_ref_null": {
+      "type": "STRING",
+      "value": "ref.null"
     },
     "_script_module": {
       "type": "CHOICE",

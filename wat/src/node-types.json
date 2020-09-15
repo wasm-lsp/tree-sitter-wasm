@@ -1072,7 +1072,7 @@
           "named": true
         },
         {
-          "type": "instr_plain_const",
+          "type": "instr_plain_const_num",
           "named": true
         },
         {
@@ -1157,6 +1157,10 @@
         },
         {
           "type": "instr_plain_ref_is_null",
+          "named": true
+        },
+        {
+          "type": "instr_plain_ref_null",
           "named": true
         },
         {
@@ -1429,33 +1433,6 @@
         },
         {
           "type": "instr_type_int",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "instr_plain_const",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "instr_plain_const_num",
-          "named": true
-        },
-        {
-          "type": "instr_plain_ref_extern",
-          "named": true
-        },
-        {
-          "type": "instr_plain_ref_func",
-          "named": true
-        },
-        {
-          "type": "instr_plain_ref_null",
           "named": true
         }
       ]
@@ -1755,11 +1732,6 @@
     }
   },
   {
-    "type": "instr_plain_ref_as_non_null",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "instr_plain_ref_extern",
     "named": true,
     "fields": {},
@@ -1780,7 +1752,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "index",
@@ -3257,6 +3229,10 @@
     "named": true
   },
   {
+    "type": "instr_plain_ref_as_non_null",
+    "named": true
+  },
+  {
     "type": "instr_plain_ref_is_null",
     "named": true
   },
@@ -3389,7 +3365,15 @@
     "named": false
   },
   {
+    "type": "ref.extern",
+    "named": false
+  },
+  {
     "type": "ref.func",
+    "named": false
+  },
+  {
+    "type": "ref.null",
     "named": false
   },
   {

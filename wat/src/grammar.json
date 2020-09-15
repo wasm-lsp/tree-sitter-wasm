@@ -2135,6 +2135,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "instr_plain_ref_null"
+        },
+        {
+          "type": "SYMBOL",
           "name": "instr_plain_ref_is_null"
         },
         {
@@ -2175,7 +2179,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "instr_plain_const"
+          "name": "instr_plain_const_num"
         },
         {
           "type": "SYMBOL",
@@ -3147,15 +3151,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "instr_plain_ref_extern"
-        },
-        {
-          "type": "SYMBOL",
           "name": "instr_plain_ref_null"
         },
         {
           "type": "SYMBOL",
-          "name": "instr_plain_ref_func"
+          "name": "instr_plain_ref_extern"
         }
       ]
     },
@@ -3187,48 +3187,15 @@
       ]
     },
     "instr_plain_ref_as_non_null": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "ref"
-        },
-        {
-          "type": "IMMEDIATE_TOKEN",
-          "content": {
-            "type": "STRING",
-            "value": "."
-          }
-        },
-        {
-          "type": "IMMEDIATE_TOKEN",
-          "content": {
-            "type": "PATTERN",
-            "value": "as_non_null"
-          }
-        }
-      ]
+      "type": "STRING",
+      "value": "ref.as_non_null"
     },
     "instr_plain_ref_extern": {
       "type": "SEQ",
       "members": [
         {
           "type": "STRING",
-          "value": "ref"
-        },
-        {
-          "type": "IMMEDIATE_TOKEN",
-          "content": {
-            "type": "STRING",
-            "value": "."
-          }
-        },
-        {
-          "type": "IMMEDIATE_TOKEN",
-          "content": {
-            "type": "PATTERN",
-            "value": "extern"
-          }
+          "value": "ref.extern"
         },
         {
           "type": "SYMBOL",
@@ -3241,21 +3208,7 @@
       "members": [
         {
           "type": "STRING",
-          "value": "ref"
-        },
-        {
-          "type": "IMMEDIATE_TOKEN",
-          "content": {
-            "type": "STRING",
-            "value": "."
-          }
-        },
-        {
-          "type": "IMMEDIATE_TOKEN",
-          "content": {
-            "type": "PATTERN",
-            "value": "null"
-          }
+          "value": "ref.null"
         },
         {
           "type": "CHOICE",
@@ -4144,16 +4097,8 @@
           "value": "ref.func"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "index"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "index"
         }
       ]
     },
