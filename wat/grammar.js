@@ -323,6 +323,7 @@ module.exports = grammar({
         $.instr_plain_table_size,
         $.instr_plain_table_grow,
         $.instr_plain_table_fill,
+        $.instr_plain_ref_null,
         $.instr_plain_ref_is_null,
         $.instr_plain_ref_func,
         // proposal <stop>: reference-types
@@ -338,7 +339,7 @@ module.exports = grammar({
 
         $.instr_plain_memory_size,
         $.instr_plain_memory_grow,
-        $.instr_plain_const,
+        $.instr_plain_const_num,
         $.instr_plain_test,
         $.instr_plain_compare,
         $.instr_plain_unary,
@@ -524,20 +525,18 @@ module.exports = grammar({
       choice(
         $.instr_plain_const_num,
         // proposal: reference-types
-        $.instr_plain_ref_extern,
-        // proposal: reference-types
         $.instr_plain_ref_null,
-        // proposal: function-references
-        $.instr_plain_ref_func,
+        // proposal: reference-types
+        $.instr_plain_ref_extern,
       ),
 
     instr_plain_const_num: $ => seq($._instr_type, token.immediate("."), token.immediate(/const/), $.num),
 
-    instr_plain_ref_as_non_null: $ => seq("ref", token.immediate("."), token.immediate(/as_non_null/)),
+    instr_plain_ref_as_non_null: $ => "ref.as_non_null",
 
-    instr_plain_ref_extern: $ => seq("ref", token.immediate("."), token.immediate(/extern/), $.UNSIGNED),
+    instr_plain_ref_extern: $ => seq("ref.extern", $.UNSIGNED),
 
-    instr_plain_ref_null: $ => seq("ref", token.immediate("."), token.immediate(/null/), choice($.ref_kind, $.index)),
+    instr_plain_ref_null: $ => seq("ref.null", choice($.ref_kind, $.index)),
 
     instr_plain_convert: $ =>
       choice(
@@ -698,7 +697,7 @@ module.exports = grammar({
     instr_plain_nop: $ => "nop",
 
     // proposal: reference-types
-    instr_plain_ref_func: $ => seq("ref.func", optional($.index)),
+    instr_plain_ref_func: $ => seq("ref.func", $.index),
 
     // proposal: reference-types
     instr_plain_ref_is_null: $ => token("ref.is_null"),
