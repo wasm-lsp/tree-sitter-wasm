@@ -1,0 +1,57 @@
+{
+  "name": "tree-sitter-wasm",
+  "version": "0.0.0",
+  "author": "Darin Morrison <darinmorrison@users.noreply.github.com>",
+  "license": "Apache-2.0 WITH LLVM-exception",
+  "description": "WebAssembly grammars for tree-sitter",
+  "keywords": [
+    "parser",
+    "lexer"
+  ],
+  "homepage": "https://github.com/wasm-lsp/tree-sitter-wasm#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wasm-lsp/tree-sitter-wasm.git"
+  },
+  "bugs": {
+    "url": "https://github.com/wasm-lsp/tree-sitter-wasm/issues"
+  },
+  "main": "index.js",
+  "scripts": {
+    "build": "npm run build-wast && npm run build-wat",
+    "build-wast": "cd wast && tree-sitter generate",
+    "build-wat": "cd wat && tree-sitter generate",
+    "format": "prettier --write '**/*.{js,json,ts,tsx,yml,yaml}'",
+    "lint": "eslint '**/*.{js,ts,tsx}'",
+    "test": "npm run test-wast && npm run test-wat",
+    "test-wast": "cd wast && tree-sitter parse corpus/**/*.wast",
+    "test-wat": "cd wat && tree-sitter parse corpus/**/*.wat"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.9.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "prettier": "^2.1.2",
+    "tree-sitter-cli": "^0.17.0"
+  },
+  "dependencies": {
+    "nan": "^2.14.1"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.wat",
+      "file-types": [
+        "wat"
+      ],
+      "path": "wat"
+    },
+    {
+      "scope": "source.wast",
+      "file-types": [
+        "wast"
+      ],
+      "path": "wast"
+    }
+  ]
+}

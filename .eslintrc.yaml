@@ -1,0 +1,10 @@
+---
+parser: "babel-eslint"
+extends:
+  - eslint:recommended
+  - plugin:prettier/recommended
+  - prettier
+rules:
+  "no-control-regex": ["off"]
+  "no-unused-vars": ["off"]
+  "no-undef": ["off"]
