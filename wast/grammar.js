@@ -1,3 +1,5 @@
+/// <reference types="tree-sitter-cli/dsl" />
+
 const wat = require("../wat/grammar");
 
 module.exports = grammar(wat, {

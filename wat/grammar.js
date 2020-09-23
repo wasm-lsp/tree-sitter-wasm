@@ -1,3 +1,5 @@
+/// <reference types="tree-sitter-cli/dsl" />
+
 const PREC = {
   STRING: 2,
 };
