@@ -2989,6 +2989,10 @@
     "named": false
   },
   {
+    "type": "_splat",
+    "named": false
+  },
+  {
     "type": "add",
     "named": false
   },
