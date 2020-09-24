@@ -727,11 +727,11 @@ module.exports = grammar({
             seq(token.immediate("store"), optional($.offset_value), optional($.align_value)),
           ),
         ),
-        seq(choice("f32x4", "f64x2"), token.immediate("."), token.immediate(/div|min|max|sqrt/)),
+        seq(choice("f32x4", "f64x2"), token.immediate("."), token.immediate(/div|p?(min|max)|sqrt/)),
         seq(
           choice("i8x16", "i16x8"),
           token.immediate("."),
-          token.immediate(/(add|sub)_saturate|avgr/),
+          token.immediate(/(add|sub)_sat|avgr/),
           token.immediate("_"),
           token.immediate(/[su]/),
         ),
@@ -896,7 +896,7 @@ module.exports = grammar({
     instr_plain_simd_lane: $ =>
       choice(
         seq(
-          "v8x16",
+          "i8x16",
           token.immediate("."),
           choice(token.immediate("swizzle"), seq(token.immediate("shuffle"), ...Array(16).fill($.FLOAT))),
         ),
@@ -924,25 +924,18 @@ module.exports = grammar({
 
     // proposal: simd
     instr_plain_simd_load: $ =>
-      choice(
-        seq(
+      seq(
+        "v128",
+        token.immediate("."),
+        token.immediate("load"),
+        optional(
           choice(
-            choice(
-              seq("i16x8", token.immediate("."), token.immediate("load8x8_"), token.immediate(/[su]/)),
-              seq("i32x4", token.immediate("."), token.immediate("load16x4_"), token.immediate(/[su]/)),
-              seq("i64x2", token.immediate("."), token.immediate("load32x2_"), token.immediate(/[su]/)),
-            ),
-            choice(
-              seq("v8x16", token.immediate("."), token.immediate("load_splat")),
-              seq("v16x8", token.immediate("."), token.immediate("load_splat")),
-              seq("v32x4", token.immediate("."), token.immediate("load_splat")),
-              seq("v64x2", token.immediate("."), token.immediate("load_splat")),
-            ),
-            seq("v128", token.immediate("."), token.immediate("load")),
+            seq(token.immediate(/8x8|16x4|32x2/), token.immediate(/_[su]/)),
+            seq(token.immediate(/8|16|32|64/), token.immediate("_splat")),
           ),
-          optional($.offset_value),
-          optional($.align_value),
         ),
+        optional($.offset_value),
+        optional($.align_value),
       ),
 
     // proposal: simd
@@ -959,12 +952,13 @@ module.exports = grammar({
     // proposal: simd
     instr_plain_simd_unary: $ =>
       choice(
+        seq(choice("f32x4", "f64x2"), token.immediate("."), token.immediate(/abs|ceil|floor|nearest|neg|splat|trunc/)),
         seq(
-          choice("f32x4", "f64x2", "i8x16", "i16x8", "i32x4", "i64x2"),
+          choice("i8x16", "i16x8", "i32x4"),
           token.immediate("."),
-          token.immediate(/abs|neg|splat/),
+          token.immediate(/abs|all_true|any_true|bitmask|neg|splat/),
         ),
-        seq(choice("i8x16", "i16x8", "i32x4"), token.immediate("."), token.immediate(/all_true|any_true/)),
+        seq("i64x2", token.immediate("."), token.immediate(/neg|splat/)),
         seq("v128", token.immediate("."), token.immediate("not")),
         seq(
           choice(
