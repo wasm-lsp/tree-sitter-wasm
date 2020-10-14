@@ -36,7 +36,7 @@
     "tree-sitter-cli": "^0.17.1"
   },
   "dependencies": {
-    "nan": "^2.14.1"
+    "nan": "^2.14.2"
   },
   "tree-sitter": [
     {
