@@ -14,11 +14,11 @@ module.exports = grammar(wat, {
 
     action_invoke: $ => seq("(", "invoke", optional($.identifier), $.name, repeat($._expr_plain_const), ")"),
 
-    assert_exhaustion: $ => seq("(", "assert_exhaustion", $._action, $.string, ")"),
+    assert_exhaustion: $ => seq("(", "assert_exhaustion", $._action, $._string, ")"),
 
-    assert_invalid: $ => seq("(", "assert_invalid", $._script_module, $.string, ")"),
+    assert_invalid: $ => seq("(", "assert_invalid", $._script_module, $._string, ")"),
 
-    assert_malformed: $ => seq("(", "assert_malformed", $._script_module, $.string, ")"),
+    assert_malformed: $ => seq("(", "assert_malformed", $._script_module, $._string, ")"),
 
     assert_return: $ => seq("(", "assert_return", $._action, repeat($._result), ")"),
 
@@ -28,11 +28,11 @@ module.exports = grammar(wat, {
     // proposal: annotations
     assert_return_canonical_nan: $ => seq("(", "assert_return_canonical_nan", $._action, repeat($._result), ")"),
 
-    assert_trap_action: $ => seq("(", "assert_trap", $._action, $.string, ")"),
+    assert_trap_action: $ => seq("(", "assert_trap", $._action, $._string, ")"),
 
-    assert_trap_module: $ => seq("(", "assert_trap", $._script_module, $.string, ")"),
+    assert_trap_module: $ => seq("(", "assert_trap", $._script_module, $._string, ")"),
 
-    assert_unlinkable: $ => seq("(", "assert_unlinkable", $._script_module, $.string, ")"),
+    assert_unlinkable: $ => seq("(", "assert_unlinkable", $._script_module, $._string, ")"),
 
     _assertion: $ =>
       choice(
@@ -63,9 +63,9 @@ module.exports = grammar(wat, {
 
     meta_script: $ => seq("(", "script", optional($.identifier), repeat($._command), ")"),
 
-    meta_input: $ => seq("(", "input", optional($.identifier), $.string, ")"),
+    meta_input: $ => seq("(", "input", optional($.identifier), $._string, ")"),
 
-    meta_output: $ => seq("(", "output", optional($.identifier), optional($.string), ")"),
+    meta_output: $ => seq("(", "output", optional($.identifier), optional($._string), ")"),
 
     register: $ => seq("(", "register", $.name, optional($.identifier), ")"),
 
@@ -89,8 +89,8 @@ module.exports = grammar(wat, {
 
     _script_module: $ => choice($.module, $.script_module_binary, $.script_module_quote),
 
-    script_module_binary: $ => seq("(", "module", optional($.identifier), "binary", repeat($.string), ")"),
+    script_module_binary: $ => seq("(", "module", optional($.identifier), "binary", repeat($._string), ")"),
 
-    script_module_quote: $ => seq("(", "module", optional($.identifier), "quote", repeat($.string), ")"),
+    script_module_quote: $ => seq("(", "module", optional($.identifier), "quote", repeat($._string), ")"),
   },
 });

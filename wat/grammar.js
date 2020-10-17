@@ -30,7 +30,7 @@ module.exports = grammar({
 
     // proposal: annotations
     _annotation_part: $ =>
-      choice($.comment_block_annot, $.comment_line_annot, $.annotation_parens, $.reserved, $.identifier, $.string),
+      choice($.comment_block_annot, $.comment_line_annot, $.annotation_parens, $.reserved, $.identifier, $._string),
 
     // proposal: threads
     atomicop: $ => choice("add", "and", "cmpxchg", "or", "sub", "xchg", "xor"),
@@ -104,6 +104,8 @@ module.exports = grammar({
     elem_list: $ => choice(seq($.elem_kind, repeat($.index)), seq($._ref_type, repeat($._elem_expr))),
 
     escape_sequence: $ => token.immediate(seq("\\", choice(/[^u0-9a-fA-F]/, /[0-9a-fA-F]{2}/, /u{[0-9a-fA-F]+}/))),
+
+    export: $ => seq("(", "export", $.name, ")"),
 
     _export_desc: $ => choice($.export_desc_func, $.export_desc_table, $.export_desc_memory, $.export_desc_global),
 
@@ -215,6 +217,8 @@ module.exports = grammar({
         optional(seq("(", "else", optional($._instr_list), ")")),
       ),
 
+    import: $ => seq("(", "import", $.name, $.name, ")"),
+
     _import_desc: $ =>
       choice(
         $.import_desc_type_use,
@@ -235,10 +239,6 @@ module.exports = grammar({
     import_desc_type_use: $ => seq("(", "func", optional($.identifier), $.type_use, ")"),
 
     index: $ => choice($._nat, $.identifier),
-
-    inline_export: $ => seq("(", "export", $.name, ")"),
-
-    inline_import: $ => seq("(", "import", $.name, $.name, ")"),
 
     instr: $ => choice($.instr_plain, $.instr_call, $.instr_block, $._expr),
 
@@ -957,15 +957,15 @@ module.exports = grammar({
         optional($.share),
       ),
 
-    memory_fields_data: $ => seq("(", "data", repeat($.string), ")"),
+    memory_fields_data: $ => seq("(", "data", repeat($._string), ")"),
 
-    _memory_fields_type: $ => seq(optional($.inline_import), $._memory_type),
+    _memory_fields_type: $ => seq(optional($.import), $._memory_type),
 
     _memory_type: $ => $.limits,
 
     memory_use: $ => seq("(", "memory", $.index, ")"),
 
-    module: $ => seq("(", "module", optional(field("identifier", $.identifier)), repeat($._module_field), ")"),
+    module: $ => seq("(", "module", optional($.identifier), repeat($._module_field), ")"),
 
     _module_field: $ =>
       choice(
@@ -982,7 +982,7 @@ module.exports = grammar({
       ),
 
     module_field_data: $ =>
-      seq("(", "data", optional($.index), optional(seq(optional($.memory_use), $._offset)), repeat($.string), ")"),
+      seq("(", "data", optional($.index), optional(seq(optional($.memory_use), $._offset)), repeat($._string), ")"),
 
     module_field_elem: $ =>
       seq(
@@ -1013,9 +1013,9 @@ module.exports = grammar({
       seq(
         "(",
         "func",
-        optional(field("identifier", $.identifier)),
-        repeat($.inline_export),
-        optional($.inline_import),
+        optional($.identifier),
+        repeat($.export),
+        optional($.import),
         optional($.type_use),
         repeat($._func_type_params),
         repeat($.func_type_results),
@@ -1028,9 +1028,9 @@ module.exports = grammar({
       seq(
         "(",
         "global",
-        optional(field("identifier", $.identifier)),
-        repeat($.inline_export),
-        optional($.inline_import),
+        optional($.identifier),
+        repeat($.export),
+        optional($.import),
         $.global_type,
         repeat($.instr),
         ")",
@@ -1042,8 +1042,8 @@ module.exports = grammar({
       seq(
         "(",
         "memory",
-        optional(field("identifier", $.identifier)),
-        repeat($.inline_export),
+        optional($.identifier),
+        repeat($.export),
         choice(alias($.memory_fields_data, $.data), $._memory_fields_type),
         ")",
       ),
@@ -1054,15 +1054,15 @@ module.exports = grammar({
       seq(
         "(",
         "table",
-        optional(field("identifier", $.identifier)),
-        repeat($.inline_export),
+        optional($.identifier),
+        repeat($.export),
         choice($.table_fields_elem, $.table_fields_type),
         ")",
       ),
 
-    module_field_type: $ => seq("(", "type", optional(field("identifier", $.identifier)), $._type_field, ")"),
+    module_field_type: $ => seq("(", "type", optional($.identifier), $._type_field, ")"),
 
-    name: $ => $.string,
+    name: $ => $._string,
 
     nan: $ =>
       seq(
@@ -1114,13 +1114,13 @@ module.exports = grammar({
 
     sign: $ => token(/[+-]/),
 
-    string: $ =>
+    _string: $ =>
       seq('"', repeat(choice(token.immediate(prec(PREC.STRING, /[^"\\\n]+|\\\r?\n/)), $.escape_sequence)), '"'),
 
     table_fields_elem: $ =>
       seq($._ref_type, "(", "elem", choice(repeat($.index), seq($._elem_expr, repeat($._elem_expr))), ")"),
 
-    table_fields_type: $ => seq(optional($.inline_import), $.table_type),
+    table_fields_type: $ => seq(optional($.import), $.table_type),
 
     table_type: $ => seq($.limits, $._ref_type),
 
