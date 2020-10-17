@@ -8,7 +8,7 @@ module.exports = grammar(wat, {
   rules: {
     ROOT: $ => choice(repeat($._command), repeat1($._module_field)),
 
-    _action: $ => choice($.action_invoke, $.action_get),
+    _action: $ => choice(alias($.action_invoke, $.invoke), alias($.action_get, $.get)),
 
     action_get: $ => seq("(", "get", optional($.identifier), $.name, ")"),
 
@@ -20,13 +20,13 @@ module.exports = grammar(wat, {
 
     assert_malformed: $ => seq("(", "assert_malformed", $._script_module, $._string, ")"),
 
-    assert_return: $ => seq("(", "assert_return", $._action, repeat($._result), ")"),
+    assert_return: $ => seq("(", "assert_return", $._action, repeat($.result), ")"),
 
     // proposal: annotations
-    assert_return_arithmetic_nan: $ => seq("(", "assert_return_arithmetic_nan", $._action, repeat($._result), ")"),
+    assert_return_arithmetic_nan: $ => seq("(", "assert_return_arithmetic_nan", $._action, repeat($.result), ")"),
 
     // proposal: annotations
-    assert_return_canonical_nan: $ => seq("(", "assert_return_canonical_nan", $._action, repeat($._result), ")"),
+    assert_return_canonical_nan: $ => seq("(", "assert_return_canonical_nan", $._action, repeat($.result), ")"),
 
     assert_trap_action: $ => seq("(", "assert_trap", $._action, $._string, ")"),
 
@@ -78,17 +78,17 @@ module.exports = grammar(wat, {
 
     register: $ => seq("(", "register", $.name, optional($.identifier), ")"),
 
-    _result: $ =>
+    result: $ =>
       seq(
         "(",
-        choice($.result_const, $.result_const_nan, $.result_ref_func, $.result_ref_extern, $.result_ref_null),
+        choice($._result_const, $.result_const_nan, $.result_ref_func, $.result_ref_extern, $.result_ref_null),
         ")",
       ),
 
-    result_const: $ => choice($.op_const_ref, $.op_simd_const),
+    _result_const: $ => choice($.op_const_ref, $.op_simd_const),
 
     result_const_nan: $ =>
-      seq(choice("f32", "f64", "i32", "i64"), token.immediate("."), token.immediate(/const/), $._literal_nan),
+      seq(choice("f32", "f64", "i32", "i64"), token.immediate("."), token.immediate("const"), $._literal_nan),
 
     result_ref_func: $ => "ref.func",
 
