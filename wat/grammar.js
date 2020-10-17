@@ -101,7 +101,7 @@ module.exports = grammar({
     // proposal: reference-types
     elem_list: $ => choice(seq($.elem_kind, repeat($.index)), seq($._ref_type, repeat($._elem_expr))),
 
-    escape_sequence: $ =>
+    _escape_sequence: $ =>
       token.immediate(
         repeat1(
           seq(token.immediate("\\"), token.immediate(choice(/[^u0-9a-fA-F]/, /[0-9a-fA-F]{2}/, /u{[0-9a-fA-F]+}/))),
@@ -161,7 +161,7 @@ module.exports = grammar({
         ),
       ),
 
-    _expr1_plain: $ => seq($.instr_plain, repeat($._expr)),
+    _expr1_plain: $ => seq($._instr_plain, repeat($._expr)),
 
     _dec_float: $ =>
       token(
@@ -243,7 +243,7 @@ module.exports = grammar({
 
     index: $ => choice($._nat, $.identifier),
 
-    instr: $ => choice($.instr_plain, $.instr_call, $.instr_block, $._expr),
+    instr: $ => choice($._instr_plain, $.instr_call, $.instr_block, $._expr),
 
     instr_block: $ => choice($.block_block, $.block_loop, $.block_if),
 
@@ -258,7 +258,7 @@ module.exports = grammar({
         seq("call_indirect", optional($.type_use), repeat($.func_type_params_many), repeat($.func_type_results)),
       ),
 
-    instr_plain: $ =>
+    _instr_plain: $ =>
       choice(
         $.op_unreachable,
         $.op_nop,
@@ -299,7 +299,7 @@ module.exports = grammar({
 
         $.op_memory_size,
         $.op_memory_grow,
-        $.op_const_num,
+        $.op_const,
         $.op_test,
         $.op_compare,
         $.op_unary,
@@ -481,16 +481,7 @@ module.exports = grammar({
         seq(choice("f32", "f64"), token.immediate("."), token.immediate(/lt|le|gt|ge/)),
       ),
 
-    op_const: $ =>
-      choice(
-        $.op_const_num,
-        // proposal: reference-types
-        $.op_ref_null,
-        // proposal: reference-types
-        $.op_ref_extern,
-      ),
-
-    op_const_num: $ => seq(choice("f32", "f64", "i32", "i64"), token.immediate("."), token.immediate("const"), $.num),
+    op_const: $ => seq(choice("f32", "f64", "i32", "i64"), token.immediate("."), token.immediate("const"), $.num),
 
     op_ref_as_non_null: $ => "ref.as_non_null",
 
@@ -1129,7 +1120,7 @@ module.exports = grammar({
     sign: $ => /[+-]/,
 
     _string: $ =>
-      seq('"', repeat(choice(token.immediate(prec(PREC.STRING, /[^"\\\n]+|\\\r?\n/)), $.escape_sequence)), '"'),
+      seq('"', repeat(choice(token.immediate(prec(PREC.STRING, /[^"\\\n]+|\\\r?\n/)), $._escape_sequence)), '"'),
 
     table_fields_elem: $ =>
       seq($._ref_type, "(", "elem", choice(repeat($.index), seq($._elem_expr, repeat($._elem_expr))), ")"),
