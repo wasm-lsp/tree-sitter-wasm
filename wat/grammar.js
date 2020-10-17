@@ -7,11 +7,12 @@ const PREC = {
 const pattern_dec_nat = /[0-9]+(_?[0-9]+)*/;
 const pattern_hex_nat = /[0-9A-Fa-f]+(_?[0-9A-Fa-f]+)*/;
 const pattern_identifier = /[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+/;
-const pattern_num_type = /[fi](32|64)|v128/;
 const pattern_sign = /[+-]/;
 
 module.exports = grammar({
   name: "wat",
+
+  // inline: $ => [$._value_type_num_type, $._value_type_ref_type],
 
   extras: $ => [$.annotation, $.comment_block, $.comment_line, /[\s\uFEFF\u2060\u200B\u00A0]/],
 
@@ -86,7 +87,7 @@ module.exports = grammar({
     _dec_nat: $ => pattern_dec_nat,
 
     // proposal: reference-types
-    _elem_expr: $ => choice($.elem_expr_item, $.elem_expr_expr),
+    _elem_expr: $ => choice(alias($.elem_expr_item, $.item), alias($.elem_expr_expr, $.expr)),
 
     // proposal: reference-types
     elem_expr_expr: $ => $._expr,
@@ -1080,6 +1081,16 @@ module.exports = grammar({
 
     num: $ => choice($.integer, $.float),
 
+    num_type_f32: $ => "f32",
+
+    num_type_f64: $ => "f64",
+
+    num_type_i32: $ => "i32",
+
+    num_type_i64: $ => "i64",
+
+    num_type_v128: $ => "v128",
+
     _offset: $ => choice($.offset_const_expr, $.offset_expr),
 
     offset_const_expr: $ => seq("(", "offset", repeat($.instr), ")"),
@@ -1127,9 +1138,16 @@ module.exports = grammar({
 
     type_use: $ => seq("(", "type", $.index, ")"),
 
-    _value_type: $ => choice($.value_type_num_type, $._value_type_ref_type),
+    _value_type: $ => choice(alias($._value_type_num_type, $.num_type), alias($._value_type_ref_type, $.ref_type)),
 
-    value_type_num_type: $ => pattern_num_type,
+    _value_type_num_type: $ =>
+      choice(
+        alias($.num_type_f32, $.f32),
+        alias($.num_type_f64, $.f64),
+        alias($.num_type_i32, $.i32),
+        alias($.num_type_i64, $.i64),
+        alias($.num_type_v128, $.v128),
+      ),
 
     _value_type_ref_type: $ => $._ref_type,
   },
