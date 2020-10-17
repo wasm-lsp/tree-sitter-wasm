@@ -4,8 +4,8 @@ const PREC = {
   STRING: 2,
 };
 
-const pattern_decnat = /[0-9]+(_?[0-9]+)*/;
-const pattern_hexnat = /[0-9A-Fa-f]+(_?[0-9A-Fa-f]+)*/;
+const pattern_dec_nat = /[0-9]+(_?[0-9]+)*/;
+const pattern_hex_nat = /[0-9A-Fa-f]+(_?[0-9A-Fa-f]+)*/;
 const pattern_identifier = /[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+/;
 const pattern_num_type = /[fi](32|64)|v128/;
 const pattern_sign = /[+-]/;
@@ -110,7 +110,7 @@ module.exports = grammar({
 
     comment_line_annot: $ => prec.left(token(seq(";;", /.*/))),
 
-    decnat: $ => token(pattern_decnat),
+    dec_nat: $ => token(pattern_dec_nat),
 
     // proposal: reference-types
     _elem_expr: $ => choice($.elem_expr_item, $.elem_expr_expr),
@@ -185,9 +185,9 @@ module.exports = grammar({
     dec_float: $ =>
       token(
         seq(
-          pattern_decnat,
-          optional(seq(".", optional(pattern_decnat))),
-          optional(seq(/[Ee]/, optional(pattern_sign), pattern_decnat)),
+          pattern_dec_nat,
+          optional(seq(".", optional(pattern_dec_nat))),
+          optional(seq(/[Ee]/, optional(pattern_sign), pattern_dec_nat)),
         ),
       ),
 
@@ -219,11 +219,13 @@ module.exports = grammar({
       token(
         seq(
           "0x",
-          pattern_hexnat,
-          optional(seq(".", optional(pattern_hexnat))),
-          optional(seq(/[Pp]/, optional(pattern_sign), pattern_decnat)),
+          pattern_hex_nat,
+          optional(seq(".", optional(pattern_hex_nat))),
+          optional(seq(/[Pp]/, optional(pattern_sign), pattern_dec_nat)),
         ),
       ),
+
+    hex_nat: $ => seq("0x", token.immediate(pattern_hex_nat)),
 
     identifier: $ => token(seq(token.immediate("$"), pattern_identifier)),
 
@@ -256,7 +258,7 @@ module.exports = grammar({
 
     import_desc_type_use: $ => seq("(", "func", optional($.identifier), $.type_use, ")"),
 
-    index: $ => choice($.unsigned_nat, $.identifier),
+    index: $ => choice($.nat, $.identifier),
 
     inline_export: $ => seq("(", "export", $.name, ")"),
 
@@ -513,7 +515,7 @@ module.exports = grammar({
 
     instr_plain_ref_as_non_null: $ => "ref.as_non_null",
 
-    instr_plain_ref_extern: $ => seq("ref.extern", $.unsigned_nat),
+    instr_plain_ref_extern: $ => seq("ref.extern", $.nat),
 
     instr_plain_ref_null: $ => seq("ref.null", choice($.ref_kind, $.index)),
 
@@ -1031,12 +1033,12 @@ module.exports = grammar({
 
     instr_type_int_64: $ => "i64",
 
-    integer: $ => choice($.signed_nat, $.unsigned_nat),
+    integer: $ => seq(optional($.sign), $.nat),
 
     limits: $ =>
       seq(
-        $.unsigned_nat,
-        optional($.unsigned_nat),
+        $.nat,
+        optional($.nat),
         // proposal: threads
         optional($.share),
       ),
@@ -1157,13 +1159,15 @@ module.exports = grammar({
             choice(
               token.immediate("arithmetic"),
               token.immediate("canonical"),
-              seq(token.immediate("0x"), token.immediate(pattern_hexnat)),
+              seq(token.immediate("0x"), token.immediate(pattern_hex_nat)),
             ),
           ),
         ),
       ),
 
-    num: $ => choice($.unsigned_nat, $.signed_nat, $.float),
+    nat: $ => choice($.dec_nat, $.hex_nat),
+
+    num: $ => choice($.integer, $.float),
 
     _offset: $ => choice($.offset_const_expr, $.offset_expr),
 
@@ -1196,8 +1200,6 @@ module.exports = grammar({
 
     sign: $ => token(/[+-]/),
 
-    signed_nat: $ => seq($.sign, $.unsigned_nat),
-
     string: $ =>
       seq('"', repeat(choice(token.immediate(prec(PREC.STRING, /[^"\\\n]+|\\\r?\n/)), $.escape_sequence)), '"'),
 
@@ -1213,8 +1215,6 @@ module.exports = grammar({
     _type_field: $ => seq("(", "func", repeat($._func_type), ")"),
 
     type_use: $ => seq("(", "type", $.index, ")"),
-
-    unsigned_nat: $ => choice($.decnat, seq("0x", token.immediate(pattern_hexnat))),
 
     value_type: $ => choice($.value_type_num_type, $._value_type_ref_type),
 
