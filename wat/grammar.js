@@ -16,7 +16,7 @@ module.exports = grammar({
 
   extras: $ => [$.annotation, $.comment_block, $.comment_line, /[\s\uFEFF\u2060\u200B\u00A0]/],
 
-  conflicts: $ => [[$.instr_plain_let], [$.instr_plain_select]],
+  conflicts: $ => [[$.op_let], [$.op_select]],
 
   rules: {
     ROOT: $ => choice($.module, repeat($._module_field)),
@@ -101,7 +101,12 @@ module.exports = grammar({
     // proposal: reference-types
     elem_list: $ => choice(seq($.elem_kind, repeat($.index)), seq($._ref_type, repeat($._elem_expr))),
 
-    escape_sequence: $ => token.immediate(seq("\\", choice(/[^u0-9a-fA-F]/, /[0-9a-fA-F]{2}/, /u{[0-9a-fA-F]+}/))),
+    escape_sequence: $ =>
+      token.immediate(
+        repeat1(
+          seq(token.immediate("\\"), token.immediate(choice(/[^u0-9a-fA-F]/, /[0-9a-fA-F]{2}/, /u{[0-9a-fA-F]+}/))),
+        ),
+      ),
 
     export: $ => seq("(", "export", $.name, ")"),
 
@@ -255,91 +260,91 @@ module.exports = grammar({
 
     instr_plain: $ =>
       choice(
-        $.instr_plain_unreachable,
-        $.instr_plain_nop,
-        $.instr_plain_drop,
-        $.instr_plain_select,
-        $.instr_plain_br,
-        $.instr_plain_br_if,
-        $.instr_plain_br_table,
-        $.instr_plain_return,
-        $.instr_plain_local_get,
-        $.instr_plain_local_set,
-        $.instr_plain_local_tee,
-        $.instr_plain_global_get,
-        $.instr_plain_global_set,
+        $.op_unreachable,
+        $.op_nop,
+        $.op_drop,
+        $.op_select,
+        $.op_br,
+        $.op_br_if,
+        $.op_br_table,
+        $.op_return,
+        $.op_local_get,
+        $.op_local_set,
+        $.op_local_tee,
+        $.op_global_get,
+        $.op_global_set,
 
         // proposal <start>: reference-types
-        $.instr_plain_table_get,
-        $.instr_plain_table_set,
-        $.instr_plain_table_size,
-        $.instr_plain_table_grow,
-        $.instr_plain_table_fill,
-        $.instr_plain_table_size,
-        $.instr_plain_table_grow,
-        $.instr_plain_table_fill,
-        $.instr_plain_ref_null,
-        $.instr_plain_ref_is_null,
-        $.instr_plain_ref_func,
+        $.op_table_get,
+        $.op_table_set,
+        $.op_table_size,
+        $.op_table_grow,
+        $.op_table_fill,
+        $.op_table_size,
+        $.op_table_grow,
+        $.op_table_fill,
+        $.op_ref_null,
+        $.op_ref_is_null,
+        $.op_ref_func,
         // proposal <stop>: reference-types
 
         // proposal <start>: function-references
-        $.instr_plain_br_on_null,
-        $.instr_plain_call_ref,
-        $.instr_plain_func_bind,
-        $.instr_plain_let,
-        $.instr_plain_ref_as_non_null,
-        $.instr_plain_return_call_ref,
+        $.op_br_on_null,
+        $.op_call_ref,
+        $.op_func_bind,
+        $.op_let,
+        $.op_ref_as_non_null,
+        $.op_return_call_ref,
         // proposal <stop>: function-references
 
-        $.instr_plain_memory_size,
-        $.instr_plain_memory_grow,
-        $.instr_plain_const_num,
-        $.instr_plain_test,
-        $.instr_plain_compare,
-        $.instr_plain_unary,
-        $.instr_plain_binary,
-        $.instr_plain_convert,
-        $.instr_plain_load,
-        $.instr_plain_store,
-        $.instr_plain_call,
+        $.op_memory_size,
+        $.op_memory_grow,
+        $.op_const_num,
+        $.op_test,
+        $.op_compare,
+        $.op_unary,
+        $.op_binary,
+        $.op_convert,
+        $.op_load,
+        $.op_store,
+        $.op_call,
 
         // proposal <start>: threads
-        $.instr_plain_atomic_wait,
-        $.instr_plain_atomic_notify,
-        $.instr_plain_atomic_load,
-        $.instr_plain_atomic_store,
-        $.instr_plain_atomic_rmw,
+        $.op_atomic_wait,
+        $.op_atomic_notify,
+        $.op_atomic_load,
+        $.op_atomic_store,
+        $.op_atomic_rmw,
         // proposal <stop>: threads
 
         // proposal <start>: bulk-memory-operations
-        $.instr_plain_data_drop,
-        $.instr_plain_elem_drop,
-        $.instr_plain_memory_copy,
-        $.instr_plain_memory_fill,
-        $.instr_plain_memory_init,
-        $.instr_plain_table_copy,
-        $.instr_plain_table_init,
+        $.op_data_drop,
+        $.op_elem_drop,
+        $.op_memory_copy,
+        $.op_memory_fill,
+        $.op_memory_init,
+        $.op_table_copy,
+        $.op_table_init,
         // proposal <stop>: bulk-memory-operations
 
         // proposal <start>: simd
-        $.instr_plain_simd_compare,
-        $.instr_plain_simd_const,
-        $.instr_plain_simd_convert,
-        $.instr_plain_simd_binary,
-        $.instr_plain_simd_trinary,
-        $.instr_plain_simd_lane,
-        $.instr_plain_simd_load,
-        $.instr_plain_simd_store,
-        $.instr_plain_simd_unary,
+        $.op_simd_compare,
+        $.op_simd_const,
+        $.op_simd_convert,
+        $.op_simd_binary,
+        $.op_simd_trinary,
+        $.op_simd_lane,
+        $.op_simd_load,
+        $.op_simd_store,
+        $.op_simd_unary,
         // proposal <stop>: simd
       ),
 
     // proposal: threads
-    instr_plain_atomic_fence: $ => seq(token.immediate("atomic"), token.immediate("."), token.immediate("fence")),
+    op_atomic_fence: $ => seq(token.immediate("atomic"), token.immediate("."), token.immediate("fence")),
 
     // proposal: threads
-    instr_plain_atomic_load: $ =>
+    op_atomic_load: $ =>
       choice(
         seq(
           choice("i32", "i64"),
@@ -364,11 +369,11 @@ module.exports = grammar({
       ),
 
     // proposal: threads
-    instr_plain_atomic_notify: $ =>
+    op_atomic_notify: $ =>
       seq("memory", token.immediate("."), token.immediate("atomic"), token.immediate("."), token.immediate("notify")),
 
     // proposal: threads
-    instr_plain_atomic_store: $ =>
+    op_atomic_store: $ =>
       choice(
         seq(
           choice("i32", "i64"),
@@ -389,7 +394,7 @@ module.exports = grammar({
       ),
 
     // proposal: threads
-    instr_plain_atomic_rmw: $ =>
+    op_atomic_rmw: $ =>
       choice(
         seq(
           choice("i32", "i64"),
@@ -425,7 +430,7 @@ module.exports = grammar({
       ),
 
     // proposal: threads
-    instr_plain_atomic_wait: $ =>
+    op_atomic_wait: $ =>
       seq(
         "memory",
         token.immediate("."),
@@ -435,7 +440,7 @@ module.exports = grammar({
         token.immediate(/32|64/),
       ),
 
-    instr_plain_binary: $ =>
+    op_binary: $ =>
       choice(
         seq(choice("f32", "f64", "i32", "i64"), token.immediate("."), token.immediate(/add|sub|mul/)),
         seq(choice("i32", "i64"), token.immediate("."), token.immediate(/and|or|xor|shl|rotl|rotr/)),
@@ -449,21 +454,21 @@ module.exports = grammar({
         seq(choice("f32", "f64"), token.immediate("."), token.immediate(/add|sub|mul|div|min|max|copysign/)),
       ),
 
-    instr_plain_br: $ => seq("br", $.index),
+    op_br: $ => seq("br", $.index),
 
-    instr_plain_br_if: $ => seq("br_if", $.index),
-
-    // proposal: function-references
-    instr_plain_br_on_null: $ => seq("br_on_null", $.index),
-
-    instr_plain_br_table: $ => seq("br_table", $.index, repeat($.index)),
-
-    instr_plain_call: $ => seq("call", $.index),
+    op_br_if: $ => seq("br_if", $.index),
 
     // proposal: function-references
-    instr_plain_call_ref: $ => "call_ref",
+    op_br_on_null: $ => seq("br_on_null", $.index),
 
-    instr_plain_compare: $ =>
+    op_br_table: $ => seq("br_table", $.index, repeat($.index)),
+
+    op_call: $ => seq("call", $.index),
+
+    // proposal: function-references
+    op_call_ref: $ => "call_ref",
+
+    op_compare: $ =>
       choice(
         seq(choice("f32", "f64", "i32", "i64"), token.immediate("."), token.immediate(/eq|ne/)),
         seq(
@@ -476,25 +481,24 @@ module.exports = grammar({
         seq(choice("f32", "f64"), token.immediate("."), token.immediate(/lt|le|gt|ge/)),
       ),
 
-    instr_plain_const: $ =>
+    op_const: $ =>
       choice(
-        $.instr_plain_const_num,
+        $.op_const_num,
         // proposal: reference-types
-        $.instr_plain_ref_null,
+        $.op_ref_null,
         // proposal: reference-types
-        $.instr_plain_ref_extern,
+        $.op_ref_extern,
       ),
 
-    instr_plain_const_num: $ =>
-      seq(choice("f32", "f64", "i32", "i64"), token.immediate("."), token.immediate("const"), $.num),
+    op_const_num: $ => seq(choice("f32", "f64", "i32", "i64"), token.immediate("."), token.immediate("const"), $.num),
 
-    instr_plain_ref_as_non_null: $ => "ref.as_non_null",
+    op_ref_as_non_null: $ => "ref.as_non_null",
 
-    instr_plain_ref_extern: $ => seq("ref.extern", $._nat),
+    op_ref_extern: $ => seq("ref.extern", $._nat),
 
-    instr_plain_ref_null: $ => seq("ref.null", choice($.ref_kind, $.index)),
+    op_ref_null: $ => seq("ref.null", choice($.ref_kind, $.index)),
 
-    instr_plain_convert: $ =>
+    op_convert: $ =>
       choice(
         seq("i32", token.immediate("."), token.immediate("wrap"), token.immediate("_i"), token.immediate("64")),
         seq(
@@ -534,25 +538,25 @@ module.exports = grammar({
       ),
 
     // proposal: bulk-memory-operations
-    instr_plain_data_drop: $ => seq("data.drop", $.index),
+    op_data_drop: $ => seq("data.drop", $.index),
 
-    instr_plain_drop: $ => "drop",
+    op_drop: $ => "drop",
 
     // proposal: bulk-memory-operations
-    instr_plain_elem_drop: $ => seq("elem.drop", $.index),
+    op_elem_drop: $ => seq("elem.drop", $.index),
 
     // proposal: function-references
-    instr_plain_func_bind: $ => prec.right(seq("func.bind", optional(seq("(", "type", $.index, ")")))),
+    op_func_bind: $ => prec.right(seq("func.bind", optional(seq("(", "type", $.index, ")")))),
 
-    instr_plain_global_get: $ => seq("global.get", $.index),
+    op_global_get: $ => seq("global.get", $.index),
 
-    instr_plain_global_set: $ => seq("global.set", $.index),
+    op_global_set: $ => seq("global.set", $.index),
 
     // proposal: function-references
-    instr_plain_let: $ =>
+    op_let: $ =>
       seq("let", optional($.index), repeat($._func_type_params), repeat($.func_type_results), repeat($._func_locals)),
 
-    instr_plain_load: $ =>
+    op_load: $ =>
       seq(
         choice(
           seq(choice("f32", "f64", "i32", "i64"), token.immediate("."), token.immediate("load")),
@@ -579,19 +583,19 @@ module.exports = grammar({
         optional($.align_value),
       ),
 
-    instr_plain_local_get: $ => seq("local.get", $.index),
+    op_local_get: $ => seq("local.get", $.index),
 
-    instr_plain_local_set: $ => seq("local.set", $.index),
+    op_local_set: $ => seq("local.set", $.index),
 
-    instr_plain_local_tee: $ => seq("local.tee", $.index),
-
-    // proposal: bulk-memory-operations
-    instr_plain_memory_copy: $ => "memory.copy",
+    op_local_tee: $ => seq("local.tee", $.index),
 
     // proposal: bulk-memory-operations
-    instr_plain_memory_fill: $ => "memory.fill",
+    op_memory_copy: $ => "memory.copy",
 
-    instr_plain_memory_grow: $ =>
+    // proposal: bulk-memory-operations
+    op_memory_fill: $ => "memory.fill",
+
+    op_memory_grow: $ =>
       seq(
         "memory.grow",
         // proposal: multi-memory
@@ -599,29 +603,29 @@ module.exports = grammar({
       ),
 
     // proposal: bulk-memory-operations
-    instr_plain_memory_init: $ => seq("memory.init", $.index),
+    op_memory_init: $ => seq("memory.init", $.index),
 
-    instr_plain_memory_size: $ =>
+    op_memory_size: $ =>
       seq(
         "memory.size",
         // proposal: multi-memory
         optional($.index),
       ),
 
-    instr_plain_nop: $ => "nop",
+    op_nop: $ => "nop",
 
     // proposal: reference-types
-    instr_plain_ref_func: $ => seq("ref.func", $.index),
+    op_ref_func: $ => seq("ref.func", $.index),
 
     // proposal: reference-types
-    instr_plain_ref_is_null: $ => "ref.is_null",
+    op_ref_is_null: $ => "ref.is_null",
 
-    instr_plain_return: $ => "return",
+    op_return: $ => "return",
 
     // proposal: function-references
-    instr_plain_return_call_ref: $ => "return_call_ref",
+    op_return_call_ref: $ => "return_call_ref",
 
-    instr_plain_select: $ =>
+    op_select: $ =>
       seq(
         "select",
         // proposal: reference-types
@@ -629,7 +633,7 @@ module.exports = grammar({
       ),
 
     // proposal: simd
-    instr_plain_simd_binary: $ =>
+    op_simd_binary: $ =>
       choice(
         seq("v128", token.immediate("."), token.immediate(/and|andnot|not|or|xor/)),
         seq(choice("f32x4", "f64x2"), token.immediate("."), token.immediate(/div|p?(min|max)|sqrt/)),
@@ -664,7 +668,7 @@ module.exports = grammar({
       ),
 
     // proposal: simd
-    instr_plain_simd_compare: $ =>
+    op_simd_compare: $ =>
       choice(
         seq(choice("f32x4", "f64x2"), token.immediate("."), token.immediate(/ge|gt|le|lt/)),
         seq(choice("f32x4", "f64x2", "i8x16", "i16x8", "i32x4"), token.immediate("."), token.immediate(/eq|ne/)),
@@ -678,7 +682,7 @@ module.exports = grammar({
       ),
 
     // proposal: simd
-    instr_plain_simd_const: $ =>
+    op_simd_const: $ =>
       seq(
         "v128",
         token.immediate("."),
@@ -704,34 +708,34 @@ module.exports = grammar({
             token.immediate("8"),
             token.immediate("x"),
             token.immediate("16"),
-            ...Array(16).fill($.integer),
+            ...Array(16).fill($.int),
           ),
           seq(
             token.immediate("i"),
             token.immediate("16"),
             token.immediate("x"),
             token.immediate("8"),
-            ...Array(8).fill($.integer),
+            ...Array(8).fill($.int),
           ),
           seq(
             token.immediate("i"),
             token.immediate("32"),
             token.immediate("x"),
             token.immediate("4"),
-            ...Array(4).fill($.integer),
+            ...Array(4).fill($.int),
           ),
           seq(
             token.immediate("i"),
             token.immediate("64"),
             token.immediate("x"),
             token.immediate("2"),
-            ...Array(2).fill($.integer),
+            ...Array(2).fill($.int),
           ),
         ),
       ),
 
     // proposal: simd
-    instr_plain_simd_convert: $ =>
+    op_simd_convert: $ =>
       choice(
         seq(
           "f32x4",
@@ -798,7 +802,7 @@ module.exports = grammar({
       ),
 
     // proposal: simd
-    instr_plain_simd_lane: $ =>
+    op_simd_lane: $ =>
       choice(
         seq(
           "i8x16",
@@ -811,24 +815,19 @@ module.exports = grammar({
           token.immediate("extract_lane"),
           token.immediate("_"),
           token.immediate(/[su]/),
-          $.integer,
+          $.int,
         ),
-        seq(
-          choice("f32x4", "f64x2", "i32x4", "i64x2"),
-          token.immediate("."),
-          token.immediate("extract_lane"),
-          $.integer,
-        ),
+        seq(choice("f32x4", "f64x2", "i32x4", "i64x2"), token.immediate("."), token.immediate("extract_lane"), $.int),
         seq(
           choice("f32x4", "f64x2", "i8x16", "i16x8", "i32x4", "i64x2"),
           token.immediate("."),
           token.immediate("replace_lane"),
-          $.integer,
+          $.int,
         ),
       ),
 
     // proposal: simd
-    instr_plain_simd_load: $ =>
+    op_simd_load: $ =>
       seq(
         "v128",
         token.immediate("."),
@@ -844,7 +843,7 @@ module.exports = grammar({
       ),
 
     // proposal: simd
-    instr_plain_simd_store: $ =>
+    op_simd_store: $ =>
       seq(
         seq("v128", token.immediate("."), token.immediate("store")),
         optional($.offset_value),
@@ -852,10 +851,10 @@ module.exports = grammar({
       ),
 
     // proposal: simd
-    instr_plain_simd_trinary: $ => choice(seq("v128", token.immediate("."), token.immediate("bitselect"))),
+    op_simd_trinary: $ => choice(seq("v128", token.immediate("."), token.immediate("bitselect"))),
 
     // proposal: simd
-    instr_plain_simd_unary: $ =>
+    op_simd_unary: $ =>
       choice(
         seq(choice("f32x4", "f64x2"), token.immediate("."), token.immediate(/abs|ceil|floor|nearest|neg|splat|trunc/)),
         seq(
@@ -885,7 +884,7 @@ module.exports = grammar({
         ),
       ),
 
-    instr_plain_store: $ =>
+    op_store: $ =>
       seq(
         choice(
           seq(choice("f32", "f64", "i32", "i64"), token.immediate("."), token.immediate("store")),
@@ -899,29 +898,29 @@ module.exports = grammar({
       ),
 
     // proposal: bulk-memory-operations
-    instr_plain_table_copy: $ => seq("table.copy", optional(seq($.index, $.index))),
+    op_table_copy: $ => seq("table.copy", optional(seq($.index, $.index))),
 
     // proposal: reference-types
-    instr_plain_table_fill: $ => seq("table.fill", optional($.index)),
+    op_table_fill: $ => seq("table.fill", optional($.index)),
 
     // proposal: reference-types
-    instr_plain_table_get: $ => seq("table.get", optional($.index)),
+    op_table_get: $ => seq("table.get", optional($.index)),
 
     // proposal: reference-types
-    instr_plain_table_grow: $ => seq("table.grow", optional($.index)),
+    op_table_grow: $ => seq("table.grow", optional($.index)),
 
     // proposal: bulk-memory-operations
-    instr_plain_table_init: $ => seq("table.init", $.index, optional($.index)),
+    op_table_init: $ => seq("table.init", $.index, optional($.index)),
 
     // proposal: reference-types
-    instr_plain_table_set: $ => seq("table.set", optional($.index)),
+    op_table_set: $ => seq("table.set", optional($.index)),
 
     // proposal: reference-types
-    instr_plain_table_size: $ => seq("table.size", optional($.index)),
+    op_table_size: $ => seq("table.size", optional($.index)),
 
-    instr_plain_test: $ => seq(choice("f32", "f64", "i32", "i64"), token.immediate("."), token.immediate(/eqz/)),
+    op_test: $ => seq(choice("f32", "f64", "i32", "i64"), token.immediate("."), token.immediate(/eqz/)),
 
-    instr_plain_unary: $ =>
+    op_unary: $ =>
       choice(
         seq(choice("i32", "i64"), token.immediate("."), token.immediate(/clz|ctz|popcnt/)),
         seq(
@@ -943,9 +942,9 @@ module.exports = grammar({
         seq(choice("f32", "f64"), token.immediate("."), token.immediate(/neg|abs|sqrt|ceil|floor|trunc|nearest/)),
       ),
 
-    instr_plain_unreachable: $ => "unreachable",
+    op_unreachable: $ => "unreachable",
 
-    integer: $ => seq(optional($.sign), $._nat),
+    int: $ => seq(optional($.sign), $._nat),
 
     limits: $ =>
       seq(
@@ -980,7 +979,14 @@ module.exports = grammar({
       ),
 
     module_field_data: $ =>
-      seq("(", "data", optional($.index), optional(seq(optional($.memory_use), $._offset)), repeat($._string), ")"),
+      seq(
+        "(",
+        "data",
+        optional($.index),
+        optional(seq(optional($.memory_use), $._offset)),
+        alias(repeat($._string), $.bytes),
+        ")",
+      ),
 
     module_field_elem: $ =>
       seq(
@@ -1079,7 +1085,7 @@ module.exports = grammar({
 
     _nat: $ => choice($._dec_nat, $._hex_nat),
 
-    num: $ => choice($.integer, $.float),
+    num: $ => choice($.int, $.float),
 
     num_type_f32: $ => "f32",
 
