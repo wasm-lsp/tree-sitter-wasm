@@ -6,7 +6,7 @@ module.exports = grammar(wat, {
   name: "wast",
 
   rules: {
-    PARSE: $ => choice(repeat($.command), repeat1($.module_field)),
+    ROOT: $ => choice(repeat($.command), repeat1($.module_field)),
 
     _action: $ => choice($.action_invoke, $.action_get),
 
