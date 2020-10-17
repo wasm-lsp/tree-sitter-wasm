@@ -42,7 +42,7 @@ module.exports = grammar({
   ],
 
   rules: {
-    PARSE: $ => choice($.module, repeat($.module_field)),
+    ROOT: $ => choice($.module, repeat($.module_field)),
 
     FLOAT: $ => seq(optional($.sign), $.FLOAT_MAG),
 
