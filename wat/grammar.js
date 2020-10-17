@@ -4,8 +4,8 @@ const PREC = {
   STRING: 2,
 };
 
-const pattern_decnum = /[0-9]+(_?[0-9]+)*/;
-const pattern_hexnum = /[0-9A-Fa-f]+(_?[0-9A-Fa-f]+)*/;
+const pattern_decnat = /[0-9]+(_?[0-9]+)*/;
+const pattern_hexnat = /[0-9A-Fa-f]+(_?[0-9A-Fa-f]+)*/;
 const pattern_identifier = /[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+/;
 const pattern_num_type = /[fi](32|64)|v128/;
 const pattern_sign = /[+-]/;
@@ -42,32 +42,7 @@ module.exports = grammar({
   ],
 
   rules: {
-    ROOT: $ => choice($.module, repeat($.module_field)),
-
-    FLOAT: $ => seq(optional($.sign), $.FLOAT_MAG),
-
-    FLOAT_MAG: $ => choice($.float, $.hexfloat, "inf", $.NAN),
-
-    INTEGER: $ => choice($.SIGNED, $.UNSIGNED),
-
-    NAN: $ =>
-      seq(
-        "nan",
-        optional(
-          seq(
-            token.immediate(":"),
-            choice(
-              token.immediate("arithmetic"),
-              token.immediate("canonical"),
-              seq(token.immediate("0x"), token.immediate(pattern_hexnum)),
-            ),
-          ),
-        ),
-      ),
-
-    UNSIGNED: $ => choice($.decnum, seq("0x", token.immediate(pattern_hexnum))),
-
-    SIGNED: $ => seq($.sign, $.UNSIGNED),
+    ROOT: $ => choice($.module, repeat($._module_field)),
 
     align_value: $ => seq("align=", token.immediate(/[0-9]+(?:_?[0-9]+)*|0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*/)),
 
@@ -135,7 +110,7 @@ module.exports = grammar({
 
     comment_line_annot: $ => prec.left(token(seq(";;", /.*/))),
 
-    decnum: $ => token(pattern_decnum),
+    decnat: $ => token(pattern_decnat),
 
     // proposal: reference-types
     _elem_expr: $ => choice($.elem_expr_item, $.elem_expr_expr),
@@ -207,14 +182,16 @@ module.exports = grammar({
 
     _expr1_plain: $ => seq($.instr_plain, repeat($._expr)),
 
-    float: $ =>
+    dec_float: $ =>
       token(
         seq(
-          pattern_decnum,
-          optional(seq(".", optional(pattern_decnum))),
-          optional(seq(/[Ee]/, optional(pattern_sign), pattern_decnum)),
+          pattern_decnat,
+          optional(seq(".", optional(pattern_decnat))),
+          optional(seq(/[Ee]/, optional(pattern_sign), pattern_decnat)),
         ),
       ),
+
+    float: $ => seq(optional($.sign), choice($.dec_float, $.hex_float, "inf", $.nan)),
 
     _func_locals: $ => choice($.func_locals_one, $.func_locals_many),
 
@@ -238,13 +215,13 @@ module.exports = grammar({
 
     global_type_mut: $ => seq("(", "mut", $.value_type, ")"),
 
-    hexfloat: $ =>
+    hex_float: $ =>
       token(
         seq(
           "0x",
-          pattern_hexnum,
-          optional(seq(".", optional(pattern_hexnum))),
-          optional(seq(/[Pp]/, optional(pattern_sign), pattern_decnum)),
+          pattern_hexnat,
+          optional(seq(".", optional(pattern_hexnat))),
+          optional(seq(/[Pp]/, optional(pattern_sign), pattern_decnat)),
         ),
       ),
 
@@ -273,13 +250,13 @@ module.exports = grammar({
 
     import_desc_global_type: $ => seq("(", "global", optional($.identifier), $.global_type, ")"),
 
-    import_desc_memory_type: $ => seq("(", "memory", optional($.identifier), $.memory_type, ")"),
+    import_desc_memory_type: $ => seq("(", "memory", optional($.identifier), $._memory_type, ")"),
 
     import_desc_table_type: $ => seq("(", "table", optional($.identifier), $.table_type, ")"),
 
     import_desc_type_use: $ => seq("(", "func", optional($.identifier), $.type_use, ")"),
 
-    index: $ => choice($.UNSIGNED, $.identifier),
+    index: $ => choice($.unsigned_nat, $.identifier),
 
     inline_export: $ => seq("(", "export", $.name, ")"),
 
@@ -536,7 +513,7 @@ module.exports = grammar({
 
     instr_plain_ref_as_non_null: $ => "ref.as_non_null",
 
-    instr_plain_ref_extern: $ => seq("ref.extern", $.UNSIGNED),
+    instr_plain_ref_extern: $ => seq("ref.extern", $.unsigned_nat),
 
     instr_plain_ref_null: $ => seq("ref.null", choice($.ref_kind, $.index)),
 
@@ -785,42 +762,42 @@ module.exports = grammar({
             token.immediate("32"),
             token.immediate("x"),
             token.immediate("4"),
-            ...Array(4).fill($.FLOAT),
+            ...Array(4).fill($.float),
           ),
           seq(
             token.immediate("f"),
             token.immediate("64"),
             token.immediate("x"),
             token.immediate("2"),
-            ...Array(2).fill($.FLOAT),
+            ...Array(2).fill($.float),
           ),
           seq(
             token.immediate("i"),
             token.immediate("8"),
             token.immediate("x"),
             token.immediate("16"),
-            ...Array(16).fill($.INTEGER),
+            ...Array(16).fill($.integer),
           ),
           seq(
             token.immediate("i"),
             token.immediate("16"),
             token.immediate("x"),
             token.immediate("8"),
-            ...Array(8).fill($.INTEGER),
+            ...Array(8).fill($.integer),
           ),
           seq(
             token.immediate("i"),
             token.immediate("32"),
             token.immediate("x"),
             token.immediate("4"),
-            ...Array(4).fill($.INTEGER),
+            ...Array(4).fill($.integer),
           ),
           seq(
             token.immediate("i"),
             token.immediate("64"),
             token.immediate("x"),
             token.immediate("2"),
-            ...Array(2).fill($.INTEGER),
+            ...Array(2).fill($.integer),
           ),
         ),
       ),
@@ -898,7 +875,7 @@ module.exports = grammar({
         seq(
           "i8x16",
           token.immediate("."),
-          choice(token.immediate("swizzle"), seq(token.immediate("shuffle"), ...Array(16).fill($.FLOAT))),
+          choice(token.immediate("swizzle"), seq(token.immediate("shuffle"), ...Array(16).fill($.float))),
         ),
         seq(
           choice("i8x16", "i16x8"),
@@ -906,19 +883,19 @@ module.exports = grammar({
           token.immediate("extract_lane"),
           token.immediate("_"),
           token.immediate(/[su]/),
-          $.INTEGER,
+          $.integer,
         ),
         seq(
           choice("f32x4", "f64x2", "i32x4", "i64x2"),
           token.immediate("."),
           token.immediate("extract_lane"),
-          $.INTEGER,
+          $.integer,
         ),
         seq(
           choice("f32x4", "f64x2", "i8x16", "i16x8", "i32x4", "i64x2"),
           token.immediate("."),
           token.immediate("replace_lane"),
-          $.INTEGER,
+          $.integer,
         ),
       ),
 
@@ -1054,36 +1031,38 @@ module.exports = grammar({
 
     instr_type_int_64: $ => "i64",
 
+    integer: $ => choice($.signed_nat, $.unsigned_nat),
+
     limits: $ =>
       seq(
-        $.UNSIGNED,
-        optional($.UNSIGNED),
+        $.unsigned_nat,
+        optional($.unsigned_nat),
         // proposal: threads
         optional($.share),
       ),
 
     memory_fields_data: $ => seq("(", "data", repeat($.string), ")"),
 
-    memory_fields_type: $ => seq(optional($.inline_import), $.memory_type),
+    _memory_fields_type: $ => seq(optional($.inline_import), $._memory_type),
 
-    memory_type: $ => $.limits,
+    _memory_type: $ => $.limits,
 
     memory_use: $ => seq("(", "memory", $.index, ")"),
 
-    module: $ => seq("(", "module", optional(field("identifier", $.identifier)), repeat($.module_field), ")"),
+    module: $ => seq("(", "module", optional(field("identifier", $.identifier)), repeat($._module_field), ")"),
 
-    module_field: $ =>
+    _module_field: $ =>
       choice(
-        $.module_field_type,
-        $.module_field_global,
-        $.module_field_table,
-        $.module_field_memory,
-        $.module_field_func,
-        $.module_field_elem,
-        $.module_field_data,
-        $.module_field_start,
-        $.module_field_import,
-        $.module_field_export,
+        alias($.module_field_type, $.type),
+        alias($.module_field_global, $.global),
+        alias($.module_field_table, $.table),
+        alias($.module_field_memory, $.memory),
+        alias($.module_field_func, $.func),
+        alias($.module_field_elem, $.elem),
+        alias($.module_field_data, $.data),
+        alias($.module_field_start, $.start),
+        alias($.module_field_import, $.import),
+        alias($.module_field_export, $.export),
       ),
 
     module_field_data: $ =>
@@ -1149,7 +1128,7 @@ module.exports = grammar({
         "memory",
         optional(field("identifier", $.identifier)),
         repeat($.inline_export),
-        choice($.memory_fields_data, $.memory_fields_type),
+        choice(alias($.memory_fields_data, $.data), $._memory_fields_type),
         ")",
       ),
 
@@ -1169,7 +1148,22 @@ module.exports = grammar({
 
     name: $ => $.string,
 
-    num: $ => choice($.UNSIGNED, $.SIGNED, $.FLOAT),
+    nan: $ =>
+      seq(
+        "nan",
+        optional(
+          seq(
+            token.immediate(":"),
+            choice(
+              token.immediate("arithmetic"),
+              token.immediate("canonical"),
+              seq(token.immediate("0x"), token.immediate(pattern_hexnat)),
+            ),
+          ),
+        ),
+      ),
+
+    num: $ => choice($.unsigned_nat, $.signed_nat, $.float),
 
     _offset: $ => choice($.offset_const_expr, $.offset_expr),
 
@@ -1202,6 +1196,8 @@ module.exports = grammar({
 
     sign: $ => token(/[+-]/),
 
+    signed_nat: $ => seq($.sign, $.unsigned_nat),
+
     string: $ =>
       seq('"', repeat(choice(token.immediate(prec(PREC.STRING, /[^"\\\n]+|\\\r?\n/)), $.escape_sequence)), '"'),
 
@@ -1217,6 +1213,8 @@ module.exports = grammar({
     _type_field: $ => seq("(", "func", repeat($._func_type), ")"),
 
     type_use: $ => seq("(", "type", $.index, ")"),
+
+    unsigned_nat: $ => choice($.decnat, seq("0x", token.immediate(pattern_hexnat))),
 
     value_type: $ => choice($.value_type_num_type, $._value_type_ref_type),
 
