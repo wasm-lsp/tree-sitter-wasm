@@ -18,7 +18,6 @@ module.exports = grammar({
   conflicts: $ => [
     [$.instr_plain_let],
     [$.instr_plain_select],
-    [$.instr_plain_simd_binary, $.instr_plain_simd_store],
   ],
 
   rules: {
@@ -637,14 +636,7 @@ module.exports = grammar({
     // proposal: simd
     instr_plain_simd_binary: $ =>
       choice(
-        seq(
-          "v128",
-          token.immediate("."),
-          choice(
-            token.immediate(/and|andnot|not|or|xor/),
-            seq(token.immediate("store"), optional($.offset_value), optional($.align_value)),
-          ),
-        ),
+        seq("v128", token.immediate("."), token.immediate(/and|andnot|not|or|xor/)),
         seq(choice("f32x4", "f64x2"), token.immediate("."), token.immediate(/div|p?(min|max)|sqrt/)),
         seq(
           choice("i8x16", "i16x8"),
