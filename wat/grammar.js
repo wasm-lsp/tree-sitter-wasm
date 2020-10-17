@@ -16,7 +16,6 @@ module.exports = grammar({
   extras: $ => [$.annotation, $.comment_block, $.comment_line, /[\s\uFEFF\u2060\u200B\u00A0]/],
 
   conflicts: $ => [
-    [$.instr_plain_func_bind],
     [$.instr_plain_let],
     [$.instr_plain_select],
     [$.instr_plain_simd_binary, $.instr_plain_simd_store],
@@ -549,7 +548,7 @@ module.exports = grammar({
     instr_plain_elem_drop: $ => seq(token("elem.drop"), $.index),
 
     // proposal: function-references
-    instr_plain_func_bind: $ => seq(token("func.bind"), optional(seq("(", "type", $.index, ")"))),
+    instr_plain_func_bind: $ => prec.right(seq(token("func.bind"), optional(seq("(", "type", $.index, ")")))),
 
     instr_plain_global_get: $ => seq("global.get", $.index),
 
