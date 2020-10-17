@@ -78,7 +78,8 @@ module.exports = grammar(wat, {
 
     result_const: $ => choice($.instr_plain_const, $.instr_plain_simd_const),
 
-    result_const_nan: $ => seq($._instr_type, token.immediate("."), token.immediate(/const/), $._literal_nan),
+    result_const_nan: $ =>
+      seq(choice("f32", "f64", "i32", "i64"), token.immediate("."), token.immediate(/const/), $._literal_nan),
 
     result_ref_func: $ => "ref.func",
 

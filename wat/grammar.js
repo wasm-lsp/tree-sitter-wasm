@@ -16,35 +16,16 @@ module.exports = grammar({
   extras: $ => [$.annotation, $.comment_block, $.comment_line, /[\s\uFEFF\u2060\u200B\u00A0]/],
 
   conflicts: $ => [
-    [$.instr_type_int, $.instr_type_int_32],
-    [$.instr_type_int, $.instr_type_int_64],
-    [$.instr_type_float, $.instr_type_float_32],
-    [$.instr_type_float, $.instr_type_float_64],
-    [$._instr_type, $.instr_plain_binary, $.instr_plain_compare, $.instr_plain_convert, $.instr_plain_unary],
-    [
-      $._instr_type,
-      $.instr_plain_atomic_load,
-      $.instr_plain_atomic_rmw,
-      $.instr_plain_atomic_store,
-      $.instr_plain_binary,
-      $.instr_plain_compare,
-      $.instr_plain_convert,
-      $.instr_plain_load,
-      $.instr_plain_store,
-      $.instr_plain_unary,
-    ],
-    [$.instr_plain, $.instr_plain_const],
     [$.instr_plain_func_bind],
     [$.instr_plain_let],
     [$.instr_plain_select],
-    [$.instr_plain_simd_load, $.instr_plain_simd_unary],
     [$.instr_plain_simd_binary, $.instr_plain_simd_store],
   ],
 
   rules: {
     ROOT: $ => choice($.module, repeat($._module_field)),
 
-    align_value: $ => seq("align=", token.immediate(/[0-9]+(?:_?[0-9]+)*|0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*/)),
+    align_value: $ => seq("align=", token.immediate(/[0-9]+(_?[0-9]+)*|0x[0-9A-Fa-f]+(_?[0-9A-Fa-f]+)*/)),
 
     // proposal: annotations
     annotation: $ => seq("(@", token.immediate(pattern_identifier), repeat($._annotation_part), ")"),
@@ -110,7 +91,7 @@ module.exports = grammar({
 
     comment_line_annot: $ => prec.left(token(seq(";;", /.*/))),
 
-    dec_nat: $ => token(pattern_dec_nat),
+    _dec_nat: $ => token(pattern_dec_nat),
 
     // proposal: reference-types
     _elem_expr: $ => choice($.elem_expr_item, $.elem_expr_expr),
@@ -182,7 +163,7 @@ module.exports = grammar({
 
     _expr1_plain: $ => seq($.instr_plain, repeat($._expr)),
 
-    dec_float: $ =>
+    _dec_float: $ =>
       token(
         seq(
           pattern_dec_nat,
@@ -191,7 +172,7 @@ module.exports = grammar({
         ),
       ),
 
-    float: $ => seq(optional($.sign), choice($.dec_float, $.hex_float, "inf", $.nan)),
+    float: $ => seq(optional($.sign), choice($._dec_float, $._hex_float, "inf", $.nan)),
 
     _func_locals: $ => choice($.func_locals_one, $.func_locals_many),
 
@@ -215,7 +196,7 @@ module.exports = grammar({
 
     global_type_mut: $ => seq("(", "mut", $.value_type, ")"),
 
-    hex_float: $ =>
+    _hex_float: $ =>
       token(
         seq(
           "0x",
@@ -225,7 +206,7 @@ module.exports = grammar({
         ),
       ),
 
-    hex_nat: $ => seq("0x", token.immediate(pattern_hex_nat)),
+    _hex_nat: $ => seq("0x", token.immediate(pattern_hex_nat)),
 
     identifier: $ => token(seq(token.immediate("$"), pattern_identifier)),
 
@@ -258,7 +239,7 @@ module.exports = grammar({
 
     import_desc_type_use: $ => seq("(", "func", optional($.identifier), $.type_use, ")"),
 
-    index: $ => choice($.nat, $.identifier),
+    index: $ => choice($._nat, $.identifier),
 
     inline_export: $ => seq("(", "export", $.name, ")"),
 
@@ -368,7 +349,7 @@ module.exports = grammar({
     instr_plain_atomic_load: $ =>
       choice(
         seq(
-          $.instr_type_int,
+          choice("i32", "i64"),
           token.immediate("."),
           token.immediate("atomic"),
           token.immediate("."),
@@ -378,7 +359,7 @@ module.exports = grammar({
           ),
         ),
         seq(
-          $.instr_type_int_64,
+          "i64",
           token.immediate("."),
           token.immediate("atomic"),
           token.immediate("."),
@@ -397,7 +378,7 @@ module.exports = grammar({
     instr_plain_atomic_store: $ =>
       choice(
         seq(
-          $.instr_type_int,
+          choice("i32", "i64"),
           token.immediate("."),
           token.immediate("atomic"),
           token.immediate("."),
@@ -405,7 +386,7 @@ module.exports = grammar({
           optional(choice(token.immediate("8"), token.immediate("16"))),
         ),
         seq(
-          $.instr_type_int_64,
+          "i64",
           token.immediate("."),
           token.immediate("atomic"),
           token.immediate("."),
@@ -418,7 +399,7 @@ module.exports = grammar({
     instr_plain_atomic_rmw: $ =>
       choice(
         seq(
-          $.instr_type_int,
+          choice("i32", "i64"),
           token.immediate("."),
           token.immediate("atomic"),
           token.immediate("."),
@@ -435,7 +416,7 @@ module.exports = grammar({
           ),
         ),
         seq(
-          $.instr_type_int_64,
+          "i64",
           token.immediate("."),
           token.immediate("atomic"),
           token.immediate("."),
@@ -463,16 +444,16 @@ module.exports = grammar({
 
     instr_plain_binary: $ =>
       choice(
-        seq($._instr_type, token.immediate("."), token.immediate(/add|sub|mul/)),
-        seq($.instr_type_int, token.immediate("."), token.immediate(/and|or|xor|shl|rotl|rotr/)),
+        seq(choice("f32", "f64", "i32", "i64"), token.immediate("."), token.immediate(/add|sub|mul/)),
+        seq(choice("i32", "i64"), token.immediate("."), token.immediate(/and|or|xor|shl|rotl|rotr/)),
         seq(
-          $.instr_type_int,
+          choice("i32", "i64"),
           token.immediate("."),
           token.immediate(/div|rem|shr/),
           token.immediate("_"),
           token.immediate(/[su]/),
         ),
-        seq($.instr_type_float, token.immediate("."), token.immediate(/add|sub|mul|div|min|max|copysign/)),
+        seq(choice("f32", "f64"), token.immediate("."), token.immediate(/add|sub|mul|div|min|max|copysign/)),
       ),
 
     instr_plain_br: $ => seq("br", $.index),
@@ -491,15 +472,15 @@ module.exports = grammar({
 
     instr_plain_compare: $ =>
       choice(
-        seq($._instr_type, token.immediate("."), token.immediate(/eq|ne/)),
+        seq(choice("f32", "f64", "i32", "i64"), token.immediate("."), token.immediate(/eq|ne/)),
         seq(
-          $.instr_type_int,
+          choice("i32", "i64"),
           token.immediate("."),
           token.immediate(/lt|le|gt|ge/),
           token.immediate("_"),
           token.immediate(/[su]/),
         ),
-        seq($.instr_type_float, token.immediate("."), token.immediate(/lt|le|gt|ge/)),
+        seq(choice("f32", "f64"), token.immediate("."), token.immediate(/lt|le|gt|ge/)),
       ),
 
     instr_plain_const: $ =>
@@ -511,25 +492,20 @@ module.exports = grammar({
         $.instr_plain_ref_extern,
       ),
 
-    instr_plain_const_num: $ => seq($._instr_type, token.immediate("."), token.immediate(/const/), $.num),
+    instr_plain_const_num: $ =>
+      seq(choice("f32", "f64", "i32", "i64"), token.immediate("."), token.immediate("const"), $.num),
 
     instr_plain_ref_as_non_null: $ => "ref.as_non_null",
 
-    instr_plain_ref_extern: $ => seq("ref.extern", $.nat),
+    instr_plain_ref_extern: $ => seq("ref.extern", $._nat),
 
     instr_plain_ref_null: $ => seq("ref.null", choice($.ref_kind, $.index)),
 
     instr_plain_convert: $ =>
       choice(
+        seq("i32", token.immediate("."), token.immediate("wrap"), token.immediate("_i"), token.immediate("64")),
         seq(
-          $.instr_type_int_32,
-          token.immediate("."),
-          token.immediate("wrap"),
-          token.immediate("_i"),
-          token.immediate("64"),
-        ),
-        seq(
-          $.instr_type_int_64,
+          "i64",
           token.immediate("."),
           token.immediate("extend"),
           token.immediate("_i"),
@@ -537,22 +513,10 @@ module.exports = grammar({
           token.immediate("_"),
           token.immediate(/[su]/),
         ),
+        seq("f32", token.immediate("."), token.immediate("demote"), token.immediate("_f"), token.immediate("64")),
+        seq("f64", token.immediate("."), token.immediate("promote"), token.immediate("_f"), token.immediate("32")),
         seq(
-          $.instr_type_float_32,
-          token.immediate("."),
-          token.immediate("demote"),
-          token.immediate("_f"),
-          token.immediate("64"),
-        ),
-        seq(
-          $.instr_type_float_64,
-          token.immediate("."),
-          token.immediate("promote"),
-          token.immediate("_f"),
-          token.immediate("32"),
-        ),
-        seq(
-          $.instr_type_int,
+          choice("i32", "i64"),
           token.immediate("."),
           token.immediate("trunc"),
           optional(seq(token.immediate("_"), token.immediate("sat"))),
@@ -562,7 +526,7 @@ module.exports = grammar({
           token.immediate(/[su]/),
         ),
         seq(
-          $.instr_type_float,
+          choice("f32", "f64"),
           token.immediate("."),
           token.immediate("convert"),
           token.immediate("_i"),
@@ -570,34 +534,10 @@ module.exports = grammar({
           token.immediate("_"),
           token.immediate(/[su]/),
         ),
-        seq(
-          $.instr_type_int_32,
-          token.immediate("."),
-          token.immediate("reinterpret"),
-          token.immediate("_f"),
-          token.immediate("32"),
-        ),
-        seq(
-          $.instr_type_int_64,
-          token.immediate("."),
-          token.immediate("reinterpret"),
-          token.immediate("_f"),
-          token.immediate("64"),
-        ),
-        seq(
-          $.instr_type_float_32,
-          token.immediate("."),
-          token.immediate("reinterpret"),
-          token.immediate("_i"),
-          token.immediate("32"),
-        ),
-        seq(
-          $.instr_type_float_64,
-          token.immediate("."),
-          token.immediate("reinterpret"),
-          token.immediate("_i"),
-          token.immediate("64"),
-        ),
+        seq("i32", token.immediate("."), token.immediate("reinterpret"), token.immediate("_f"), token.immediate("32")),
+        seq("i64", token.immediate("."), token.immediate("reinterpret"), token.immediate("_f"), token.immediate("64")),
+        seq("f32", token.immediate("."), token.immediate("reinterpret"), token.immediate("_i"), token.immediate("32")),
+        seq("f64", token.immediate("."), token.immediate("reinterpret"), token.immediate("_i"), token.immediate("64")),
       ),
 
     // proposal: bulk-memory-operations
@@ -622,17 +562,17 @@ module.exports = grammar({
     instr_plain_load: $ =>
       seq(
         choice(
-          seq($._instr_type, token.immediate("."), token.immediate("load")),
+          seq(choice("f32", "f64", "i32", "i64"), token.immediate("."), token.immediate("load")),
           seq(
-            $.instr_type_int,
+            choice("i32", "i64"),
             token.immediate("."),
             token.immediate("load"),
-            token.immediate(/(?:8|16)/),
+            token.immediate(/(8|16)/),
             token.immediate("_"),
             token.immediate(/[su]/),
           ),
           seq(
-            $.instr_type_int_64,
+            "i64",
             token.immediate("."),
             token.immediate("load"),
             token.immediate("32"),
@@ -962,9 +902,9 @@ module.exports = grammar({
     instr_plain_store: $ =>
       seq(
         choice(
-          seq($._instr_type, token.immediate("."), token.immediate("store")),
-          seq($.instr_type_int, token.immediate("."), token.immediate("store"), token(/(?:8|16)/)),
-          seq($.instr_type_int_64, token.immediate("."), token.immediate("store"), token.immediate("32")),
+          seq(choice("f32", "f64", "i32", "i64"), token.immediate("."), token.immediate("store")),
+          seq(choice("i32", "i64"), token.immediate("."), token.immediate("store"), token(/(8|16)/)),
+          seq("i64", token.immediate("."), token.immediate("store"), token.immediate("32")),
         ),
         // proposal: multi-memory
         optional($.index),
@@ -993,13 +933,13 @@ module.exports = grammar({
     // proposal: reference-types
     instr_plain_table_size: $ => seq("table.size", optional($.index)),
 
-    instr_plain_test: $ => seq($._instr_type, token.immediate("."), token.immediate(/eqz/)),
+    instr_plain_test: $ => seq(choice("f32", "f64", "i32", "i64"), token.immediate("."), token.immediate(/eqz/)),
 
     instr_plain_unary: $ =>
       choice(
-        seq($.instr_type_int, token.immediate("."), token.immediate(/clz|ctz|popcnt/)),
+        seq(choice("i32", "i64"), token.immediate("."), token.immediate(/clz|ctz|popcnt/)),
         seq(
-          $.instr_type_int,
+          choice("i32", "i64"),
           token.immediate("."),
           token.immediate("extend"),
           token.immediate(/8|16/),
@@ -1007,38 +947,24 @@ module.exports = grammar({
           token.immediate("s"),
         ),
         seq(
-          $.instr_type_int_64,
+          "i64",
           token.immediate("."),
           token.immediate("extend"),
           token.immediate("32"),
           token.immediate("_"),
           token.immediate("s"),
         ),
-        seq($.instr_type_float, token.immediate("."), token.immediate(/neg|abs|sqrt|ceil|floor|trunc|nearest/)),
+        seq(choice("f32", "f64"), token.immediate("."), token.immediate(/neg|abs|sqrt|ceil|floor|trunc|nearest/)),
       ),
 
     instr_plain_unreachable: $ => "unreachable",
 
-    _instr_type: $ => choice($.instr_type_int, $.instr_type_float),
-
-    instr_type_float: $ => choice("f32", "f64"),
-
-    instr_type_float_32: $ => "f32",
-
-    instr_type_float_64: $ => "f64",
-
-    instr_type_int: $ => choice("i32", "i64"),
-
-    instr_type_int_32: $ => "i32",
-
-    instr_type_int_64: $ => "i64",
-
-    integer: $ => seq(optional($.sign), $.nat),
+    integer: $ => seq(optional($.sign), $._nat),
 
     limits: $ =>
       seq(
-        $.nat,
-        optional($.nat),
+        alias($._nat, $.min),
+        alias(optional($._nat), $.max),
         // proposal: threads
         optional($.share),
       ),
@@ -1165,7 +1091,7 @@ module.exports = grammar({
         ),
       ),
 
-    nat: $ => choice($.dec_nat, $.hex_nat),
+    _nat: $ => choice($._dec_nat, $._hex_nat),
 
     num: $ => choice($.integer, $.float),
 
@@ -1175,7 +1101,7 @@ module.exports = grammar({
 
     offset_expr: $ => $._expr,
 
-    offset_value: $ => seq("offset=", token.immediate(/[0-9]+(?:_?[0-9]+)*|0x[0-9A-Fa-f]+(?:_?[0-9A-Fa-f]+)*/)),
+    offset_value: $ => seq("offset=", token.immediate(/[0-9]+(_?[0-9]+)*|0x[0-9A-Fa-f]+(_?[0-9A-Fa-f]+)*/)),
 
     // proposal: reference-types
     ref_kind: $ => choice(/extern|func/),
