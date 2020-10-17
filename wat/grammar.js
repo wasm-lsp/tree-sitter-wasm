@@ -1092,7 +1092,7 @@ module.exports = grammar({
     offset_value: $ => seq("offset=", token.immediate(/[0-9]+(_?[0-9]+)*|0x[0-9A-Fa-f]+(_?[0-9A-Fa-f]+)*/)),
 
     // proposal: reference-types
-    ref_kind: $ => choice(/extern|func/),
+    ref_kind: $ => /extern|func/,
 
     // proposal: reference-types
     _ref_type: $ => choice($.ref_type_externref, $.ref_type_funcref, $.ref_type_ref),
