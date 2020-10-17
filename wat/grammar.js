@@ -903,7 +903,7 @@ module.exports = grammar({
       seq(
         choice(
           seq(choice("f32", "f64", "i32", "i64"), token.immediate("."), token.immediate("store")),
-          seq(choice("i32", "i64"), token.immediate("."), token.immediate("store"), token(/(8|16)/)),
+          seq(choice("i32", "i64"), token.immediate("."), token.immediate("store"), token.immediate(/(8|16)/)),
           seq("i64", token.immediate("."), token.immediate("store"), token.immediate("32")),
         ),
         // proposal: multi-memory
