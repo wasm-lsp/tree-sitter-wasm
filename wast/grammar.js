@@ -51,7 +51,7 @@ module.exports = grammar(wat, {
 
     _command: $ => choice($._action, $._assertion, $._meta, $.register, $._script_module),
 
-    _expr_plain_const: $ => seq("(", choice($.op_const, $.op_simd_const), ")"),
+    _expr_plain_const: $ => seq("(", choice($.op_const_ref, $.op_simd_const), ")"),
 
     _literal_nan: $ => choice($.literal_nan_arithmetic, $.literal_nan_canonical),
 
@@ -67,6 +67,15 @@ module.exports = grammar(wat, {
 
     meta_output: $ => seq("(", "output", optional($.identifier), optional($._string), ")"),
 
+    op_const_ref: $ =>
+      choice(
+        $.op_const,
+        // proposal: reference-types
+        $.op_ref_null,
+        // proposal: reference-types
+        $.op_ref_extern,
+      ),
+
     register: $ => seq("(", "register", $.name, optional($.identifier), ")"),
 
     _result: $ =>
@@ -76,7 +85,7 @@ module.exports = grammar(wat, {
         ")",
       ),
 
-    result_const: $ => choice($.op_const, $.op_simd_const),
+    result_const: $ => choice($.op_const_ref, $.op_simd_const),
 
     result_const_nan: $ =>
       seq(choice("f32", "f64", "i32", "i64"), token.immediate("."), token.immediate(/const/), $._literal_nan),
