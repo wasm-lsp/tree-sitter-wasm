@@ -32,9 +32,6 @@ module.exports = grammar({
     _annotation_part: $ =>
       choice($.comment_block_annot, $.comment_line_annot, $.annotation_parens, $.reserved, $.identifier, $._string),
 
-    // proposal: threads
-    atomicop: $ => choice("add", "and", "cmpxchg", "or", "sub", "xchg", "xor"),
-
     block_block: $ =>
       seq(
         "block",
