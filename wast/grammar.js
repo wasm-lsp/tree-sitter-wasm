@@ -6,7 +6,7 @@ module.exports = grammar(wat, {
   name: "wast",
 
   rules: {
-    ROOT: $ => choice(repeat($.command), repeat1($.module_field)),
+    ROOT: $ => choice(repeat($._command), repeat1($._module_field)),
 
     _action: $ => choice($.action_invoke, $.action_get),
 
@@ -49,7 +49,7 @@ module.exports = grammar(wat, {
         $.assert_exhaustion,
       ),
 
-    command: $ => choice($._action, $._assertion, $._meta, $.register, $._script_module),
+    _command: $ => choice($._action, $._assertion, $._meta, $.register, $._script_module),
 
     _expr_plain_const: $ => seq("(", choice($.instr_plain_const, $.instr_plain_simd_const), ")"),
 
@@ -61,7 +61,7 @@ module.exports = grammar(wat, {
 
     _meta: $ => choice($.meta_script, $.meta_input, $.meta_output),
 
-    meta_script: $ => seq("(", "script", optional($.identifier), repeat($.command), ")"),
+    meta_script: $ => seq("(", "script", optional($.identifier), repeat($._command), ")"),
 
     meta_input: $ => seq("(", "input", optional($.identifier), $.string, ")"),
 
