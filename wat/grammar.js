@@ -15,10 +15,7 @@ module.exports = grammar({
 
   extras: $ => [$.annotation, $.comment_block, $.comment_line, /[\s\uFEFF\u2060\u200B\u00A0]/],
 
-  conflicts: $ => [
-    [$.instr_plain_let],
-    [$.instr_plain_select],
-  ],
+  conflicts: $ => [[$.instr_plain_let], [$.instr_plain_select]],
 
   rules: {
     ROOT: $ => choice($.module, repeat($._module_field)),
