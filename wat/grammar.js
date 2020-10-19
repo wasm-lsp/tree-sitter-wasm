@@ -9,24 +9,24 @@ const pattern_hex_nat = /[0-9A-Fa-f]+(_?[0-9A-Fa-f]+)*/;
 const pattern_identifier = /[0-9A-Za-z!#$%&'*+-./:<=>?@\\^_'|~]+/;
 const pattern_sign = /[+-]/;
 
+const imm = rule => token.immediate(rule);
+
 module.exports = grammar({
   name: "wat",
-
-  // inline: $ => [$._value_type_num_type, $._value_type_ref_type],
 
   extras: $ => [$.annotation, $.comment_block, $.comment_line, /[\s\uFEFF\u2060\u200B\u00A0]/],
 
   conflicts: $ => [[$.op_let], [$.op_select]],
 
   rules: {
-    ROOT: $ => choice($.module, repeat($._module_field)),
+    ROOT: $ => choice($.module, repeat($.module_field)),
 
-    align_value: $ => seq("align=", alias($.align_offset_value, $.value)),
+    _align_value: $ => seq(alias("align", $.align), imm("="), alias($.align_offset_value, $.value)),
 
-    align_offset_value: $ => token.immediate(/[0-9]+(_?[0-9]+)*|0x[0-9A-Fa-f]+(_?[0-9A-Fa-f]+)*/),
+    align_offset_value: $ => imm(/[0-9]+(_?[0-9]+)*|0x[0-9A-Fa-f]+(_?[0-9A-Fa-f]+)*/),
 
     // proposal: annotations
-    annotation: $ => seq("(@", token.immediate(pattern_identifier), repeat($._annotation_part), ")"),
+    annotation: $ => seq("(@", imm(pattern_identifier), repeat($._annotation_part), ")"),
 
     // proposal: annotations
     annotation_parens: $ => seq("(", repeat($._annotation_part), ")"),
@@ -104,11 +104,7 @@ module.exports = grammar({
     elem_list: $ => choice(seq($.elem_kind, repeat($.index)), seq($._ref_type, repeat($._elem_expr))),
 
     _escape_sequence: $ =>
-      token.immediate(
-        repeat1(
-          seq(token.immediate("\\"), token.immediate(choice(/[^u0-9a-fA-F]/, /[0-9a-fA-F]{2}/, /u{[0-9a-fA-F]+}/))),
-        ),
-      ),
+      imm(repeat1(seq(imm("\\"), imm(choice(/[^u0-9a-fA-F]/, /[0-9a-fA-F]{2}/, /u{[0-9a-fA-F]+}/))))),
 
     export: $ => seq("(", "export", $.name, ")"),
 
@@ -163,7 +159,7 @@ module.exports = grammar({
         ),
       ),
 
-    _expr1_plain: $ => seq($._instr_plain, repeat($._expr)),
+    _expr1_plain: $ => seq($.instr_plain, repeat($._expr)),
 
     _dec_float: $ =>
       token(
@@ -208,9 +204,9 @@ module.exports = grammar({
         ),
       ),
 
-    _hex_nat: $ => seq("0x", token.immediate(pattern_hex_nat)),
+    _hex_nat: $ => seq("0x", imm(pattern_hex_nat)),
 
-    identifier: $ => token(seq(token.immediate("$"), pattern_identifier)),
+    identifier: $ => token(seq(imm("$"), pattern_identifier)),
 
     _if_block: $ =>
       seq(
@@ -243,9 +239,9 @@ module.exports = grammar({
 
     import_desc_type_use: $ => seq("(", "func", optional($.identifier), $.type_use, ")"),
 
-    index: $ => choice($._nat, $.identifier),
+    index: $ => choice($._nat, alias($.identifier, "identifier")),
 
-    instr: $ => choice($._instr_plain, $.instr_call, $.instr_block, $._expr),
+    instr: $ => choice($.instr_plain, $.instr_call, $.instr_block, $._expr),
 
     instr_block: $ => choice($.block_block, $.block_loop, $.block_if),
 
@@ -271,692 +267,365 @@ module.exports = grammar({
         ),
       ),
 
-    _instr_plain: $ =>
+    instr_plain: $ =>
       choice(
-        $.op_unreachable,
-        $.op_nop,
-        $.op_drop,
-        $.op_select,
-        $.op_br,
-        $.op_br_if,
-        $.op_br_table,
-        $.op_return,
-        $.op_local_get,
-        $.op_local_set,
-        $.op_local_tee,
-        $.op_global_get,
-        $.op_global_set,
-
-        // proposal <start>: reference-types
-        $.op_table_get,
-        $.op_table_set,
-        $.op_table_size,
-        $.op_table_grow,
-        $.op_table_fill,
-        $.op_table_size,
-        $.op_table_grow,
-        $.op_table_fill,
-        $.op_ref_null,
-        $.op_ref_is_null,
-        $.op_ref_func,
-        // proposal <stop>: reference-types
-
-        // proposal <start>: function-references
-        $.op_br_on_null,
-        $.op_call_ref,
+        alias($._op_nullary, $.op),
+        seq(alias($._op_index, $.op), $.index),
+        seq(alias($._op_index_opt, $.op), optional($.index)),
+        seq(alias("br_table", $.op), $.index, repeat($.index)),
+        seq(alias("ref.extern", $.op), $._nat),
+        seq(alias("ref.null", $.op), choice($.ref_kind, $.index)),
+        seq(
+          alias($._op_index_opt_offset_opt_align_opt, $.op),
+          optional($.index),
+          optional($._offset_value),
+          optional($._align_value),
+        ),
+        seq(alias($._op_simd_offset_opt_align_opt, $.op), optional($._offset_value), optional($._align_value)),
+        $.op_const,
         $.op_func_bind,
         $.op_let,
-        $.op_ref_as_non_null,
-        $.op_return_call_ref,
-        // proposal <stop>: function-references
-
-        $.op_memory_size,
-        $.op_memory_grow,
-        $.op_const,
-        $.op_test,
-        $.op_compare,
-        $.op_unary,
-        $.op_binary,
-        $.op_convert,
-        $.op_load,
-        $.op_store,
-        $.op_call,
-
-        // proposal <start>: threads
-        $.op_atomic_wait,
-        $.op_atomic_notify,
-        $.op_atomic_load,
-        $.op_atomic_store,
-        $.op_atomic_rmw,
-        // proposal <stop>: threads
-
-        // proposal <start>: bulk-memory-operations
-        $.op_data_drop,
-        $.op_elem_drop,
-        $.op_memory_copy,
-        $.op_memory_fill,
-        $.op_memory_init,
+        $.op_select,
+        $.op_simd_const,
+        $.op_simd_lane,
         $.op_table_copy,
         $.op_table_init,
-        // proposal <stop>: bulk-memory-operations
-
-        // proposal <start>: simd
-        $.op_simd_compare,
-        $.op_simd_const,
-        $.op_simd_convert,
-        $.op_simd_binary,
-        $.op_simd_bitselect,
-        $.op_simd_lane,
-        $.op_simd_load,
-        $.op_simd_store,
-        $.op_simd_unary,
-        // proposal <stop>: simd
       ),
 
-    // proposal: threads
-    op_atomic_fence: $ => seq(token.immediate("atomic"), token.immediate("."), token.immediate("fence")),
-
-    // proposal: threads
-    op_atomic_load: $ =>
-      choice(
-        seq(
-          choice("i32", "i64"),
-          token.immediate("."),
-          token.immediate("atomic"),
-          token.immediate("."),
-          token.immediate("load"),
-          optional(
-            seq(choice(token.immediate("8"), token.immediate("16")), token.immediate("_"), token.immediate("u")),
+    _op_nullary: $ =>
+      token(
+        choice(
+          "atomic.fence",
+          seq(
+            "f",
+            choice(
+              seq(
+                imm("32"),
+                choice(
+                  seq(
+                    imm("x4."),
+                    new RegExp(
+                      [
+                        "add",
+                        "convert_i32x4_[su]",
+                        "div",
+                        "eq",
+                        "g[et]",
+                        "l[et]",
+                        "mul",
+                        "ne",
+                        "p?(m(ax|in))",
+                        "s(qrt|ub)",
+                      ].join("|"),
+                    ),
+                  ),
+                  seq(
+                    imm("."),
+                    new RegExp(
+                      [
+                        "a(bs|dd)",
+                        "c(eil|o(nvert_i(32|64)_[su]|pysign))",
+                        "d(emote_f64|iv)",
+                        "eqz?",
+                        "floor",
+                        "g[et]",
+                        "l[et]",
+                        "m(ax|in|ul)",
+                        "ne(arest|g)?",
+                        "reinterpret_i32",
+                        "s(qrt|ub)",
+                        "trunc",
+                      ].join("|"),
+                    ),
+                  ),
+                ),
+              ),
+              seq(
+                imm("64"),
+                choice(
+                  seq(
+                    imm("x2."),
+                    new RegExp(
+                      ["add", "div", "eq", "g[et]", "l[et]", "mul", "ne", "p?(m(ax|in))", "s(qrt|ub)"].join("|"),
+                    ),
+                  ),
+                  seq(
+                    imm("."),
+                    new RegExp(
+                      [
+                        "a(bs|dd)",
+                        "c(eil|o(nvert_i(32|64)_[su]|pysign))",
+                        "div",
+                        "eqz?",
+                        "floor",
+                        "g[et]",
+                        "l[et]",
+                        "m(ax|in|ul)",
+                        "ne(arest|g)?",
+                        "promote_f32",
+                        "reinterpret_i64",
+                        "s(qrt|ub)",
+                        "trunc",
+                      ].join("|"),
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ),
-        ),
-        seq(
-          "i64",
-          token.immediate("."),
-          token.immediate("atomic"),
-          token.immediate("."),
-          token.immediate("load"),
-          token.immediate("32"),
-          token.immediate("_"),
-          token.immediate("u"),
+          seq(
+            "i",
+            choice(
+              seq(
+                imm("8x16."),
+                imm(
+                  new RegExp(
+                    [
+                      "((add|sub)_sat|avgr|m(ax|in)|shr)_[su]",
+                      "add",
+                      "eq",
+                      "[gl][et]_[su]",
+                      "mul",
+                      "n(arrow_i16x8_[su]|e)",
+                      "s(hl|ub|wizzle)",
+                    ].join("|"),
+                  ),
+                ),
+              ),
+              seq(
+                imm("16x8."),
+                imm(
+                  new RegExp(
+                    [
+                      "((add|sub)_sat|avgr|m(ax|in)|shr)_[su]",
+                      "add",
+                      "eq",
+                      "[gl][et]_[su]",
+                      "mul",
+                      "n(arrow_i32x4_[su]|e)",
+                      "s(hl|ub)",
+                      "widen_(high|low)_i8x16_[su]",
+                    ].join("|"),
+                  ),
+                ),
+              ),
+              seq(
+                imm("32x4."),
+                imm(
+                  new RegExp(
+                    [
+                      "((add|sub)_sat|avgr|m(ax|in)|shr)_[su]",
+                      "add",
+                      "eq",
+                      "[gl][et]_[su]",
+                      "mul",
+                      "ne",
+                      "s(hl|ub)",
+                      "trunc_sat_f32x4_[su]",
+                      "widen_(high|low)_i16x8_[su]",
+                    ].join("|"),
+                  ),
+                ),
+              ),
+              seq(imm("64x2."), imm(new RegExp(["add", "mul", "s(h(l|r_[su])|ub)"].join("|")))),
+              seq(
+                imm("32."),
+                choice(
+                  seq(
+                    imm("atomic."),
+                    choice(
+                      new RegExp(["load((8|16)_u)?", "store(8|16)?"].join("|")),
+                      seq(
+                        imm("rmw"),
+                        choice(
+                          seq(imm("."), new RegExp(["a(dd|nd)", "cmpxchg", "or", "sub", "x(chg|or)"].join("|"))),
+                          seq(
+                            imm(/(8|16)\./),
+                            new RegExp(["a(dd|nd)", "cmpxchg", "or", "sub", "x(chg|or)"].join("|")),
+                            imm("_u"),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  new RegExp(
+                    [
+                      "a(nd|dd)",
+                      "c[lt]z",
+                      "(div|g[et]|l[et]|rem|shr)_[su]",
+                      "e(qz?|xtend(8|16)_s)",
+                      "mul",
+                      "ne",
+                      "or",
+                      "popcnt",
+                      "r(einterpret_f32|ot[lr])",
+                      "s(hl|ub)",
+                      "trunc(_sat)?_f(32|64)_[su]",
+                      "wrap_i64",
+                      "xor",
+                    ].join("|"),
+                  ),
+                ),
+              ),
+              seq(
+                imm("64."),
+                choice(
+                  seq(
+                    imm("atomic."),
+                    choice(
+                      new RegExp(["load((8|16|32)_u)?", "store(8|16|32)?"].join("|")),
+                      seq(
+                        imm("rmw"),
+                        choice(
+                          seq(imm("."), new RegExp(["a(dd|nd)", "cmpxchg", "or", "sub", "x(chg|or)"].join("|"))),
+                          seq(
+                            imm(/(8|16|32)\./),
+                            new RegExp(["a(dd|nd)", "cmpxchg", "or", "sub", "x(chg|or)"].join("|")),
+                            imm("_u"),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  new RegExp(
+                    [
+                      "a(nd|dd)",
+                      "c[lt]z",
+                      "(div|g[et]|l[et]|rem|shr)_[su]",
+                      "e(qz?|xtend(_i32_[su]|(8|16|32)_s))",
+                      "mul",
+                      "ne",
+                      "or",
+                      "rot[lr]",
+                      "popcnt",
+                      "reinterpret_f64",
+                      "s(hl|ub)",
+                      "trunc(_sat)?_f(32|64)_[su]",
+                      "xor",
+                    ].join("|"),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          new RegExp(
+            [
+              "call_ref",
+              "drop",
+              "memory\\.(atomic\\.(notify|wait(32|64))|copy|fill)",
+              "nop",
+              "re(f\\.(as_non_null|is_null)|turn(_call_ref)?)",
+              "unreachable",
+            ].join("|"),
+          ),
+          seq(imm("v128."), imm(/and(not)?|bitselect|not|x?or/)),
         ),
       ),
 
-    // proposal: threads
-    op_atomic_notify: $ =>
-      seq("memory", token.immediate("."), token.immediate("atomic"), token.immediate("."), token.immediate("notify")),
+    _op_index: $ =>
+      new RegExp(
+        [
+          "br(_(if|on_null))?",
+          "call",
+          "data\\.drop",
+          "elem\\.drop",
+          "global\\.(get|set)",
+          "local\\.(get|set|tee)",
+          "memory\\.init",
+          "ref\\.func",
+        ].join("|"),
+      ),
 
-    // proposal: threads
-    op_atomic_store: $ =>
-      choice(
-        seq(
-          choice("i32", "i64"),
-          token.immediate("."),
-          token.immediate("atomic"),
-          token.immediate("."),
-          token.immediate("store"),
-          optional(choice(token.immediate("8"), token.immediate("16"))),
-        ),
-        seq(
-          "i64",
-          token.immediate("."),
-          token.immediate("atomic"),
-          token.immediate("."),
-          token.immediate("store"),
-          token.immediate("32"),
+    _op_index_opt: $ =>
+      new RegExp(["local\\.(get|set|tee)", "memory\\.(grow|size)", "table\\.(fill|g(et|row)|s(et|ize))"].join("|")),
+
+    _op_index_opt_offset_opt_align_opt: $ =>
+      token(
+        choice(
+          /f(32|64)\.(load|store)/,
+          /i32\.(load((8|16)_[su])?|store(8|16)?)/,
+          /i64\.(load((8|16|32)_[su])?|store(8|16|32)?)/,
         ),
       ),
 
-    // proposal: threads
-    op_atomic_rmw: $ =>
-      choice(
-        seq(
-          choice("i32", "i64"),
-          token.immediate("."),
-          token.immediate("atomic"),
-          token.immediate("."),
-          choice(
-            seq(token.immediate("rmw"), token.immediate("."), token.immediate(/add|and|cmpxchg|or|sub|xchg|xor/)),
-            seq(
-              token.immediate("rmw"),
-              choice(token.immediate("8"), token.immediate("16")),
-              token.immediate("."),
-              token.immediate(/add|and|cmpxchg|or|sub|xchg|xor/),
-              token.immediate("_"),
-              token.immediate("u"),
+    _op_simd_offset_opt_align_opt: $ =>
+      token(
+        choice(
+          /f(32x4|64x2)\.(abs|ceil|floor|nearest|neg|splat|trunc)/,
+          seq(
+            "i",
+            imm(
+              choice(
+                /8x16\.(neg|splat|a(bs|ll_true|ny_true)|bitmask)/,
+                /16x8\.(neg|splat|a(bs|ll_true|ny_true)|bitmask|load8x8_[su])/,
+                /32x4\.(neg|splat|a(bs|ll_true|ny_true)|bitmask|load16x4_[su])/,
+                /64x2\.(neg|splat|load32x2_[su])/,
+              ),
+            ),
+          ),
+          seq(
+            "v",
+            choice(
+              imm(/(8x16|16x8|32x4|64x2)\.load_splat/),
+              imm(/128\.(load((8|16|32|64)_splat|(8x8|16x4|32x2)_[su])?|store)/),
             ),
           ),
         ),
-        seq(
-          "i64",
-          token.immediate("."),
-          token.immediate("atomic"),
-          token.immediate("."),
-          seq(
-            token.immediate("rmw"),
-            token.immediate("32"),
-            token.immediate("."),
-            token.immediate(/add|and|cmpxchg|or|sub|xchg|xor/),
-            token.immediate("_"),
-            token.immediate("u"),
-          ),
-        ),
       ),
 
-    // proposal: threads
-    op_atomic_wait: $ =>
-      seq(
-        "memory",
-        token.immediate("."),
-        token.immediate("atomic"),
-        token.immediate("."),
-        token.immediate("wait"),
-        token.immediate(/32|64/),
-      ),
-
-    op_binary: $ =>
-      choice(
-        seq(choice("f32", "f64", "i32", "i64"), token.immediate("."), token.immediate(/add|sub|mul/)),
-        seq(choice("i32", "i64"), token.immediate("."), token.immediate(/and|or|xor|shl|rotl|rotr/)),
-        seq(
-          choice("i32", "i64"),
-          token.immediate("."),
-          token.immediate(/div|rem|shr/),
-          token.immediate("_"),
-          token.immediate(/[su]/),
-        ),
-        seq(choice("f32", "f64"), token.immediate("."), token.immediate(/add|sub|mul|div|min|max|copysign/)),
-      ),
-
-    // proposal: simd
-    op_simd_bitselect: $ => seq("v128", token.immediate("."), token.immediate("bitselect")),
-
-    op_br: $ => seq("br", $.index),
-
-    op_br_if: $ => seq("br_if", $.index),
-
-    // proposal: function-references
-    op_br_on_null: $ => seq("br_on_null", $.index),
-
-    op_br_table: $ => seq("br_table", $.index, repeat($.index)),
-
-    op_call: $ => seq("call", $.index),
-
-    // proposal: function-references
-    op_call_ref: $ => "call_ref",
-
-    op_compare: $ =>
-      choice(
-        seq(choice("f32", "f64", "i32", "i64"), token.immediate("."), token.immediate(/eq|ne/)),
-        seq(
-          choice("i32", "i64"),
-          token.immediate("."),
-          token.immediate(/lt|le|gt|ge/),
-          token.immediate("_"),
-          token.immediate(/[su]/),
-        ),
-        seq(choice("f32", "f64"), token.immediate("."), token.immediate(/lt|le|gt|ge/)),
-      ),
-
-    op_const: $ =>
-      choice(
-        seq(choice("f32", "f64"), token.immediate("."), token.immediate("const"), $.float),
-        seq(choice("i32", "i64"), token.immediate("."), token.immediate("const"), $.int),
-      ),
-
-    op_ref_as_non_null: $ => "ref.as_non_null",
-
-    op_ref_extern: $ => seq("ref.extern", $._nat),
-
-    op_ref_null: $ => seq("ref.null", choice($.ref_kind, $.index)),
-
-    op_convert: $ =>
-      choice(
-        seq("i32", token.immediate("."), token.immediate("wrap"), token.immediate("_i"), token.immediate("64")),
-        seq(
-          "i64",
-          token.immediate("."),
-          token.immediate("extend"),
-          token.immediate("_i"),
-          token.immediate("32"),
-          token.immediate("_"),
-          token.immediate(/[su]/),
-        ),
-        seq("f32", token.immediate("."), token.immediate("demote"), token.immediate("_f"), token.immediate("64")),
-        seq("f64", token.immediate("."), token.immediate("promote"), token.immediate("_f"), token.immediate("32")),
-        seq(
-          choice("i32", "i64"),
-          token.immediate("."),
-          token.immediate("trunc"),
-          optional(seq(token.immediate("_"), token.immediate("sat"))),
-          token.immediate("_f"),
-          token.immediate(/32|64/),
-          token.immediate("_"),
-          token.immediate(/[su]/),
-        ),
-        seq(
-          choice("f32", "f64"),
-          token.immediate("."),
-          token.immediate("convert"),
-          token.immediate("_i"),
-          token.immediate(/32|64/),
-          token.immediate("_"),
-          token.immediate(/[su]/),
-        ),
-        seq("i32", token.immediate("."), token.immediate("reinterpret"), token.immediate("_f"), token.immediate("32")),
-        seq("i64", token.immediate("."), token.immediate("reinterpret"), token.immediate("_f"), token.immediate("64")),
-        seq("f32", token.immediate("."), token.immediate("reinterpret"), token.immediate("_i"), token.immediate("32")),
-        seq("f64", token.immediate("."), token.immediate("reinterpret"), token.immediate("_i"), token.immediate("64")),
-      ),
-
-    // proposal: bulk-memory-operations
-    op_data_drop: $ => seq("data.drop", $.index),
-
-    op_drop: $ => "drop",
-
-    // proposal: bulk-memory-operations
-    op_elem_drop: $ => seq("elem.drop", $.index),
+    op_const: $ => choice(seq(alias(/f(32|64)\.const/, $.op), $.float), seq(alias(/i(32|64)\.const/, $.op), $.int)),
 
     // proposal: function-references
     op_func_bind: $ => prec.right(seq("func.bind", optional(seq("(", "type", $.index, ")")))),
 
-    op_global_get: $ => seq("global.get", $.index),
-
-    op_global_set: $ => seq("global.set", $.index),
-
     // proposal: function-references
     op_let: $ =>
       seq(
-        "let",
+        alias("let", $.op),
         optional($.index),
         repeat($._func_type_params),
         repeat(alias($.func_type_results, $.result)),
         repeat($._func_locals),
       ),
 
-    op_load: $ =>
-      seq(
-        choice(
-          seq(choice("f32", "f64", "i32", "i64"), token.immediate("."), token.immediate("load")),
-          seq(
-            choice("i32", "i64"),
-            token.immediate("."),
-            token.immediate("load"),
-            token.immediate(/(8|16)/),
-            token.immediate("_"),
-            token.immediate(/[su]/),
-          ),
-          seq(
-            "i64",
-            token.immediate("."),
-            token.immediate("load"),
-            token.immediate("32"),
-            token.immediate("_"),
-            token.immediate(/[su]/),
-          ),
-        ),
-        // proposal: multi-memory
-        optional($.index),
-        optional(alias($.offset_value, $.offset)),
-        optional(alias($.align_value, $.align)),
-      ),
-
-    op_local_get: $ => seq("local.get", $.index),
-
-    op_local_set: $ => seq("local.set", $.index),
-
-    op_local_tee: $ => seq("local.tee", $.index),
-
-    // proposal: bulk-memory-operations
-    op_memory_copy: $ => "memory.copy",
-
-    // proposal: bulk-memory-operations
-    op_memory_fill: $ => "memory.fill",
-
-    op_memory_grow: $ =>
-      seq(
-        "memory.grow",
-        // proposal: multi-memory
-        optional($.index),
-      ),
-
-    // proposal: bulk-memory-operations
-    op_memory_init: $ => seq("memory.init", $.index),
-
-    op_memory_size: $ =>
-      seq(
-        "memory.size",
-        // proposal: multi-memory
-        optional($.index),
-      ),
-
-    op_nop: $ => "nop",
-
-    // proposal: reference-types
-    op_ref_func: $ => seq("ref.func", $.index),
-
-    // proposal: reference-types
-    op_ref_is_null: $ => "ref.is_null",
-
-    op_return: $ => "return",
-
-    // proposal: function-references
-    op_return_call_ref: $ => "return_call_ref",
-
     op_select: $ =>
       seq(
-        "select",
+        alias("select", $.op),
         // proposal: reference-types
         repeat(alias($.func_type_results, $.result)),
       ),
 
     // proposal: simd
-    op_simd_binary: $ =>
-      choice(
-        seq("v128", token.immediate("."), token.immediate(/and|andnot|not|or|xor/)),
-        seq(choice("f32x4", "f64x2"), token.immediate("."), token.immediate(/div|p?(min|max)|sqrt/)),
-        seq(
-          choice("i8x16", "i16x8"),
-          token.immediate("."),
-          token.immediate(/(add|sub)_sat|avgr/),
-          token.immediate("_"),
-          token.immediate(/[su]/),
-        ),
-        seq(
-          choice("i8x16", "i16x8", "i32x4"),
-          token.immediate("."),
-          token.immediate(/min|max/),
-          token.immediate("_"),
-          token.immediate(/[su]/),
-        ),
-        seq(choice("i8x16", "i16x8", "i32x4", "i64x2"), token.immediate("."), token.immediate("shl")),
-        seq(
-          choice("i8x16", "i16x8", "i32x4", "i64x2"),
-          token.immediate("."),
-          token.immediate("shr"),
-          token.immediate("_"),
-          token.immediate(/[su]/),
-        ),
-        seq(
-          choice("f32x4", "f64x2", "i8x16", "i16x8", "i32x4", "i64x2"),
-          token.immediate("."),
-          token.immediate(/add|sub/),
-        ),
-        seq(choice("f32x4", "f64x2", "i16x8", "i32x4", "i64x2"), token.immediate("."), token.immediate(/mul/)),
-      ),
-
-    // proposal: simd
-    op_simd_compare: $ =>
-      choice(
-        seq(choice("f32x4", "f64x2"), token.immediate("."), token.immediate(/ge|gt|le|lt/)),
-        seq(choice("f32x4", "f64x2", "i8x16", "i16x8", "i32x4"), token.immediate("."), token.immediate(/eq|ne/)),
-        seq(
-          choice("i8x16", "i16x8", "i32x4"),
-          token.immediate("."),
-          token.immediate(/ge|gt|le|lt/),
-          token.immediate("_"),
-          token.immediate(/[su]/),
-        ),
-      ),
-
-    // proposal: simd
     op_simd_const: $ =>
       seq(
-        "v128",
-        token.immediate("."),
-        token.immediate("const"),
-        token.immediate(/[\s\uFEFF\u2060\u200B\u00A0]/),
+        alias("v128.const", $.op),
         choice(
-          seq(
-            token.immediate("f"),
-            token.immediate("32"),
-            token.immediate("x"),
-            token.immediate("4"),
-            ...Array(4).fill($.float),
-          ),
-          seq(
-            token.immediate("f"),
-            token.immediate("64"),
-            token.immediate("x"),
-            token.immediate("2"),
-            ...Array(2).fill($.float),
-          ),
-          seq(
-            token.immediate("i"),
-            token.immediate("8"),
-            token.immediate("x"),
-            token.immediate("16"),
-            ...Array(16).fill($.int),
-          ),
-          seq(
-            token.immediate("i"),
-            token.immediate("16"),
-            token.immediate("x"),
-            token.immediate("8"),
-            ...Array(8).fill($.int),
-          ),
-          seq(
-            token.immediate("i"),
-            token.immediate("32"),
-            token.immediate("x"),
-            token.immediate("4"),
-            ...Array(4).fill($.int),
-          ),
-          seq(
-            token.immediate("i"),
-            token.immediate("64"),
-            token.immediate("x"),
-            token.immediate("2"),
-            ...Array(2).fill($.int),
-          ),
-        ),
-      ),
-
-    // proposal: simd
-    op_simd_convert: $ =>
-      choice(
-        seq(
-          "f32x4",
-          token.immediate("."),
-          token.immediate("convert"),
-          token.immediate("_"),
-          token.immediate("i32x4"),
-          token.immediate("_"),
-          token.immediate(/[su]/),
-        ),
-        seq(
-          "i8x16",
-          token.immediate("."),
-          token.immediate("narrow"),
-          token.immediate("_"),
-          token.immediate("i16x8"),
-          token.immediate("_"),
-          token.immediate(/[su]/),
-        ),
-        seq(
-          "i16x8",
-          token.immediate("."),
-          choice(
-            seq(
-              token.immediate("narrow"),
-              token.immediate("_"),
-              token.immediate("i32x4"),
-              token.immediate("_"),
-              token.immediate(/[su]/),
-            ),
-            seq(
-              token.immediate("widen"),
-              token.immediate("_"),
-              token.immediate(/high|low/),
-              token.immediate("_"),
-              token.immediate("i8x16"),
-              token.immediate("_"),
-              token.immediate(/[su]/),
-            ),
-          ),
-        ),
-        seq(
-          "i32x4",
-          token.immediate("."),
-          choice(
-            seq(
-              token.immediate("trunc_sat"),
-              token.immediate("_"),
-              token.immediate("f32x4"),
-              token.immediate("_"),
-              token.immediate(/[su]/),
-            ),
-            seq(
-              token.immediate("widen"),
-              token.immediate("_"),
-              token.immediate(/high|low/),
-              token.immediate("_"),
-              token.immediate("i16x8"),
-              token.immediate("_"),
-              token.immediate(/[su]/),
-            ),
-          ),
+          seq("f32x4", ...Array(4).fill($.float)),
+          seq("f64x2", ...Array(2).fill($.float)),
+          seq("i8x16", ...Array(16).fill($.int)),
+          seq("i16x8", ...Array(8).fill($.int)),
+          seq("i32x4", ...Array(4).fill($.int)),
+          seq("i64x2", ...Array(2).fill($.int)),
         ),
       ),
 
     // proposal: simd
     op_simd_lane: $ =>
       choice(
+        seq(alias(seq("i8x16", imm(".shuffle")), $.op), ...Array(16).fill($.float)),
+        seq(alias(seq(choice("i8x16", "i16x8"), imm("."), imm("extract_lane"), imm("_"), imm(/[su]/)), $.op), $.int),
+        seq(alias(seq(choice("f32x4", "f64x2", "i32x4", "i64x2"), imm("."), imm("extract_lane")), $.op), $.int),
         seq(
-          "i8x16",
-          token.immediate("."),
-          choice(token.immediate("swizzle"), seq(token.immediate("shuffle"), ...Array(16).fill($.float))),
-        ),
-        seq(
-          choice("i8x16", "i16x8"),
-          token.immediate("."),
-          token.immediate("extract_lane"),
-          token.immediate("_"),
-          token.immediate(/[su]/),
-          $.int,
-        ),
-        seq(choice("f32x4", "f64x2", "i32x4", "i64x2"), token.immediate("."), token.immediate("extract_lane"), $.int),
-        seq(
-          choice("f32x4", "f64x2", "i8x16", "i16x8", "i32x4", "i64x2"),
-          token.immediate("."),
-          token.immediate("replace_lane"),
+          alias(seq(choice("f32x4", "f64x2", "i8x16", "i16x8", "i32x4", "i64x2"), imm("."), imm("replace_lane")), $.op),
           $.int,
         ),
       ),
 
-    // proposal: simd
-    op_simd_load: $ =>
-      seq(
-        "v128",
-        token.immediate("."),
-        token.immediate("load"),
-        optional(
-          choice(
-            seq(token.immediate(/8x8|16x4|32x2/), token.immediate(/_[su]/)),
-            seq(token.immediate(/8|16|32|64/), token.immediate("_splat")),
-          ),
-        ),
-        optional(alias($.offset_value, $.offset)),
-        optional(alias($.align_value, $.align)),
-      ),
-
-    // proposal: simd
-    op_simd_store: $ =>
-      seq(
-        seq("v128", token.immediate("."), token.immediate("store")),
-        optional(alias($.offset_value, $.offset)),
-        optional(alias($.align_value, $.align)),
-      ),
-
-    // proposal: simd
-    op_simd_unary: $ =>
-      choice(
-        seq(choice("f32x4", "f64x2"), token.immediate("."), token.immediate(/abs|ceil|floor|nearest|neg|splat|trunc/)),
-        seq(
-          choice("i8x16", "i16x8", "i32x4"),
-          token.immediate("."),
-          token.immediate(/abs|all_true|any_true|bitmask|neg|splat/),
-        ),
-        seq("i64x2", token.immediate("."), token.immediate(/neg|splat/)),
-        seq("v128", token.immediate("."), token.immediate("not")),
-        seq(
-          choice(
-            choice(
-              seq("i16x8", token.immediate("."), token.immediate("load8x8_"), token.immediate(/[su]/)),
-              seq("i32x4", token.immediate("."), token.immediate("load16x4_"), token.immediate(/[su]/)),
-              seq("i64x2", token.immediate("."), token.immediate("load32x2_"), token.immediate(/[su]/)),
-            ),
-            choice(
-              seq("v8x16", token.immediate("."), token.immediate("load_splat")),
-              seq("v16x8", token.immediate("."), token.immediate("load_splat")),
-              seq("v32x4", token.immediate("."), token.immediate("load_splat")),
-              seq("v64x2", token.immediate("."), token.immediate("load_splat")),
-            ),
-            seq("v128", token.immediate("."), token.immediate(/load|store/)),
-          ),
-          optional(alias($.offset_value, $.offset)),
-          optional(alias($.align_value, $.align)),
-        ),
-      ),
-
-    op_store: $ =>
-      seq(
-        choice(
-          seq(choice("f32", "f64", "i32", "i64"), token.immediate("."), token.immediate("store")),
-          seq(choice("i32", "i64"), token.immediate("."), token.immediate("store"), token.immediate(/(8|16)/)),
-          seq("i64", token.immediate("."), token.immediate("store"), token.immediate("32")),
-        ),
-        // proposal: multi-memory
-        optional($.index),
-        optional(alias($.offset_value, $.offset)),
-        optional(alias($.align_value, $.align)),
-      ),
+    // proposal: bulk-memory-operations
+    op_table_copy: $ => seq(alias("table.copy", $.op), optional(seq($.index, $.index))),
 
     // proposal: bulk-memory-operations
-    op_table_copy: $ => seq("table.copy", optional(seq($.index, $.index))),
-
-    // proposal: reference-types
-    op_table_fill: $ => seq("table.fill", optional($.index)),
-
-    // proposal: reference-types
-    op_table_get: $ => seq("table.get", optional($.index)),
-
-    // proposal: reference-types
-    op_table_grow: $ => seq("table.grow", optional($.index)),
-
-    // proposal: bulk-memory-operations
-    op_table_init: $ => seq("table.init", $.index, optional($.index)),
-
-    // proposal: reference-types
-    op_table_set: $ => seq("table.set", optional($.index)),
-
-    // proposal: reference-types
-    op_table_size: $ => seq("table.size", optional($.index)),
-
-    op_test: $ => seq(choice("f32", "f64", "i32", "i64"), token.immediate("."), token.immediate(/eqz/)),
-
-    op_unary: $ =>
-      choice(
-        seq(choice("i32", "i64"), token.immediate("."), token.immediate(/clz|ctz|popcnt/)),
-        seq(
-          choice("i32", "i64"),
-          token.immediate("."),
-          token.immediate("extend"),
-          token.immediate(/8|16/),
-          token.immediate("_"),
-          token.immediate("s"),
-        ),
-        seq(
-          "i64",
-          token.immediate("."),
-          token.immediate("extend"),
-          token.immediate("32"),
-          token.immediate("_"),
-          token.immediate("s"),
-        ),
-        seq(choice("f32", "f64"), token.immediate("."), token.immediate(/neg|abs|sqrt|ceil|floor|trunc|nearest/)),
-      ),
-
-    op_unreachable: $ => "unreachable",
+    op_table_init: $ => seq(alias("table.init", $.op), $.index, optional($.index)),
 
     int: $ => seq(optional($.sign), $._nat),
 
@@ -976,20 +645,20 @@ module.exports = grammar({
 
     memory_use: $ => seq("(", "memory", $.index, ")"),
 
-    module: $ => seq("(", "module", optional($.identifier), repeat($._module_field), ")"),
+    module: $ => seq("(", "module", optional(field("identifier", $.identifier)), repeat($.module_field), ")"),
 
-    _module_field: $ =>
+    module_field: $ =>
       choice(
-        alias($.module_field_type, $.type),
-        alias($.module_field_global, $.global),
-        alias($.module_field_table, $.table),
-        alias($.module_field_memory, $.memory),
-        alias($.module_field_func, $.func),
-        alias($.module_field_elem, $.elem),
-        alias($.module_field_data, $.data),
-        alias($.module_field_start, $.start),
-        alias($.module_field_import, $.import),
-        alias($.module_field_export, $.export),
+        $.module_field_type,
+        $.module_field_global,
+        $.module_field_table,
+        $.module_field_memory,
+        $.module_field_func,
+        $.module_field_elem,
+        $.module_field_data,
+        $.module_field_start,
+        $.module_field_import,
+        $.module_field_export,
       ),
 
     module_field_data: $ =>
@@ -1031,7 +700,7 @@ module.exports = grammar({
       seq(
         "(",
         "func",
-        optional($.identifier),
+        optional(field("identifier", $.identifier)),
         repeat($.export),
         optional($.import),
         optional($.type_use),
@@ -1046,7 +715,7 @@ module.exports = grammar({
       seq(
         "(",
         "global",
-        optional($.identifier),
+        optional(field("identifier", $.identifier)),
         repeat($.export),
         optional($.import),
         $.global_type,
@@ -1060,7 +729,7 @@ module.exports = grammar({
       seq(
         "(",
         "memory",
-        optional($.identifier),
+        optional(field("identifier", $.identifier)),
         repeat($.export),
         choice(alias($.memory_fields_data, $.data), $._memory_fields_type),
         ")",
@@ -1072,29 +741,20 @@ module.exports = grammar({
       seq(
         "(",
         "table",
-        optional($.identifier),
+        optional(field("identifier", $.identifier)),
         repeat($.export),
         choice($.table_fields_elem, $.table_fields_type),
         ")",
       ),
 
-    module_field_type: $ => seq("(", "type", optional($.identifier), $._type_field, ")"),
+    module_field_type: $ => seq("(", "type", optional(field("identifier", $.identifier)), $._type_field, ")"),
 
     name: $ => $._string,
 
     nan: $ =>
       seq(
         "nan",
-        optional(
-          seq(
-            token.immediate(":"),
-            choice(
-              token.immediate("arithmetic"),
-              token.immediate("canonical"),
-              seq(token.immediate("0x"), token.immediate(pattern_hex_nat)),
-            ),
-          ),
-        ),
+        optional(seq(imm(":"), choice(imm("arithmetic"), imm("canonical"), seq(imm("0x"), imm(pattern_hex_nat))))),
       ),
 
     _nat: $ => choice($._dec_nat, $._hex_nat),
@@ -1111,13 +771,13 @@ module.exports = grammar({
 
     num_type_v128: $ => "v128",
 
-    _offset: $ => alias(choice($.offset_const_expr, $.offset_expr), $.offset),
+    _offset: $ => choice($.offset_const_expr, $.offset_expr),
 
     offset_const_expr: $ => seq("(", "offset", repeat($.instr), ")"),
 
     offset_expr: $ => $._expr,
 
-    offset_value: $ => seq("offset=", alias($.align_offset_value, $.value)),
+    _offset_value: $ => seq(alias("offset", $.offset), imm("="), alias($.align_offset_value, $.value)),
 
     // proposal: reference-types
     ref_kind: $ => /extern|func/,
@@ -1142,8 +802,7 @@ module.exports = grammar({
 
     sign: $ => /[+-]/,
 
-    _string: $ =>
-      seq('"', repeat(choice(token.immediate(prec(PREC.STRING, /[^"\\\n]+|\\\r?\n/)), $._escape_sequence)), '"'),
+    _string: $ => seq('"', repeat(choice(imm(prec(PREC.STRING, /[^"\\\n]+|\\\r?\n/)), $._escape_sequence)), '"'),
 
     table_fields_elem: $ =>
       seq($._ref_type, "(", "elem", choice(repeat($.index), seq($._elem_expr, repeat($._elem_expr))), ")"),

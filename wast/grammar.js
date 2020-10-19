@@ -6,7 +6,7 @@ module.exports = grammar(wat, {
   name: "wast",
 
   rules: {
-    ROOT: $ => choice(repeat($._command), repeat1($._module_field)),
+    ROOT: $ => choice(repeat($.command), repeat1($.module_field)),
 
     _action: $ => choice(alias($.action_invoke, $.invoke), alias($.action_get, $.get)),
 
@@ -49,7 +49,7 @@ module.exports = grammar(wat, {
         $.assert_exhaustion,
       ),
 
-    _command: $ => choice($._action, $._assertion, $._meta, $.register, $._script_module),
+    command: $ => choice($._action, $._assertion, $._meta, $.register, $._script_module),
 
     _expr_plain_const: $ => seq("(", choice($.op_const_ref, $.op_simd_const), ")"),
 
@@ -61,7 +61,7 @@ module.exports = grammar(wat, {
 
     _meta: $ => choice($.meta_script, $.meta_input, $.meta_output),
 
-    meta_script: $ => seq("(", "script", optional($.identifier), repeat($._command), ")"),
+    meta_script: $ => seq("(", "script", optional($.identifier), repeat($.command), ")"),
 
     meta_input: $ => seq("(", "input", optional($.identifier), $._string, ")"),
 
@@ -71,9 +71,9 @@ module.exports = grammar(wat, {
       choice(
         $.op_const,
         // proposal: reference-types
-        $.op_ref_null,
+        seq("ref.null", choice($.ref_kind, $.index)),
         // proposal: reference-types
-        $.op_ref_extern,
+        seq("ref.extern", $._nat),
       ),
 
     register: $ => seq("(", "register", $.name, optional($.identifier), ")"),
