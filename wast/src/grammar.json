@@ -15,7 +15,7 @@
           "type": "REPEAT1",
           "content": {
             "type": "SYMBOL",
-            "name": "module_field"
+            "name": "_module_field"
           }
         }
       ]
@@ -3670,7 +3670,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "module_field"
+            "name": "_module_field"
           }
         },
         {
@@ -3679,7 +3679,7 @@
         }
       ]
     },
-    "module_field": {
+    "_module_field": {
       "type": "CHOICE",
       "members": [
         {
