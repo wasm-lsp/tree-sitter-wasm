@@ -19,7 +19,7 @@ module.exports = grammar({
   conflicts: $ => [[$.op_let], [$.op_select]],
 
   rules: {
-    ROOT: $ => choice($.module, repeat($.module_field)),
+    ROOT: $ => choice($.module, repeat($._module_field)),
 
     _align_value: $ => seq(alias("align", $.align), imm("="), alias($.align_offset_value, $.value)),
 
@@ -645,9 +645,9 @@ module.exports = grammar({
 
     memory_use: $ => seq("(", "memory", $.index, ")"),
 
-    module: $ => seq("(", "module", optional(field("identifier", $.identifier)), repeat($.module_field), ")"),
+    module: $ => seq("(", "module", optional(field("identifier", $.identifier)), repeat($._module_field), ")"),
 
-    module_field: $ =>
+    _module_field: $ =>
       choice(
         $.module_field_type,
         $.module_field_global,
