@@ -6,7 +6,7 @@ module.exports = grammar(wat, {
   name: "wast",
 
   rules: {
-    ROOT: $ => choice(repeat($.command), repeat1($.module_field)),
+    ROOT: $ => choice(repeat($.command), repeat1($._module_field)),
 
     _action: $ => choice(alias($.action_invoke, $.invoke), alias($.action_get, $.get)),
 
