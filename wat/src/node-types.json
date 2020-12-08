@@ -55,37 +55,6 @@
     }
   },
   {
-    "type": "annotation",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "annotation_parens",
-          "named": true
-        },
-        {
-          "type": "comment_block_annot",
-          "named": true
-        },
-        {
-          "type": "comment_line_annot",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "reserved",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "annotation_parens",
     "named": true,
     "fields": {},
@@ -255,11 +224,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "comment_line",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "comment_line_annot",
