@@ -8,7 +8,7 @@ module.exports = grammar(wat, {
   rules: {
     ROOT: $ => choice(repeat($.command), repeat1($._module_field)),
 
-    _action: $ => choice(alias($.action_invoke, $.invoke), alias($.action_get, $.get)),
+    _action: $ => choice($.action_invoke, $.action_get),
 
     action_get: $ => seq("(", "get", optional($.identifier), $.name, ")"),
 
