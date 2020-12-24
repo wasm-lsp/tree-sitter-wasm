@@ -55,6 +55,52 @@
     }
   },
   {
+    "type": "action_get",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "action_invoke",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "name",
+          "named": true
+        },
+        {
+          "type": "op_const_ref",
+          "named": true
+        },
+        {
+          "type": "op_simd_const",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "annotation_parens",
     "named": true,
     "fields": {},
@@ -94,11 +140,11 @@
       "required": true,
       "types": [
         {
-          "type": "get",
+          "type": "action_get",
           "named": true
         },
         {
-          "type": "invoke",
+          "type": "action_invoke",
           "named": true
         }
       ]
@@ -159,11 +205,11 @@
       "required": true,
       "types": [
         {
-          "type": "get",
+          "type": "action_get",
           "named": true
         },
         {
-          "type": "invoke",
+          "type": "action_invoke",
           "named": true
         },
         {
@@ -182,11 +228,11 @@
       "required": true,
       "types": [
         {
-          "type": "get",
+          "type": "action_get",
           "named": true
         },
         {
-          "type": "invoke",
+          "type": "action_invoke",
           "named": true
         },
         {
@@ -205,11 +251,11 @@
       "required": true,
       "types": [
         {
-          "type": "get",
+          "type": "action_get",
           "named": true
         },
         {
-          "type": "invoke",
+          "type": "action_invoke",
           "named": true
         },
         {
@@ -228,11 +274,11 @@
       "required": true,
       "types": [
         {
-          "type": "get",
+          "type": "action_get",
           "named": true
         },
         {
-          "type": "invoke",
+          "type": "action_invoke",
           "named": true
         }
       ]
@@ -403,6 +449,14 @@
       "required": true,
       "types": [
         {
+          "type": "action_get",
+          "named": true
+        },
+        {
+          "type": "action_invoke",
+          "named": true
+        },
+        {
           "type": "assert_exhaustion",
           "named": true
         },
@@ -436,14 +490,6 @@
         },
         {
           "type": "assert_unlinkable",
-          "named": true
-        },
-        {
-          "type": "get",
-          "named": true
-        },
-        {
-          "type": "invoke",
           "named": true
         },
         {
@@ -912,25 +958,6 @@
     }
   },
   {
-    "type": "get",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "name",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "global_type",
     "named": true,
     "fields": {},
@@ -1353,33 +1380,6 @@
       "types": [
         {
           "type": "sign",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "invoke",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "name",
-          "named": true
-        },
-        {
-          "type": "op_const_ref",
-          "named": true
-        },
-        {
-          "type": "op_simd_const",
           "named": true
         }
       ]
