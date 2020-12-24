@@ -4830,22 +4830,12 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "action_invoke"
-          },
-          "named": true,
-          "value": "invoke"
+          "type": "SYMBOL",
+          "name": "action_invoke"
         },
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "action_get"
-          },
-          "named": true,
-          "value": "get"
+          "type": "SYMBOL",
+          "name": "action_get"
         }
       ]
     },
