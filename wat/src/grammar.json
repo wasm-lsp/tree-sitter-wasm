@@ -463,26 +463,6 @@
         }
       ]
     },
-    "comment_line": {
-      "type": "PREC_LEFT",
-      "value": 0,
-      "content": {
-        "type": "TOKEN",
-        "content": {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": ";;"
-            },
-            {
-              "type": "PATTERN",
-              "value": ".*"
-            }
-          ]
-        }
-      }
-    },
     "comment_block_annot": {
       "type": "SEQ",
       "members": [
@@ -519,6 +499,26 @@
           "value": ";)"
         }
       ]
+    },
+    "comment_line": {
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "TOKEN",
+        "content": {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": ";;"
+            },
+            {
+              "type": "PATTERN",
+              "value": ".*"
+            }
+          ]
+        }
+      }
     },
     "comment_line_annot": {
       "type": "PREC_LEFT",
