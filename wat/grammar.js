@@ -80,9 +80,9 @@ module.exports = grammar({
 
     comment_block: $ => seq("(;", repeat(choice($.comment_block, /[^(;]+/, "(", ";")), ";)"),
 
-    comment_line: $ => prec.left(token(seq(";;", /.*/))),
-
     comment_block_annot: $ => seq("(;", repeat(choice($.comment_block_annot, /[^(;]+/, "(", ";")), ";)"),
+
+    comment_line: $ => prec.left(token(seq(";;", /.*/))),
 
     comment_line_annot: $ => prec.left(token(seq(";;", /.*/))),
 
