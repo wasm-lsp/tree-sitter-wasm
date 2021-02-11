@@ -19,21 +19,21 @@ module.exports = grammar({
   conflicts: $ => [[$.op_let], [$.op_select]],
 
   rules: {
-    ROOT: $ => choice($.module, repeat($._module_field)),
+    ROOT: $ => choice($.module, repeat($.module_field)),
 
-    _align_value: $ => seq(alias("align", $.align), imm("="), alias($.align_offset_value, $.value)),
+    align_value: $ => seq(alias("align", $.align), imm("="), alias($.align_offset_value, $.value)),
 
     align_offset_value: $ => imm(/[0-9]+(_?[0-9]+)*|0x[0-9A-Fa-f]+(_?[0-9A-Fa-f]+)*/),
 
     // proposal: annotations
-    annotation: $ => seq("(@", imm(pattern_identifier), repeat($._annotation_part), ")"),
+    annotation: $ => seq("(@", imm(pattern_identifier), repeat($.annotation_part), ")"),
 
     // proposal: annotations
-    annotation_parens: $ => seq("(", repeat($._annotation_part), ")"),
+    annotation_parens: $ => seq("(", repeat($.annotation_part), ")"),
 
     // proposal: annotations
-    _annotation_part: $ =>
-      choice($.comment_block_annot, $.comment_line_annot, $.annotation_parens, $.reserved, $.identifier, $._string),
+    annotation_part: $ =>
+      choice($.comment_block_annot, $.comment_line_annot, $.annotation_parens, $.reserved, $.identifier, $.string),
 
     block_block: $ =>
       seq(
@@ -43,7 +43,7 @@ module.exports = grammar({
           optional($.type_use),
           repeat($.func_type_params_many),
           repeat(alias($.func_type_results, $.result)),
-          optional($._instr_list),
+          optional($.instr_list),
         ),
         "end",
         optional($.identifier),
@@ -57,9 +57,9 @@ module.exports = grammar({
           optional($.type_use),
           repeat($.func_type_params_many),
           repeat(alias($.func_type_results, $.result)),
-          optional($._instr_list),
+          optional($.instr_list),
         ),
-        optional(seq("else", optional($.identifier), optional($._instr_list))),
+        optional(seq("else", optional($.identifier), optional($.instr_list))),
         "end",
         optional($.identifier),
       ),
@@ -72,7 +72,7 @@ module.exports = grammar({
           optional($.type_use),
           repeat($.func_type_params_many),
           repeat(alias($.func_type_results, $.result)),
-          optional($._instr_list),
+          optional($.instr_list),
         ),
         "end",
         optional($.identifier),
@@ -86,13 +86,13 @@ module.exports = grammar({
 
     comment_line_annot: $ => prec.left(token(seq(";;", /.*/))),
 
-    _dec_nat: $ => pattern_dec_nat,
+    dec_nat: $ => pattern_dec_nat,
 
     // proposal: reference-types
-    _elem_expr: $ => choice(alias($.elem_expr_item, $.item), alias($.elem_expr_expr, $.expr)),
+    elem_expr: $ => choice(alias($.elem_expr_item, $.item), alias($.elem_expr_expr, $.expr)),
 
     // proposal: reference-types
-    elem_expr_expr: $ => $._expr,
+    elem_expr_expr: $ => $.expr,
 
     // proposal: reference-types
     elem_expr_item: $ => seq("(", "item", repeat($.instr), ")"),
@@ -101,14 +101,14 @@ module.exports = grammar({
     elem_kind: $ => "func",
 
     // proposal: reference-types
-    elem_list: $ => choice(seq($.elem_kind, repeat($.index)), seq($._ref_type, repeat($._elem_expr))),
+    elem_list: $ => choice(seq($.elem_kind, repeat($.index)), seq($.ref_type, repeat($.elem_expr))),
 
-    _escape_sequence: $ =>
+    escape_sequence: $ =>
       imm(repeat1(seq(imm("\\"), imm(choice(/[^u0-9a-fA-F]/, /[0-9a-fA-F]{2}/, /u{[0-9a-fA-F]+}/))))),
 
     export: $ => seq("(", "export", $.name, ")"),
 
-    _export_desc: $ => choice($.export_desc_func, $.export_desc_table, $.export_desc_memory, $.export_desc_global),
+    export_desc: $ => choice($.export_desc_func, $.export_desc_table, $.export_desc_memory, $.export_desc_global),
 
     export_desc_func: $ => seq("(", "func", $.index, ")"),
 
@@ -118,9 +118,9 @@ module.exports = grammar({
 
     export_desc_table: $ => seq("(", "table", $.index, ")"),
 
-    _expr: $ => seq("(", $._expr1, ")"),
+    expr: $ => seq("(", $.expr1, ")"),
 
-    _expr1: $ => choice($._expr1_plain, $.expr1_call, $.expr1_block, $.expr1_loop, $.expr1_if),
+    expr1: $ => choice($.expr1_plain, $.expr1_call, $.expr1_block, $.expr1_loop, $.expr1_if),
 
     expr1_block: $ =>
       seq(
@@ -130,7 +130,7 @@ module.exports = grammar({
           optional($.type_use),
           repeat($.func_type_params_many),
           repeat(alias($.func_type_results, $.result)),
-          optional($._instr_list),
+          optional($.instr_list),
         ),
       ),
 
@@ -142,10 +142,10 @@ module.exports = grammar({
         optional($.type_use),
         repeat($.func_type_params_many),
         repeat(alias($.func_type_results, $.result)),
-        repeat($._expr),
+        repeat($.expr),
       ),
 
-    expr1_if: $ => seq("if", optional($.identifier), $._if_block),
+    expr1_if: $ => seq("if", optional($.identifier), $.if_block),
 
     expr1_loop: $ =>
       seq(
@@ -155,13 +155,13 @@ module.exports = grammar({
           optional($.type_use),
           repeat($.func_type_params_many),
           repeat(alias($.func_type_results, $.result)),
-          optional($._instr_list),
+          optional($.instr_list),
         ),
       ),
 
-    _expr1_plain: $ => seq($.instr_plain, repeat($._expr)),
+    expr1_plain: $ => seq($.instr_plain, repeat($.expr)),
 
-    _dec_float: $ =>
+    dec_float: $ =>
       token(
         seq(
           pattern_dec_nat,
@@ -170,31 +170,31 @@ module.exports = grammar({
         ),
       ),
 
-    float: $ => seq(optional($.sign), choice($._dec_float, $._hex_float, "inf", $.nan)),
+    float: $ => seq(optional($.sign), choice($.dec_float, $.hex_float, "inf", $.nan)),
 
-    _func_locals: $ => alias(choice($.func_locals_one, $.func_locals_many), $.local),
+    func_locals: $ => alias(choice($.func_locals_one, $.func_locals_many), $.local),
 
-    func_locals_many: $ => seq("(", "local", repeat($._value_type), ")"),
+    func_locals_many: $ => seq("(", "local", repeat($.value_type), ")"),
 
-    func_locals_one: $ => seq("(", "local", $.identifier, $._value_type, ")"),
+    func_locals_one: $ => seq("(", "local", $.identifier, $.value_type, ")"),
 
-    _func_type: $ => choice($._func_type_params, alias($.func_type_results, $.result)),
+    func_type: $ => choice($.func_type_params, alias($.func_type_results, $.result)),
 
-    _func_type_params: $ => alias(choice($.func_type_params_one, $.func_type_params_many), $.param),
+    func_type_params: $ => alias(choice($.func_type_params_one, $.func_type_params_many), $.param),
 
-    func_type_params_many: $ => seq("(", "param", repeat($._value_type), ")"),
+    func_type_params_many: $ => seq("(", "param", repeat($.value_type), ")"),
 
-    func_type_params_one: $ => seq("(", "param", $.identifier, $._value_type, ")"),
+    func_type_params_one: $ => seq("(", "param", $.identifier, $.value_type, ")"),
 
-    func_type_results: $ => seq("(", "result", repeat($._value_type), ")"),
+    func_type_results: $ => seq("(", "result", repeat($.value_type), ")"),
 
     global_type: $ => choice($.global_type_imm, $.global_type_mut),
 
-    global_type_imm: $ => $._value_type,
+    global_type_imm: $ => $.value_type,
 
-    global_type_mut: $ => seq("(", "mut", $._value_type, ")"),
+    global_type_mut: $ => seq("(", "mut", $.value_type, ")"),
 
-    _hex_float: $ =>
+    hex_float: $ =>
       token(
         seq(
           "0x",
@@ -204,23 +204,23 @@ module.exports = grammar({
         ),
       ),
 
-    _hex_nat: $ => seq("0x", imm(pattern_hex_nat)),
+    hex_nat: $ => seq("0x", imm(pattern_hex_nat)),
 
     identifier: $ => token(seq(imm("$"), pattern_identifier)),
 
-    _if_block: $ =>
+    if_block: $ =>
       seq(
         optional($.type_use),
         repeat($.func_type_params_many),
         repeat(alias($.func_type_results, $.result)),
-        repeat($._expr),
-        seq("(", "then", optional($._instr_list), ")"),
-        optional(seq("(", "else", optional($._instr_list), ")")),
+        repeat($.expr),
+        seq("(", "then", optional($.instr_list), ")"),
+        optional(seq("(", "else", optional($.instr_list), ")")),
       ),
 
     import: $ => seq("(", "import", $.name, $.name, ")"),
 
-    _import_desc: $ =>
+    import_desc: $ =>
       choice(
         $.import_desc_type_use,
         $.import_desc_func_type,
@@ -229,19 +229,19 @@ module.exports = grammar({
         $.import_desc_global_type,
       ),
 
-    import_desc_func_type: $ => seq("(", "func", optional($.identifier), repeat($._func_type), ")"),
+    import_desc_func_type: $ => seq("(", "func", optional($.identifier), repeat($.func_type), ")"),
 
     import_desc_global_type: $ => seq("(", "global", optional($.identifier), $.global_type, ")"),
 
-    import_desc_memory_type: $ => seq("(", "memory", optional($.identifier), $._memory_type, ")"),
+    import_desc_memory_type: $ => seq("(", "memory", optional($.identifier), $.memory_type, ")"),
 
     import_desc_table_type: $ => seq("(", "table", optional($.identifier), $.table_type, ")"),
 
     import_desc_type_use: $ => seq("(", "func", optional($.identifier), $.type_use, ")"),
 
-    index: $ => choice($._nat, alias($.identifier, "identifier")),
+    index: $ => choice($.nat, alias($.identifier, "identifier")),
 
-    instr: $ => choice($.instr_plain, $.instr_call, $.instr_block, $._expr),
+    instr: $ => choice($.instr_plain, $.instr_call, $.instr_block, $.expr),
 
     instr_block: $ => choice($.block_block, $.block_loop, $.block_if),
 
@@ -255,7 +255,7 @@ module.exports = grammar({
       ),
 
     // NOTE: this must be wrapped in "optional"
-    _instr_list: $ => repeat1(choice($.instr_list_call, $.instr)),
+    instr_list: $ => repeat1(choice($.instr_list_call, $.instr)),
 
     instr_list_call: $ =>
       prec.right(
@@ -269,19 +269,19 @@ module.exports = grammar({
 
     instr_plain: $ =>
       choice(
-        alias($._op_nullary, $.op),
-        seq(alias($._op_index, $.op), $.index),
-        seq(alias($._op_index_opt, $.op), optional($.index)),
+        alias($.op_nullary, $.op),
+        seq(alias($.op_index, $.op), $.index),
+        seq(alias($.op_index_opt, $.op), optional($.index)),
         seq(alias("br_table", $.op), $.index, repeat($.index)),
-        seq(alias("ref.extern", $.op), $._nat),
+        seq(alias("ref.extern", $.op), $.nat),
         seq(alias("ref.null", $.op), choice($.ref_kind, $.index)),
         seq(
-          alias($._op_index_opt_offset_opt_align_opt, $.op),
+          alias($.op_index_opt_offset_opt_align_opt, $.op),
           optional($.index),
-          optional($._offset_value),
-          optional($._align_value),
+          optional($.offset_value),
+          optional($.align_value),
         ),
-        seq(alias($._op_simd_offset_opt_align_opt, $.op), optional($._offset_value), optional($._align_value)),
+        seq(alias($.op_simd_offset_opt_align_opt, $.op), optional($.offset_value), optional($.align_value)),
         $.op_const,
         $.op_func_bind,
         $.op_let,
@@ -292,7 +292,7 @@ module.exports = grammar({
         $.op_table_init,
       ),
 
-    _op_nullary: $ =>
+    op_nullary: $ =>
       token(
         choice(
           "atomic.fence",
@@ -522,7 +522,7 @@ module.exports = grammar({
         ),
       ),
 
-    _op_index: $ =>
+    op_index: $ =>
       new RegExp(
         [
           "br(_(if|on_null))?",
@@ -536,10 +536,10 @@ module.exports = grammar({
         ].join("|"),
       ),
 
-    _op_index_opt: $ =>
+    op_index_opt: $ =>
       new RegExp(["local\\.(get|set|tee)", "memory\\.(grow|size)", "table\\.(fill|g(et|row)|s(et|ize))"].join("|")),
 
-    _op_index_opt_offset_opt_align_opt: $ =>
+    op_index_opt_offset_opt_align_opt: $ =>
       token(
         choice(
           /f(32|64)\.(load|store)/,
@@ -548,7 +548,7 @@ module.exports = grammar({
         ),
       ),
 
-    _op_simd_offset_opt_align_opt: $ =>
+    op_simd_offset_opt_align_opt: $ =>
       token(
         choice(
           /f(32x4|64x2)\.(abs|ceil|floor|nearest|neg|splat|trunc)/,
@@ -583,9 +583,9 @@ module.exports = grammar({
       seq(
         alias("let", $.op),
         optional($.index),
-        repeat($._func_type_params),
+        repeat($.func_type_params),
         repeat(alias($.func_type_results, $.result)),
-        repeat($._func_locals),
+        repeat($.func_locals),
       ),
 
     op_select: $ =>
@@ -627,27 +627,27 @@ module.exports = grammar({
     // proposal: bulk-memory-operations
     op_table_init: $ => seq(alias("table.init", $.op), $.index, optional($.index)),
 
-    int: $ => seq(optional($.sign), $._nat),
+    int: $ => seq(optional($.sign), $.nat),
 
     limits: $ =>
       seq(
-        alias($._nat, $.min),
-        alias(optional($._nat), $.max),
+        alias($.nat, $.min),
+        alias(optional($.nat), $.max),
         // proposal: threads
         optional($.share),
       ),
 
-    memory_fields_data: $ => seq("(", "data", repeat($._string), ")"),
+    memory_fields_data: $ => seq("(", "data", repeat($.string), ")"),
 
-    _memory_fields_type: $ => seq(optional($.import), $._memory_type),
+    memory_fields_type: $ => seq(optional($.import), $.memory_type),
 
-    _memory_type: $ => $.limits,
+    memory_type: $ => $.limits,
 
     memory_use: $ => seq("(", "memory", $.index, ")"),
 
-    module: $ => seq("(", "module", optional(field("identifier", $.identifier)), repeat($._module_field), ")"),
+    module: $ => seq("(", "module", optional(field("identifier", $.identifier)), repeat($.module_field), ")"),
 
-    _module_field: $ =>
+    module_field: $ =>
       choice(
         $.module_field_type,
         $.module_field_global,
@@ -666,8 +666,8 @@ module.exports = grammar({
         "(",
         "data",
         optional($.index),
-        optional(seq(optional($.memory_use), $._offset)),
-        alias(repeat($._string), $.bytes),
+        optional(seq(optional($.memory_use), $.offset)),
+        alias(repeat($.string), $.bytes),
         ")",
       ),
 
@@ -680,7 +680,7 @@ module.exports = grammar({
           $.elem_list,
           seq(
             $.table_use,
-            $._offset,
+            $.offset,
             choice(
               $.elem_list,
               // proposal: multi-memory
@@ -688,13 +688,13 @@ module.exports = grammar({
             ),
           ),
           seq("declare", $.elem_list),
-          seq($._offset, $.elem_list),
-          seq($._offset, repeat($.index)),
+          seq($.offset, $.elem_list),
+          seq($.offset, repeat($.index)),
         ),
         ")",
       ),
 
-    module_field_export: $ => seq("(", "export", $.name, $._export_desc, ")"),
+    module_field_export: $ => seq("(", "export", $.name, $.export_desc, ")"),
 
     module_field_func: $ =>
       seq(
@@ -704,10 +704,10 @@ module.exports = grammar({
         repeat($.export),
         optional($.import),
         optional($.type_use),
-        repeat($._func_type_params),
+        repeat($.func_type_params),
         repeat(alias($.func_type_results, $.result)),
-        repeat($._func_locals),
-        optional($._instr_list),
+        repeat($.func_locals),
+        optional($.instr_list),
         ")",
       ),
 
@@ -723,7 +723,7 @@ module.exports = grammar({
         ")",
       ),
 
-    module_field_import: $ => seq("(", "import", $.name, $.name, $._import_desc, ")"),
+    module_field_import: $ => seq("(", "import", $.name, $.name, $.import_desc, ")"),
 
     module_field_memory: $ =>
       seq(
@@ -731,7 +731,7 @@ module.exports = grammar({
         "memory",
         optional(field("identifier", $.identifier)),
         repeat($.export),
-        choice(alias($.memory_fields_data, $.data), $._memory_fields_type),
+        choice(alias($.memory_fields_data, $.data), $.memory_fields_type),
         ")",
       ),
 
@@ -747,9 +747,9 @@ module.exports = grammar({
         ")",
       ),
 
-    module_field_type: $ => seq("(", "type", optional(field("identifier", $.identifier)), $._type_field, ")"),
+    module_field_type: $ => seq("(", "type", optional(field("identifier", $.identifier)), $.type_field, ")"),
 
-    name: $ => $._string,
+    name: $ => $.string,
 
     nan: $ =>
       seq(
@@ -757,7 +757,7 @@ module.exports = grammar({
         optional(seq(imm(":"), choice(imm("arithmetic"), imm("canonical"), seq(imm("0x"), imm(pattern_hex_nat))))),
       ),
 
-    _nat: $ => choice($._dec_nat, $._hex_nat),
+    nat: $ => choice($.dec_nat, $.hex_nat),
 
     num: $ => choice($.int, $.float),
 
@@ -771,19 +771,19 @@ module.exports = grammar({
 
     num_type_v128: $ => "v128",
 
-    _offset: $ => choice($.offset_const_expr, $.offset_expr),
+    offset: $ => choice($.offset_const_expr, $.offset_expr),
 
     offset_const_expr: $ => seq("(", "offset", repeat($.instr), ")"),
 
-    offset_expr: $ => $._expr,
+    offset_expr: $ => $.expr,
 
-    _offset_value: $ => seq(alias("offset", $.offset), imm("="), alias($.align_offset_value, $.value)),
+    offset_value: $ => seq(alias("offset", $.offset), imm("="), alias($.align_offset_value, $.value)),
 
     // proposal: reference-types
     ref_kind: $ => /extern|func/,
 
     // proposal: reference-types
-    _ref_type: $ => choice($.ref_type_externref, $.ref_type_funcref, $.ref_type_ref),
+    ref_type: $ => choice($.ref_type_externref, $.ref_type_funcref, $.ref_type_ref),
 
     // proposal: reference-types
     ref_type_externref: $ => "externref",
@@ -802,24 +802,24 @@ module.exports = grammar({
 
     sign: $ => /[+-]/,
 
-    _string: $ => seq('"', repeat(choice(imm(prec(PREC.STRING, /[^"\\\n]+|\\\r?\n/)), $._escape_sequence)), '"'),
+    string: $ => seq('"', repeat(choice(imm(prec(PREC.STRING, /[^"\\\n]+|\\\r?\n/)), $.escape_sequence)), '"'),
 
     table_fields_elem: $ =>
-      seq($._ref_type, "(", "elem", choice(repeat($.index), seq($._elem_expr, repeat($._elem_expr))), ")"),
+      seq($.ref_type, "(", "elem", choice(repeat($.index), seq($.elem_expr, repeat($.elem_expr))), ")"),
 
     table_fields_type: $ => seq(optional($.import), $.table_type),
 
-    table_type: $ => seq($.limits, $._ref_type),
+    table_type: $ => seq($.limits, $.ref_type),
 
     table_use: $ => seq("(", "table", $.index, ")"),
 
-    _type_field: $ => seq("(", "func", repeat($._func_type), ")"),
+    type_field: $ => seq("(", "func", repeat($.func_type), ")"),
 
     type_use: $ => seq("(", "type", $.index, ")"),
 
-    _value_type: $ => choice($._value_type_num_type, $._value_type_ref_type),
+    value_type: $ => choice($.value_type_num_type, $.value_type_ref_type),
 
-    _value_type_num_type: $ =>
+    value_type_num_type: $ =>
       choice(
         alias($.num_type_f32, $.f32),
         alias($.num_type_f64, $.f64),
@@ -828,6 +828,6 @@ module.exports = grammar({
         alias($.num_type_v128, $.v128),
       ),
 
-    _value_type_ref_type: $ => $._ref_type,
+    value_type_ref_type: $ => $.ref_type,
   },
 });
