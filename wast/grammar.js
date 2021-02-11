@@ -6,35 +6,35 @@ module.exports = grammar(wat, {
   name: "wast",
 
   rules: {
-    ROOT: $ => choice(repeat($.command), repeat1($._module_field)),
+    ROOT: $ => choice(repeat($.command), repeat1($.module_field)),
 
-    _action: $ => choice($.action_invoke, $.action_get),
+    action: $ => choice($.action_invoke, $.action_get),
 
     action_get: $ => seq("(", "get", optional($.identifier), $.name, ")"),
 
-    action_invoke: $ => seq("(", "invoke", optional($.identifier), $.name, repeat($._expr_plain_const), ")"),
+    action_invoke: $ => seq("(", "invoke", optional($.identifier), $.name, repeat($.expr_plain_const), ")"),
 
-    assert_exhaustion: $ => seq("(", "assert_exhaustion", $._action, $._string, ")"),
+    assert_exhaustion: $ => seq("(", "assert_exhaustion", $.action, $.string, ")"),
 
-    assert_invalid: $ => seq("(", "assert_invalid", $._script_module, $._string, ")"),
+    assert_invalid: $ => seq("(", "assert_invalid", $.script_module, $.string, ")"),
 
-    assert_malformed: $ => seq("(", "assert_malformed", $._script_module, $._string, ")"),
+    assert_malformed: $ => seq("(", "assert_malformed", $.script_module, $.string, ")"),
 
-    assert_return: $ => seq("(", "assert_return", $._action, repeat($.result), ")"),
-
-    // proposal: annotations
-    assert_return_arithmetic_nan: $ => seq("(", "assert_return_arithmetic_nan", $._action, repeat($.result), ")"),
+    assert_return: $ => seq("(", "assert_return", $.action, repeat($.result), ")"),
 
     // proposal: annotations
-    assert_return_canonical_nan: $ => seq("(", "assert_return_canonical_nan", $._action, repeat($.result), ")"),
+    assert_return_arithmetic_nan: $ => seq("(", "assert_return_arithmetic_nan", $.action, repeat($.result), ")"),
 
-    assert_trap_action: $ => seq("(", "assert_trap", $._action, $._string, ")"),
+    // proposal: annotations
+    assert_return_canonical_nan: $ => seq("(", "assert_return_canonical_nan", $.action, repeat($.result), ")"),
 
-    assert_trap_module: $ => seq("(", "assert_trap", $._script_module, $._string, ")"),
+    assert_trap_action: $ => seq("(", "assert_trap", $.action, $.string, ")"),
 
-    assert_unlinkable: $ => seq("(", "assert_unlinkable", $._script_module, $._string, ")"),
+    assert_trap_module: $ => seq("(", "assert_trap", $.script_module, $.string, ")"),
 
-    _assertion: $ =>
+    assert_unlinkable: $ => seq("(", "assert_unlinkable", $.script_module, $.string, ")"),
+
+    assertion: $ =>
       choice(
         $.assert_malformed,
         $.assert_invalid,
@@ -49,23 +49,23 @@ module.exports = grammar(wat, {
         $.assert_exhaustion,
       ),
 
-    command: $ => choice($._action, $._assertion, $._meta, $.register, $._script_module),
+    command: $ => choice($.action, $.assertion, $.meta, $.register, $.script_module),
 
-    _expr_plain_const: $ => seq("(", choice($.op_const_ref, $.op_simd_const), ")"),
+    expr_plain_const: $ => seq("(", choice($.op_const_ref, $.op_simd_const), ")"),
 
-    _literal_nan: $ => choice($.literal_nan_arithmetic, $.literal_nan_canonical),
+    literal_nan: $ => choice($.literal_nan_arithmetic, $.literal_nan_canonical),
 
     literal_nan_arithmetic: $ => "nan:arithmetic",
 
     literal_nan_canonical: $ => "nan:canonical",
 
-    _meta: $ => choice($.meta_script, $.meta_input, $.meta_output),
+    meta: $ => choice($.meta_script, $.meta_input, $.meta_output),
 
     meta_script: $ => seq("(", "script", optional($.identifier), repeat($.command), ")"),
 
-    meta_input: $ => seq("(", "input", optional($.identifier), $._string, ")"),
+    meta_input: $ => seq("(", "input", optional($.identifier), $.string, ")"),
 
-    meta_output: $ => seq("(", "output", optional($.identifier), optional($._string), ")"),
+    meta_output: $ => seq("(", "output", optional($.identifier), optional($.string), ")"),
 
     op_const_ref: $ =>
       choice(
@@ -73,7 +73,7 @@ module.exports = grammar(wat, {
         // proposal: reference-types
         seq("ref.null", choice($.ref_kind, $.index)),
         // proposal: reference-types
-        seq("ref.extern", $._nat),
+        seq("ref.extern", $.nat),
       ),
 
     register: $ => seq("(", "register", $.name, optional($.identifier), ")"),
@@ -81,14 +81,14 @@ module.exports = grammar(wat, {
     result: $ =>
       seq(
         "(",
-        choice($._result_const, $.result_const_nan, $.result_ref_func, $.result_ref_extern, $.result_ref_null),
+        choice($.result_const, $.result_const_nan, $.result_ref_func, $.result_ref_extern, $.result_ref_null),
         ")",
       ),
 
-    _result_const: $ => choice($.op_const_ref, $.op_simd_const),
+    result_const: $ => choice($.op_const_ref, $.op_simd_const),
 
     result_const_nan: $ =>
-      seq(choice("f32", "f64", "i32", "i64"), token.immediate("."), token.immediate("const"), $._literal_nan),
+      seq(choice("f32", "f64", "i32", "i64"), token.immediate("."), token.immediate("const"), $.literal_nan),
 
     result_ref_func: $ => "ref.func",
 
@@ -96,10 +96,10 @@ module.exports = grammar(wat, {
 
     result_ref_null: $ => "ref.null",
 
-    _script_module: $ => choice($.module, $.script_module_binary, $.script_module_quote),
+    script_module: $ => choice($.module, $.script_module_binary, $.script_module_quote),
 
-    script_module_binary: $ => seq("(", "module", optional($.identifier), "binary", repeat($._string), ")"),
+    script_module_binary: $ => seq("(", "module", optional($.identifier), "binary", repeat($.string), ")"),
 
-    script_module_quote: $ => seq("(", "module", optional($.identifier), "quote", repeat($._string), ")"),
+    script_module_quote: $ => seq("(", "module", optional($.identifier), "quote", repeat($.string), ")"),
   },
 });
