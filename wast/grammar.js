@@ -61,11 +61,11 @@ module.exports = grammar(wat, {
 
     meta: $ => choice($.meta_script, $.meta_input, $.meta_output),
 
-    meta_script: $ => seq("(", "script", optional($.identifier), repeat($.command), ")"),
-
     meta_input: $ => seq("(", "input", optional($.identifier), $.string, ")"),
 
     meta_output: $ => seq("(", "output", optional($.identifier), optional($.string), ")"),
+
+    meta_script: $ => seq("(", "script", optional($.identifier), repeat($.command), ")"),
 
     op_const_ref: $ =>
       choice(
@@ -90,9 +90,9 @@ module.exports = grammar(wat, {
     result_const_nan: $ =>
       seq(choice("f32", "f64", "i32", "i64"), token.immediate("."), token.immediate("const"), $.literal_nan),
 
-    result_ref_func: $ => "ref.func",
-
     result_ref_extern: $ => "ref.extern",
+
+    result_ref_func: $ => "ref.func",
 
     result_ref_null: $ => "ref.null",
 
