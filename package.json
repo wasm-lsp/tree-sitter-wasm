@@ -1,7 +1,7 @@
 {
   "name": "tree-sitter-wasm",
   "version": "0.0.0",
-  "author": "Darin Morrison <darinmorrison@users.noreply.github.com>",
+  "author": "silvanshade <silvanshade@users.noreply.github.com>",
   "license": "Apache-2.0 WITH LLVM-exception",
   "description": "WebAssembly grammars for tree-sitter",
   "keywords": [
