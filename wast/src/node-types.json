@@ -516,6 +516,10 @@
         {
           "type": "comment_block",
           "named": true
+        },
+        {
+          "type": "comment_block_inner",
+          "named": true
         }
       ]
     }
@@ -530,6 +534,10 @@
       "types": [
         {
           "type": "comment_block_annot",
+          "named": true
+        },
+        {
+          "type": "comment_block_inner",
           "named": true
         }
       ]
@@ -2116,11 +2124,6 @@
     }
   },
   {
-    "type": "nan",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "nat",
     "named": true,
     "fields": {},
@@ -2228,7 +2231,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
@@ -2237,6 +2240,14 @@
         },
         {
           "type": "int",
+          "named": true
+        },
+        {
+          "type": "pat00",
+          "named": true
+        },
+        {
+          "type": "pat01",
           "named": true
         }
       ]
@@ -2806,18 +2817,6 @@
     "named": false
   },
   {
-    "type": "0x",
-    "named": false
-  },
-  {
-    "type": ":",
-    "named": false
-  },
-  {
-    "type": ";",
-    "named": false
-  },
-  {
     "type": ";)",
     "named": false
   },
@@ -2836,10 +2835,6 @@
   {
     "type": "align_offset_value",
     "named": true
-  },
-  {
-    "type": "arithmetic",
-    "named": false
   },
   {
     "type": "assert_exhaustion",
@@ -2890,8 +2885,8 @@
     "named": false
   },
   {
-    "type": "canonical",
-    "named": false
+    "type": "comment_block_inner",
+    "named": true
   },
   {
     "type": "const",
@@ -3067,7 +3062,7 @@
   },
   {
     "type": "nan",
-    "named": false
+    "named": true
   },
   {
     "type": "null",
@@ -3108,6 +3103,14 @@
   {
     "type": "param",
     "named": false
+  },
+  {
+    "type": "pat00",
+    "named": true
+  },
+  {
+    "type": "pat01",
+    "named": true
   },
   {
     "type": "quote",

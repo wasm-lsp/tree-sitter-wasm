@@ -63,9 +63,11 @@ module.exports = grammar({
         optional($.identifier),
       ),
 
-    comment_block: $ => seq("(;", repeat(choice($.comment_block, /[^(;]+/, "(", ";")), ";)"),
+    comment_block: $ => seq("(;", repeat(choice($.comment_block, $.comment_block_inner)), ";)"),
 
-    comment_block_annot: $ => seq("(;", repeat(choice($.comment_block_annot, /[^(;]+/, "(", ";")), ";)"),
+    comment_block_annot: $ => seq("(;", repeat(choice($.comment_block_annot, $.comment_block_inner)), ";)"),
+
+    comment_block_inner: $ => token(choice(/[^(;]+/, "(", ";")),
 
     comment_line: $ => prec.left(token(seq(";;", /.*/))),
 
@@ -484,21 +486,25 @@ module.exports = grammar({
       ),
 
     op_index: $ =>
-      new RegExp(
-        [
-          "br(_(if|on_null))?",
-          "call",
-          "data\\.drop",
-          "elem\\.drop",
-          "global\\.(get|set)",
-          "local\\.(get|set|tee)",
-          "memory\\.init",
-          "ref\\.func",
-        ].join("|"),
+      token(
+        new RegExp(
+          [
+            "br(_(if|on_null))?",
+            "call",
+            "data\\.drop",
+            "elem\\.drop",
+            "global\\.(get|set)",
+            "local\\.(get|set|tee)",
+            "memory\\.init",
+            "ref\\.func",
+          ].join("|"),
+        ),
       ),
 
     op_index_opt: $ =>
-      new RegExp(["local\\.(get|set|tee)", "memory\\.(grow|size)", "table\\.(fill|g(et|row)|s(et|ize))"].join("|")),
+      token(
+        new RegExp(["local\\.(get|set|tee)", "memory\\.(grow|size)", "table\\.(fill|g(et|row)|s(et|ize))"].join("|")),
+      ),
 
     op_index_opt_offset_opt_align_opt: $ =>
       token(
@@ -534,7 +540,8 @@ module.exports = grammar({
         ),
       ),
 
-    op_const: $ => choice(seq(/f(32|64)\.const/, $.float), seq(/i(32|64)\.const/, $.int)),
+    op_const: $ =>
+      choice(seq(alias(/f(32|64)\.const/, $.pat00), $.float), seq(alias(/i(32|64)\.const/, $.pat01), $.int)),
 
     // proposal: function-references
     op_func_bind: $ => prec.right(seq("func.bind", optional(seq("(", "type", $.index, ")")))),
@@ -697,9 +704,11 @@ module.exports = grammar({
     name: $ => $.string,
 
     nan: $ =>
-      seq(
-        "nan",
-        optional(seq(imm(":"), choice(imm("arithmetic"), imm("canonical"), seq(imm("0x"), imm(pattern_hex_nat))))),
+      token(
+        seq(
+          "nan",
+          optional(seq(imm(":"), choice(imm("arithmetic"), imm("canonical"), seq(imm("0x"), imm(pattern_hex_nat))))),
+        ),
       ),
 
     nat: $ => choice($.dec_nat, $.hex_nat),
