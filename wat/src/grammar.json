@@ -3164,8 +3164,13 @@
                 {
                   "type": "IMMEDIATE_TOKEN",
                   "content": {
-                    "type": "PATTERN",
-                    "value": "[su]"
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "PATTERN",
+                      "value": "[su]"
+                    },
+                    "named": true,
+                    "value": "pat00"
                   }
                 }
               ]
