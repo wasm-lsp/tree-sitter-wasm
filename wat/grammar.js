@@ -575,7 +575,7 @@ module.exports = grammar({
     op_simd_lane: $ =>
       choice(
         seq(seq("i8x16", imm(".shuffle")), ...Array(16).fill($.float)),
-        seq(seq(choice("i8x16", "i16x8"), imm("."), imm("extract_lane"), imm("_"), imm(/[su]/)), $.int),
+        seq(seq(choice("i8x16", "i16x8"), imm("."), imm("extract_lane"), imm("_"), imm(alias(/[su]/, $.pat00))), $.int),
         seq(seq(choice("f32x4", "f64x2", "i32x4", "i64x2"), imm("."), imm("extract_lane")), $.int),
         seq(seq(choice("f32x4", "f64x2", "i8x16", "i16x8", "i32x4", "i64x2"), imm("."), imm("replace_lane")), $.int),
       ),
