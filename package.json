@@ -32,15 +32,16 @@
     "test-wat": "cd wat && tree-sitter parse corpus/**/*.wat"
   },
   "devDependencies": {
-    "babel-eslint": "^10.1.0",
-    "eslint": "^7.16.0",
-    "eslint-config-prettier": "^8.1.0",
-    "eslint-plugin-prettier": "^3.3.0",
-    "prettier": "^2.2.1",
-    "tree-sitter-cli": "0.19.4"
+    "@babel/core": "^7.16.7",
+    "@babel/eslint-parser": "^7.16.0",
+    "eslint": "^8.5.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.4.0",
+    "tree-sitter-cli": "^0.20.0"
   },
   "dependencies": {
-    "nan": "^2.14.2"
+    "nan": "^2.15.0"
   },
   "tree-sitter": [
     {
