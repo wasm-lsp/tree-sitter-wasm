@@ -1,6 +1,7 @@
 /// <reference types="tree-sitter-cli/dsl" />
 
 const PREC = {
+  COMMENT: 1,
   STRING: 2,
 };
 
@@ -14,7 +15,7 @@ const imm = rule => token.immediate(rule);
 module.exports = grammar({
   name: "wat",
 
-  extras: $ => [$.annotation, $.comment_block, $.comment_line, /[\s\uFEFF\u2060\u200B\u00A0]/],
+  extras: $ => [$.comment_block, $.comment_line, $.annotation, /[\s\uFEFF\u2060\u200B\u00A0]/],
 
   conflicts: $ => [[$.op_let], [$.op_select]],
 
@@ -33,7 +34,12 @@ module.exports = grammar({
 
     // proposal: annotations
     annotation_part: $ =>
-      choice($.comment_block_annot, $.comment_line_annot, $.annotation_parens, $.reserved, $.identifier, $.string),
+      choice(
+        $.annotation_parens,
+        $.reserved,
+        $.identifier,
+        $.string
+      ),
 
     block_block: $ =>
       seq(
@@ -63,15 +69,20 @@ module.exports = grammar({
         optional($.identifier),
       ),
 
-    comment_block: $ => seq("(;", repeat(choice($.comment_block, $.comment_block_inner)), ";)"),
+    comment_block: $ => prec.left(PREC.COMMENT, seq(
+      "(;",
+      optional($.comment_block_inner),
+      ";)",
+    )),
 
-    comment_block_annot: $ => seq("(;", repeat(choice($.comment_block_annot, $.comment_block_inner)), ";)"),
+    // comment_block_annot: $ => seq("(;", repeat(choice($.comment_block_annot, $.comment_block_inner)), ";)"),
 
-    comment_block_inner: $ => token(choice(/[^(;]+/, "(", ";")),
+    // pull all leading/trailing whitespace into comment inner node
+    comment_block_inner: $ => prec.right(repeat1(choice(/\s*./, /.[\r\n]+\s*/))),
 
-    comment_line: $ => prec.left(token(seq(";;", /.*/))),
+    comment_line: $ => prec.left(PREC.COMMENT, token(seq(prec(-1, ";;"), /.*/))),
 
-    comment_line_annot: $ => prec.left(token(seq(";;", /.*/))),
+    // comment_line_annot: $ => prec.left(PREC.COMMENT, token(seq(prec(-1, ';;'), /.*/))),
 
     dec_float: $ =>
       token(
